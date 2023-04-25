@@ -7,6 +7,7 @@ import kollections.Set
 import live.Live
 import kotlin.js.JsExport
 
+@Deprecated("use symphony instead")
 interface ColumnsManager<D> {
     val current: Live<Set<Column<D>>>
     fun all(includingRemoved: Boolean = false): Set<Column<D>>

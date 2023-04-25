@@ -13,6 +13,7 @@ import kotlin.js.JsName
 /**
  * A model representation of what a Page of data should contain
  */
+@Deprecated("use symphony instead")
 interface Page<out T> {
     /**
      * The items of elements the page contains

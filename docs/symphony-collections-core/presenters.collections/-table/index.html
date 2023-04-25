@@ -1,0 +1,754 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Table</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../../index.html">
+<span>Cinematic</span>            </a>    </div>
+    <div>2.0.16
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":symphony-collections-core:dokkaHtmlPartial/commonMain">common</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="symphony-collections-core::presenters.collections/Table///PointingToDeclaration//-357182084">
+  <div class="breadcrumbs"><a href="../../index.html">symphony-collections-core</a><span class="delimiter">/</span><a href="../index.html">presenters.collections</a><span class="delimiter">/</span><span class="current">Table</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Table</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">Table</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span> : <a href="../-data-collection/index.html">DataCollection</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt; </span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-817477924%2FFunctions%2F-357182084" anchor-label="addSelection" id="-817477924%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/add-selection.html"><span>add</span><wbr><span><span>Selection</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-817477924%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/add-selection.html"><span class="token function">addSelection</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">obj<span class="token operator">: </span><a href="index.html">T</a></span></span><span class="token punctuation">)</span></div><br><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/add-selection.html"><span class="token function">addSelection</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Marks the <a href="../-selection-manager/add-selection.html">row</a> as selected If there were other items in the selected buffer, this <a href="../-selection-manager/add-selection.html">row</a> will be appended to the buffer</p></div><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/add-selection.html"><span class="token function">addSelection</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Marks the <a href="../-selection-manager/add-selection.html">row</a> in page <a href="../-selection-manager/add-selection.html">page</a> as selected If there were other items in the selected buffer, this <a href="../-selection-manager/add-selection.html">row</a> will be appended to the buffer</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1338229427%2FFunctions%2F-357182084" anchor-label="clearPages" id="-1338229427%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/clear-pages.html"><span>clear</span><wbr><span><span>Pages</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1338229427%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/clear-pages.html"><span class="token function">clearPages</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1735286582%2FFunctions%2F-357182084" anchor-label="find" id="-1735286582%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/find.html"><span><span>find</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1735286582%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/find.html"><span class="token function">find</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">item<span class="token operator">: </span><a href="index.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-selected-item/index.html">SelectedItem</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/find.html"><span class="token function">find</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/find.html"><span class="token function">find</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-selected-item/index.html">SelectedItem</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1640775869%2FFunctions%2F-357182084" anchor-label="forEachPage" id="1640775869%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/for-each-page.html"><span>for</span><wbr><span>Each</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1640775869%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/for-each-page.html"><span class="token function">forEachPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1972948599%2FFunctions%2F-357182084" anchor-label="isCurrentPageSelectedPartially" id="1972948599%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/is-current-page-selected-partially.html"><span>is</span><wbr><span>Current</span><wbr><span>Page</span><wbr><span>Selected</span><wbr><span><span>Partially</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1972948599%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/is-current-page-selected-partially.html"><span class="token function">isCurrentPageSelectedPartially</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1474686758%2FFunctions%2F-357182084" anchor-label="isCurrentPageSelectedWholly" id="-1474686758%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/is-current-page-selected-wholly.html"><span>is</span><wbr><span>Current</span><wbr><span>Page</span><wbr><span>Selected</span><wbr><span><span>Wholly</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1474686758%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/is-current-page-selected-wholly.html"><span class="token function">isCurrentPageSelectedWholly</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="736789714%2FFunctions%2F-357182084" anchor-label="isPageSelectedPartially" id="736789714%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/is-page-selected-partially.html"><span>is</span><wbr><span>Page</span><wbr><span>Selected</span><wbr><span><span>Partially</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="736789714%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/is-page-selected-partially.html"><span class="token function">isPageSelectedPartially</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="892556699%2FFunctions%2F-357182084" anchor-label="isPageSelectedWholly" id="892556699%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/is-page-selected-wholly.html"><span>is</span><wbr><span>Page</span><wbr><span>Selected</span><wbr><span><span>Wholly</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="892556699%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/is-page-selected-wholly.html"><span class="token function">isPageSelectedWholly</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1201624364%2FFunctions%2F-357182084" anchor-label="isRowSelectedOnCurrentPage" id="1201624364%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/is-row-selected-on-current-page.html"><span>is</span><wbr><span>Row</span><wbr><span>Selected</span><wbr><span>On</span><wbr><span>Current</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1201624364%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/is-row-selected-on-current-page.html"><span class="token function">isRowSelectedOnCurrentPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1910400490%2FFunctions%2F-357182084" anchor-label="isRowSelectedOnPage" id="1910400490%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/is-row-selected-on-page.html"><span>is</span><wbr><span>Row</span><wbr><span>Selected</span><wbr><span>On</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1910400490%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/is-row-selected-on-page.html"><span class="token function">isRowSelectedOnPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1437115965%2FFunctions%2F-357182084" anchor-label="loadFirstPage" id="1437115965%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/load-first-page.html"><span>load</span><wbr><span>First</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1437115965%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/load-first-page.html"><span class="token function">loadFirstPage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../koncurrent-executors-core/koncurrent/-later/index.html">Later</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="696837689%2FFunctions%2F-357182084" anchor-label="loadLastPage" id="696837689%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/load-last-page.html"><span>load</span><wbr><span>Last</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="696837689%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/load-last-page.html"><span class="token function">loadLastPage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../koncurrent-executors-core/koncurrent/-later/index.html">Later</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1366997252%2FFunctions%2F-357182084" anchor-label="loadNextPage" id="-1366997252%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/load-next-page.html"><span>load</span><wbr><span>Next</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1366997252%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/load-next-page.html"><span class="token function">loadNextPage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../koncurrent-executors-core/koncurrent/-later/index.html">Later</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1015489395%2FFunctions%2F-357182084" anchor-label="loadPage" id="-1015489395%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/load-page.html"><span>load</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1015489395%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/load-page.html"><span class="token function">loadPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">no<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../koncurrent-executors-core/koncurrent/-later/index.html">Later</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1351240952%2FFunctions%2F-357182084" anchor-label="loadPreviousPage" id="1351240952%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/load-previous-page.html"><span>load</span><wbr><span>Previous</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1351240952%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/load-previous-page.html"><span class="token function">loadPreviousPage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../koncurrent-executors-core/koncurrent/-later/index.html">Later</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-526546142%2FFunctions%2F-357182084" anchor-label="manageActions" id="-526546142%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="manage-actions.html"><span>manage</span><wbr><span><span>Actions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-526546142%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="manage-actions.html"><span class="token function">manageActions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../-actions-manager/index.html">ActionsManager</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Table</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="845326114%2FFunctions%2F-357182084" anchor-label="manageColumns" id="845326114%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="manage-columns.html"><span>manage</span><wbr><span><span>Columns</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="845326114%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="manage-columns.html"><span class="token function">manageColumns</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>manager<span class="token operator">: </span><a href="../-columns-manager/index.html">ColumnsManager</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Table</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2052484685%2FFunctions%2F-357182084" anchor-label="map" id="-2052484685%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="map.html"><span><span>map</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2052484685%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">override </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="map.html">R</a><span class="token operator">&gt; </span><a href="map.html"><span class="token function">map</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transform<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="index.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="map.html">R</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Table</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="map.html">R</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2012606597%2FFunctions%2F-357182084" anchor-label="refresh" id="-2012606597%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/refresh.html"><span><span>refresh</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2012606597%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/refresh.html"><span class="token function">refresh</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../koncurrent-executors-core/koncurrent/-later/index.html">Later</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="569782281%2FFunctions%2F-357182084" anchor-label="select" id="569782281%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/select.html"><span><span>select</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="569782281%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/select.html"><span class="token function">select</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">obj<span class="token operator">: </span><a href="index.html">T</a></span></span><span class="token punctuation">)</span></div><br><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/select.html"><span class="token function">select</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Marks the item at row Number <a href="../-selection-manager/select.html">row</a> in the current page If there were other rows in the selected buffer, they will all be removed</p></div><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/select.html"><span class="token function">select</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Marks the item at row Number <a href="../-selection-manager/select.html">row</a>, in page <a href="../-selection-manager/select.html">page</a> as selected If there were other rows in the selected buffer, they will all be removed</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2026964585%2FFunctions%2F-357182084" anchor-label="selectAllItemsInAllPages" id="2026964585%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/select-all-items-in-all-pages.html"><span>select</span><wbr><span>All</span><wbr><span>Items</span><wbr><span>In</span><wbr><span>All</span><wbr><span><span>Pages</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2026964585%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/select-all-items-in-all-pages.html"><span class="token function">selectAllItemsInAllPages</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-868919077%2FFunctions%2F-357182084" anchor-label="selectAllItemsInPage" id="-868919077%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/select-all-items-in-page.html"><span>select</span><wbr><span>All</span><wbr><span>Items</span><wbr><span>In</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-868919077%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/select-all-items-in-page.html"><span class="token function">selectAllItemsInPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="332569045%2FFunctions%2F-357182084" anchor-label="selectAllItemsInTheCurrentPage" id="332569045%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/select-all-items-in-the-current-page.html"><span>select</span><wbr><span>All</span><wbr><span>Items</span><wbr><span>In</span><wbr><span>The</span><wbr><span>Current</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="332569045%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/select-all-items-in-the-current-page.html"><span class="token function">selectAllItemsInTheCurrentPage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="206860617%2FFunctions%2F-357182084" anchor-label="setPageCapacity" id="206860617%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/set-page-capacity.html"><span>set</span><wbr><span>Page</span><wbr><span><span>Capacity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="206860617%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/set-page-capacity.html"><span class="token function">setPageCapacity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cap<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1589223149%2FFunctions%2F-357182084" anchor-label="toggleSelectionOfCurrentPage" id="-1589223149%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/toggle-selection-of-current-page.html"><span>toggle</span><wbr><span>Selection</span><wbr><span>Of</span><wbr><span>Current</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1589223149%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/toggle-selection-of-current-page.html"><span class="token function">toggleSelectionOfCurrentPage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="868501358%2FFunctions%2F-357182084" anchor-label="toggleSelectionOfPage" id="868501358%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/toggle-selection-of-page.html"><span>toggle</span><wbr><span>Selection</span><wbr><span>Of</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="868501358%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/toggle-selection-of-page.html"><span class="token function">toggleSelectionOfPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-989934796%2FFunctions%2F-357182084" anchor-label="toggleSelectionOfRowInCurrentPage" id="-989934796%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/toggle-selection-of-row-in-current-page.html"><span>toggle</span><wbr><span>Selection</span><wbr><span>Of</span><wbr><span>Row</span><wbr><span>In</span><wbr><span>Current</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-989934796%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/toggle-selection-of-row-in-current-page.html"><span class="token function">toggleSelectionOfRowInCurrentPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1492936718%2FFunctions%2F-357182084" anchor-label="toggleSelectionOfRowInPage" id="-1492936718%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/toggle-selection-of-row-in-page.html"><span>toggle</span><wbr><span>Selection</span><wbr><span>Of</span><wbr><span>Row</span><wbr><span>In</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1492936718%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/toggle-selection-of-row-in-page.html"><span class="token function">toggleSelectionOfRowInPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1777655193%2FFunctions%2F-357182084" anchor-label="unSelect" id="-1777655193%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/un-select.html"><span>un</span><wbr><span><span>Select</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1777655193%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/un-select.html"><span class="token function">unSelect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">item<span class="token operator">: </span><a href="index.html">T</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="732784912%2FFunctions%2F-357182084" anchor-label="unSelectAllItemsInAllPages" id="732784912%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/un-select-all-items-in-all-pages.html"><span>un</span><wbr><span>Select</span><wbr><span>All</span><wbr><span>Items</span><wbr><span>In</span><wbr><span>All</span><wbr><span><span>Pages</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="732784912%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/un-select-all-items-in-all-pages.html"><span class="token function">unSelectAllItemsInAllPages</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1896816062%2FFunctions%2F-357182084" anchor-label="unSelectAllItemsInPage" id="-1896816062%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/un-select-all-items-in-page.html"><span>un</span><wbr><span>Select</span><wbr><span>All</span><wbr><span>Items</span><wbr><span>In</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1896816062%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/un-select-all-items-in-page.html"><span class="token function">unSelectAllItemsInPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-695327940%2FFunctions%2F-357182084" anchor-label="unSelectAllItemsInTheCurrentPage" id="-695327940%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/un-select-all-items-in-the-current-page.html"><span>un</span><wbr><span>Select</span><wbr><span>All</span><wbr><span>Items</span><wbr><span>In</span><wbr><span>The</span><wbr><span>Current</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-695327940%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/un-select-all-items-in-the-current-page.html"><span class="token function">unSelectAllItemsInTheCurrentPage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1273113420%2FFunctions%2F-357182084" anchor-label="unSelectRowInCurrentPage" id="1273113420%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/un-select-row-in-current-page.html"><span>un</span><wbr><span>Select</span><wbr><span>Row</span><wbr><span>In</span><wbr><span>Current</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1273113420%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/un-select-row-in-current-page.html"><span class="token function">unSelectRowInCurrentPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Unselects the item from row number <a href="../-selection-manager/un-select-row-in-current-page.html">row</a> in the current page and effectively removes it from the selected buffer</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1317612554%2FFunctions%2F-357182084" anchor-label="unSelectRowInPage" id="1317612554%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/un-select-row-in-page.html"><span>un</span><wbr><span>Select</span><wbr><span>Row</span><wbr><span>In</span><wbr><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1317612554%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-selection-manager/un-select-row-in-page.html"><span class="token function">unSelectRowInPage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">row<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">page<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Unselects the item from row number <a href="../-selection-manager/un-select-row-in-page.html">row</a> in page <a href="../-selection-manager/un-select-row-in-page.html">page</a> and effectively removes it from the selected buffer</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-36446276%2FFunctions%2F-357182084" anchor-label="wipeMemory" id="-36446276%2FFunctions%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/wipe-memory.html"><span>wipe</span><wbr><span><span>Memory</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-36446276%2FFunctions%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-pagination-manager/wipe-memory.html"><span class="token function">wipeMemory</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1408339818%2FProperties%2F-357182084" anchor-label="actions" id="1408339818%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-data-collection/actions.html"><span><span>actions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1408339818%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-data-collection/actions.html">actions</a><span class="token operator">: </span><a href="../-actions-manager/index.html">ActionsManager</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="468261162%2FProperties%2F-357182084" anchor-label="capacity" id="468261162%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/capacity.html"><span><span>capacity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="468261162%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-pagination-manager/capacity.html">capacity</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="457627262%2FProperties%2F-357182084" anchor-label="columns" id="457627262%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="columns.html"><span><span>columns</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="457627262%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="columns.html">columns</a><span class="token operator">: </span><a href="../-columns-manager/index.html">ColumnsManager</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1649797451%2FProperties%2F-357182084" anchor-label="continuous" id="-1649797451%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/continuous.html"><span><span>continuous</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1649797451%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-pagination-manager/continuous.html">continuous</a><span class="token operator">: </span><a href="../../../kollections-atomic/kollections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-row/index.html">Row</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-613059939%2FProperties%2F-357182084" anchor-label="current" id="-613059939%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/current.html"><span><span>current</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-613059939%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-pagination-manager/current.html">current</a><span class="token operator">: </span><a href="../../../cinematic-live-core/live/-live/index.html">Live</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../kase-core/kase/-lazy-state/index.html">LazyState</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1858091228%2FProperties%2F-357182084" anchor-label="currentPageOrNull" id="-1858091228%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/current-page-or-null.html"><span>current</span><wbr><span>Page</span><wbr><span>Or</span><wbr><span><span>Null</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1858091228%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-pagination-manager/current-page-or-null.html">currentPageOrNull</a><span class="token operator">: </span><a href="../-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="470441927%2FProperties%2F-357182084" anchor-label="hasMore" id="470441927%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pagination-manager/has-more.html"><span>has</span><wbr><span><span>More</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="470441927%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-pagination-manager/has-more.html">hasMore</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1729551243%2FProperties%2F-357182084" anchor-label="paginator" id="-1729551243%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-pageable/paginator.html"><span><span>paginator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1729551243%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-pageable/paginator.html">paginator</a><span class="token operator">: </span><a href="../-pagination-manager/index.html">PaginationManager</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1945522641%2FProperties%2F-357182084" anchor-label="selected" id="1945522641%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selection-manager/selected.html"><span><span>selected</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1945522641%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-selection-manager/selected.html">selected</a><span class="token operator">: </span><a href="../../../cinematic-live-core/live/-live/index.html">Live</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-selected/index.html">Selected</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1998068382%2FProperties%2F-357182084" anchor-label="selector" id="-1998068382%2FProperties%2F-357182084" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":symphony-collections-core:dokkaHtmlPartial/commonMain" data-filterable-set=":symphony-collections-core:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-selectable/selector.html"><span><span>selector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1998068382%2FProperties%2F-357182084"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":symphony-collections-core:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-selectable/selector.html">selector</a><span class="token operator">: </span><a href="../-selection-manager/index.html">SelectionManager</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

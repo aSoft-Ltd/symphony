@@ -6,6 +6,7 @@ package presenters.collections
 import kollections.List
 import kotlin.js.JsExport
 
+@Deprecated("use symphony instead")
 interface ScrollableList<T> : DataCollection<T> {
     val rows: List<Row<T>>
     override fun manageActions(block: (ActionsManager<T>) -> Unit): ScrollableList<T>

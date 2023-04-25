@@ -46,7 +46,7 @@ includeSubs("keep", "../keep", "api", "file", "mock", "test")
 includeSubs("lexi", "../lexi", "api", "console")
 includeSubs("lexi-test", "../lexi/test", "android")
 includeSubs("krest", "../krest", "core")
-includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "react", "test", "kollections")
+includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "test", "kollections")
 includeSubs("cinematic-scene", "../cinematic/scene", "core")
 
 // submodules

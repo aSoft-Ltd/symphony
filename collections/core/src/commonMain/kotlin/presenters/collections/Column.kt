@@ -5,6 +5,7 @@ package presenters.collections
 
 import kotlin.js.JsExport
 
+@Deprecated("use symphony instead")
 sealed class Column<in D> {
     abstract val name: String
     abstract val key: String

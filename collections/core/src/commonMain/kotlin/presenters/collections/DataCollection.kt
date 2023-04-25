@@ -5,6 +5,7 @@ package presenters.collections
 
 import kotlin.js.JsExport
 
+@Deprecated("use symphony instead")
 interface DataCollection<T> : Pageable<T>, PaginationManager<T>, Selectable<T>, SelectionManager<T> {
 
     val actions: ActionsManager<T>

@@ -10,6 +10,7 @@ import live.Live
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
+@Deprecated("use symphony instead")
 interface PaginationManager<T> {
     val current: Live<LazyState<Page<T>>>
     val continuous: List<Row<T>>

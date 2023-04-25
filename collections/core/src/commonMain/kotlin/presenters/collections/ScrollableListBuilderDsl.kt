@@ -5,6 +5,7 @@ package presenters.collections
 import presenters.collections.internal.ColumnsManagerImpl
 import presenters.collections.internal.DataCollectionImpl
 
+@Deprecated("use symphony instead")
 inline fun <T> scrollableListOf(
     paginator: PaginationManager<T>,
     selector: SelectionManager<T>,
@@ -14,6 +15,7 @@ inline fun <T> scrollableListOf(
     ColumnsManagerImpl(mutableSetOf())
 )
 
+@Deprecated("use symphony instead")
 inline fun <T> scrollableListOf(
     paginator: PaginationManager<T>,
     selector: SelectionManager<T>

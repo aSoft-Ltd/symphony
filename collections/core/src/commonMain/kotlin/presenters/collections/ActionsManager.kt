@@ -8,6 +8,7 @@ import kollections.List
 import live.Live
 import kotlin.js.JsExport
 
+@Deprecated("use symphony instead")
 interface ActionsManager<T> {
     val current: Live<List<Action0<Unit>>>
 

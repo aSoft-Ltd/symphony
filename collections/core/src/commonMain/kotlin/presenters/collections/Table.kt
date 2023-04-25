@@ -5,6 +5,7 @@ package presenters.collections
 
 import kotlin.js.JsExport
 
+@Deprecated("use symphony instead")
 interface Table<T> : DataCollection<T> {
     val columns: ColumnsManager<T>
     override fun manageActions(block: (ActionsManager<T>) -> Unit): Table<T>

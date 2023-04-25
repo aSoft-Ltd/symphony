@@ -5,6 +5,7 @@ import kollections.toISet
 import live.MutableLiveSet
 import live.mutableLiveSetOf
 
+@Deprecated("use symphony instead")
 class ColumnsBuilder<D> @PublishedApi internal constructor(internal val columns: MutableMap<String, Column<D>>) {
     constructor(columns: Collection<Column<D>>) : this(columns.associateBy { it.key }.toMutableMap())
     constructor() : this(mutableMapOf())

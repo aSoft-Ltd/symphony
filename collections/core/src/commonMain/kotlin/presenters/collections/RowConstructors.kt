@@ -4,6 +4,7 @@ package presenters.collections
 
 import presenters.collections.internal.RowImpl
 
+@Deprecated("use symphony instead")
 inline fun <T> Row(
     index: Int,
     item: T

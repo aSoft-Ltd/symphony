@@ -7,6 +7,7 @@ import actions.builders.Actions0Builder
 import kollections.List
 import kollections.toIList
 
+@Deprecated("use symphony instead")
 class CollectionActionsBuilder<T> @PublishedApi internal constructor(
     primary: MutableList<Action0<Unit>> = mutableListOf(),
     single: MutableList<Action0<Unit>> = mutableListOf(),

@@ -5,6 +5,7 @@ package presenters.collections
 import presenters.collections.internal.DataCollectionImpl
 import kotlin.jvm.JvmSynthetic
 
+@Deprecated("use symphony instead")
 @JvmSynthetic
 inline fun <T> tableOf(
     paginator: PaginationManager<T>,
@@ -18,6 +19,7 @@ inline fun <T> tableOf(
  * Do not mark this class as inline, because it tends to increase bundle size
  * due to very long columns declarations that can be found in complex tables
  */
+@Deprecated("use symphony instead")
 @JvmSynthetic
 fun <T> tableOf(
     paginator: PaginationManager<T>,
@@ -26,6 +28,7 @@ fun <T> tableOf(
     columns: ColumnsBuilder<T>.() -> Unit
 ): Table<T> = DataCollectionImpl(paginator, selector, actions, columnsOf(emptyList(), columns))
 
+@Deprecated("use symphony instead")
 @JvmSynthetic
 inline fun <T> tableOf(
     paginator: PaginationManager<T>,
@@ -33,6 +36,7 @@ inline fun <T> tableOf(
     actions: ActionsManager<T>
 ): Table<T> = DataCollectionImpl(paginator, selector, actions, columnsOf())
 
+@Deprecated("use symphony instead")
 @JvmSynthetic
 inline fun <T> tableOf(
     paginator: PaginationManager<T>,
@@ -44,6 +48,7 @@ inline fun <T> tableOf(
  * Do not mark this class as inline, because it tends to increase bundle size
  * due to very long columns declarations that can be found in complex tables
  */
+@Deprecated("use symphony instead")
 @JvmSynthetic
 inline fun <T> simpleTableOf(
     items: Collection<T>,

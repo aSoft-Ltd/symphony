@@ -7,21 +7,25 @@ import kollections.toIList
 import koncurrent.SynchronousExecutor
 import presenters.collections.internal.PaginationManagerImpl
 
+@Deprecated("use symphony instead")
 inline fun <T> PaginationManager(
     capacity: Int = PaginationManagerImpl.DEFAULT_CAPACITY,
     noinline loader: (no: Int, capacity: Int) -> Later<Page<T>>
 ): PaginationManager<T> = PaginationManagerImpl(capacity = capacity, loader = loader)
 
+@Deprecated("use symphony instead")
 inline fun <T> SinglePagePaginator(
     currentPage: Page<T> = Page()
 ): PaginationManager<T> = PaginationManagerImpl(capacity = currentPage.capacity) { _, _ ->
     Later(currentPage)
 }
 
+@Deprecated("use symphony instead")
 inline fun <T> SinglePagePaginator(
     items: Collection<T>,
 ): PaginationManager<T> = SinglePagePaginator(Page(items.toIList()))
 
+@Deprecated("use symphony instead")
 fun <T> CollectionPaginator(
     collection: Collection<T>,
     capacity: Int = PaginationManagerImpl.DEFAULT_CAPACITY,
@@ -41,4 +45,5 @@ fun <T> CollectionPaginator(
     }
 }
 
+@Deprecated("use symphony instead")
 inline fun <T> PageLoader(noinline loader: (no: Int, capacity: Int) -> Later<T>) = loader

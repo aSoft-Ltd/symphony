@@ -7,6 +7,7 @@ import live.Live
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
+@Deprecated("use symphony instead")
 interface SelectionManager<T> {
     // ---------------------------------SelectionGetters--------------------------
     val selected: Live<Selected<T>>

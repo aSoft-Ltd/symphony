@@ -5,6 +5,7 @@ import kotlin.collections.Collection
 import kollections.toIList
 import presenters.collections.internal.PageImpl
 
+@Deprecated("use symphony instead")
 inline fun <T> Page(
     items: Collection<T> = iListOf(),
     capacity: Int = items.size,
