@@ -52,3 +52,4 @@ includeSubs("cinematic-scene", "../cinematic/scene", "core")
 // submodules
 includeSubs("symphony-collections", "collections", "core")
 includeSubs("symphony-collections-renderers", "collections/renderers", "string")
+includeSubs("symphony-inputs", "inputs", "core")
