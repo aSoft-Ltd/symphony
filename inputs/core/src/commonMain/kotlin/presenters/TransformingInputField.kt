@@ -7,4 +7,5 @@ import presenters.properties.Settable
 import presenters.validation.Validateable
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 interface TransformingInputField<I, O> : InputField, CommonInputProperties, Settable<I>, SerializableLiveFormattedData<I, O>, Validateable<O>

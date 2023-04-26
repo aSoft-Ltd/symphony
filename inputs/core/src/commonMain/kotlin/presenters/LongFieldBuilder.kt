@@ -4,6 +4,7 @@ import formatter.NumberFormatter
 import presenters.internal.numbers.LongInputFieldImpl
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun LongInputField(
     name: String,
     label: String = name,
@@ -30,6 +31,7 @@ inline fun LongInputField(
     validator = validator,
 )
 
+@Deprecated("use symphony")
 inline fun Fields.long(
     name: String,
     label: String = name,
@@ -46,6 +48,7 @@ inline fun Fields.long(
     LongInputField(name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
 }
 
+@Deprecated("use symphony")
 inline fun Fields.long(
     property: KProperty<Long?>,
     label: String = property.name,

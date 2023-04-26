@@ -4,6 +4,7 @@ package presenters
 
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 sealed class InputFieldState {
     object Empty : InputFieldState() {
         override fun toString() = "Empty"

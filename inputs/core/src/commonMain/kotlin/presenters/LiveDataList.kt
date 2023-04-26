@@ -7,6 +7,7 @@ import live.Live
 import kollections.List
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 interface LiveDataList<out D> : LiveData<List<D>> {
     override val data: Live<DataList<D>>
 }

@@ -6,6 +6,7 @@ package presenters
 import live.Live
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 interface LiveData<out D> {
     val data: Live<Data<D>>
 }

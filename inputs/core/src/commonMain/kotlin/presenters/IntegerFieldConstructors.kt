@@ -6,6 +6,7 @@ import formatter.NumberFormatter
 import presenters.internal.numbers.IntegerInputFieldImpl
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun IntegerInputField(
     name: String,
     label: String = name,
@@ -32,6 +33,7 @@ inline fun IntegerInputField(
     validator = validator,
 )
 
+@Deprecated("use symphony")
 inline fun Fields.integer(
     name: String,
     label: String = name,
@@ -48,6 +50,7 @@ inline fun Fields.integer(
     IntegerInputField(name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
 }
 
+@Deprecated("use symphony")
 inline fun Fields.integer(
     property: KProperty<Int?>,
     label: String = property.name,

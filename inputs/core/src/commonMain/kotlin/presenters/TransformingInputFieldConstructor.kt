@@ -5,6 +5,7 @@ import kotlinx.serialization.serializer
 import presenters.internal.TransformingInputFieldImpl
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun <I : Any, reified O : Any> TransformingInputField(
     name: String,
     label: String = name,
@@ -29,6 +30,7 @@ inline fun <I : Any, reified O : Any> TransformingInputField(
     validator = validator,
 )
 
+@Deprecated("use symphony")
 inline fun <I : Any, reified O : Any> Fields.transform(
     name: String,
     label: String = name,
@@ -44,6 +46,7 @@ inline fun <I : Any, reified O : Any> Fields.transform(
     TransformingInputField(name, label, hint, value, isReadonly, isRequired, serializer, formatter, validator, transformer)
 }
 
+@Deprecated("use symphony")
 inline fun <I : Any, reified O : Any> Fields.transform(
     name: KProperty<O?>,
     label: String = name.name,

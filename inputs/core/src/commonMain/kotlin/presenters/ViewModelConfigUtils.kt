@@ -7,6 +7,7 @@ import kotlinx.serialization.serializer
 import presenters.internal.forms.FormConfigImpl
 import presenters.internal.forms.FormConfigImpl.DEFAULT
 
+@Deprecated("use symphony")
 inline fun <reified P> ViewModelConfig.toFormConfig(
     exitOnSubmitted: Boolean = DEFAULT.exitOnSubmitted
 ): FormConfig<P> = FormConfigImpl(

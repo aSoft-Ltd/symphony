@@ -9,6 +9,7 @@ import presenters.InputFieldState
 import presenters.LiveData
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 interface Validateable<T> : LiveData<T> {
     val feedback: Live<InputFieldState>
     fun validate(value: T? = data.value.output): ValidationResult

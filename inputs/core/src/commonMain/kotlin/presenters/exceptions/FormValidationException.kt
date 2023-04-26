@@ -7,6 +7,7 @@ import kollections.List
 import presenters.SerializableLiveData
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 class FormValidationException(
     override val message: String,
     val errors: String,

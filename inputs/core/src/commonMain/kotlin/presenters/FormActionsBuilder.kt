@@ -5,6 +5,7 @@ import actions.action1
 import actions.builders.Actions0Builder
 import koncurrent.Later
 
+@Deprecated("use symphony")
 class FormActionsBuilder<P, R> : Actions0Builder<Unit>() {
     private var _submitAction: Action1<P, Later<R>>? = null
     val submitAction: Action1<P, Later<R>> get() = _submitAction ?: error("Submit action has not been initialize just yet")

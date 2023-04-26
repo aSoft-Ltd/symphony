@@ -7,6 +7,7 @@ import kollections.List
 import presenters.validation.Validateable
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 interface SingleChoiceInputField<O> : ChoiceField<O>, SerializableLiveData<O>, Validateable<O> {
     val selectedItem: O?
 

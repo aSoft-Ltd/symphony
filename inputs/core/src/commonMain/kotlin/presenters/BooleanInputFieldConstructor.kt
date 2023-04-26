@@ -5,6 +5,7 @@ package presenters
 import presenters.internal.numbers.BooleanInputFieldImpl
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun BooleanInputField(
     name: String,
     label: String = name,
@@ -23,6 +24,7 @@ inline fun BooleanInputField(
     validator = validator,
 )
 
+@Deprecated("use symphony")
 inline fun Fields.boolean(
     name: String,
     label: String = name,
@@ -35,6 +37,7 @@ inline fun Fields.boolean(
     BooleanInputField(name, label, hint, value, isReadonly, isRequired, validator)
 }
 
+@Deprecated("use symphony")
 inline fun Fields.boolean(
     name: KProperty<Boolean?>,
     label: String = name.name,

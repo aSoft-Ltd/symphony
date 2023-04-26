@@ -27,6 +27,7 @@ import presenters.validation.throwIfInvalid
 import viewmodel.ViewModel
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 open class Form<out F : Fields, out P, out R>(
     open val heading: String,
     open val details: String,

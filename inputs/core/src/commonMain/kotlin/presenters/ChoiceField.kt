@@ -6,6 +6,7 @@ package presenters
 import kollections.Collection
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 sealed interface ChoiceField<O> : InputField, CommonInputProperties {
     val items: Collection<O>
 }

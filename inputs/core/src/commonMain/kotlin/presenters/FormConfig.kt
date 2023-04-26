@@ -7,6 +7,7 @@ import kotlinx.serialization.KSerializer
 import viewmodel.ScopeConfig
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 interface FormConfig<P> : ScopeConfig<Unit> {
     val serializer: KSerializer<P>
     val exitOnSubmitted: Boolean

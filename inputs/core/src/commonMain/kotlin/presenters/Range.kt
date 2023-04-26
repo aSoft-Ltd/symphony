@@ -5,6 +5,7 @@ package presenters
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 @Serializable
 data class Range<out T>(
     val start: T,

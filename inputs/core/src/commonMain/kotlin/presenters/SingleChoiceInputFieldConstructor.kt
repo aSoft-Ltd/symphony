@@ -6,6 +6,7 @@ import kotlinx.serialization.serializer
 import presenters.internal.choices.SingleChoiceInputFieldImpl
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun <reified T : Any> SingleChoiceInputField(
     name: String,
     items: Collection<T>,
@@ -30,6 +31,7 @@ inline fun <reified T : Any> SingleChoiceInputField(
     validator = validator
 )
 
+@Deprecated("use symphony")
 inline fun <reified T : Any> Fields.selectSingle(
     name: String,
     items: Collection<T>,
@@ -45,6 +47,7 @@ inline fun <reified T : Any> Fields.selectSingle(
     SingleChoiceInputField(name, items, mapper, serializer, label, hint, value, isReadonly, isRequired, validator)
 }
 
+@Deprecated("use symphony")
 inline fun <reified T : Any> Fields.selectSingle(
     name: KProperty<T?>,
     items: Collection<T>,

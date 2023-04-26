@@ -4,6 +4,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun <reified O : Any> Fields.textTo(
     name: String,
     label: String = name,
@@ -19,6 +20,7 @@ inline fun <reified O : Any> Fields.textTo(
     TransformingInputField(name, label, hint, value, isReadonly, isRequired, serializer, formatter, validator, transformer)
 }
 
+@Deprecated("use symphony")
 inline fun <reified O : Any> Fields.textTo(
     name: KProperty<O?>,
     label: String = name.name,

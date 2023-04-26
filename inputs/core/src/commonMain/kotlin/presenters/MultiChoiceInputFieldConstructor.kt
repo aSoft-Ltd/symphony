@@ -8,6 +8,7 @@ import kotlinx.serialization.serializer
 import presenters.internal.choices.MultiChoiceInputFieldImpl
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun <reified T : Any> MultiChoiceInputField(
     name: String,
     items: Collection<T>,
@@ -32,6 +33,7 @@ inline fun <reified T : Any> MultiChoiceInputField(
     validator = validator
 )
 
+@Deprecated("use symphony")
 inline fun <reified T : Any> Fields.selectMany(
     name: String,
     items: Collection<T>,
@@ -47,6 +49,7 @@ inline fun <reified T : Any> Fields.selectMany(
     MultiChoiceInputField(name, items, mapper, isRequired, label, hint, serializer, value, isReadonly, validator)
 }
 
+@Deprecated("use symphony")
 inline fun <reified T : Any> Fields.selectMany(
     name: KProperty<Collection<T>?>,
     items: Collection<T>,

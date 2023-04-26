@@ -6,6 +6,7 @@ import formatter.NumberFormatter
 import presenters.internal.numbers.DoubleInputFieldImpl
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun DoubleInputField(
     name: String,
     label: String = name,
@@ -32,6 +33,7 @@ inline fun DoubleInputField(
     validator = validator,
 )
 
+@Deprecated("use symphony")
 inline fun Fields.double(
     name: String,
     label: String = name,
@@ -48,6 +50,7 @@ inline fun Fields.double(
     DoubleInputField(name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
 }
 
+@Deprecated("use symphony")
 inline fun Fields.double(
     name: KProperty<Double?>,
     label: String = name.name,

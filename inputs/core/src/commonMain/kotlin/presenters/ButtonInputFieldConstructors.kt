@@ -1,5 +1,6 @@
 package presenters
 
+@Deprecated("use symphony")
 fun Fields.button(
     label: String,
     name: String = label,

@@ -5,6 +5,7 @@ package presenters
 import presenters.internal.text.TextInputFieldImpl
 import kotlin.reflect.KProperty
 
+@Deprecated("use symphony")
 inline fun TextInputField(
     name: String,
     label: String = name,
@@ -27,6 +28,7 @@ inline fun TextInputField(
     validator = validator,
 )
 
+@Deprecated("use symphony")
 inline fun Fields.text(
     name: String,
     label: String = name,
@@ -41,6 +43,7 @@ inline fun Fields.text(
     TextInputField(name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
 }
 
+@Deprecated("use symphony")
 inline fun Fields.text(
     name: KProperty<String?>,
     label: String = name.name,

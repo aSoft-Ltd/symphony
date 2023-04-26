@@ -11,6 +11,7 @@ import presenters.properties.Requireble
 import presenters.validation.Validateable
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 open class Fields(@PublishedApi internal val cache: MutableMap<String, InputField> = mutableMapOf()) {
 
     internal val all get() = cache.values

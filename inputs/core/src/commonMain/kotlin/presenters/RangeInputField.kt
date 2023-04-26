@@ -7,6 +7,7 @@ import presenters.properties.SettableRange
 import presenters.validation.Validateable
 import kotlin.js.JsExport
 
+@Deprecated("use symphony")
 interface RangeInputField<O> : InputField, CommonInputProperties, SerializableLiveData<Range<O>>, Validateable<Range<O>>, SettableRange<O> {
     val start: SerializableLiveData<O>
     val end: SerializableLiveData<O>
