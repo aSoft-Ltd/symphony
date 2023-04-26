@@ -1,13 +1,13 @@
 package symphony.internal
 
 import kotlinx.serialization.KSerializer
-import presenters.Formatter
-import presenters.Label
-import presenters.TransformingInputField
-import presenters.internal.utils.DataTransformer
-import presenters.internal.validators.CompoundValidator
-import presenters.internal.validators.LambdaValidator
-import presenters.internal.validators.RequirementValidator
+import symphony.Formatter
+import symphony.Label
+import symphony.TransformingInputField
+import symphony.internal.utils.DataTransformer
+import symphony.internal.validators.CompoundValidator
+import symphony.internal.validators.LambdaValidator
+import symphony.internal.validators.RequirementValidator
 
 @PublishedApi
 internal class TransformingInputFieldImpl<I : Any, O : Any>(

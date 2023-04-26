@@ -3,7 +3,7 @@ package symphony
 import kollections.toIList
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
-import presenters.internal.choices.SingleChoiceInputFieldImpl
+import symphony.internal.choices.SingleChoiceInputFieldImpl
 import kotlin.reflect.KProperty
 
 inline fun <reified T : Any> SingleChoiceInputField(

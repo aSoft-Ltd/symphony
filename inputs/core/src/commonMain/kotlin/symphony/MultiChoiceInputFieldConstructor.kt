@@ -5,7 +5,7 @@ import kollections.serializers.ListSerializer
 import kollections.toIList
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
-import presenters.internal.choices.MultiChoiceInputFieldImpl
+import symphony.internal.choices.MultiChoiceInputFieldImpl
 import kotlin.reflect.KProperty
 
 inline fun <reified T : Any> MultiChoiceInputField(

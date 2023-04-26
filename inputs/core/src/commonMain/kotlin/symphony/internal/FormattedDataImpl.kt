@@ -3,9 +3,9 @@ package symphony.internal
 import kollections.List
 import kollections.iEmptyList
 import kollections.toIList
-import presenters.DataFormatted
-import presenters.Data
-import presenters.DataList
+import symphony.DataFormatted
+import symphony.Data
+import symphony.DataList
 
 @PublishedApi
 internal data class FormattedDataImpl<out I, out O>(

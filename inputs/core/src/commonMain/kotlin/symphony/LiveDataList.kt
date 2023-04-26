@@ -3,7 +3,7 @@
 
 package symphony
 
-import live.Live
+import cinematic.Live
 import kollections.List
 import kotlin.js.JsExport
 

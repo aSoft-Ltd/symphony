@@ -2,8 +2,8 @@
 
 package symphony
 
-import formatter.NumberFormatter
-import presenters.internal.numbers.DoubleInputFieldImpl
+import liquid.NumberFormatter
+import symphony.internal.numbers.DoubleInputFieldImpl
 import kotlin.reflect.KProperty
 
 inline fun DoubleInputField(

@@ -3,10 +3,9 @@
 
 package symphony.validation
 
-import live.Live
-import presenters.Data
-import presenters.InputFieldState
-import presenters.LiveData
+import cinematic.Live
+import symphony.InputFieldState
+import symphony.LiveData
 import kotlin.js.JsExport
 
 interface Validateable<T> : LiveData<T> {

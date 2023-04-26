@@ -3,9 +3,9 @@
 
 package symphony
 
-import presenters.properties.Settable
-import presenters.properties.Typeable
-import presenters.validation.Validateable
+import symphony.properties.Settable
+import symphony.properties.Typeable
+import symphony.validation.Validateable
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

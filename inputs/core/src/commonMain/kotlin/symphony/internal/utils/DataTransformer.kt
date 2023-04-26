@@ -1,8 +1,8 @@
 package symphony.internal.utils
 
-import presenters.DataFormatted
-import presenters.Formatter
-import presenters.internal.FormattedData
+import symphony.DataFormatted
+import symphony.Formatter
+import symphony.internal.FormattedData
 
 class DataTransformer<I : Any, O : Any>(
     val formatter: Formatter<O>?,

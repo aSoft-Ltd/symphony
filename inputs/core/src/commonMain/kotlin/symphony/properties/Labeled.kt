@@ -3,7 +3,7 @@
 
 package symphony.properties
 
-import presenters.Label
+import symphony.Label
 import kotlin.js.JsExport
 
 interface Labeled {

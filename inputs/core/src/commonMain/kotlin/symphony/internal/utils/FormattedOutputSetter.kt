@@ -1,11 +1,11 @@
 package symphony.internal.utils
 
-import live.MutableLive
-import presenters.DataFormatted
-import presenters.InputFieldState
-import presenters.internal.FormattedData
-import presenters.properties.Settable
-import presenters.validation.Validateable
+import cinematic.MutableLive
+import symphony.DataFormatted
+import symphony.InputFieldState
+import symphony.internal.FormattedData
+import symphony.properties.Settable
+import symphony.validation.Validateable
 
 class FormattedOutputSetter<I : Any, O : Any>(
     private val data: MutableLive<DataFormatted<I, O>>,

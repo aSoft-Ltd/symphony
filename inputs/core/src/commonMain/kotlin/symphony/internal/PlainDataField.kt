@@ -1,11 +1,11 @@
 package symphony.internal
 
-import live.mutableLiveOf
-import presenters.CommonInputProperties
-import presenters.LiveData
-import presenters.internal.utils.Clearer
-import presenters.internal.utils.OutputSetter
-import presenters.properties.Settable
+import cinematic.mutableLiveOf
+import symphony.CommonInputProperties
+import symphony.LiveData
+import symphony.internal.utils.Clearer
+import symphony.internal.utils.OutputSetter
+import symphony.properties.Settable
 
 abstract class PlainDataField<O : Any>(value: O?) : CompoundValidateableInputField<O>(), LiveData<O>, Settable<O>, CommonInputProperties {
     protected val default = OutputData(value)

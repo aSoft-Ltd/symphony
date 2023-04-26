@@ -3,29 +3,27 @@
 
 package symphony
 
-import actions.Action1
-import actions.action0
+import cinematic.Scene
 import kase.Failure
 import kase.FormState
 import kase.Pending
 import kase.Submitting
 import kase.Validating
 import kase.toFormState
+import kevlar.Action1
+import kevlar.action0
 import kollections.toIList
 import koncurrent.FailedLater
 import koncurrent.Later
 import koncurrent.later.finally
-import presenters.collections.renderToString
-import presenters.collections.simpleTableOf
-import presenters.exceptions.FormValidationException
-import presenters.properties.Labeled
-import presenters.validation.Invalid
-import presenters.validation.Valid
-import presenters.validation.Validateable
-import presenters.validation.ValidationResult
-import presenters.validation.throwIfInvalid
-import viewmodel.ViewModel
 import kotlin.js.JsExport
+import symphony.exceptions.FormValidationException
+import symphony.properties.Labeled
+import symphony.validation.Invalid
+import symphony.validation.Valid
+import symphony.validation.Validateable
+import symphony.validation.ValidationResult
+import symphony.validation.throwIfInvalid
 
 open class Form<out F : Fields, out P, out R>(
     open val heading: String,
@@ -33,14 +31,14 @@ open class Form<out F : Fields, out P, out R>(
     open val fields: F,
     open val config: FormConfig<@UnsafeVariance P>,
     initializer: FormActionsBuildingBlock<P, R>,
-) : ViewModel<FormState<R>>(config.of(Pending)) {
+) : Scene<FormState<R>>(Pending) {
 
     private val builtActions = FormActionsBuilder<P, R>().apply { initializer() }
 
     val cancelAction = action0("Cancel") {
         val handler = builtActions.actions.firstOrNull {
             it.name.contentEquals("Cancel", ignoreCase = true)
-        }?.handler ?: { logger.warn("Cancel action of ${this::class.simpleName} was never setup") }
+        }?.handler ?: { config.logger.warn("Cancel action of ${this::class.simpleName} was never setup") }
         handler()
     }
 
@@ -85,8 +83,8 @@ open class Form<out F : Fields, out P, out R>(
             errors = invalids.errorTable(),
             fields = invalids.toIList()
         )
-        logger.error(exception.message)
-        logger.error(exception.errors)
+        config.logger.error(exception.message)
+        config.logger.error(exception.errors)
         return Invalid(exception)
     }
 
@@ -107,6 +105,6 @@ open class Form<out F : Fields, out P, out R>(
         }
     } catch (err: Throwable) {
         ui.value = Failure(err) { onRetry { submit() } }
-        FailedLater(err, config.executor)
+        FailedLater(err)
     }
 }

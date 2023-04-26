@@ -1,8 +1,8 @@
 package symphony
 
-import actions.Action1
-import actions.action1
-import actions.builders.Actions0Builder
+import kevlar.Action1
+import kevlar.action1
+import kevlar.builders.Actions0Builder
 import koncurrent.Later
 
 class FormActionsBuilder<P, R> : Actions0Builder<Unit>() {

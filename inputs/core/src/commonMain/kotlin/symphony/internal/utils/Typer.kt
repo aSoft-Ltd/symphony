@@ -1,7 +1,7 @@
 package symphony.internal.utils
 
-import presenters.properties.Settable
-import presenters.properties.Typeable
+import symphony.properties.Settable
+import symphony.properties.Typeable
 
 class Typer(
     private val old: String?,

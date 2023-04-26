@@ -4,12 +4,10 @@ import live.MutableLive
 import live.mutableLiveOf
 import presenters.CommonInputProperties
 import presenters.DataFormatted
-import presenters.LiveData
 import presenters.LiveDataFormatted
 import presenters.internal.utils.Clearer
 import presenters.internal.utils.DataTransformer
 import presenters.internal.utils.FormattedOutputSetter
-import presenters.internal.utils.OutputSetter
 import presenters.properties.Settable
 
 abstract class TransformedDataField<I : Any, O : Any>(value: O?) : CompoundValidateableInputField<O>(), LiveDataFormatted<I, O>, Settable<I>, CommonInputProperties {

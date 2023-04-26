@@ -2,8 +2,8 @@
 
 package symphony
 
-import formatter.NumberFormatter
-import presenters.internal.numbers.IntegerInputFieldImpl
+import liquid.NumberFormatter
+import symphony.internal.numbers.IntegerInputFieldImpl
 import kotlin.reflect.KProperty
 
 inline fun IntegerInputField(

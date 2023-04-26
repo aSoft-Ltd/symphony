@@ -1,18 +1,9 @@
 package symphony.internal.text
 
 import kotlinx.serialization.builtins.serializer
-import live.MutableLive
-import live.mutableLiveOf
-import presenters.BasicTextInputField
-import presenters.InputFieldState
-import presenters.Label
-import presenters.TextInputField
-import presenters.internal.OutputData
-import presenters.internal.PlainDataField
-import presenters.internal.utils.Clearer
-import presenters.internal.utils.OutputSetter
-import presenters.internal.utils.Typer
-import presenters.internal.validators.CompoundValidator
+import symphony.BasicTextInputField
+import symphony.internal.PlainDataField
+import symphony.internal.utils.Typer
 
 abstract class AbstractBasicTextInputField(value: String?) : PlainDataField<String>(value), BasicTextInputField {
     final override val serializer = String.serializer()

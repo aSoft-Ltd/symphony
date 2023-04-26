@@ -1,11 +1,11 @@
 package symphony.internal.text
 
-import presenters.Label
-import presenters.TextInputField
-import presenters.internal.validators.CompoundValidator
-import presenters.internal.validators.LambdaValidator
-import presenters.internal.validators.RequirementValidator
-import presenters.internal.validators.TextValidator
+import symphony.Label
+import symphony.TextInputField
+import symphony.internal.validators.CompoundValidator
+import symphony.internal.validators.LambdaValidator
+import symphony.internal.validators.RequirementValidator
+import symphony.internal.validators.TextValidator
 
 @PublishedApi
 internal class TextInputFieldImpl(

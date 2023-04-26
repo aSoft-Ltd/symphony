@@ -2,7 +2,7 @@ package symphony
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
-import presenters.internal.TransformingInputFieldImpl
+import symphony.internal.TransformingInputFieldImpl
 import kotlin.reflect.KProperty
 
 inline fun <I : Any, reified O : Any> TransformingInputField(

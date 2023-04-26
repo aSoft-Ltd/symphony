@@ -3,8 +3,8 @@
 
 package symphony
 
-import presenters.properties.SettableRange
-import presenters.validation.Validateable
+import symphony.properties.SettableRange
+import symphony.validation.Validateable
 import kotlin.js.JsExport
 
 interface RangeInputField<O> : InputField, CommonInputProperties, SerializableLiveData<Range<O>>, Validateable<Range<O>>, SettableRange<O> {

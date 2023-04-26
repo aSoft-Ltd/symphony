@@ -3,7 +3,7 @@
 
 package symphony
 
-import live.Live
+import cinematic.Live
 import kotlin.js.JsExport
 
 interface LiveDataFormatted<out I, out D> : LiveData<D> {

@@ -1,15 +1,14 @@
 package symphony.internal.numbers
 
-import formatter.NumberFormatter
-import presenters.Formatter
-import presenters.Label
-import presenters.NumberInputField
-import presenters.internal.TransformedDataField
-import presenters.internal.utils.Typer
-import presenters.internal.validators.ClippingValidator
-import presenters.internal.validators.CompoundValidator
-import presenters.internal.validators.LambdaValidator
-import presenters.internal.validators.RequirementValidator
+import liquid.NumberFormatter
+import symphony.Label
+import symphony.NumberInputField
+import symphony.internal.TransformedDataField
+import symphony.internal.utils.Typer
+import symphony.internal.validators.ClippingValidator
+import symphony.internal.validators.CompoundValidator
+import symphony.internal.validators.LambdaValidator
+import symphony.internal.validators.RequirementValidator
 
 @PublishedApi
 internal abstract class AbstractNumberInputField<N>(

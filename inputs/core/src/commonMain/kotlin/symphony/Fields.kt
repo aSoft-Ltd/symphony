@@ -6,9 +6,9 @@ package symphony
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.builtins.nullable
-import presenters.properties.Clearable
-import presenters.properties.Requireble
-import presenters.validation.Validateable
+import symphony.properties.Clearable
+import symphony.properties.Requireble
+import symphony.validation.Validateable
 import kotlin.js.JsExport
 
 open class Fields(@PublishedApi internal val cache: MutableMap<String, InputField> = mutableMapOf()) {

@@ -2,18 +2,12 @@ package symphony.internal.numbers
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.serializer
-import live.MutableLive
-import live.mutableLiveOf
-import presenters.BooleanInputField
-import presenters.Label
-import presenters.InputFieldState
-import presenters.internal.OutputData
-import presenters.internal.PlainDataField
-import presenters.internal.utils.Clearer
-import presenters.internal.utils.OutputSetter
-import presenters.internal.validators.CompoundValidator
-import presenters.internal.validators.LambdaValidator
-import presenters.internal.validators.RequirementValidator
+import symphony.BooleanInputField
+import symphony.Label
+import symphony.internal.PlainDataField
+import symphony.internal.validators.CompoundValidator
+import symphony.internal.validators.LambdaValidator
+import symphony.internal.validators.RequirementValidator
 
 @PublishedApi
 internal class BooleanInputFieldImpl(

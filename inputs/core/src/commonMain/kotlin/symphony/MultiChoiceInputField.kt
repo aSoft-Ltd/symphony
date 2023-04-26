@@ -5,7 +5,7 @@ package symphony
 
 import kollections.List
 import kollections.Set
-import presenters.validation.Validateable
+import symphony.validation.Validateable
 import kotlin.js.JsExport
 
 interface MultiChoiceInputField<O> : ChoiceField<O>, SerializableLiveDataList<O>, Validateable<List<O>> {

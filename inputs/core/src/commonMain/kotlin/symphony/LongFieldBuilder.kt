@@ -1,7 +1,7 @@
 package symphony
 
-import formatter.NumberFormatter
-import presenters.internal.numbers.LongInputFieldImpl
+import liquid.NumberFormatter
+import symphony.internal.numbers.LongInputFieldImpl
 import kotlin.reflect.KProperty
 
 inline fun LongInputField(

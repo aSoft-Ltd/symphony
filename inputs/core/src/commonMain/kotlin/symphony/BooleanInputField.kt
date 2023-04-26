@@ -2,8 +2,8 @@
 
 package symphony
 
-import presenters.properties.Settable
-import presenters.validation.Validateable
+import symphony.properties.Settable
+import symphony.validation.Validateable
 import kotlin.js.JsExport
 
 interface BooleanInputField : InputField, CommonInputProperties, Settable<Boolean>, SerializableLiveData<Boolean>, Validateable<Boolean> {

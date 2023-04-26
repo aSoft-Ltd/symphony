@@ -1,11 +1,11 @@
 package symphony.internal.numbers
 
-import formatter.NumberFormatter
+import liquid.NumberFormatter
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.serializer
-import presenters.Label
-import presenters.Formatter
-import presenters.internal.utils.DataTransformer
+import symphony.Label
+import symphony.Formatter
+import symphony.internal.utils.DataTransformer
 
 @PublishedApi
 internal class DoubleInputFieldImpl(

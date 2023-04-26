@@ -1,12 +1,12 @@
 package symphony.internal.validators
 
-import live.Live
-import live.MutableLive
-import presenters.Data
-import presenters.InputFieldState
-import presenters.validation.Invalid
-import presenters.validation.Valid
-import presenters.validation.ValidationResult
+import cinematic.Live
+import cinematic.MutableLive
+import symphony.Data
+import symphony.InputFieldState
+import symphony.validation.Invalid
+import symphony.validation.Valid
+import symphony.validation.ValidationResult
 
 class RequirementValidator<T>(
     override val data: Live<Data<T>>,

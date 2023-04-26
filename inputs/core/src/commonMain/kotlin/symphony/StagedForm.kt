@@ -3,10 +3,9 @@
 
 package symphony
 
+import cinematic.Scene
 import kase.FormState
 import kase.Pending
-import presenters.collections.*
-import viewmodel.ViewModel
 import kotlin.js.JsExport
 
 open class StagedForm<out P, out R>(
@@ -14,6 +13,4 @@ open class StagedForm<out P, out R>(
     open val details: String,
     open val config: FormConfig<@UnsafeVariance P>,
     initializer: FormActionsBuildingBlock<P, R>,
-) : ViewModel<FormState<R>>(config.of(Pending)) {
-
-}
+) : Scene<FormState<R>>(Pending)

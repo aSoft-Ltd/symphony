@@ -1,8 +1,8 @@
 package symphony.internal.utils
 
-import live.MutableLive
-import presenters.InputFieldState
-import presenters.properties.Clearable
+import cinematic.MutableLive
+import symphony.InputFieldState
+import symphony.properties.Clearable
 
 class Clearer<out O>(
     private val value: O,

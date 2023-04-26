@@ -1,10 +1,10 @@
 package symphony.internal.validators
 
-import live.MutableLive
-import presenters.InputFieldState
-import presenters.internal.utils.FeedbackSetter
-import presenters.validation.Validateable
-import presenters.validation.ValidationResult
+import cinematic.MutableLive
+import symphony.InputFieldState
+import symphony.internal.utils.FeedbackSetter
+import symphony.validation.Validateable
+import symphony.validation.ValidationResult
 
 abstract class AbstractValidator<I>(override val feedback: MutableLive<InputFieldState>) : FeedbackSetter(feedback), Validateable<I> {
 

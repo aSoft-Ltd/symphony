@@ -2,7 +2,7 @@
 
 package symphony
 
-import presenters.internal.text.TextInputFieldImpl
+import symphony.internal.text.TextInputFieldImpl
 import kotlin.reflect.KProperty
 
 inline fun TextInputField(

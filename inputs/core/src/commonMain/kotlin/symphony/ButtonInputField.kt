@@ -3,7 +3,7 @@
 
 package symphony
 
-import presenters.properties.Labeled
+import symphony.properties.Labeled
 import kotlin.js.JsExport
 
 data class ButtonInputField(

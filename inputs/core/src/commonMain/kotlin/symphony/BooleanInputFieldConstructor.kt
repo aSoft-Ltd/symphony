@@ -2,7 +2,7 @@
 
 package symphony
 
-import presenters.internal.numbers.BooleanInputFieldImpl
+import symphony.internal.numbers.BooleanInputFieldImpl
 import kotlin.reflect.KProperty
 
 inline fun BooleanInputField(

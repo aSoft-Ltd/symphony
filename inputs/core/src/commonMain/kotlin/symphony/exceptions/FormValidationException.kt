@@ -4,7 +4,7 @@
 package symphony.exceptions
 
 import kollections.List
-import presenters.SerializableLiveData
+import symphony.SerializableLiveData
 import kotlin.js.JsExport
 
 class FormValidationException(
