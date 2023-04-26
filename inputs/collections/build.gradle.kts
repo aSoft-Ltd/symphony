@@ -19,13 +19,16 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputsCore)
-                api(projects.epsilonFile)
+                api(projects.symphonyCollectionsCore)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.kommanderCore)
+                implementation(projects.kommanderCoroutines)
+                implementation(projects.koncurrentLaterCoroutines)
+                implementation(projects.cinematicLiveTest)
+                implementation(projects.koncurrentExecutorsMock)
             }
         }
     }

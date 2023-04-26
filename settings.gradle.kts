@@ -53,4 +53,4 @@ includeSubs("epsilon", "../epsilon", "core", "file")
 // submodules
 includeSubs("symphony-collections", "collections", "core")
 includeSubs("symphony-collections-renderers", "collections/renderers", "string")
-includeSubs("symphony-inputs", "inputs", "core", "file")
+includeSubs("symphony-inputs", "inputs", "core", "file", "collections")
