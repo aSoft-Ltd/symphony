@@ -37,6 +37,7 @@ includeBuild("../able")
 // dependencies
 includeSubs("functions", "../functions", "core")
 includeSubs("kommander", "../kommander", "core", "coroutines")
+includeSubs("liquid", "../liquid", "number")
 includeSubs("kollections", "../kollections", "atomic", "interoperable")
 includeSubs("koncurrent-executors", "../koncurrent/executors", "core", "coroutines", "mock")
 includeSubs("koncurrent-later", "../koncurrent/later", "core", "coroutines", "test")

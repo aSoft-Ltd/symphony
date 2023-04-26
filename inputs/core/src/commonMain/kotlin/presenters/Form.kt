@@ -4,7 +4,7 @@
 package presenters
 
 import actions.Action1
-import actions.action0I1R
+import actions.action0
 import kase.Failure
 import kase.FormState
 import kase.Pending
@@ -37,7 +37,7 @@ open class Form<out F : Fields, out P, out R>(
 
     private val builtActions = FormActionsBuilder<P, R>().apply { initializer() }
 
-    val cancelAction = action0I1R("Cancel") {
+    val cancelAction = action0("Cancel") {
         val handler = builtActions.actions.firstOrNull {
             it.name.contentEquals("Cancel", ignoreCase = true)
         }?.handler ?: { logger.warn("Cancel action of ${this::class.simpleName} was never setup") }

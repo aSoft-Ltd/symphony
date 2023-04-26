@@ -22,6 +22,7 @@ kotlin {
                 api(projects.kaseCore) // becuase forms has states
                 api(projects.symphonyCollectionsRenderersString) // because form needs to print the table
                 api(projects.cinematicSceneCore) // because a form is a viewmodel
+                api(projects.liquidNumber)
                 api(kotlinx.serialization.json) // because forms need to serialize
 //                api(projects.formatterCore) // because number inputs might need to be formatted
             }
