@@ -49,8 +49,8 @@ includeSubs("lexi-test", "../lexi/test", "android")
 includeSubs("krest", "../krest", "core")
 includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "test", "kollections")
 includeSubs("cinematic-scene", "../cinematic/scene", "core")
-
+includeSubs("epsilon", "../epsilon", "core", "file")
 // submodules
 includeSubs("symphony-collections", "collections", "core")
 includeSubs("symphony-collections-renderers", "collections/renderers", "string")
-includeSubs("symphony-inputs", "inputs", "core")
+includeSubs("symphony-inputs", "inputs", "core", "file")
