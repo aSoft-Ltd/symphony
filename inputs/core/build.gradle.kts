@@ -20,7 +20,7 @@ kotlin {
             dependencies {
                 api(projects.kevlarCore) // because forms needs submit actions
                 api(projects.kaseCore) // because forms has states
-                api(projects.symphonyCollectionsRenderersString) // because form needs to print the table
+                // api(projects.symphonyCollectionsRenderersString) // because form needs to print the table
                 api(projects.cinematicSceneCore) // because a form is a scene
                 api(projects.liquidNumber) // because number inputs might need to be formatted
                 api(kotlinx.serialization.json) // because forms need to serialize
