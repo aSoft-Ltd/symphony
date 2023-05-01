@@ -51,7 +51,8 @@ includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "test",
 includeSubs("cinematic-scene", "../cinematic/scene", "core")
 includeSubs("epsilon", "../epsilon", "core", "file")
 // submodules
-includeSubs("symphony", ".", "paginator")
-includeSubs("symphony-collections", "collections", "core")
-includeSubs("symphony-collections-renderers", "collections/renderers", "string")
-includeSubs("symphony-inputs", "inputs", "core", "file", "collections")
+includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list")
+//includeSubs("symphony-collections", "collections", "core")
+//includeSubs("symphony-collections-renderers", "collections/renderers", "string")
+//includeSubs("symphony-inputs", "inputs", "core", "file", "collections")
+includeSubs("symphony-input", "input", "core", "form", "text", "number", "choice", "list")

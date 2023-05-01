@@ -9,7 +9,6 @@ import com.vanniktech.maven.publish.SonatypeHost
     alias(kotlinz.plugins.dokka)
 }
 
-
 repositories {
     publicRepos()
 }
@@ -20,7 +19,7 @@ group = "tz.co.asoft"
 version = v
 
 tasks.dokkaHtmlMultiModule {
-    moduleName.set("Cinematic")
+    moduleName.set("Symphony")
     outputDirectory.set(rootDir.resolve("docs"))
     moduleVersion.set(v)
     includes.from("ReadMe.md")
@@ -34,7 +33,7 @@ subprojects {
     version = v
 
     configure<MavenPublishBaseExtension> {
-        publishToMavenCentral(SonatypeHost.DEFAULT,automaticRelease = true)
+        publishToMavenCentral(SonatypeHost.DEFAULT, automaticRelease = true)
 
         signAllPublications()
 
@@ -44,11 +43,11 @@ subprojects {
             name.set(p.name)
             description.set(p.description)
             inceptionYear.set("2019")
-            url.set("https://github.com/aSoft-Ltd/functions")
+            url.set("https://github.com/aSoft-Ltd/symphony")
             licenses {
                 license {
                     name.set("MIT License")
-                    url.set("https://github.com/aSoft-Ltd/functions/blob/master/LICENSE")
+                    url.set("https://github.com/aSoft-Ltd/symphony/blob/master/LICENSE")
                 }
             }
             developers {
@@ -59,9 +58,9 @@ subprojects {
                 }
             }
             scm {
-                url.set("https://github.com/aSoft-Ltd/functions/")
-                connection.set("scm:git:git://github.com/aSoft-Ltd/functions.git")
-                developerConnection.set("scm:git:ssh://git@github.com/aSoft-Ltd/functions.git")
+                url.set("https://github.com/aSoft-Ltd/symphony/")
+                connection.set("scm:git:git://github.com/aSoft-Ltd/symphony.git")
+                developerConnection.set("scm:git:ssh://git@github.com/aSoft-Ltd/symphony.git")
             }
         }
     }
