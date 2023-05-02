@@ -34,7 +34,7 @@ rootProject.name = "symphony"
 
 includeBuild("../able")
 
-// dependencies
+// dependencies for symphony-input-core
 includeSubs("functions", "../functions", "core")
 includeSubs("kommander", "../kommander", "core", "coroutines")
 includeSubs("liquid", "../liquid", "number")
@@ -49,10 +49,24 @@ includeSubs("lexi-test", "../lexi/test", "android")
 includeSubs("krest", "../krest", "core")
 includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "test", "kollections")
 includeSubs("cinematic-scene", "../cinematic/scene", "core")
+
+//dependencies-for symphony-input-file
 includeSubs("epsilon", "../epsilon", "core", "file")
+
+//dependencies-for symphony-input-krono
+includeSubs("krono", "../krono", "api", "kotlinx")
+
+//dependencies-for symphony-input-kash
+includeBuild("../kash/currency-generator")
+includeSubs("kash", "../kash", "currency", "money")
+
+//dependencies-for symphony-input-geo
+includeBuild("../geo/geo-generator")
+includeSubs("geo", "../geo", "core", "countries")
+
+// dependencies for symphony-input-identifier
+includeSubs("identifier", "../identifier", "core", "comm")
+
 // submodules
 includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list")
-//includeSubs("symphony-collections", "collections", "core")
-//includeSubs("symphony-collections-renderers", "collections/renderers", "string")
-//includeSubs("symphony-inputs", "inputs", "core", "file", "collections")
-includeSubs("symphony-input", "input", "core", "form", "text", "number", "choice", "list")
+includeSubs("symphony-input", "input", "core", "form", "text", "number", "choice", "list", "file", "identifier", "krono", "geo", "kash")
