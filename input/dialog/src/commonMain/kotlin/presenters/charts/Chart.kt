@@ -8,6 +8,7 @@ import kollections.toIList
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
+@Deprecated("use symphony instead")
 @Serializable
 data class Chart<out D>(
     val title: String,

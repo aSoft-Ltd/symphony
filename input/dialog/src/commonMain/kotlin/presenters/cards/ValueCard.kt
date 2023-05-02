@@ -6,6 +6,7 @@ package presenters.cards
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
+@Deprecated("use symphony instead")
 @Serializable
 data class ValueCard<out T>(
     val title: String,
