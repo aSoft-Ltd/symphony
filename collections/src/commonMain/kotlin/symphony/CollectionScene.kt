@@ -18,7 +18,7 @@ import kotlin.js.JsName
 abstract class CollectionScene<T>(private val config: CollectionSceneConfig<T>) : BaseScene() {
 
     @JsName("_ignore_constructor")
-    constructor(config: Cacheable) : this(config.toConfig())
+    constructor(config: Cacheable) : this(config.toCollectionSceneConfig())
 
     val view: MutableLive<View> = mutableLiveOf(DEFAULT_VIEW)
 

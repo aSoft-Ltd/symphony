@@ -4,13 +4,12 @@
 package symphony
 
 import kotlinx.serialization.KSerializer
-import kotlin.js.JsExport
 import kotlinx.serialization.StringFormat
-import lexi.Logger
+import lexi.Logable
+import kotlin.js.JsExport
 
-interface FormConfig<P> {
-    val logger: Logger
-    val serializer: KSerializer<P>
+interface FormConfig<out P> : Logable {
+    val serializer: KSerializer<@UnsafeVariance P>
     val codec: StringFormat
     val exitOnSubmitted: Boolean
 }
