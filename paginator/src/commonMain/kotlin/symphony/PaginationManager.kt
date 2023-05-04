@@ -18,6 +18,8 @@ interface PaginationManager<T> {
 
     val hasMore: Boolean
 
+    fun initialize()
+
     fun wipeMemory()
     fun clearPages()
     fun setPageCapacity(cap: Int)
@@ -40,4 +42,6 @@ interface PaginationManager<T> {
     fun find(page: Int): Page<T>?
 
     fun <R> map(transform: (T) -> R): PaginationManager<R>
+
+    fun clean()
 }

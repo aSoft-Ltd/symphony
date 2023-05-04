@@ -37,6 +37,10 @@ internal class PaginationManagerImpl<T>(
             }
         }.toIList()
 
+    override fun initialize() {
+        loadFirstPage()
+    }
+
     override fun forEachPage(block: (Page<T>) -> Unit) {
         cache.records[capacity]?.pages?.values?.sortedBy { it.number }?.forEach(block)
     }
@@ -109,6 +113,10 @@ internal class PaginationManagerImpl<T>(
 
     override fun <R> map(transform: (T) -> R): PaginationManager<R> = PaginationManagerImpl(capacity) { no, capacity ->
         loader(no, capacity).then { it.map(transform) }
+    }
+
+    override fun clean() {
+        current.value = Pending
     }
 
     companion object {

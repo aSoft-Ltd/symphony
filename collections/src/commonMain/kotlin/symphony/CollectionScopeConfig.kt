@@ -3,6 +3,6 @@ package symphony
 import keep.Cacheable
 
 interface CollectionScopeConfig<T, out A> : Cacheable {
-    val actions: CollectionActionsBuilder<T>.() -> Unit
+    val actions: SelectorBasedActionsBuilder<T>.() -> Unit
     val columns: ColumnsBuilder<T>.() -> Unit
 }

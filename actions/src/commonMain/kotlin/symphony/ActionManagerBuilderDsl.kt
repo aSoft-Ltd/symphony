@@ -2,14 +2,20 @@
 
 package symphony
 
+import kevlar.builders.Actions0Builder
 import symphony.internal.ActionsManagerImpl
+import symphony.internal.FixedActionsManagerImpl
 
 inline fun <T> actionsOf(
     selector: SelectionManager<T>,
-    builder: CollectionActionsBuilder<T>.() -> Unit
-): ActionsManager<T> = ActionsManagerImpl(selector, CollectionActionsBuilder<T>().apply(builder))
+    builder: SelectorBasedActionsBuilder<T>.() -> Unit
+): ActionsManager<T> = ActionsManagerImpl(selector, SelectorBasedActionsBuilder<T>().apply(builder))
 
 inline fun <T> actionsOf(): ActionsManager<T> = ActionsManagerImpl(
     selector = SelectionManager(SinglePagePaginator()),
-    builder = CollectionActionsBuilder()
+    builder = SelectorBasedActionsBuilder()
 )
+
+inline fun actionsOf(
+    builder: Actions0Builder<Unit>.() -> Unit
+): ActionsManager<Any> = FixedActionsManagerImpl(FixedActionsBuilder().apply { primary(builder) })

@@ -65,8 +65,8 @@ abstract class CollectionScene<T>(private val config: CollectionSceneConfig<T>) 
 
     fun switchToTableView() = switchTo(View.Table)
 
-    private fun switchTo(v: View) = cache.save(preferredView, v).then {
-        view.value = it
+    private fun switchTo(v: View) = cache.save(preferredView, v).finally {
+        view.value = v
     }
 
     val searchBox = TextInputField(name = "search-box")

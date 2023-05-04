@@ -7,7 +7,7 @@ import kevlar.builders.Actions0Builder
 import kollections.List
 import kollections.toIList
 
-class CollectionActionsBuilder<T> @PublishedApi internal constructor(
+class SelectorBasedActionsBuilder<T> @PublishedApi internal constructor(
     primary: MutableList<Action0<Unit>> = mutableListOf(),
     single: MutableList<Action0<Unit>> = mutableListOf(),
     multi: MutableList<Action0<Unit>> = mutableListOf(),

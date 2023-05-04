@@ -2,13 +2,13 @@ package symphony.internal
 
 import kollections.List
 import symphony.ActionsManager
-import symphony.CollectionActionsBuilder
+import symphony.SelectorBasedActionsBuilder
 import symphony.SelectionManager
 
 @PublishedApi
 internal class ActionsManagerImpl<T>(
     private val selector: SelectionManager<T>,
-    private val builder: CollectionActionsBuilder<T>
+    private val builder: SelectorBasedActionsBuilder<T>
 ) : ActionsManager<T> {
     override val current = selector.selected.map {
         builder.buildActions(it)
