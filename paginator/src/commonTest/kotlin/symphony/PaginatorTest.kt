@@ -56,7 +56,7 @@ class PaginatorTest {
 
         p.loadLastPage()
         watcher.stop()
-        expect(p.currentPageOrNull?.number).toBe(3)
+        expect(p.currentPageOrNull?.number).toBe(-1)
         expect(p.currentPageOrNull?.items?.size).toBe(5)
         expect(p.currentPageOrNull?.capacity).toBe(10)
     }

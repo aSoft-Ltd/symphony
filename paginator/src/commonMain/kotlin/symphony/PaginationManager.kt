@@ -18,17 +18,21 @@ interface PaginationManager<T> {
 
     val hasMore: Boolean
 
-    fun initialize()
+    fun initialize(loader: PageLoader<T>? = null): Later<Page<T>>
 
     fun wipeMemory()
     fun clearPages()
     fun setPageCapacity(cap: Int)
-    fun refresh(): Later<Any?>
-    fun loadNextPage(): Later<Any?>
-    fun loadPreviousPage(): Later<Any?>
-    fun loadPage(no: Int): Later<Page<T>>
-    fun loadFirstPage(): Later<Page<T>>
-    fun loadLastPage(): Later<Page<T>>
+
+    // --------------------- loaders ---------------
+    fun refresh(loader: PageLoader<T>? = null): Later<Any?>
+    fun loadNextPage(loader: PageLoader<T>? = null): Later<Any?>
+    fun loadPreviousPage(loader: PageLoader<T>? = null): Later<Any?>
+    fun loadPage(no: Int, loader: PageLoader<T>? = null): Later<Page<T>>
+    fun loadFirstPage(loader: PageLoader<T>? = null): Later<Page<T>>
+    fun loadLastPage(loader: PageLoader<T>? = null): Later<Page<T>>
+
+    // --------------------- loopers ----------------------
     fun forEachPage(block: (Page<T>) -> Unit)
 
     // ---------------------- finders -----------------------
@@ -43,5 +47,5 @@ interface PaginationManager<T> {
 
     fun <R> map(transform: (T) -> R): PaginationManager<R>
 
-    fun clean()
+    fun deInitialize(clearPages: Boolean = false)
 }

@@ -24,17 +24,11 @@ abstract class CollectionScene<T>(private val config: CollectionSceneConfig<T>) 
 
     val cache = config.cache
 
-    protected abstract val loader: (no: Int, capacity: Int) -> Later<Collection<T>>
-
     protected abstract val serializer: KSerializer<T>
 
     protected inline fun columnsOf(noinline builder: ColumnsBuilder<T>.() -> Unit) = columnsOf(emptyList(), builder)
 
-    val paginator: PaginationManager<T> by lazy {
-        PaginationManager { no, capacity ->
-            loader(no, capacity).then { Page(it, capacity, no) }
-        }
-    }
+    val paginator: PaginationManager<T> by lazy { PaginationManager() }
 
     val selector: SelectionManager<T> by lazy { SelectionManager(paginator) }
 
@@ -47,15 +41,6 @@ abstract class CollectionScene<T>(private val config: CollectionSceneConfig<T>) 
     val table: Table<T> by lazy { tableOf(paginator, selector, actions, columns) }
 
     private val preferredView = "${this::class.simpleName?.replace("ViewModel", "")}.$PREFERRED_VIEW"
-
-    fun initialize() {
-        switchToLatestSelectedView()
-        paginator.loadFirstPage()
-    }
-
-    open fun deInitialize(clearPages: Boolean = false) {
-        if (clearPages) paginator.clearPages()
-    }
 
     fun switchToLatestSelectedView() = cache.load<View>(preferredView).finally {
         view.value = it.data ?: DEFAULT_VIEW

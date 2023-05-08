@@ -3,10 +3,10 @@ package symphony.internal.forms
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.json.Json
 import lexi.ConsoleAppender
 import lexi.Logger
 import symphony.FormConfig
-import viewmodel.VIEW_MODEL_CONFIG_DEFAULT
 
 open class FormConfigImpl<P>(
     override val serializer: KSerializer<P>,
@@ -17,7 +17,10 @@ open class FormConfigImpl<P>(
     companion object DEFAULT : FormConfigImpl<Unit>(
         serializer = Unit.serializer(),
         logger = Logger(ConsoleAppender()),
-        codec = VIEW_MODEL_CONFIG_DEFAULT.codec,
+        codec = Json {
+            encodeDefaults = true
+            ignoreUnknownKeys = true
+        },
         exitOnSubmitted = true,
     )
 }

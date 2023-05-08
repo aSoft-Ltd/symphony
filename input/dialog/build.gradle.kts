@@ -22,6 +22,7 @@ kotlin {
                 api(projects.kevlarCore)
                 api(projects.cinematicSceneCore)
                 api(projects.koncurrentLaterCore)
+                api(projects.lexiApi)
             }
         }
 
