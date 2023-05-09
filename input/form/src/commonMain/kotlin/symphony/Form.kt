@@ -108,6 +108,7 @@ open class Form<out F : Fields, out P, out R>(
     } catch (err: Throwable) {
         config.logger.error("Failed to submit")
         config.logger.error(err)
+        config.logger.error(err.stackTraceToString())
         ui.value = Failure(err) { onRetry { submit() } }
         FailedLater(err)
     }

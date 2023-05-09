@@ -21,18 +21,15 @@ inline fun <T> SinglePagePaginator(
     Later(items)
 }
 
-fun <T> Collection<T>.paged(no: Int, capacity: Int) = Later(SynchronousExecutor) { resolve, reject ->
-    try {
-        val chunked = chunked(capacity)
-        val page = if (no <= 0) {
-            chunked.last()
-        } else {
-            chunked[no - 1]
-        }
-        resolve(page)
-    } catch (err: Throwable) {
-        reject(err)
+fun <T> Collection<T>.paged(no: Int, capacity: Int): Later<List<T>> {
+    val chunked = chunked(capacity)
+    val page = when {
+        isEmpty() -> toList()
+        no <= 0 -> chunked.last()
+        no <= chunked.size -> chunked[no - 1]
+        else -> emptyList()
     }
+    return Later(page)
 }
 
 fun <T> CollectionPaginator(

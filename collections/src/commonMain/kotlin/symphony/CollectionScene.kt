@@ -13,12 +13,8 @@ import kotlinx.serialization.KSerializer
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
-abstract class CollectionScene<T>(private val config: CollectionSceneConfig<T>) : BaseScene() {
-
-    @JsName("_ignore_constructor")
-    constructor(config: Cacheable) : this(config.toCollectionSceneConfig())
+abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     val view: MutableLive<View> = mutableLiveOf(DEFAULT_VIEW)
 
@@ -32,9 +28,9 @@ abstract class CollectionScene<T>(private val config: CollectionSceneConfig<T>) 
 
     val selector: SelectionManager<T> by lazy { SelectionManager(paginator) }
 
-    open val actions: ActionsManager<T> by lazy { actionsOf(selector, config.actions) }
+    open val actions: ActionsManager<T> by lazy { actionsOf() }
 
-    open val columns: ColumnsManager<T> by lazy { columnsOf(emptyList(), config.columns) }
+    open val columns: ColumnsManager<T> by lazy { columnsOf() }
 
     val list: List<T> by lazy { listOf(paginator, selector, actions) }
 
