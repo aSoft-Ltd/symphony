@@ -2,31 +2,27 @@ package symphony.internal
 
 import cinematic.mutableLiveOf
 import kollections.List
-import symphony.ActionsManager
+import symphony.SelectorBasedActionsManager
 import symphony.FixedActionsBuilder
-import symphony.SelectorBasedActionsBuilder
+import symphony.FixedActionsManager
 
 @PublishedApi
 internal class FixedActionsManagerImpl(
     private val builder: FixedActionsBuilder
-) : ActionsManager<Any> {
+) : FixedActionsManager {
     override val current = mutableLiveOf(builder.buildActions())
 
     override fun get() = current.value
 
-    override fun add(name: String, handler: () -> Unit): ActionsManager<Any> {
+    override fun add(name: String, handler: () -> Unit): FixedActionsManager {
         builder.primary { on(name, handler = handler) }
+        current.value = builder.buildActions()
         return this
     }
 
-    override fun addSingle(name: String, handler: (Any) -> Unit): ActionsManager<Any> = this
-
-    override fun addMulti(name: String, handler: (List<Any>) -> Unit): ActionsManager<Any> = this
-
-    override fun remove(key: String): ActionsManager<Any> {
+    override fun remove(key: String): FixedActionsManager {
         builder.filters.add(key.lowercase())
+        current.value = builder.buildActions()
         return this
     }
-
-    override fun of(item: Any) = current.value
 }

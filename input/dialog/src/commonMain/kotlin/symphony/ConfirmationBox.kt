@@ -3,10 +3,9 @@
 
 package symphony
 
-import kevlar.MutableAction0
+import cinematic.Live
 import kase.ExecutorState
 import koncurrent.Later
-import cinematic.Live
 import kotlin.js.JsExport
 
 interface ConfirmationBox {
@@ -15,7 +14,7 @@ interface ConfirmationBox {
 
     val state: Live<ExecutorState<Unit>>
 
-    val cancel: MutableAction0<Unit>
+    fun onCancel(handler: () -> Unit)
 
     fun exit()
     fun confirm(): Later<Any?>

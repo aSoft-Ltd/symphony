@@ -28,7 +28,7 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     val selector: SelectionManager<T> by lazy { SelectionManager(paginator) }
 
-    open val actions: ActionsManager<T> by lazy { actionsOf() }
+    open val actions: SelectorBasedActionsManager<T> by lazy { actionsOf() }
 
     open val columns: ColumnsManager<T> by lazy { columnsOf() }
 

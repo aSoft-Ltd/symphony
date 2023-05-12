@@ -7,7 +7,7 @@ import symphony.internal.ListImpl
 inline fun <T> listOf(
     paginator: PaginationManager<T>,
     selector: SelectionManager<T>,
-    actionsManager: ActionsManager<T>
+    actionsManager: SelectorBasedActionsManager<T>
 ): List<T> = ListImpl(paginator, selector, actionsManager)
 
 inline fun <T> listOf(

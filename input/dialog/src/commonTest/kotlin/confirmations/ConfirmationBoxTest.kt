@@ -19,8 +19,7 @@ class ConfirmationBoxTest {
     fun a_confirmation_box_should_start_in_a_pending_state() {
         val box = ConfirmationBox(
             heading = "Delete George",
-            details = "Are you sure you want to delete George?",
-            config = Logable()
+            details = "Are you sure you want to delete George?"
         ) {
             onConfirm {
                 Later(5)
@@ -35,8 +34,7 @@ class ConfirmationBoxTest {
 
         val box = ConfirmationBox(
             heading = "Delete George",
-            details = "Are you sure you want to delete George?",
-            config = Logable()
+            details = "Are you sure you want to delete George?"
         ) {
             onConfirm {
                 confirmed = true
@@ -57,8 +55,7 @@ class ConfirmationBoxTest {
 
         val box = ConfirmationBox(
             heading = "Delete George",
-            details = "Are you sure you want to delete George?",
-            config = Logable()
+            details = "Are you sure you want to delete George?"
         ) {
             onCancel {
                 cancelled = true
@@ -83,8 +80,7 @@ class ConfirmationBoxTest {
 
         val box = ConfirmationBox(
             heading = "Delete George",
-            details = "Are you sure you want to delete George?",
-            config = Logable()
+            details = "Are you sure you want to delete George?"
         ) {
             onCancel {
                 cancelled = true
@@ -105,8 +101,7 @@ class ConfirmationBoxTest {
 
         val box = ConfirmationBox(
             heading = "Delete George",
-            details = "Are you sure you want to delete George?",
-            config = Logable()
+            details = "Are you sure you want to delete George?"
         ) {
             onCancel {
                 cancelled = true
@@ -129,8 +124,7 @@ class ConfirmationBoxTest {
     fun a_confirm_action_can_execute_the_catch_clause_of_a_later_after_a_failure() {
         val box = ConfirmationBox(
             heading = "Delete George",
-            details = "Are you sure you want to delete George?",
-            config = Logable()
+            details = "Are you sure you want to delete George?"
         ) {
             onConfirm {
                 throw RuntimeException("Rejecting for fun")

@@ -1,16 +1,15 @@
 package symphony.internal
 
 import cinematic.BaseScene
+import cinematic.MutableLive
+import cinematic.mutableLiveOf
 import kase.Executing
 import kase.ExecutorState
 import kase.Failure
 import kase.Pending
 import kase.Success
+import kase.bagOf
 import koncurrent.FailedLater
-import cinematic.MutableLive
-import cinematic.mutableLiveOf
-import kevlar.mutableAction0
-import lexi.Logable
 import symphony.ConfirmActionsBuilder
 import symphony.ConfirmationBox
 
@@ -19,7 +18,6 @@ internal class ConfirmationBoxImpl(
     override val heading: String,
     override val details: String,
     val executionMessage: String,
-    config: Logable,
     actionsBuilder: ConfirmActionsBuilder.() -> Unit
 ) : BaseScene(), ConfirmationBox {
 
@@ -27,20 +25,17 @@ internal class ConfirmationBoxImpl(
 
     override val state: MutableLive<ExecutorState<Unit>> = mutableLiveOf(Pending, 2)
 
-    override val cancel = mutableAction0("Cancel") {
-        val action = actions.actions.firstOrNull {
-            it.name.contentEquals("cancel", ignoreCase = true)
-        }?.handler ?: {
-            config.logger.warn("Cancel hasn't been handled yet")
-        }
-        action()
+    private val cancelBag = bagOf<() -> Unit>()
+
+    override fun onCancel(handler: () -> Unit) {
+        cancelBag.value = handler
     }
 
     private val confirmAction = actions.submitAction
 
     override fun exit() {
         try {
-            cancel()
+            cancelBag.value?.invoke()
         } catch (cause: Throwable) {
             state.value = Failure(cause)
         }

@@ -11,6 +11,7 @@ import kase.Submitting
 import kase.Validating
 import kase.toFormState
 import kevlar.Action1
+import kevlar.Action1Invoker
 import kevlar.action0
 import kollections.toIList
 import koncurrent.FailedLater
@@ -38,11 +39,11 @@ open class Form<out F : Fields, out P, out R>(
     val cancelAction = action0("Cancel") {
         val handler = builtActions.actions.firstOrNull {
             it.name.contentEquals("Cancel", ignoreCase = true)
-        }?.handler ?: { config.logger.warn("Cancel action of ${this::class.simpleName} was never setup") }
+        }?.asInvoker?.handler ?: { config.logger.warn("Cancel action of ${this::class.simpleName} was never setup") }
         handler()
     }
 
-    private val submitAction: Action1<P, Later<R>> = builtActions.submitAction
+    private val submitAction: Action1Invoker<P, Later<R>> = builtActions.submitAction
 
     private val codec get() = config.codec
 

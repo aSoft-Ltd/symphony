@@ -9,7 +9,7 @@ import kotlin.jvm.JvmSynthetic
 inline fun <T> tableOf(
     paginator: PaginationManager<T>,
     selector: SelectionManager<T>,
-    actions: ActionsManager<T>,
+    actions: SelectorBasedActionsManager<T>,
     columns: ColumnsManager<T>
 ): Table<T> = TableImpl(paginator, selector, actions, columns)
 
@@ -21,7 +21,7 @@ inline fun <T> tableOf(
 fun <T> tableOf(
     paginator: PaginationManager<T>,
     selector: SelectionManager<T>,
-    actions: ActionsManager<T>,
+    actions: SelectorBasedActionsManager<T>,
     columns: ColumnsBuilder<T>.() -> Unit
 ): Table<T> = TableImpl(paginator, selector, actions, columnsOf(emptyList(), columns))
 
@@ -29,7 +29,7 @@ fun <T> tableOf(
 inline fun <T> tableOf(
     paginator: PaginationManager<T>,
     selector: SelectionManager<T>,
-    actions: ActionsManager<T>
+    actions: SelectorBasedActionsManager<T>
 ): Table<T> = TableImpl(paginator, selector, actions, columnsOf())
 
 @JvmSynthetic

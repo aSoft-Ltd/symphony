@@ -5,7 +5,4 @@ package symphony
 
 import kotlin.js.JsExport
 
-
-interface Actionable<T> {
-    val actions: ActionsManager<T>
-}
+interface FixedActionsManager : ActionsManager<Any>

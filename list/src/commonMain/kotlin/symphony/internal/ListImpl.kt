@@ -1,6 +1,6 @@
 package symphony.internal
 
-import symphony.ActionsManager
+import symphony.SelectorBasedActionsManager
 import symphony.PaginationManager
 import symphony.Row
 import symphony.SelectionManager
@@ -12,11 +12,11 @@ import symphony.List
 internal class ListImpl<T>(
     override val paginator: PaginationManager<T>,
     override val selector: SelectionManager<T>,
-    override val actions: ActionsManager<T>
+    override val actions: SelectorBasedActionsManager<T>
 ) : List<T> {
     override val rows: KList<Row<T>> get() = paginator.continuous
 
-    override fun manageActions(block: (ActionsManager<T>) -> Unit): ListImpl<T> {
+    override fun manageActions(block: (SelectorBasedActionsManager<T>) -> Unit): ListImpl<T> {
         actions.apply(block)
         return this
     }

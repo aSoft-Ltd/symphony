@@ -1,6 +1,6 @@
 package symphony.internal
 
-import symphony.ActionsManager
+import symphony.SelectorBasedActionsManager
 import symphony.ColumnsManager
 import symphony.PaginationManager
 import symphony.SelectionManager
@@ -12,7 +12,7 @@ import symphony.columnsOf
 internal class TableImpl<T>(
     override val paginator: PaginationManager<T>,
     override val selector: SelectionManager<T>,
-    override val actions: ActionsManager<T>,
+    override val actions: SelectorBasedActionsManager<T>,
     override val columns: ColumnsManager<T>
 ) : Table<T> {
 
@@ -21,7 +21,7 @@ internal class TableImpl<T>(
         return this
     }
 
-    override fun manageActions(block: (ActionsManager<T>) -> Unit): TableImpl<T> {
+    override fun manageActions(block: (SelectorBasedActionsManager<T>) -> Unit): TableImpl<T> {
         actions.apply(block)
         return this
     }

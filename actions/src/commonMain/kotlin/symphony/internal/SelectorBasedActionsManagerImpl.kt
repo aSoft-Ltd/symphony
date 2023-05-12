@@ -1,37 +1,37 @@
 package symphony.internal
 
 import kollections.List
-import symphony.ActionsManager
+import symphony.SelectorBasedActionsManager
 import symphony.SelectorBasedActionsBuilder
 import symphony.SelectionManager
 
 @PublishedApi
-internal class ActionsManagerImpl<T>(
+internal class SelectorBasedActionsManagerImpl<T>(
     private val selector: SelectionManager<T>,
     private val builder: SelectorBasedActionsBuilder<T>
-) : ActionsManager<T> {
+) : SelectorBasedActionsManager<T> {
     override val current = selector.selected.map {
         builder.buildActions(it)
     }
 
     override fun get() = current.value
 
-    override fun add(name: String, handler: () -> Unit): ActionsManager<T> {
+    override fun add(name: String, handler: () -> Unit): SelectorBasedActionsManager<T> {
         builder.primary { on(name, handler = handler) }
         return this
     }
 
-    override fun addSingle(name: String, handler: (T) -> Unit): ActionsManager<T> {
+    override fun addSingle(name: String, handler: (T) -> Unit): SelectorBasedActionsManager<T> {
         builder.single { on(name) { handler(it) } }
         return this
     }
 
-    override fun addMulti(name: String, handler: (List<T>) -> Unit): ActionsManager<T> {
+    override fun addMulti(name: String, handler: (List<T>) -> Unit): SelectorBasedActionsManager<T> {
         builder.multi { on(name) { handler(it) } }
         return this
     }
 
-    override fun remove(key: String): ActionsManager<T> {
+    override fun remove(key: String): SelectorBasedActionsManager<T> {
         builder.filters.add(key.lowercase())
         return this
     }
