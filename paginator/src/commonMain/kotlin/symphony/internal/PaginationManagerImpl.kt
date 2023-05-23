@@ -39,7 +39,7 @@ internal class PaginationManagerImpl<T>(
     override val continuous
         get() = buildList {
             forEachPage { page ->
-                addAll(page.items.mapIndexed { index, row -> Row(index * page.number, row.item) })
+                addAll(page.items.mapIndexed { index, row -> Row(pageCapacity = page.capacity, page.number, index * page.number, row.item) })
             }
         }.toIList()
 

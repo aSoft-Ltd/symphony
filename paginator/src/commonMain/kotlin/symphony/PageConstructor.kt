@@ -11,7 +11,7 @@ inline fun <T> Page(
     number: Int = 1
 ): Page<T> = PageImpl(
     items = items.mapIndexed { index, it ->
-        Row(index, it)
+        Row(capacity, number, index, it)
     }.toIList(),
     capacity = capacity,
     number = number
