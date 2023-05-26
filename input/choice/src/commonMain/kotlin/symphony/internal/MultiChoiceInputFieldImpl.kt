@@ -22,7 +22,7 @@ internal class MultiChoiceInputFieldImpl<T : Any>(
     override val label: Label,
     override val hint: String,
     override val items: Collection<T>,
-    private val mapper: (T) -> Option,
+    override val mapper: (T) -> Option,
     private val value: Collection<T>?,
     override val serializer: KSerializer<List<T>>,
     override val isReadonly: Boolean,
@@ -57,7 +57,6 @@ internal class MultiChoiceInputFieldImpl<T : Any>(
             }.toIList()
         }
 
-    private val output get() = data.value.output
     override val optionsWithSelectLabel get() = (listOf(Option("Select $label", "")) + options).toIList()
 
     private fun updateValue() {

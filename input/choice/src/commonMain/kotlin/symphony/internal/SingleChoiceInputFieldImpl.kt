@@ -18,7 +18,7 @@ internal class SingleChoiceInputFieldImpl<T : Any>(
     override val label: Label,
     override val items: Collection<T>,
     override val hint: String,
-    private val mapper: (T) -> Option,
+    override val mapper: (T) -> Option,
     private val value: T?,
     override val isReadonly: Boolean,
     override val serializer: KSerializer<T>,

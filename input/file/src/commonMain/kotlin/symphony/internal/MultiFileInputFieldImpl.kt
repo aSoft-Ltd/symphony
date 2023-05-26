@@ -29,8 +29,6 @@ internal class MultiFileInputFieldImpl(
         RequirementValidator(data, feedback, label.capitalizedWithoutAstrix(), isRequired),
         LambdaValidator(data, feedback, validator)
     )
-
-    private val output get() = data.value.output
     override fun add(file: FileBlob) = set((output + file).toIList())
 
     override fun addAll(files: List<FileBlob>) = set((output + files).toIList())

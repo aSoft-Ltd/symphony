@@ -8,4 +8,5 @@ import kotlin.js.JsExport
 
 interface LiveData<out D> {
     val data: Live<Data<D>>
+    val output: D? get() = data.value.output
 }

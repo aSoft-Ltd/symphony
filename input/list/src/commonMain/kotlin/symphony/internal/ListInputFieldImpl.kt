@@ -28,7 +28,6 @@ internal class ListInputFieldImpl<E>(
         RequirementValidator(data, feedback, label.capitalizedWithoutAstrix(), isRequired)
     )
 
-    private val output get() = data.value.output
     override fun add(item: E) = set((output + item).toIList())
 
     override fun addAll(items: List<E>) = set((output + items).toIList())
