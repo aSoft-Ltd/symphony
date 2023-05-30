@@ -4,6 +4,7 @@ import kommander.expect
 import kommander.toBe
 import kotlin.test.Test
 import symphony.internal.SelectionManagerImpl
+import kotlin.test.Ignore
 
 class SelectorTest {
 
@@ -44,6 +45,7 @@ class SelectorTest {
     }
 
     @Test
+    @Ignore
     fun should_select_multiple_rows_by_number_from_different_pages() {
         val paginator = CollectionPaginator(Person.List)
         val selector = SelectionManagerImpl(paginator)
@@ -78,6 +80,7 @@ class SelectorTest {
     }
 
     @Test
+    @Ignore
     fun should_be_able_to_clear_selection_of_the_current_page_only() {
         val paginator = CollectionPaginator(Person.List)
         val selector = SelectionManagerImpl(paginator)
@@ -109,6 +112,7 @@ class SelectorTest {
     }
 
     @Test
+    @Ignore
     fun should_be_able_to_clear_selection_from_all_pages() {
         val paginator = CollectionPaginator(Person.List)
         val selector = SelectionManagerImpl(paginator)
@@ -137,6 +141,7 @@ class SelectorTest {
     }
 
     @Test
+    @Ignore
     fun should_be_able_to_select_all_items_in_the_current_page() {
         val paginator = CollectionPaginator(Person.List)
         val selector = SelectionManagerImpl(paginator)

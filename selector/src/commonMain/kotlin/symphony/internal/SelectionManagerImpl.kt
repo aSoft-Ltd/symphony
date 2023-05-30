@@ -141,7 +141,7 @@ class SelectionManagerImpl<T>(
     override fun isRowItemSelected(row: Int, page: Int?) = when (val s = selected.value) {
         is SelectedNone -> false
         is SelectedItem -> s.row.number == row && s.page.number == page
-        is SelectedItems -> s.page.toIList().any { (p, rows) -> p.number == page && rows.map { it.number }.contains(row) }
+        is SelectedItems -> s.page.toTypedArray().any { (p, rows) -> p.number == page && rows.map { it.number }.contains(row) }
         is SelectedGlobal -> !s.exceptions.any { it.page.number == page && it.row.number == row }
     }
 

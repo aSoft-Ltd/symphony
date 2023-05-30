@@ -35,7 +35,7 @@ rootProject.name = "symphony"
 includeBuild("../able")
 
 // dependencies for symphony-input-core
-includeSubs("functions", "../functions", "core")
+//includeSubs("functions", "../functions", "core")
 includeSubs("kommander", "../kommander", "core", "coroutines")
 includeSubs("liquid", "../liquid", "number")
 includeSubs("kollections", "../kollections", "atomic", "interoperable")
