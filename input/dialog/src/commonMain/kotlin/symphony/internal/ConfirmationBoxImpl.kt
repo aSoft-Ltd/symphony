@@ -25,7 +25,7 @@ internal class ConfirmationBoxImpl(
 
     override val state: MutableLive<ExecutorState<Unit>> = mutableLiveOf(Pending, 2)
 
-    private val cancelBag = bagOf<() -> Unit>()
+    private val cancelBag = bagOf(actions.actions.find { it.name.contains("cancel", ignoreCase = true) }?.asInvoker?.handler)
 
     override fun onCancel(handler: () -> Unit) {
         cancelBag.value = handler
@@ -34,6 +34,7 @@ internal class ConfirmationBoxImpl(
     private val confirmAction = actions.submitAction
 
     override fun exit() {
+        if (state.value is Executing) return
         try {
             cancelBag.value?.invoke()
         } catch (cause: Throwable) {

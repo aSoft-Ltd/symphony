@@ -1,7 +1,7 @@
 package symphony.internal
 
 import kash.Currency
-import kash.CurrencySerializer
+import kash.ISO3CurrencySerializer
 import kash.Money
 import kash.Monetary
 import kash.MoneyFormatter
@@ -51,7 +51,7 @@ internal class MoneyInputFieldImpl(
         isReadonly = !selectCurrency,
         items = Currency.values.toIList(),
         mapper = { Option(it.name, it.name) },
-        serializer = CurrencySerializer,
+        serializer = ISO3CurrencySerializer,
         value = theCurrency
     )
 

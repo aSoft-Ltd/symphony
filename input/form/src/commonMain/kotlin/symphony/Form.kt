@@ -8,9 +8,9 @@ import kase.Failure
 import kase.FormState
 import kase.Pending
 import kase.Submitting
+import kase.Success
 import kase.Validating
 import kase.toFormState
-import kevlar.Action1
 import kevlar.Action1Invoker
 import kevlar.action0
 import kollections.toIList
@@ -30,10 +30,11 @@ open class Form<out F : Fields, out P, out R>(
     open val heading: String,
     open val details: String,
     open val fields: F,
-    open val config: FormConfig<@UnsafeVariance P>,
+    val config: FormConfig<@UnsafeVariance P>,
     initializer: FormActionsBuildingBlock<P, R>,
 ) : Scene<FormState<R>>(Pending) {
 
+    private val logger = config.logger.with("source" to this::class.simpleName)
     private val builtActions = FormActionsBuilder<P, R>().apply { initializer() }
 
     val cancelAction = action0("Cancel") {
@@ -84,8 +85,8 @@ open class Form<out F : Fields, out P, out R>(
             errors = invalids.errorTable(),
             fields = invalids.toIList()
         )
-        config.logger.error(exception.message)
-        config.logger.error(exception.errors)
+        logger.error(exception.message)
+        logger.error(exception.errors)
         return Invalid(exception)
     }
 
@@ -96,21 +97,32 @@ open class Form<out F : Fields, out P, out R>(
     }
 
     fun submit(): Later<R> = try {
-        config.logger.info("Validating")
+        logger.info("Validating")
         ui.value = Validating
         validate().throwIfInvalid()
         val values = fields.encodedValuesToJson(codec)
-        config.logger.info("Submitting")
+        logger.info("Submitting")
         ui.value = Submitting(values)
-        submitAction.invoke(codec.decodeFromString(config.serializer, values)).finally {
-            ui.value = it.toFormState { onRetry { submit() } }
-            if (exitOnSubmitted) exit()
+        submitAction.invoke(codec.decodeFromString(config.serializer, values)).finally { res ->
+            ui.value = when (res) {
+                is Failure -> showError(res.cause)
+                is Success -> Success(res.data)
+            }
+            if (res is Success) {
+                logger.info("Success")
+                if (exitOnSubmitted) exit()
+            }
         }
     } catch (err: Throwable) {
-        config.logger.error("Failed to submit")
-        config.logger.error(err)
-        config.logger.error(err.stackTraceToString())
-        ui.value = Failure(err) { onRetry { submit() } }
-        FailedLater(err)
+        val e = showError(err)
+        ui.value = e
+        FailedLater(e.cause)
+    }
+
+    private fun showError(err: Throwable): Failure<R> {
+        logger.error("Failure")
+        logger.error(err)
+        logger.error(err.stackTraceToString())
+        return Failure(err) { onRetry { submit() } }
     }
 }
