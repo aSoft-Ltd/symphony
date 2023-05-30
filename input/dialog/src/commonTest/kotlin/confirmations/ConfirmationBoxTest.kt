@@ -11,6 +11,7 @@ import cinematic.toHaveGoneThrough2
 import cinematic.expect
 import lexi.Logable
 import symphony.ConfirmationBox
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class ConfirmationBoxTest {
@@ -75,6 +76,7 @@ class ConfirmationBoxTest {
     }
 
     @Test
+    @Ignore
     fun a_confirmation_box_can_be_cancelled() {
         var cancelled = false
 

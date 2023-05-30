@@ -21,6 +21,7 @@ import symphony.internal.validators.CompoundValidator
 import symphony.internal.validators.LambdaValidator
 import symphony.internal.validators.RequirementValidator
 import symphony.validation.Invalid
+import symphony.validation.Valid
 import symphony.validation.ValidationResult
 
 @PublishedApi
@@ -99,7 +100,7 @@ internal class MoneyInputFieldImpl(
         ).forEach { res ->
             if (res is Invalid) return res
         }
-        return super.validate(value)
+        return Valid
     }
 
 

@@ -6,12 +6,13 @@ import symphony.Data
 import symphony.InputFieldState
 import symphony.validation.Invalid
 import symphony.validation.Valid
+import symphony.validation.Validateable
 import symphony.validation.ValidationResult
 
 class CompoundValidator<T>(
     override val data: Live<Data<T>>,
     override val feedback: MutableLive<InputFieldState>,
-    vararg valigators: AbstractValidator<T>
+    vararg valigators: Validateable<T>
 ) : AbstractValidator<T>(feedback) {
     private val validators = valigators
 
