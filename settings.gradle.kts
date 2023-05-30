@@ -68,5 +68,5 @@ includeSubs("geo", "../geo", "core", "countries")
 includeSubs("identifier", "../identifier", "core", "comm")
 
 // submodules
-includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list")
+includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list", "collections")
 includeSubs("symphony-input", "input", "core", "form", "text", "number", "choice", "list", "file", "identifier", "krono", "geo", "kash", "dialog")
