@@ -12,18 +12,14 @@ inline fun PhoneInputField(
     value: String? = null,
     isReadonly: Boolean = false,
     isRequired: Boolean = false,
-    maxLength: Int? = null,
-    minLength: Int? = null,
-    noinline validator: ((String?) -> Unit)? = null
-): BasicTextInputField = PhoneInputFieldImpl(
+    noinline validator: ((PhoneNumber?) -> Unit)? = null
+): PhoneInputField = PhoneInputFieldImpl(
     name = name,
     label = Label(label, isRequired),
     hint = hint,
     value = value,
     isReadonly = isReadonly,
     isRequired = isRequired,
-    maxLength = maxLength,
-    minLength = minLength,
     validator = validator,
 )
 
@@ -34,11 +30,9 @@ inline fun Fields.phone(
     value: String? = null,
     isReadonly: Boolean = false,
     isRequired: Boolean = false,
-    maxLength: Int? = null,
-    minLength: Int? = null,
-    noinline validator: ((String?) -> Unit)? = null
+    noinline validator: ((PhoneNumber?) -> Unit)? = null
 ) = getOrCreate(name) {
-    PhoneInputField(name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
+    PhoneInputField(name, label, hint, value, isReadonly, isRequired, validator)
 }
 
 inline fun Fields.phone(
@@ -48,7 +42,5 @@ inline fun Fields.phone(
     value: String? = null,
     isReadonly: Boolean = false,
     isRequired: Boolean = false,
-    maxLength: Int? = null,
-    minLength: Int? = null,
-    noinline validator: ((String?) -> Unit)? = null
-) = phone(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
+    noinline validator: ((PhoneNumber?) -> Unit)? = null
+) = phone(name.name, label, hint, value, isReadonly, isRequired, validator)

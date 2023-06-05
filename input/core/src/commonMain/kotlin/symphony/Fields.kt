@@ -19,12 +19,12 @@ open class Fields(@PublishedApi internal val cache: MutableMap<String, InputFiel
         it.name
     }.toList().joinToString(prefix = "{", postfix = "\n}") { (key, field) ->
         val serializer = field.serializer as KSerializer<Any>
-        """${"\n"}    "$key": ${codec.encodeToString(serializer.nullable, field.data.value.output)}"""
+        """${"\n"}    "$key": ${codec.encodeToString(serializer.nullable, field.output)}"""
     }
 
     private fun valuesToBeSubmitted() = all.filterIsInstance<SerializableLiveData<out Any?>>().filterNot {
         if (it is Requireble) {
-            !it.isRequired && (it.data.value.output == null || it.data.value.output.toString().isBlank())
+            !it.isRequired && (it.output == null || it.output.toString().isBlank())
         } else {
             false
         }

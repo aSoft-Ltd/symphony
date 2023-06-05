@@ -19,6 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputText)
+                api(projects.symphonyInputNumber)
                 api(projects.symphonyInputChoice)
                 api(projects.geoCountries)
                 api(projects.identifierComm)
