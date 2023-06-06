@@ -11,7 +11,7 @@ import kotlin.js.JsExport
  * Abstract away properly phone numbering formats
  * https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers
  */
-@Serializable
+@Serializable(with = PhoneSerializer::class)
 data class PhoneNumber(
     val country: Country,
     val body: Long

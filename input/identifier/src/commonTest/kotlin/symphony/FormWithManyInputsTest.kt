@@ -10,6 +10,7 @@ import koncurrent.Later
 import kotlinx.serialization.Serializable
 import cinematic.expect
 import cinematic.toHaveGoneThrough3
+import geo.Country
 import kotlin.test.Test
 
 class FormWithManyInputsTest {
@@ -53,16 +54,20 @@ class FormWithManyInputsTest {
         form.fields.apply {
             name.set("Andy")
             email.set("andy@lamax.com")
-            phone.set("0752748674")
+            phone.code.selectItem(Country.ZA)
+            phone.number.set("0752748674")
             color.selectItem(Color.Red)
             colors.addSelectedItem(Color.Green)
             colors.addSelectedItem(Color.Blue)
         }
+        expect(form.fields.phone.code.output).toBe(Country.ZA)
+        expect(form.fields.phone.number.output?.toString()).toBe("752748674")
+        expect(form.fields.phone.output?.toString()).toBe("27752748674")
         form.submit()
         expect(form.ui).toHaveGoneThrough3<Validating, Submitting, Success<Any?>>()
         expect(params?.name).toBe("Andy")
         expect(params?.email).toBe("andy@lamax.com")
-        expect(params?.phone).toBe("0752748674")
+        expect(params?.phone).toBe("27752748674")
         expect(params?.color).toBe(Color.Red)
         expect(params?.colors?.toIList()).toBe(iListOf(Color.Green, Color.Blue))
     }

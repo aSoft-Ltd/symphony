@@ -1,5 +1,6 @@
 package symphony.internal.text
 
+import cinematic.watch
 import geo.Country
 import symphony.Formatter
 import symphony.Label
@@ -9,6 +10,7 @@ import symphony.Option
 import symphony.PhoneInputField
 import symphony.PhoneNumber
 import symphony.SingleChoiceInputField
+import symphony.internal.FormattedData
 import symphony.internal.TransformedDataField
 import symphony.internal.utils.DataTransformer
 import symphony.internal.validators.CompoundValidator
@@ -82,6 +84,13 @@ internal class PhoneInputFieldImpl(
         isRequired = isRequired,
         value = dialingCode
     )
+
+    init {
+        watch(code.data, number.data) { cd, bd ->
+            val pn = phoneNumber(cd.output, bd.output?.toString())
+            data.value = FormattedData(null, pn?.toString() ?: "", pn)
+        }
+    }
 
     companion object {
         private fun phoneNumber(code: Country?, number: String?): PhoneNumber? {
