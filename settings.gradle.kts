@@ -47,7 +47,7 @@ includeSubs("keep", "../keep", "api", "file", "mock", "test")
 includeSubs("lexi", "../lexi", "api", "console")
 includeSubs("lexi-test", "../lexi/test", "android")
 includeSubs("krest", "../krest", "core")
-includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "test", "kollections")
+includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "test", "kollections", "react")
 includeSubs("cinematic-scene", "../cinematic/scene", "core")
 
 //dependencies-for symphony-input-file

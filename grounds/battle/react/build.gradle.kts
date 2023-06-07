@@ -25,6 +25,7 @@ kotlin {
             dependencies {
                 implementation(projects.symphonyInputFile)
                 implementation(project.dependencies.platform(kotlinw.bom))
+                implementation(projects.cinematicLiveReact)
                 implementation(kotlinw.react)
                 implementation(kotlinw.react.dom.new)
             }
