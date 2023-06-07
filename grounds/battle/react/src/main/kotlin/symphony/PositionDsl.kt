@@ -3,6 +3,7 @@
 package symphony
 
 import js.core.jso
+import web.html.Image
 import web.uievents.MouseEvent
 
 external interface Position {
@@ -38,3 +39,15 @@ operator fun Position.minus(other: Position): Position {
     pos.y = y - other.y
     return pos
 }
+
+inline val Image.size get() = Position(width, height)
+
+operator fun Position.div(number: Number) = Position(
+    x = x.toDouble() / number.toDouble(),
+    y = y.toDouble() / number.toDouble()
+)
+
+operator fun Position.times(number: Number) = Position(
+    x = x.toDouble() * number.toDouble(),
+    y = y.toDouble() * number.toDouble()
+)

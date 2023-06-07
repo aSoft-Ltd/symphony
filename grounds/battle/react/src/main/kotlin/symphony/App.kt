@@ -15,7 +15,6 @@ import react.dom.html.ReactHTML.h1
 import react.dom.html.ReactHTML.input
 import react.useEffect
 import react.useRef
-import react.useState
 import symphony.ImageUploaderScene.PendingState
 import symphony.ImageUploaderScene.RefiningState
 import web.canvas.CanvasRenderingContext2D
@@ -25,7 +24,6 @@ import web.cssom.Color
 import web.cssom.Display
 import web.cssom.LineStyle.Companion.solid
 import web.cssom.Padding
-import web.cssom.Time
 import web.cssom.pct
 import web.cssom.px
 import web.html.HTMLCanvasElement
@@ -34,6 +32,7 @@ import web.html.InputType
 import web.timers.Timeout
 import web.timers.clearInterval
 import web.timers.setInterval
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -60,20 +59,14 @@ external interface SingleFileUploaderProps : Props {
 
 fun FileBlob.toImage() = Image().apply { src = path }
 
-fun fit(sw: Number, sh: Number, dw: Number, dh: Number): Position {
-    val hRatio = dw.toDouble() / sw.toDouble()
-    val vRatio = dh.toDouble() / sh.toDouble()
+fun fit(src: Position, dst: Position): Position {
+    val hRatio = dst.x.toDouble() / src.x
+    val vRatio = dst.y.toDouble() / src.y
     val ratio = min(hRatio, vRatio)
-    val res = jso<Position> {
-        x = (sw.toDouble() * ratio).toInt()
-        y = (sh.toDouble() * ratio).toInt()
+    return jso {
+        x = (src.x * ratio).toInt()
+        y = (src.y * ratio).toInt()
     }
-    console.log("sw", sw)
-    console.log("sh", sh)
-    console.log("dw", dw)
-    console.log("dh", dh)
-    console.log("fit", res)
-    return res
 }
 
 private fun initialize(
@@ -86,23 +79,31 @@ private fun initialize(
     val dragStart = Position()
     var dragRef = Position()
 
-    val sw = image.width
-    val sh = image.height
-    val dw = full.x
-    val dh = full.y
-    val size = fit(sw, sh, dw, dh)
+    var scale = 1.0
+    val size = fit(image.size, full)
 
-    var imageAnchor = Position(
+    val startPoint = Position(
         x = (full.x - size.x) / 2,
         y = (full.y - size.y) / 2
     )
+
+    var imageAnchor = startPoint
 
     canvas.onmousedown = {
         dragging = true
         dragStart.update(it)
         dragRef = imageAnchor
-        fit(image.width, image.height, full.x, full.y)
     }
+
+    canvas.onwheel = {
+        it.preventDefault()
+        scale += it.deltaY * -0.01
+
+        // Restrict scale
+        scale = min(max(0.125, scale), 4.0)
+        imageAnchor = startPoint + size * (1 - scale) / 2
+    }
+
     canvas.onmousemove = {
         if (dragging) {
             val dragEnd = it.toPosition()
@@ -114,7 +115,8 @@ private fun initialize(
 
     return setInterval(10.milliseconds) { // 100 frames per seconds
         context.clearRect(0, 0, full.x, full.y)
-        context.drawImage(image, imageAnchor.x, imageAnchor.y, size.x, size.y)
+        val s = size * scale
+        context.drawImage(image, imageAnchor.x, imageAnchor.y, s.x, s.y)
     }
 }
 
@@ -144,26 +146,37 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
         cleanup { clearInterval(renderer) }
     }
 
-    when (state) {
-        is PendingState -> input {
-            type = InputType.file
-            onChange = {
-                val image = it.target.files?.asList()?.firstOrNull()
-                if (image != null) {
-                    scene.select(fileBlobOf(image.unsafeCast<org.w3c.files.File>()))
-                }
+    div {
+        style = jso {
+            display = Display.block
+            border = Border(width = 2.px, style = solid, color = Color(primaryColor))
+            padding = Padding(horizontal = 2.px, vertical = 2.px)
+            width = fullWidth.px
+            height = fullHeight.px
+        }
+
+        onDrop = {
+            it.preventDefault()
+            val file = it.dataTransfer.files.asList().firstOrNull()
+            if (file != null) {
+                scene.select(fileBlobOf(file.unsafeCast<org.w3c.files.File>()))
             }
         }
 
-        is RefiningState -> div {
-            style = jso {
-                display = Display.block
-                border = Border(width = 2.px, style = solid, color = Color(primaryColor))
-                padding = Padding(horizontal = 2.px, vertical = 2.px)
-                width = fullWidth.px
-                height = fullHeight.px
+        onDragOver = { it.preventDefault() }
+
+        when (state) {
+            is PendingState -> input {
+                type = InputType.file
+                onChange = {
+                    val file = it.target.files?.asList()?.firstOrNull()
+                    if (file != null) {
+                        scene.select(fileBlobOf(file.unsafeCast<org.w3c.files.File>()))
+                    }
+                }
             }
-            canvas {
+
+            is RefiningState -> canvas {
                 ref = canvasRef
                 style = jso {
                     backgroundColor = Color(primaryColor)
