@@ -5,4 +5,6 @@ package symphony
 
 import kotlin.js.JsExport
 
-interface FixedActionsManager : ActionsManager<Any>
+interface FixedActionsManager : ActionsManager<Any> {
+    fun refresh()
+}

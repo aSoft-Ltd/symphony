@@ -25,4 +25,8 @@ internal class FixedActionsManagerImpl(
         current.value = builder.buildActions()
         return this
     }
+
+    override fun refresh() {
+        current.value = builder.buildActions()
+    }
 }

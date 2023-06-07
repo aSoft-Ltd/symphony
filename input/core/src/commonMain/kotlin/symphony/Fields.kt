@@ -44,5 +44,10 @@ open class Fields(@PublishedApi internal val cache: MutableMap<String, InputFiel
         }
     }
 
-    fun clearAll() = all.filterIsInstance<Clearable>().onEach { it.clear() }
+    fun clearAll() = all.filterIsInstance<Clearable>().forEach { it.clear() }
+
+    fun stopAllWatchers() {
+        clearAll()
+        all.filterIsInstance<LiveData<*>>().forEach { it.data.stopAll() }
+    }
 }

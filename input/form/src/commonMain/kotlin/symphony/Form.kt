@@ -10,7 +10,6 @@ import kase.Pending
 import kase.Submitting
 import kase.Success
 import kase.Validating
-import kase.toFormState
 import kevlar.Action1Invoker
 import kevlar.action0
 import kollections.toIList
@@ -51,6 +50,7 @@ open class Form<out F : Fields, out P, out R>(
     val exitOnSubmitted get() = config.exitOnSubmitted
 
     fun cancel() = try {
+        fields.stopAllWatchers()
         cancelAction.invoke()
     } catch (err: Throwable) {
         ui.value = Failure(err)
