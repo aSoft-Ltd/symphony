@@ -70,3 +70,6 @@ includeSubs("identifier", "../identifier", "core", "comm")
 // submodules
 includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list", "collections")
 includeSubs("symphony-input", "input", "core", "form", "text", "number", "choice", "list", "file", "identifier", "krono", "geo", "kash", "dialog")
+
+// grounds
+includeSubs("grounds-battled", "grounds/battle", "react")
