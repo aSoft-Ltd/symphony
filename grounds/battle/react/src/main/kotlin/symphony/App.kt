@@ -42,6 +42,8 @@ val FileUploaderApp = FC<Props> {
     }
 
     SingleFileUploader {
+        widthInPx = 120
+        heightInPx = 100
         scene = ImageUploaderScene()
     }
 }
@@ -52,8 +54,8 @@ private const val COLOR = "gray"
 
 external interface SingleFileUploaderProps : Props {
     var scene: ImageUploaderScene
-    var widthInPx: Double?
-    var heightInPx: Double?
+    var widthInPx: Int?
+    var heightInPx: Int?
     var color: String?
 }
 
