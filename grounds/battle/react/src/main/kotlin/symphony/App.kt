@@ -9,6 +9,8 @@ import js.core.asList
 import js.core.jso
 import react.FC
 import react.Props
+import react.ReactNode
+import react.create
 import react.dom.html.ReactHTML.canvas
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.h1
@@ -42,9 +44,10 @@ val FileUploaderApp = FC<Props> {
     }
 
     SingleFileUploader {
+        scene = ImageUploaderScene()
+        placeholder = h1.create { +"Upload" }
         widthInPx = 120
         heightInPx = 100
-        scene = ImageUploaderScene()
     }
 }
 
@@ -54,6 +57,7 @@ private const val COLOR = "gray"
 
 external interface SingleFileUploaderProps : Props {
     var scene: ImageUploaderScene
+    var placeholder: ReactNode?
     var widthInPx: Int?
     var heightInPx: Int?
     var color: String?
@@ -168,12 +172,17 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
         onDragOver = { it.preventDefault() }
 
         when (state) {
-            is PendingState -> input {
-                type = InputType.file
-                onChange = {
-                    val file = it.target.files?.asList()?.firstOrNull()
-                    if (file != null) {
-                        scene.select(fileBlobOf(file.unsafeCast<org.w3c.files.File>()))
+            is PendingState -> {
+                input {
+                    type = InputType.file
+                    style = jso {
+                        display = Display.inline
+                    }
+                    onChange = {
+                        val file = it.target.files?.asList()?.firstOrNull()
+                        if (file != null) {
+                            scene.select(fileBlobOf(file.unsafeCast<org.w3c.files.File>()))
+                        }
                     }
                 }
             }
