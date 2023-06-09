@@ -3,7 +3,6 @@
 package symphony
 
 import cinematic.watchAsState
-import epsilon.Blob
 import epsilon.BrowserBlob
 import epsilon.FileBlob
 import epsilon.fileBlobOf
@@ -26,13 +25,16 @@ import symphony.ImageUploaderScene.RefiningState
 import web.canvas.CanvasRenderingContext2D
 import web.canvas.RenderingContextId
 import web.cssom.AlignItems
+import web.cssom.Auto
 import web.cssom.Border
 import web.cssom.Color
+import web.cssom.Cursor
 import web.cssom.Display
 import web.cssom.FlexDirection
 import web.cssom.JustifyContent
 import web.cssom.LineStyle.Companion.solid
 import web.cssom.None
+import web.cssom.Outline
 import web.cssom.Padding
 import web.cssom.array
 import web.cssom.fr
@@ -46,7 +48,6 @@ import web.html.InputType
 import web.timers.Timeout
 import web.timers.clearInterval
 import web.timers.setInterval
-import web.window.window
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.time.Duration.Companion.milliseconds
@@ -63,36 +64,59 @@ val FileUploaderApp = FC<Props> {
             gridTemplateColumns = array(1.fr, 1.fr, 1.fr, 1.fr)
         }
 
-        SingleFileUploader {
-            scene = ImageUploaderScene()
-            widthInPx = demoWidthInPx
-            heightInPx = demoHeightInPx
-        }
-
-        SingleFileUploader {
-            scene = ImageUploaderScene()
-            placeholder = span.create { +"Drag image here to upload" }
-            color = "blue"
-            widthInPx = demoWidthInPx
-            heightInPx = demoHeightInPx
-            onSave = {
-                val img = it.toFileBlob("jane.png").getOrThrow("Couldn't convert to image")
-                kotlinx.browser.window.location.href = img.path
+        div {
+            style = jso { height = 200.px }
+            SingleFileUploader {
+                scene = ImageUploaderScene()
+                canvasWidth = demoWidthInPx
+                canvasHeight = demoHeightInPx
             }
         }
 
-        SingleFileUploader {
-            scene = ImageUploaderScene()
-            placeholder = h1.create { +"Upload Image" }
-            color = "green"
-            widthInPx = demoWidthInPx
-            heightInPx = demoHeightInPx
+        div {
+            style = jso { height = 200.px }
+            SingleFileUploader {
+                scene = ImageUploaderScene()
+                placeholder = span.create { +"Drag image here to upload" }
+                color = "blue"
+                canvasWidth = demoWidthInPx
+                canvasHeight = demoHeightInPx
+                onSave = {
+                    val img = it.toFileBlob("jane.png").getOrThrow("Couldn't convert to image")
+                    kotlinx.browser.window.location.href = img.path
+                }
+            }
+        }
+
+        div {
+            style = jso { height = 200.px }
+            SingleFileUploader {
+                scene = ImageUploaderScene()
+                placeholder = div.create {
+                    style = jso { display = Display.flex }
+                    h1 { +"Upload Image" }
+                }
+                color = "green"
+                canvasWidth = demoWidthInPx
+                canvasHeight = demoHeightInPx
+            }
+        }
+
+        div {
+            style = jso { height = 200.px }
+            SingleFileUploader {
+                scene = ImageUploaderScene()
+                placeholder = div.create { +"Upload Image" }
+                color = "green"
+                canvasWidth = demoWidthInPx
+                canvasHeight = demoHeightInPx
+            }
         }
     }
 }
 
-private const val WIDTH = 300.0
-private const val HEIGHT = 300.0
+private const val CANVAS_WIDTH = 300.0
+private const val CANVAS_HEIGHT = 300.0
 private const val COLOR = "gray"
 
 external interface SingleFileUploaderProps : Props {
@@ -100,14 +124,14 @@ external interface SingleFileUploaderProps : Props {
     var placeholder: ReactNode?
     var save: ReactNode?
     var onSave: ((BrowserBlob) -> Unit)?
-    var widthInPx: Int?
-    var heightInPx: Int?
+    var canvasWidth: Int?
+    var canvasHeight: Int?
     var color: String?
 }
 
-fun FileBlob.toImage() = Image().apply { src = path }
+private fun FileBlob.toImage() = Image().apply { src = path }
 
-fun fit(src: Position, dst: Position): Position {
+private fun fit(src: Position, dst: Position): Position {
     val hRatio = dst.x.toDouble() / src.x
     val vRatio = dst.y.toDouble() / src.y
     val ratio = min(hRatio, vRatio)
@@ -181,8 +205,8 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
     val state = scene.state.watchAsState()
     val canvasRef = useRef<HTMLCanvasElement>()
     val inputRef = useRef<HTMLInputElement>()
-    val fullWidth = props.widthInPx ?: WIDTH
-    val fullHeight = props.heightInPx ?: HEIGHT
+    val fullWidth = props.canvasWidth ?: CANVAS_WIDTH
+    val fullHeight = props.canvasHeight ?: CANVAS_HEIGHT
     val primaryColor = props.color ?: COLOR
     val placeholder = props.placeholder ?: Placeholder.create()
     val save = props.save ?: Save.create()
@@ -207,10 +231,12 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
     div {
         style = jso {
             display = Display.block
-            border = Border(width = 2.px, style = solid, color = Color(primaryColor))
-            padding = Padding(horizontal = 2.px, vertical = 2.px)
-            width = fullWidth.px
-            height = fullHeight.px
+            outline = Outline(width = 2.px, style = solid, color = Color(primaryColor))
+//            border = Border(width = 2.px, style = solid, color = Color(primaryColor))
+//            padding = Padding(horizontal = 2.px, vertical = 2.px)
+            width = 100.pct
+            height = 100.pct
+            cursor = Cursor.pointer
         }
 
         onDrop = {
@@ -235,35 +261,36 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
             onChange = { scene.selectFirst(it.target.files) }
         }
 
-        when (state) {
-            is PendingState -> child(placeholder)
+        div {
+            style = jso {
+                display = Display.grid
+                height = 100.pct
+                gridTemplateColumns = array(1.fr)
+                gridTemplateRows = array(1.fr, Auto.auto)
+            }
+            when (state) {
+                is PendingState -> child(placeholder)
 
-            is RefiningState -> div {
-                style = jso {
-                    display = Display.flex
-                    flexDirection = FlexDirection.column
-                }
-
-                canvas {
+                is RefiningState -> canvas {
                     ref = canvasRef
                     style = jso {
                         width = 100.pct
                         height = 100.pct
                         backgroundColor = Color(primaryColor)
+                        cursor = Cursor.move
                     }
                 }
-
-                div {
-                    style = jso { width = 100.pct }
-                    onClick = {
-                        canvasRef.current?.toBlob({
-                            val b = it?.unsafeCast<org.w3c.files.Blob>() ?: return@toBlob
-                            val blob = BrowserBlob(b)
-                            props.onSave?.invoke(blob)
-                        }, "image/png", 1)
-                    }
-                    child(save)
+            }
+            div {
+                style = jso { width = 100.pct }
+                onClick = {
+                    canvasRef.current?.toBlob({
+                        val b = it?.unsafeCast<org.w3c.files.Blob>() ?: return@toBlob
+                        val blob = BrowserBlob(b)
+                        props.onSave?.invoke(blob)
+                    }, "image/png", 1)
                 }
+                child(save)
             }
         }
     }
