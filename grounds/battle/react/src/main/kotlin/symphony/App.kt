@@ -3,6 +3,8 @@
 package symphony
 
 import cinematic.watchAsState
+import epsilon.Blob
+import epsilon.BrowserBlob
 import epsilon.FileBlob
 import epsilon.fileBlobOf
 import js.core.asList
@@ -11,43 +13,81 @@ import react.FC
 import react.Props
 import react.ReactNode
 import react.create
+import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.canvas
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.h1
 import react.dom.html.ReactHTML.input
+import react.dom.html.ReactHTML.span
 import react.useEffect
 import react.useRef
 import symphony.ImageUploaderScene.PendingState
 import symphony.ImageUploaderScene.RefiningState
 import web.canvas.CanvasRenderingContext2D
 import web.canvas.RenderingContextId
+import web.cssom.AlignItems
 import web.cssom.Border
 import web.cssom.Color
 import web.cssom.Display
+import web.cssom.FlexDirection
+import web.cssom.JustifyContent
 import web.cssom.LineStyle.Companion.solid
+import web.cssom.None
 import web.cssom.Padding
+import web.cssom.array
+import web.cssom.fr
 import web.cssom.pct
 import web.cssom.px
+import web.file.FileList
 import web.html.HTMLCanvasElement
+import web.html.HTMLInputElement
 import web.html.Image
 import web.html.InputType
 import web.timers.Timeout
 import web.timers.clearInterval
 import web.timers.setInterval
+import web.window.window
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.time.Duration.Companion.milliseconds
 
 val FileUploaderApp = FC<Props> {
-    h1 {
-        +"Image Uploader"
-    }
+    h1 { +"Image Uploader" }
 
-    SingleFileUploader {
-        scene = ImageUploaderScene()
-        placeholder = h1.create { +"Upload" }
-        widthInPx = 120
-        heightInPx = 100
+    val demoWidthInPx = 200
+    val demoHeightInPx = 200
+
+    div {
+        style = jso {
+            display = Display.grid
+            gridTemplateColumns = array(1.fr, 1.fr, 1.fr, 1.fr)
+        }
+
+        SingleFileUploader {
+            scene = ImageUploaderScene()
+            widthInPx = demoWidthInPx
+            heightInPx = demoHeightInPx
+        }
+
+        SingleFileUploader {
+            scene = ImageUploaderScene()
+            placeholder = span.create { +"Drag image here to upload" }
+            color = "blue"
+            widthInPx = demoWidthInPx
+            heightInPx = demoHeightInPx
+            onSave = {
+                val img = it.toFileBlob("jane.png").getOrThrow("Couldn't convert to image")
+                kotlinx.browser.window.location.href = img.path
+            }
+        }
+
+        SingleFileUploader {
+            scene = ImageUploaderScene()
+            placeholder = h1.create { +"Upload Image" }
+            color = "green"
+            widthInPx = demoWidthInPx
+            heightInPx = demoHeightInPx
+        }
     }
 }
 
@@ -58,6 +98,8 @@ private const val COLOR = "gray"
 external interface SingleFileUploaderProps : Props {
     var scene: ImageUploaderScene
     var placeholder: ReactNode?
+    var save: ReactNode?
+    var onSave: ((BrowserBlob) -> Unit)?
     var widthInPx: Int?
     var heightInPx: Int?
     var color: String?
@@ -78,8 +120,9 @@ fun fit(src: Position, dst: Position): Position {
 private fun initialize(
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D,
+    image: Image,
     full: Position,
-    image: Image
+    color: String
 ): Timeout {
     var dragging = false
     val dragStart = Position()
@@ -121,19 +164,28 @@ private fun initialize(
 
     return setInterval(10.milliseconds) { // 100 frames per seconds
         context.clearRect(0, 0, full.x, full.y)
+        context.fillStyle = color
+        context.fillRect(0, 0, full.x, full.y)
         val s = size * scale
         context.drawImage(image, imageAnchor.x, imageAnchor.y, s.x, s.y)
     }
 }
 
+private fun ImageUploaderScene.selectFirst(files: FileList?) {
+    val file = files?.asList()?.firstOrNull() ?: return
+    select(fileBlobOf(file.unsafeCast<org.w3c.files.File>()))
+}
 
 val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
     val scene = props.scene
     val state = scene.state.watchAsState()
     val canvasRef = useRef<HTMLCanvasElement>()
+    val inputRef = useRef<HTMLInputElement>()
     val fullWidth = props.widthInPx ?: WIDTH
     val fullHeight = props.heightInPx ?: HEIGHT
     val primaryColor = props.color ?: COLOR
+    val placeholder = props.placeholder ?: Placeholder.create()
+    val save = props.save ?: Save.create()
 
     useEffect(state, canvasRef.current) {
         val fileBlobAsImage = (state as? RefiningState)?.image ?: return@useEffect
@@ -147,7 +199,7 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
         var renderer = 0.unsafeCast<Timeout>()
 
         image.onload = {
-            renderer = initialize(canvas, context, full, image)
+            renderer = initialize(canvas, context, image, full, primaryColor)
         }
         cleanup { clearInterval(renderer) }
     }
@@ -163,38 +215,79 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
 
         onDrop = {
             it.preventDefault()
-            val file = it.dataTransfer.files.asList().firstOrNull()
-            if (file != null) {
-                scene.select(fileBlobOf(file.unsafeCast<org.w3c.files.File>()))
-            }
+            scene.selectFirst(it.dataTransfer.files)
         }
 
         onDragOver = { it.preventDefault() }
 
+        onClick = {
+            if (state is PendingState) {
+                inputRef.current?.click()
+            }
+        }
+
+        onDoubleClick = { inputRef.current?.click() }
+
+        input {
+            ref = inputRef
+            type = InputType.file
+            style = jso { display = None.none }
+            onChange = { scene.selectFirst(it.target.files) }
+        }
+
         when (state) {
-            is PendingState -> {
-                input {
-                    type = InputType.file
+            is PendingState -> child(placeholder)
+
+            is RefiningState -> div {
+                style = jso {
+                    display = Display.flex
+                    flexDirection = FlexDirection.column
+                }
+
+                canvas {
+                    ref = canvasRef
                     style = jso {
-                        display = Display.inline
-                    }
-                    onChange = {
-                        val file = it.target.files?.asList()?.firstOrNull()
-                        if (file != null) {
-                            scene.select(fileBlobOf(file.unsafeCast<org.w3c.files.File>()))
-                        }
+                        width = 100.pct
+                        height = 100.pct
+                        backgroundColor = Color(primaryColor)
                     }
                 }
-            }
 
-            is RefiningState -> canvas {
-                ref = canvasRef
-                style = jso {
-                    backgroundColor = Color(primaryColor)
-                    width = 100.pct
-                    height = 100.pct
+                div {
+                    style = jso { width = 100.pct }
+                    onClick = {
+                        canvasRef.current?.toBlob({
+                            val b = it?.unsafeCast<org.w3c.files.Blob>() ?: return@toBlob
+                            val blob = BrowserBlob(b)
+                            props.onSave?.invoke(blob)
+                        }, "image/png", 1)
+                    }
+                    child(save)
                 }
             }
         }
+    }
+}
+
+
+private val Placeholder = FC<Props> {
+    div {
+        style = jso {
+            display = Display.flex
+            justifyContent = JustifyContent.center
+            alignItems = AlignItems.center
+            width = 100.pct
+            height = 100.pct
+        }
+        span { +"Upload image" }
+    }
+}
+
+private val Save = FC<Props> {
+    button {
+        style = jso {
+            width = 100.pct
+        }
+        +"Save"
     }
 }
