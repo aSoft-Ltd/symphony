@@ -12,5 +12,4 @@ inline fun Position.update(e: MouseEvent) {
 
 inline fun MouseEvent.toPosition() = Position(clientX, clientY)
 
-
 inline val Image.size get() = Position(width, height)
