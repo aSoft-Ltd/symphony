@@ -7,6 +7,9 @@ import cinematic.mutableLiveOf
 import epsilon.FileBlob
 import kotlin.js.JsExport
 
+@Deprecated(
+    message = "Use ImageViewUploader"
+)
 class ImageUploaderScene {
     val state = mutableLiveOf<State>(PendingState)
 
