@@ -26,22 +26,20 @@ import web.canvas.CanvasRenderingContext2D
 import web.canvas.RenderingContextId
 import web.cssom.AlignItems
 import web.cssom.Auto
-import web.cssom.Border
 import web.cssom.Color
 import web.cssom.Cursor
 import web.cssom.Display
-import web.cssom.FlexDirection
 import web.cssom.JustifyContent
 import web.cssom.LineStyle.Companion.solid
 import web.cssom.None
 import web.cssom.Outline
-import web.cssom.Padding
 import web.cssom.array
 import web.cssom.fr
 import web.cssom.pct
 import web.cssom.px
 import web.file.FileList
 import web.html.HTMLCanvasElement
+import web.html.HTMLDivElement
 import web.html.HTMLInputElement
 import web.html.Image
 import web.html.InputType
@@ -55,9 +53,6 @@ import kotlin.time.Duration.Companion.milliseconds
 val FileUploaderApp = FC<Props> {
     h1 { +"Image Uploader" }
 
-    val demoWidthInPx = 200
-    val demoHeightInPx = 200
-
     div {
         style = jso {
             display = Display.grid
@@ -68,19 +63,15 @@ val FileUploaderApp = FC<Props> {
             style = jso { height = 200.px }
             SingleFileUploader {
                 scene = ImageUploaderScene()
-                canvasWidth = demoWidthInPx
-                canvasHeight = demoHeightInPx
             }
         }
 
         div {
-            style = jso { height = 200.px }
+            style = jso { height = 300.px }
             SingleFileUploader {
                 scene = ImageUploaderScene()
                 placeholder = span.create { +"Drag image here to upload" }
                 color = "blue"
-                canvasWidth = demoWidthInPx
-                canvasHeight = demoHeightInPx
                 onSave = {
                     val img = it.toFileBlob("jane.png").getOrThrow("Couldn't convert to image")
                     kotlinx.browser.window.location.href = img.path
@@ -89,7 +80,7 @@ val FileUploaderApp = FC<Props> {
         }
 
         div {
-            style = jso { height = 200.px }
+            style = jso { height = 400.px }
             SingleFileUploader {
                 scene = ImageUploaderScene()
                 placeholder = div.create {
@@ -97,26 +88,20 @@ val FileUploaderApp = FC<Props> {
                     h1 { +"Upload Image" }
                 }
                 color = "green"
-                canvasWidth = demoWidthInPx
-                canvasHeight = demoHeightInPx
             }
         }
 
         div {
-            style = jso { height = 200.px }
+            style = jso { height = 500.px }
             SingleFileUploader {
                 scene = ImageUploaderScene()
                 placeholder = div.create { +"Upload Image" }
                 color = "green"
-                canvasWidth = demoWidthInPx
-                canvasHeight = demoHeightInPx
             }
         }
     }
 }
 
-private const val CANVAS_WIDTH = 300.0
-private const val CANVAS_HEIGHT = 300.0
 private const val COLOR = "gray"
 
 external interface SingleFileUploaderProps : Props {
@@ -124,8 +109,6 @@ external interface SingleFileUploaderProps : Props {
     var placeholder: ReactNode?
     var save: ReactNode?
     var onSave: ((BrowserBlob) -> Unit)?
-    var canvasWidth: Int?
-    var canvasHeight: Int?
     var color: String?
 }
 
@@ -205,8 +188,7 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
     val state = scene.state.watchAsState()
     val canvasRef = useRef<HTMLCanvasElement>()
     val inputRef = useRef<HTMLInputElement>()
-    val fullWidth = props.canvasWidth ?: CANVAS_WIDTH
-    val fullHeight = props.canvasHeight ?: CANVAS_HEIGHT
+    val saveRef = useRef<HTMLDivElement>()
     val primaryColor = props.color ?: COLOR
     val placeholder = props.placeholder ?: Placeholder.create()
     val save = props.save ?: Save.create()
@@ -214,11 +196,15 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
     useEffect(state, canvasRef.current) {
         val fileBlobAsImage = (state as? RefiningState)?.image ?: return@useEffect
         val canvas = canvasRef.current ?: return@useEffect
-        canvas.width = fullWidth.toInt()
-        canvas.height = fullHeight.toInt()
+        val parent = canvas.parentElement ?: return@useEffect
+        val saveElement = saveRef.current ?: return@useEffect
+        val canvasWidth = parent.offsetWidth
+        val canvasHeight = parent.offsetHeight - saveElement.offsetHeight
+        canvas.width = parent.offsetWidth
+        canvas.height = canvasHeight
         val context = canvas.getContext(RenderingContextId.canvas) ?: return@useEffect
         val image = fileBlobAsImage.toImage()
-        val full = Position(fullWidth, fullHeight)
+        val full = Position(canvasWidth, canvasHeight)
 
         var renderer = 0.unsafeCast<Timeout>()
 
@@ -282,6 +268,7 @@ val SingleFileUploader = FC<SingleFileUploaderProps> { props ->
                 }
             }
             div {
+                ref = saveRef
                 style = jso { width = 100.pct }
                 onClick = {
                     canvasRef.current?.toBlob({
