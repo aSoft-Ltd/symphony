@@ -8,6 +8,7 @@ import js.core.jso
 import org.w3c.files.Blob
 import react.ChildrenBuilder
 import react.FC
+import react.Fragment
 import react.Props
 import react.ReactNode
 import react.create
@@ -156,14 +157,14 @@ val InternalImageUploader = FC<ImageUploaderProps>(NAME) { props ->
 
 inline fun ChildrenBuilder.ImageUploader(
     scene: ImageViewerUploader,
-    placeholder: ReactNode? = null,
-    save: ReactNode? = null,
+    noinline placeholder: (ChildrenBuilder.() -> Unit)? = null,
+    noinline save: (ChildrenBuilder.() -> Unit)? = null,
     noinline onSave: ((BrowserBlob) -> Unit)? = null,
     color: String? = null
 ) = InternalImageUploader {
     this.scene = scene
-    this.placeholder = placeholder
-    this.save = save
+    this.placeholder = if (placeholder != null) Fragment.create { placeholder() } else null
+    this.save = if (save != null) Fragment.create { save() } else null
     this.onSave = onSave
     this.color = color
 }

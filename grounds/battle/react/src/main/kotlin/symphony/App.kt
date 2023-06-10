@@ -35,22 +35,35 @@ val FileUploaderApp = FC<Props> {
 
         div {
             style = jso { height = 300.px }
-            InternalImageUploader {
-                scene = ImageViewerUploader()
-                placeholder = span.create { +"Drag image here to upload" }
-                color = "blue"
+            ImageUploader(
+                scene = ImageViewerUploader(),
+                placeholder = { span { +"Drag image here to upload" } },
                 onSave = {
                     val img = it.toFileBlob("jane.png").getOrThrow("Couldn't convert to image")
                     kotlinx.browser.window.location.href = img.path
-                }
-                save = button.create {
-                    style = jso {
-                        width = 100.pct
-                        height = 50.px
+                },
+                save = {
+                    button {
+                        style = jso {
+                            width = 100.pct
+                            height = 50.px
+                        }
+                        +"Upload"
                     }
-                    +"Upload"
                 }
-            }
+            )
+//            InternalImageUploader {
+//                scene = ImageViewerUploader()
+//                placeholder = span.create { +"Drag image here to upload" }
+//                color = "blue"
+//                save = button.create {
+//                    style = jso {
+//                        width = 100.pct
+//                        height = 50.px
+//                    }
+//                    +"Upload"
+//                }
+//            }
         }
 
         div {
