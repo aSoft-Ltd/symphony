@@ -70,6 +70,9 @@ includeSubs("identifier", "../identifier", "core", "comm")
 // submodules
 includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list", "collections")
 includeSubs("symphony-input", "input", "core", "form", "text", "number", "choice", "list", "file", "identifier", "krono", "geo", "kash", "dialog")
+includeSubs("symphony-input-image", "input/image", "core", "web")
+includeSubs("symphony-input-image-react", "input/image/react", "core", "dom", "native")
+includeSubs("symphony-input-image-compose", "input/image/compose", "core", "html")
 
 // grounds
 includeSubs("grounds-battled", "grounds/battle", "react")

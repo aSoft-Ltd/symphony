@@ -6,7 +6,6 @@ import epsilon.FileBlob
 import symphony.internal.SingleFileInputFieldImpl
 import kotlin.reflect.KProperty
 
-
 inline fun SingleFileInputField(
     name: String,
     label: String = name,

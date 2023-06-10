@@ -9,6 +9,7 @@ import epsilon.fileBlobOf
 import js.core.asList
 import js.core.jso
 import react.FC
+import react.Fragment
 import react.Props
 import react.ReactNode
 import react.create
@@ -76,6 +77,13 @@ val FileUploaderApp = FC<Props> {
                     val img = it.toFileBlob("jane.png").getOrThrow("Couldn't convert to image")
                     kotlinx.browser.window.location.href = img.path
                 }
+                save = button.create {
+                    style = jso {
+                        width = 100.pct
+                        height = 50.px
+                    }
+                    +"Upload"
+                }
             }
         }
 
@@ -88,6 +96,7 @@ val FileUploaderApp = FC<Props> {
                     h1 { +"Upload Image" }
                 }
                 color = "green"
+                save = Fragment.create()
             }
         }
 
