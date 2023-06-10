@@ -1,9 +1,10 @@
 plugins {
-    kotlin("js")
+    id("org.jetbrains.compose")
+    kotlin("multiplatform")
     id("tz.co.asoft.library")
 }
 
-description = "A sample for image input in react"
+description = "A sample for image input in compose"
 
 kotlin {
     js(IR) {
@@ -21,9 +22,9 @@ kotlin {
     }
 
     sourceSets {
-        val main by getting {
+        val jsMain by getting {
             dependencies {
-                implementation(projects.symphonyInputImageReactDom)
+                implementation(projects.symphonyInputImageComposeHtml)
             }
         }
     }

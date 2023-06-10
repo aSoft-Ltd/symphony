@@ -4,6 +4,7 @@ import com.vanniktech.maven.publish.SonatypeHost
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     alias(kotlinz.plugins.multiplatform) apply false
     alias(kotlinz.plugins.serialization) apply false
+    alias(kotlinz.plugins.compose) apply false
     alias(asoft.plugins.library) apply false
     alias(vanniktech.plugins.maven.publish) apply false
     alias(kotlinz.plugins.dokka)

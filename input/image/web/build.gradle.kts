@@ -3,7 +3,7 @@ plugins {
     id("tz.co.asoft.library")
 }
 
-description = "A kotlin multiplatform library for headless image input uploads"
+description = "A kotlin/js library for helping in uploading images on web"
 
 kotlin {
     js(IR) { browserLib() }

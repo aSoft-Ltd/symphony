@@ -47,7 +47,7 @@ includeSubs("keep", "../keep", "api", "file", "mock", "test")
 includeSubs("lexi", "../lexi", "api", "console")
 includeSubs("lexi-test", "../lexi/test", "android")
 includeSubs("krest", "../krest", "core")
-includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "test", "kollections", "react")
+includeSubs("cinematic-live", "../cinematic/live", "core", "coroutines", "test", "kollections", "react", "compose")
 includeSubs("cinematic-scene", "../cinematic/scene", "core")
 
 //dependencies-for symphony-input-file
@@ -75,4 +75,5 @@ includeSubs("symphony-input-image-react", "input/image/react", "core", "dom", "n
 includeSubs("symphony-input-image-compose", "input/image/compose", "core", "html")
 
 // grounds
-includeSubs("grounds-battled", "grounds/battle", "react")
+includeSubs("grounds-battle", "grounds/battle", "react")
+includeSubs("grounds-battle-compose", "grounds/battle/compose", "html")

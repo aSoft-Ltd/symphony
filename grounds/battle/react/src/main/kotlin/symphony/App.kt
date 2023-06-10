@@ -52,18 +52,6 @@ val FileUploaderApp = FC<Props> {
                     }
                 }
             )
-//            InternalImageUploader {
-//                scene = ImageViewerUploader()
-//                placeholder = span.create { +"Drag image here to upload" }
-//                color = "blue"
-//                save = button.create {
-//                    style = jso {
-//                        width = 100.pct
-//                        height = 50.px
-//                    }
-//                    +"Upload"
-//                }
-//            }
         }
 
         div {
