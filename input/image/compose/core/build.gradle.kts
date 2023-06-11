@@ -18,9 +18,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(projects.symphonyInputImageCore)
                 api(projects.cinematicLiveCompose)
                 api(compose.runtime)
-                api(projects.symphonyInputImageCore)
+                api(compose.foundation)
             }
         }
 

@@ -30,8 +30,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.symphonyInputImageComposeCore)
-                implementation(compose.foundation)
-                implementation(compose.runtime)
             }
         }
 
