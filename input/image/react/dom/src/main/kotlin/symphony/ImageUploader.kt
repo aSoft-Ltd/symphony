@@ -61,24 +61,10 @@ val InternalImageUploader = FC<ImageUploaderProps>(NAME) { props ->
     val save = props.save ?: ImageUploaderSave.create()
 
     useEffect(state, canvasRef.current) {
-        val fileBlobAsImage = (state as? EditingImage)?.image ?: return@useEffect
-        val canvas = canvasRef.current ?: return@useEffect
-        val parent = canvas.parentElement ?: return@useEffect
-        val saveElement = saveRef.current ?: return@useEffect
-        val canvasWidth = parent.offsetWidth
-        val canvasHeight = parent.offsetHeight - saveElement.offsetHeight
-        canvas.width = parent.offsetWidth
-        canvas.height = canvasHeight
-        val context = canvas.getContext(RenderingContextId.canvas) ?: return@useEffect
-        val image = fileBlobAsImage.toImage()
-        val full = Position(canvasWidth, canvasHeight)
-
-        var renderer = 0.unsafeCast<Timeout>()
-
-        image.onload = {
-            renderer = initialize(canvas, context, image, full, primaryColor)
+        val renderer = initialize(canvasRef.current, saveRef.current, state, primaryColor)
+        cleanup {
+            if (renderer != null) clearInterval(renderer)
         }
-        cleanup { clearInterval(renderer) }
     }
 
     div {

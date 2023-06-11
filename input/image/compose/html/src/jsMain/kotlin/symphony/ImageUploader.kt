@@ -1,7 +1,12 @@
 package symphony
 
 import androidx.compose.runtime.Composable
-import cinematic.watchAsState
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import cinematic.rememberLive
 import epsilon.BrowserBlob
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -18,6 +23,11 @@ import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Canvas
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.FileInput
+import org.w3c.files.Blob
+import web.html.HTMLCanvasElement
+import web.html.HTMLDivElement
+import web.html.HTMLInputElement
+import web.timers.clearInterval
 
 @Composable
 fun ImageUploader(
@@ -28,12 +38,24 @@ fun ImageUploader(
     color: String? = null
 ) {
 
-    val state = scene.state.watchAsState()
+    val state = rememberLive(scene.state)
+
+    var canvas by remember { mutableStateOf<HTMLCanvasElement?>(null) }
+    var input by remember { mutableStateOf<HTMLInputElement?>(null) }
+    var saveWrapper by remember { mutableStateOf<HTMLDivElement?>(null) }
+
     val primaryColor = Color(color ?: "gray")
+
+    DisposableEffect(canvas, saveWrapper, state, color) {
+        val renderer = initialize(canvas, saveWrapper, state, color ?: "gray")
+        onDispose {
+            if (renderer != null) clearInterval(renderer)
+        }
+    }
 
     Div({
         style {
-            display(DisplayStyle.Flex)
+            display(DisplayStyle.Block)
             outline(width = 2.px, style = "solid", color = primaryColor)
             width(100.percent)
             height(100.percent)
@@ -47,19 +69,16 @@ fun ImageUploader(
 
         onDragOver { it.preventDefault() }
 
-        onClick {
-            if (state is AwaitingImage) {
-                // TODO: click the input here
-            }
-        }
+        onClick { if (state is AwaitingImage) input?.click() }
 
-        onDoubleClick { /* TODO: click the input here */ }
+        onDoubleClick { input?.click() }
 
     }) {
         FileInput {
             style { display(DisplayStyle.None) }
             ref {
-                onDispose {}
+                input = it.unsafeCast<HTMLInputElement>()
+                onDispose { input = null }
             }
             onChange { scene.editFirst(it.target.files) }
         }
@@ -75,6 +94,10 @@ fun ImageUploader(
             when (state) {
                 is AwaitingImage -> placeholder?.invoke() ?: ImageUploaderPlaceholder()
                 is EditingImage -> Canvas({
+                    ref {
+                        canvas = it.unsafeCast<HTMLCanvasElement>()
+                        onDispose { canvas = null }
+                    }
                     style {
                         width(100.percent)
                         height(100.percent)
@@ -90,9 +113,17 @@ fun ImageUploader(
         }
 
         Div({
+            ref {
+                saveWrapper = it.unsafeCast<HTMLDivElement>()
+                onDispose { saveWrapper = null }
+            }
             style { width(100.percent) }
             onClick {
-                console.log("Print do save")
+                canvas?.toBlob({
+                    val b = it?.unsafeCast<Blob>() ?: return@toBlob
+                    val blob = BrowserBlob(b)
+                    onSave?.invoke(blob)
+                }, "image/png", 1)
             }
         }) { save?.invoke() ?: ImageUploaderSave() }
     }
