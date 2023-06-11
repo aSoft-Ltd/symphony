@@ -14,21 +14,33 @@ import react.ReactNode
 import react.create
 import react.dom.html.ReactHTML.canvas
 import react.dom.html.ReactHTML.div
+import react.dom.html.ReactHTML.img
 import react.dom.html.ReactHTML.input
+import react.dom.html.ReactHTML.span
 import react.useEffect
 import react.useRef
 import web.canvas.RenderingContextId
+import web.cssom.AlignContent
+import web.cssom.AlignItems
 import web.cssom.Auto
+import web.cssom.BackgroundImage
+import web.cssom.BackgroundPosition
+import web.cssom.BackgroundRepeat
+import web.cssom.BackgroundSize
 import web.cssom.Color
 import web.cssom.Cursor
 import web.cssom.Display
+import web.cssom.JustifyContent
+import web.cssom.JustifyItems
 import web.cssom.LineStyle.Companion.solid
 import web.cssom.None
 import web.cssom.Outline
 import web.cssom.array
 import web.cssom.fr
+import web.cssom.many
 import web.cssom.pct
 import web.cssom.px
+import web.cssom.url
 import web.html.HTMLCanvasElement
 import web.html.HTMLDivElement
 import web.html.HTMLInputElement
@@ -120,9 +132,18 @@ val InternalImageUploader = FC<ImageUploaderProps>(NAME) { props ->
                     }
                 }
 
-                is LoadingToEditImage -> TODO()
-                is UploadingImage -> TODO()
-                is ViewingImage -> TODO()
+                is LoadingToEditImage -> span { +"loading" }
+                is UploadingImage -> span { +"Uploading" }
+                is ViewingImage -> div {
+                    style = jso {
+                        width = 100.pct
+                        height = 100.pct
+                        backgroundImage = url(state.url)
+                        backgroundPosition = "center".unsafeCast<BackgroundPosition>()
+                        backgroundSize = BackgroundSize.contain
+                        backgroundRepeat = BackgroundRepeat.noRepeat
+                    }
+                }
             }
 
             div {

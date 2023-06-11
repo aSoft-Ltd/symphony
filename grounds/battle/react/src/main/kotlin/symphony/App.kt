@@ -36,7 +36,7 @@ val FileUploaderApp = FC<Props> {
         div {
             style = jso { height = 300.px }
             ImageUploader(
-                scene = ImageViewerUploader(),
+                scene = ImageViewerUploader(url = "/raiden.png"),
                 placeholder = { span { +"Drag image here to upload" } },
                 onSave = {
                     val img = it.toFileBlob("jane.png").getOrThrow("Couldn't convert to image")
@@ -57,7 +57,7 @@ val FileUploaderApp = FC<Props> {
         div {
             style = jso { height = 400.px }
             InternalImageUploader {
-                scene = ImageViewerUploader()
+                scene = ImageViewerUploader(url = "/raiden.png")
                 placeholder = div.create {
                     style = jso { display = Display.flex }
                     h1 { +"Upload Image" }
