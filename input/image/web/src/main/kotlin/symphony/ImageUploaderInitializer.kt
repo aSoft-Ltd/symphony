@@ -29,9 +29,7 @@ fun initialize(
     val full = Position(canvasWidth, canvasHeight)
 
     var renderer = 0.unsafeCast<Timeout>()
-    image.onload = {
-        renderer = initialize(canvas, context, image, full, color)
-    }
+    image.onload = { renderer = initialize(canvas, context, image, full, color) }
     return renderer
 }
 

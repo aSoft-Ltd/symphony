@@ -76,4 +76,4 @@ includeSubs("symphony-input-image-compose", "input/image/compose", "core", "html
 
 // grounds
 includeSubs("grounds-battle", "grounds/battle", "react")
-includeSubs("grounds-battle-compose", "grounds/battle/compose", "html")
+includeSubs("grounds-battle-compose", "grounds/battle/compose", "core", "html")
