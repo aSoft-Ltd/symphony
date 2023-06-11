@@ -3,6 +3,7 @@
 package symphony
 
 import js.core.jso
+import koncurrent.Later
 import react.FC
 import react.Fragment
 import react.Props
@@ -16,6 +17,8 @@ import web.cssom.array
 import web.cssom.fr
 import web.cssom.pct
 import web.cssom.px
+import web.timers.setTimeout
+import kotlin.time.Duration.Companion.seconds
 
 val FileUploaderApp = FC<Props> {
     h1 { +"Image Uploader" }
@@ -29,7 +32,11 @@ val FileUploaderApp = FC<Props> {
         div {
             style = jso { height = 200.px }
             InternalImageUploader {
-                scene = ImageViewerUploader()
+                scene = ImageViewerUploader(
+                    onUpload = {
+                        Later { resolve, _ -> setTimeout(5.seconds) { resolve("/raiden.png") } }
+                    }
+                )
             }
         }
 

@@ -5,7 +5,7 @@ import koncurrent.Later
 import symphony.internal.ImageViewerUploaderImpl
 
 fun ImageViewerUploader(
-    onUpload: ((FileBlob) -> Later<Any?>)? = null,
+    onUpload: ((FileBlob) -> Later<String>)? = null,
     url: String? = null
 ): ImageViewerUploader {
     val state = if (url != null) {

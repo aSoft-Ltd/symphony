@@ -10,7 +10,11 @@ import web.cssom.Display
 import web.cssom.JustifyContent
 import web.cssom.pct
 
-internal val ImageUploaderPlaceholder = FC<Props> {
+external interface ImageUploaderWrapperProps : Props {
+    var text: String
+}
+
+internal val ImageUploaderWrapper = FC<ImageUploaderWrapperProps> { props ->
     div {
         style = jso {
             display = Display.flex
@@ -19,6 +23,6 @@ internal val ImageUploaderPlaceholder = FC<Props> {
             width = 100.pct
             height = 100.pct
         }
-        span { +"Upload image" }
+        span { +props.text }
     }
 }

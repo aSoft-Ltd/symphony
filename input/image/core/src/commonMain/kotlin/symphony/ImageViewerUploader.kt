@@ -9,7 +9,9 @@ import koncurrent.Later
 
 interface ImageViewerUploader {
     val state: Live<ImageViewerUploaderState>
-    val uploader: ((FileBlob) -> Later<Any?>)?
+    val uploader: ((FileBlob) -> Later<String>)?
     fun view(url: String)
     fun edit(image: FileBlob)
+
+    fun upload(image: FileBlob): Later<String>
 }

@@ -14,30 +14,22 @@ import react.ReactNode
 import react.create
 import react.dom.html.ReactHTML.canvas
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.img
 import react.dom.html.ReactHTML.input
 import react.dom.html.ReactHTML.span
 import react.useEffect
 import react.useRef
-import web.canvas.RenderingContextId
-import web.cssom.AlignContent
-import web.cssom.AlignItems
 import web.cssom.Auto
-import web.cssom.BackgroundImage
 import web.cssom.BackgroundPosition
 import web.cssom.BackgroundRepeat
 import web.cssom.BackgroundSize
 import web.cssom.Color
 import web.cssom.Cursor
 import web.cssom.Display
-import web.cssom.JustifyContent
-import web.cssom.JustifyItems
 import web.cssom.LineStyle.Companion.solid
 import web.cssom.None
 import web.cssom.Outline
 import web.cssom.array
 import web.cssom.fr
-import web.cssom.many
 import web.cssom.pct
 import web.cssom.px
 import web.cssom.url
@@ -45,7 +37,6 @@ import web.html.HTMLCanvasElement
 import web.html.HTMLDivElement
 import web.html.HTMLInputElement
 import web.html.InputType
-import web.timers.Timeout
 import web.timers.clearInterval
 
 private const val COLOR = "gray"
@@ -55,6 +46,9 @@ private const val NAME = "ImageUploader"
 external interface ImageUploaderProps : Props {
     var scene: ImageViewerUploader
     var placeholder: ReactNode?
+    var uploading: ReactNode?
+    var loading: ReactNode?
+    var viewer: FC<ImageUploaderViewerProps>?
     var save: ReactNode?
     var onSave: ((BrowserBlob) -> Unit)?
     var color: String?
@@ -69,22 +63,21 @@ val InternalImageUploader = FC<ImageUploaderProps>(NAME) { props ->
     val inputRef = useRef<HTMLInputElement>()
     val saveRef = useRef<HTMLDivElement>()
     val primaryColor = props.color ?: COLOR
-    val placeholder = props.placeholder ?: ImageUploaderPlaceholder.create()
+    val placeholder = props.placeholder ?: ImageUploaderWrapper.create { text = "Upload Image" }
+    val uploading = props.uploading ?: ImageUploaderWrapper.create { text = "Uploading Image" }
+    val loading = props.loading ?: ImageUploaderWrapper.create { text = "Loading Image" }
     val save = props.save ?: ImageUploaderSave.create()
+    val viewer = props.viewer ?: ImageUploaderViewer
 
     useEffect(state, canvasRef.current) {
         val renderer = initialize(canvasRef.current, saveRef.current, state, primaryColor)
-        cleanup {
-            if (renderer != null) clearInterval(renderer)
-        }
+        cleanup { if (renderer != null) clearInterval(renderer) }
     }
 
     div {
         style = jso {
             display = Display.block
             outline = Outline(width = 2.px, style = solid, color = Color(primaryColor))
-//            border = Border(width = 2.px, style = solid, color = Color(primaryColor))
-//            padding = Padding(horizontal = 2.px, vertical = 2.px)
             width = 100.pct
             height = 100.pct
             cursor = Cursor.pointer
@@ -121,7 +114,6 @@ val InternalImageUploader = FC<ImageUploaderProps>(NAME) { props ->
             }
             when (state) {
                 is AwaitingImage -> child(placeholder)
-
                 is EditingImage -> canvas {
                     ref = canvasRef
                     style = jso {
@@ -132,18 +124,9 @@ val InternalImageUploader = FC<ImageUploaderProps>(NAME) { props ->
                     }
                 }
 
-                is LoadingToEditImage -> span { +"loading" }
-                is UploadingImage -> span { +"Uploading" }
-                is ViewingImage -> div {
-                    style = jso {
-                        width = 100.pct
-                        height = 100.pct
-                        backgroundImage = url(state.url)
-                        backgroundPosition = "center".unsafeCast<BackgroundPosition>()
-                        backgroundSize = BackgroundSize.contain
-                        backgroundRepeat = BackgroundRepeat.noRepeat
-                    }
-                }
+                is LoadingToEditImage -> child(loading)
+                is UploadingImage -> child(uploading)
+                is ViewingImage -> viewer { url = state.url }
             }
 
             div {
@@ -154,6 +137,8 @@ val InternalImageUploader = FC<ImageUploaderProps>(NAME) { props ->
                         val b = it?.unsafeCast<Blob>() ?: return@toBlob
                         val blob = BrowserBlob(b)
                         props.onSave?.invoke(blob)
+                        val file = blob.toFileBlob("image.png").getOrNull() ?: return@toBlob
+                        scene.upload(file)
                     }, "image/png", 1)
                 }
                 child(save)

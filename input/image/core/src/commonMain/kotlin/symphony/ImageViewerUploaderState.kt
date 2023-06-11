@@ -2,6 +2,7 @@
 
 package symphony
 
+import epsilon.Blob
 import epsilon.FileBlob
 import kollections.JsExport
 
@@ -21,4 +22,4 @@ data class LoadingToEditImage(val image: FileBlob) : ImageViewerUploaderState
 
 data class EditingImage(val image: FileBlob) : ImageViewerUploaderState
 
-data class UploadingImage(val image: FileBlob) : ImageViewerUploaderState
+data class UploadingImage(val image: Blob) : ImageViewerUploaderState
