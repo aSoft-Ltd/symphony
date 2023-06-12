@@ -15,4 +15,20 @@ class FixedActionsTest {
         }
         expect(a.get()).toBeOfSize(4)
     }
+
+    @Test
+    fun should_execute_builder_when_getting_action() {
+        var count = 0
+        val a = actionsOf {
+            count++
+            onAdd { println("Added stuf") }
+            onEdit { println("Edditing") }
+            onCancel { println("Creating") }
+            onAddAll { println("Adding all") }
+        }
+        a.get()
+        expect(count).toBe(1)
+        a.get()
+        expect(count).toBe(2)
+    }
 }

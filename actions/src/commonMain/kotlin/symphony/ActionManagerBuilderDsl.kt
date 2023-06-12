@@ -17,5 +17,5 @@ inline fun <T> actionsOf(): SelectorBasedActionsManager<T> = SelectorBasedAction
 )
 
 inline fun actionsOf(
-    builder: Actions0Builder<Unit>.() -> Unit
-): FixedActionsManager = FixedActionsManagerImpl(FixedActionsBuilder().apply { primary(builder) })
+    noinline builder: Actions0Builder<Unit>.() -> Unit
+): FixedActionsManager = FixedActionsManagerImpl(FixedActionsBuilder(builder))

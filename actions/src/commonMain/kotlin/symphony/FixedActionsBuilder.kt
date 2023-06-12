@@ -4,20 +4,15 @@ package symphony
 
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
-import kollections.List
 import kollections.toIList
 
 class FixedActionsBuilder @PublishedApi internal constructor(
-    primary: MutableList<Action0<Unit>> = mutableListOf(),
+    private val builder: Actions0Builder<Unit>.() -> Unit,
     @PublishedApi
     internal val filters: MutableSet<String> = mutableSetOf()
 ) {
     @PublishedApi
-    internal val primaryActions = Actions0Builder(primary)
-
-    inline fun primary(builder: Actions0Builder<Unit>.() -> Unit) {
-        primaryActions.apply(builder)
-    }
+    internal val extraActions = mutableMapOf<String, Action0<Unit>>()
 
     private inline fun Collection<Action0<Unit>>.applyFilters() = associateBy {
         it.key
@@ -25,7 +20,5 @@ class FixedActionsBuilder @PublishedApi internal constructor(
         !filters.contains(it.lowercase())
     }.values.toIList()
 
-    fun buildPrimaryActions() = primaryActions.actions.applyFilters()
-
-    fun buildActions() = buildPrimaryActions()
+    fun buildActions() = (Actions0Builder<Unit>().apply(builder).actions + extraActions.values).applyFilters()
 }

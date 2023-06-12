@@ -1,6 +1,7 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
+import kevlar.action0
 import kollections.List
 import symphony.SelectorBasedActionsManager
 import symphony.FixedActionsBuilder
@@ -10,13 +11,13 @@ import symphony.FixedActionsManager
 internal class FixedActionsManagerImpl(
     private val builder: FixedActionsBuilder
 ) : FixedActionsManager {
-    override val current = mutableLiveOf(builder.buildActions())
+    override val current get() = mutableLiveOf(get())
 
-    override fun get() = current.value
+    override fun get() = builder.buildActions()
 
     override fun add(name: String, handler: () -> Unit): FixedActionsManager {
-        builder.primary { on(name, handler = handler) }
-        current.value = builder.buildActions()
+        val action = action0(name, handler = handler)
+        builder.extraActions[action.key] = action
         return this
     }
 
