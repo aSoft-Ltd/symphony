@@ -20,7 +20,8 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     val cache = config.cache
 
-    protected abstract val serializer: KSerializer<T>
+    @Deprecated(message = "Might not be needed")
+    open val serializer: KSerializer<T>? = null
 
     protected inline fun columnsOf(noinline builder: ColumnsBuilder<T>.() -> Unit) = columnsOf(emptyList(), builder)
 
@@ -64,9 +65,10 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     fun select(item: T): Later<T> {
         selector.select(item)
-        return cache.save(CacheKeys.SELECTED_ITEM, item, serializer).catch {
-            item
-        }
+        return Later(item)
+//        return cache.save(CacheKeys.SELECTED_ITEM, item, serializer).catch {
+//            item
+//        }
     }
 
     private companion object {
