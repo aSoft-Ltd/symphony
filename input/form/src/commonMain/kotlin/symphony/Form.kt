@@ -3,7 +3,9 @@
 
 package symphony
 
+import cinematic.MutableLive
 import cinematic.Scene
+import cinematic.mutableLiveOf
 import kase.Failure
 import kase.FormState
 import kase.Pending
@@ -16,14 +18,16 @@ import kollections.toIList
 import koncurrent.FailedLater
 import koncurrent.Later
 import koncurrent.later.finally
-import kotlin.js.JsExport
 import symphony.exceptions.FormValidationException
+import symphony.internal.OutputData
+import symphony.properties.Clearable
 import symphony.properties.Labeled
 import symphony.validation.Invalid
 import symphony.validation.Valid
 import symphony.validation.Validateable
 import symphony.validation.ValidationResult
 import symphony.validation.throwIfInvalid
+import kotlin.js.JsExport
 
 open class Form<out F : Fields<P>, out P : Any, out R>(
     open val heading: String,
@@ -31,10 +35,15 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
     open val fields: F,
     val config: FormConfig,
     initializer: FormActionsBuildingBlock<P, R>,
-) : Scene<FormState<R>>(Pending) {
+) : Scene<FormState<R>>(Pending), Validateable<@UnsafeVariance P>, Clearable {
 
     private val logger = config.logger.with("source" to this::class.simpleName)
     private val builtActions = FormActionsBuilder<P, R>().apply { initializer() }
+
+    override val name: String by lazy { heading.replace(" ", "") }
+    override val feedback = mutableLiveOf<InputFieldState>(InputFieldState.Empty)
+    override val output: P get() = fields.output
+    override val data: MutableLive<Data<@UnsafeVariance P>> by lazy { mutableLiveOf(OutputData(fields.output)) }
 
     val cancelAction = action0("Cancel") {
         val handler = builtActions.actions.firstOrNull {
@@ -71,7 +80,8 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
         }
     }.renderToString()
 
-    fun validate(): ValidationResult {
+
+    override fun validate(value: @UnsafeVariance P?): ValidationResult {
         val invalids = fields.validate()
 
         if (invalids.isEmpty()) return Valid
@@ -88,7 +98,15 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
         return Invalid(exception)
     }
 
-    fun clear() {
+    override fun validateSettingInvalidsAsErrors(value: @UnsafeVariance P?): ValidationResult {
+        return validate(value)
+    }
+
+    override fun validateSettingInvalidsAsWarnings(value: @UnsafeVariance P?): ValidationResult {
+        return validate(value)
+    }
+
+    override fun clear() {
         fields.clearAll()
         ui.value = Pending
         ui.history.clear()
@@ -108,6 +126,7 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
             }
             if (res is Success) {
                 logger.info("Success")
+                data.value = OutputData(output)
                 if (exitOnSubmitted) exit()
             }
         }
