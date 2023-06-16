@@ -25,7 +25,6 @@ internal class LocationInputFieldImpl(
     override val isReadonly: Boolean,
     private val validator: ((GeoLocation?) -> Unit)?
 ) : TransformedDataField<String, GeoLocation>(value), LocationInputField {
-    override val serializer = GeoLocation.serializer()
     override val transformer = DataTransformer<String, GeoLocation>({ it.toString() }, { googleParser.parseOrNull(it) })
 
     override val cv = CompoundValidator(

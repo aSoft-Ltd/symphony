@@ -17,7 +17,6 @@ internal class TransformingInputFieldImpl<I : Any, O : Any>(
     private val value: O?,
     override val hint: String,
     trnsfrmr: (I?) -> O?,
-    override val serializer: KSerializer<O>,
     private val formatter: Formatter<O>?,
     override val isReadonly: Boolean,
     private val validator: ((O?) -> Unit)?,

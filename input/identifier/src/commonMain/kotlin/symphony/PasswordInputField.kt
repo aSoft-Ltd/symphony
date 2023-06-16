@@ -2,7 +2,9 @@
 
 package symphony
 
-import kotlin.reflect.KProperty
+import cinematic.WatchMode
+import cinematic.watch
+import kotlin.reflect.KMutableProperty0
 
 inline fun PasswordInputField(
     name: String,
@@ -10,7 +12,7 @@ inline fun PasswordInputField(
     hint: String = label,
     value: String? = null,
     isReadonly: Boolean = false,
-    isRequired: Boolean = false,
+    isRequired: Boolean = true,
     maxLength: Int? = null,
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
@@ -26,13 +28,13 @@ inline fun PasswordInputField(
     validator = validator,
 )
 
-inline fun Fields.password(
+inline fun Fields<*>.password(
     name: String,
     label: String = name,
     hint: String = label,
-    value: String? = null,
+    value: String = "",
     isReadonly: Boolean = false,
-    isRequired: Boolean = false,
+    isRequired: Boolean = true,
     maxLength: Int? = null,
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
@@ -40,14 +42,16 @@ inline fun Fields.password(
     PasswordInputField(name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
 }
 
-inline fun Fields.password(
-    name: KProperty<Any?>,
+inline fun Fields<*>.password(
+    name: KMutableProperty0<String>,
     label: String = name.name,
     hint: String = label,
-    value: String? = null,
+    value: String = name.get(),
     isReadonly: Boolean = false,
-    isRequired: Boolean = false,
+    isRequired: Boolean = true,
     maxLength: Int? = null,
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
-) = password(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
+) = password(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+}

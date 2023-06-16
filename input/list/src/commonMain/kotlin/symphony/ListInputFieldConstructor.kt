@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package symphony
 
 import kollections.List
@@ -8,7 +10,7 @@ import kotlinx.serialization.serializer
 import symphony.internal.ListInputFieldImpl
 import kotlin.reflect.KProperty
 
-inline fun <reified E> ListInputField(
+inline fun <E> ListInputField(
     name: String,
     label: String = name,
     hint: String = label,
@@ -27,11 +29,10 @@ inline fun <reified E> ListInputField(
     isRequired = isRequired,
     maxItems = maxItems,
     minItems = minItems,
-    serializer = ListSerializer(serializer()),
     validator = validator
 )
 
-inline fun <reified E> Fields.list(
+inline fun <E> Fields<*>.list(
     name: String,
     label: String = name,
     hint: String = label,
@@ -45,7 +46,7 @@ inline fun <reified E> Fields.list(
     ListInputField(name, label, hint, value, isRequired, isReadonly, maxItems, minItems, validator)
 }
 
-inline fun <reified E> Fields.list(
+inline fun <E> Fields<*>.list(
     name: KProperty<Collection<E>?>,
     label: String = name.name,
     hint: String = label,

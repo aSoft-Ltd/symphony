@@ -8,7 +8,7 @@ import kollections.Set
 import symphony.validation.Validateable
 import kotlin.js.JsExport
 
-interface MultiChoiceInputField<O> : ChoiceField<O>, SerializableLiveDataList<O>, Validateable<List<O>> {
+interface MultiChoiceInputField<O> : ChoiceField<O>, LiveDataList<O>, Validateable<List<O>> {
     val optionLabels: List<String>
     val optionValues: List<String>
 

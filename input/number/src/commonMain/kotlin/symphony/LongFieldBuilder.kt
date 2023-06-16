@@ -30,7 +30,7 @@ inline fun LongInputField(
     validator = validator,
 )
 
-inline fun Fields.long(
+inline fun Fields<*>.long(
     name: String,
     label: String = name,
     hint: String? = label,
@@ -46,7 +46,7 @@ inline fun Fields.long(
     LongInputField(name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
 }
 
-inline fun Fields.long(
+inline fun Fields<*>.long(
     property: KProperty<Long?>,
     label: String = property.name,
     hint: String? = label,

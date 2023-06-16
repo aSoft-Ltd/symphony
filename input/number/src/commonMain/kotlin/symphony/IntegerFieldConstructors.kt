@@ -32,7 +32,7 @@ inline fun IntegerInputField(
     validator = validator,
 )
 
-inline fun Fields.integer(
+inline fun Fields<*>.integer(
     name: String,
     label: String = name,
     hint: String? = label,
@@ -48,7 +48,7 @@ inline fun Fields.integer(
     IntegerInputField(name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
 }
 
-inline fun Fields.integer(
+inline fun Fields<*>.integer(
     property: KProperty<Int?>,
     label: String = property.name,
     hint: String? = label,

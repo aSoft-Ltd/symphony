@@ -47,8 +47,6 @@ internal class PhoneInputFieldImpl(
         return cv.validate(value)
     }
 
-    override val serializer = PhoneNumber.serializer()
-
     private val formatter = Formatter<PhoneNumber> { it?.toString() }
 
     override fun type(text: String) = number.type(text)
@@ -78,7 +76,6 @@ internal class PhoneInputFieldImpl(
         name = "$name-dialing-code",
         items = Country.values().toList(),
         mapper = { Option(it.name, it.dialingCode) },
-        serializer = Country.serializer(),
         label = "$name code",
         isReadonly = isReadonly,
         isRequired = isRequired,

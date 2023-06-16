@@ -27,8 +27,6 @@ internal class DateInputFieldImpl(
     validator: ((LocalDate?) -> Unit)?
 ) : TransformedDataField<String, LocalDate>(value), DateInputField {
 
-    override val serializer: KSerializer<LocalDate> = LocalDateIsoSerializer
-
     override val cv = CompoundValidator(
         data, feedback,
         RequirementValidator(data, feedback, label.capitalizedWithoutAstrix(), isRequired),

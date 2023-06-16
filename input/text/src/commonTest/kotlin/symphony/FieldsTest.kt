@@ -1,14 +1,11 @@
-package symphony.fields
+package symphony
 
 import kommander.expect
-import symphony.Fields
-import symphony.name
-import symphony.text
 import kotlin.test.Test
 
 class FieldsTest {
 
-    class TestFormFields : Fields() {
+    class TestFormFields : Fields<String>("") {
         val name = name()
         val age = text(name = "age")
     }

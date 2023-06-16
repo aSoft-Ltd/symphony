@@ -7,6 +7,7 @@ import symphony.validation.Validateable
 import symphony.validation.ValidationResult
 
 abstract class AbstractValidator<I>(override val feedback: MutableLive<InputFieldState>) : FeedbackSetter(feedback), Validateable<I> {
+    override val name: String = "Validator"
 
     abstract override fun validate(value: I?): ValidationResult
 

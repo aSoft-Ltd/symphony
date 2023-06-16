@@ -53,8 +53,6 @@ internal class MonetaryInputFieldImpl(
 
     override fun setAmount(number: Int?) = setter.set(number?.toString())
 
-    override val serializer: KSerializer<Monetary> = MonetarySerializer
-
     override fun setAmount(value: String?) = setter.set(value)
 
     override fun setAmount(number: Double?) = setter.set(number?.toString())

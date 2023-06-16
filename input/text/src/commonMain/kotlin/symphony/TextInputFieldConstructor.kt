@@ -2,8 +2,12 @@
 
 package symphony
 
-import symphony.internal.text.TextInputFieldImpl
-import kotlin.reflect.KProperty
+import cinematic.WatchMode
+import cinematic.watch
+import symphony.internal.TextInputFieldImpl
+import kotlin.js.JsName
+import kotlin.jvm.JvmName
+import kotlin.reflect.KMutableProperty0
 
 inline fun TextInputField(
     name: String,
@@ -27,7 +31,7 @@ inline fun TextInputField(
     validator = validator,
 )
 
-inline fun Fields.text(
+inline fun Fields<*>.text(
     name: String,
     label: String = name,
     hint: String = label,
@@ -41,14 +45,32 @@ inline fun Fields.text(
     TextInputField(name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
 }
 
-inline fun Fields.text(
-    name: KProperty<String?>,
+@JvmName("optionalText")
+@JsName("optionalText")
+inline fun Fields<*>.text(
+    name: KMutableProperty0<String?>,
     label: String = name.name,
     hint: String = label,
-    value: String? = null,
+    value: String? = name.get(),
     isReadonly: Boolean = false,
     isRequired: Boolean = false,
     maxLength: Int? = null,
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
-) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
+) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+}
+
+inline fun Fields<*>.text(
+    name: KMutableProperty0<String>,
+    label: String = name.name,
+    hint: String = label,
+    value: String? = name.get(),
+    isReadonly: Boolean = false,
+    isRequired: Boolean = true,
+    maxLength: Int? = null,
+    minLength: Int? = null,
+    noinline validator: ((String?) -> Unit)? = null
+) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+}

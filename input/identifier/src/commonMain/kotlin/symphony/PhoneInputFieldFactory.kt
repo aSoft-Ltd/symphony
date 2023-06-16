@@ -2,7 +2,10 @@
 
 package symphony
 
+import cinematic.WatchMode
+import cinematic.watch
 import symphony.internal.text.PhoneInputFieldImpl
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
 inline fun PhoneInputField(
@@ -23,7 +26,7 @@ inline fun PhoneInputField(
     validator = validator,
 )
 
-inline fun Fields.phone(
+inline fun Fields<*>.phone(
     name: String,
     label: String = name,
     hint: String = label,
@@ -35,12 +38,26 @@ inline fun Fields.phone(
     PhoneInputField(name, label, hint, value, isReadonly, isRequired, validator)
 }
 
-inline fun Fields.phone(
-    name: KProperty<Any?>,
+inline fun Fields<*>.phone(
+    name: KMutableProperty0<PhoneNumber?>,
     label: String = name.name,
     hint: String = label,
-    value: String? = null,
+    value: PhoneNumber? = name.get(),
     isReadonly: Boolean = false,
     isRequired: Boolean = false,
     noinline validator: ((PhoneNumber?) -> Unit)? = null
-) = phone(name.name, label, hint, value, isReadonly, isRequired, validator)
+) = phone(name.name, label, hint, value.toString(), isReadonly, isRequired, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+}
+
+inline fun Fields<*>.phone(
+    name: KMutableProperty0<PhoneNumber>,
+    label: String = name.name,
+    hint: String = label,
+    value: PhoneNumber? = name.get(),
+    isReadonly: Boolean = false,
+    isRequired: Boolean = true,
+    noinline validator: ((PhoneNumber?) -> Unit)? = null
+) = phone(name.name, label, hint, value.toString(), isReadonly, isRequired, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+}

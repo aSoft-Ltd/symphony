@@ -2,11 +2,14 @@
 
 package symphony
 
+import cinematic.WatchMode
+import cinematic.watch
 import liquid.NumberFormatter
 import kash.Monetary
 import kash.MoneyFormatter
 import symphony.internal.DEFAULT_FORMATTER
 import symphony.internal.MonetaryInputFieldImpl
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
 inline fun MonetaryInputField(
@@ -35,7 +38,7 @@ inline fun MonetaryInputField(
     validator = validator,
 )
 
-inline fun Fields.monetary(
+inline fun Fields<*>.monetary(
     name: String,
     isRequired: Boolean = false,
     label: String = name,
@@ -51,8 +54,8 @@ inline fun Fields.monetary(
     MonetaryInputField(name, isRequired, label, hint, value, formatter, isReadonly, maxAmount, minAmount, stepAmount, validator)
 }
 
-inline fun Fields.monetary(
-    name: KProperty<Monetary?>,
+inline fun Fields<*>.monetary(
+    name: KMutableProperty0<Monetary?>,
     isRequired: Boolean = false,
     label: String = name.name,
     hint: String = label,
@@ -63,4 +66,6 @@ inline fun Fields.monetary(
     minAmount: Monetary? = null,
     stepAmount: Double? = null,
     noinline validator: ((Monetary?) -> Unit)? = null
-) = monetary(name.name, isRequired, label, hint, value, formatter, isReadonly, maxAmount, minAmount, stepAmount, validator)
+) = monetary(name.name, isRequired, label, hint, value, formatter, isReadonly, maxAmount, minAmount, stepAmount, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+}

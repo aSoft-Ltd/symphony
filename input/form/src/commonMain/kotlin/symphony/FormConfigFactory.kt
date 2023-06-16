@@ -1,27 +1,19 @@
-@file:Suppress("WRONG_EXPORTED_DECLARATION")
+@file:Suppress("WRONG_EXPORTED_DECLARATION", "NOTHING_TO_INLINE")
 
 package symphony
 
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.StringFormat
-import kotlinx.serialization.serializer
 import lexi.ConsoleAppender
 import lexi.Logable
 import lexi.Logger
 import symphony.internal.forms.FormConfigImpl
 import symphony.internal.forms.FormConfigImpl.DEFAULT
 
-inline fun <reified P> FormConfig(
-    serializer: KSerializer<P> = serializer(),
+inline fun FormConfig(
     logger: Logger = Logger(ConsoleAppender()),
-    codec: StringFormat = DEFAULT.codec,
     exitOnSubmitted: Boolean = DEFAULT.exitOnSubmitted
-): FormConfig<P> = FormConfigImpl(serializer, logger, codec, exitOnSubmitted)
+): FormConfig = FormConfigImpl(logger, exitOnSubmitted)
 
-@Deprecated("do fix this to get in a configured codec please, Defaults are killing us")
-inline fun <reified P> Logable.toFormConfig(
-    serializer: KSerializer<P> = serializer(),
+inline fun Logable.toFormConfig(
     logger: Logger = this.logger,
-    codec: StringFormat = DEFAULT.codec,
     exitOnSubmitted: Boolean = DEFAULT.exitOnSubmitted
-): FormConfig<P> = FormConfigImpl(serializer, logger, codec, exitOnSubmitted)
+): FormConfig = FormConfigImpl(logger, exitOnSubmitted)

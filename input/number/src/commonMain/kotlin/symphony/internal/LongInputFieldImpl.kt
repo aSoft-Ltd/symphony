@@ -1,8 +1,6 @@
 package symphony.internal
 
 import liquid.NumberFormatter
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.builtins.serializer
 import symphony.Formatter
 import symphony.Label
 import symphony.internal.utils.DataTransformer
@@ -21,7 +19,6 @@ internal class LongInputFieldImpl(
     value: Long?,
     validator: ((Long?) -> Unit)?
 ) : AbstractNumberInputField<Long>(name, isRequired, label, hint, isReadonly, max, min, step, formatter, value, validator) {
-    override val serializer: KSerializer<Long> = Long.serializer()
     override val transformer = DataTransformer(
         formatter = Formatter { long ->
             val l = long ?: return@Formatter null

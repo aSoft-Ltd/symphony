@@ -1,4 +1,4 @@
-package symphony.fields.text
+package symphony
 
 import kommander.expect
 import kommander.toBe

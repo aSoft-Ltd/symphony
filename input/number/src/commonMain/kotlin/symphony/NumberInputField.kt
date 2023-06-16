@@ -9,7 +9,7 @@ import symphony.validation.Validateable
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-interface NumberInputField<N : Number> : InputField, CommonInputProperties, Settable<String>, SerializableLiveFormattedData<String, N>, Validateable<N>, Typeable {
+interface NumberInputField<N : Number> : InputField, CommonInputProperties, Settable<String>, LiveDataFormatted<String, N>, Validateable<N>, Typeable {
     val max: N?
     val min: N?
     val step: N?

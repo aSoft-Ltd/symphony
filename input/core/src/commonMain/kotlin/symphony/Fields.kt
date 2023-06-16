@@ -1,47 +1,27 @@
 @file:JsExport
-@file:Suppress("WRONG_EXPORTED_DECLARATION", "NON_EXPORTABLE_TYPE")
+@file:Suppress("WRONG_EXPORTED_DECLARATION", "NON_EXPORTABLE_TYPE", "NOTHING_TO_INLINE")
 
 package symphony
 
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.StringFormat
-import kotlinx.serialization.builtins.nullable
 import symphony.properties.Clearable
-import symphony.properties.Requireble
 import symphony.validation.Validateable
+import symphony.validation.ValidationResult
 import kotlin.js.JsExport
+import kotlin.reflect.KMutableProperty0
 
-open class Fields(@PublishedApi internal val cache: MutableMap<String, InputField> = mutableMapOf()) {
+abstract class Fields<out O : Any>(val output: O, @PublishedApi internal val cache: MutableMap<String, InputField> = mutableMapOf()) {
+
 
     internal val all get() = cache.values
-
-    fun encodedValuesToJson(codec: StringFormat): String = valuesToBeSubmitted().associateBy {
-        it.name
-    }.toList().joinToString(prefix = "{", postfix = "\n}") { (key, field) ->
-        val serializer = field.serializer as KSerializer<Any>
-        """${"\n"}    "$key": ${codec.encodeToString(serializer.nullable, field.output)}"""
-    }
-
-    private fun valuesToBeSubmitted() = all.filterIsInstance<SerializableLiveData<out Any?>>().filterNot {
-        if (it is Requireble) {
-            !it.isRequired && (it.output == null || it.output.toString().isBlank())
-        } else {
-            false
-        }
-    }
 
     /**
      * @return a [List] of invalid [InputField]s
      *
      * Note that if this is list is empty, it is safe to assume that all inputs are valid
      */
-    fun validate(): List<SerializableLiveData<out Any?>> {
-        all.filterIsInstance<Validateable<out Any?>>().forEach {
-            it.validateSettingInvalidsAsErrors()
-        }
-        return valuesToBeSubmitted().filter {
-            it is Validateable<out Any?> && it.feedback.value is InputFieldState.Error
-        }
+    fun validate(): List<Validateable<out Any?>> = all.filterIsInstance<Validateable<out Any?>>().map {
+        it.validateSettingInvalidsAsErrors()
+        it
     }
 
     fun clearAll() = all.filterIsInstance<Clearable>().forEach { it.clear() }
@@ -49,5 +29,9 @@ open class Fields(@PublishedApi internal val cache: MutableMap<String, InputFiel
     fun stopAllWatchers() {
         clearAll()
         all.filterIsInstance<LiveData<*>>().forEach { it.data.stopAll() }
+    }
+
+    inline fun <T : Any> KMutableProperty0<T>.setIfNotNull(value: T?) {
+        if (value != null) set(value)
     }
 }

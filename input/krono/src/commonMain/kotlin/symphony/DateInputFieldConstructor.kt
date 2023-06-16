@@ -19,7 +19,7 @@ inline fun DateInputField(
     noinline validator: ((LocalDate?) -> Unit)? = null
 ): DateInputField = DateInputFieldImpl(name, isRequired, Label(label, isRequired), hint, value, isReadonly, pattern, maxDate, minDate, validator)
 
-inline fun Fields.date(
+inline fun Fields<*>.date(
     name: String,
     isRequired: Boolean = false,
     label: String = name,
@@ -34,7 +34,7 @@ inline fun Fields.date(
     DateInputField(name, isRequired, label, hint, value, isReadonly, pattern, maxDate, minDate, validator)
 }
 
-inline fun Fields.date(
+inline fun Fields<*>.date(
     name: KProperty<Any?>,
     isRequired: Boolean = false,
     label: String = name.name,

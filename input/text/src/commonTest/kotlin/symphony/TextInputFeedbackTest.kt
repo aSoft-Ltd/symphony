@@ -1,9 +1,8 @@
-package symphony.fields.text
+package symphony
 
 import kommander.expect
 import cinematic.expect
 import cinematic.toHaveGoneThrough6
-import symphony.TextInputField
 import symphony.InputFieldState.Empty
 import symphony.InputFieldState.Warning
 import kotlin.test.Test

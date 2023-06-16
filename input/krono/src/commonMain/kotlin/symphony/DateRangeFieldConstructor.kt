@@ -33,7 +33,7 @@ inline fun DateRangeInputField(
     validator = validator,
 )
 
-fun Fields.dateRange(
+fun Fields<*>.dateRange(
     name: String,
     label: String = name,
     hint: String = label,
@@ -48,7 +48,7 @@ fun Fields.dateRange(
     DateRangeInputField(name, label, hint, value, pattern, isReadonly, isRequired, maxDate, minDate, validator)
 }
 
-inline fun Fields.dateRange(
+inline fun Fields<*>.dateRange(
     name: KProperty<Any?>,
     label: String = name.name,
     hint: String = label,

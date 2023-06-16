@@ -101,10 +101,4 @@ internal class DateRangeInputFieldImpl(
         val e = end.data.value.output
         update(s, e)
     }
-
-    override val serializer: KSerializer<Range<LocalDate>> = inputSerializer
-
-    private companion object {
-        val inputSerializer = Range.serializer(LocalDateIsoSerializer)
-    }
 }

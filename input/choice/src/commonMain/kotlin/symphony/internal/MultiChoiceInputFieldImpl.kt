@@ -24,7 +24,6 @@ internal class MultiChoiceInputFieldImpl<T : Any>(
     override val items: Collection<T>,
     override val mapper: (T) -> Option,
     private val value: Collection<T>?,
-    override val serializer: KSerializer<List<T>>,
     override val isReadonly: Boolean,
     validator: ((List<T>) -> Unit)?
 ) : PlainDataListField<T>(value), MultiChoiceInputField<T> {

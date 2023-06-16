@@ -1,10 +1,8 @@
 package symphony.internal
 
 import liquid.NumberFormatter
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.builtins.serializer
-import symphony.Label
 import symphony.Formatter
+import symphony.Label
 import symphony.internal.utils.DataTransformer
 
 @PublishedApi
@@ -21,7 +19,6 @@ internal class DoubleInputFieldImpl(
     value: Double?,
     validator: ((Double?) -> Unit)?
 ) : AbstractNumberInputField<Double>(name, isRequired, label, hint, isReadonly, max, min, step, formatter, value, validator) {
-    override val serializer: KSerializer<Double> = Double.serializer()
     override val transformer = DataTransformer(
         formatter = Formatter { double ->
             val d = double ?: return@Formatter null

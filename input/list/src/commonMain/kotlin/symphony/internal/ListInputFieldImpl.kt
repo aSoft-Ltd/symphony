@@ -3,7 +3,6 @@ package symphony.internal
 import kollections.Collection
 import kollections.List
 import kollections.toIList
-import kotlinx.serialization.KSerializer
 import symphony.Label
 import symphony.ListInputField
 import symphony.internal.validators.CompoundValidator
@@ -19,7 +18,6 @@ internal class ListInputFieldImpl<E>(
     override val isRequired: Boolean,
     override val maxItems: Int?,
     override val minItems: Int?,
-    override val serializer: KSerializer<List<E>>,
     val validator: ((List<E>) -> Unit)?
 ) : PlainDataListField<E>(value), ListInputField<E> {
 

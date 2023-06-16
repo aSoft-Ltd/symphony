@@ -21,7 +21,6 @@ internal class SingleChoiceInputFieldImpl<T : Any>(
     override val mapper: (T) -> Option,
     private val value: T?,
     override val isReadonly: Boolean,
-    override val serializer: KSerializer<T>,
     validator: ((T?) -> Unit)?
 ) : PlainDataField<T>(value), SingleChoiceInputField<T> {
 

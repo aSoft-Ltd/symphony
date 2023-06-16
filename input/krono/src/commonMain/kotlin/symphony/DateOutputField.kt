@@ -7,4 +7,4 @@ import symphony.properties.Bounded
 import symphony.properties.Patterned
 import kotlin.js.JsExport
 
-interface DateOutputField : SerializableLiveFormattedData<String, LocalDate>, Bounded<LocalDate>, Patterned
+interface DateOutputField : InputField, LiveDataFormatted<String, LocalDate>, Bounded<LocalDate>, Patterned

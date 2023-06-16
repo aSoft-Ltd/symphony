@@ -52,7 +52,6 @@ internal class MoneyInputFieldImpl(
         isReadonly = !selectCurrency,
         items = Currency.values.toIList(),
         mapper = { Option(it.name, it.name) },
-        serializer = ISO3CurrencySerializer,
         value = theCurrency
     )
 
@@ -109,8 +108,6 @@ internal class MoneyInputFieldImpl(
     override fun set(value: String?) = amount.set(value)
 
     override fun setAmount(number: Int?) = amount.setAmount(number)
-
-    override val serializer: KSerializer<Money> = MoneySerializer
 
     override fun clear() {
         currency.clear()

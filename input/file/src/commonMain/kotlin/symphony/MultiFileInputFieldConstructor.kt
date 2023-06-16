@@ -2,9 +2,12 @@
 
 package symphony
 
+import cinematic.WatchMode
+import cinematic.watch
 import epsilon.FileBlob
 import kollections.List
 import symphony.internal.MultiFileInputFieldImpl
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
 inline fun MultiFileInputField(
@@ -25,7 +28,7 @@ inline fun MultiFileInputField(
     validator = validator
 )
 
-inline fun Fields.files(
+inline fun Fields<*>.files(
     name: String,
     label: String = name,
     hint: String = label,
@@ -37,12 +40,14 @@ inline fun Fields.files(
     MultiFileInputField(name, label, hint, value, isReadonly, isRequired, validator)
 }
 
-inline fun Fields.files(
-    name: KProperty<Any?>,
+inline fun Fields<*>.files(
+    name: KMutableProperty0<List<FileBlob>>,
     label: String = name.name,
     hint: String = label,
-    value: List<FileBlob>? = null,
+    value: List<FileBlob> = name.get(),
     isReadonly: Boolean = false,
     isRequired: Boolean = false,
     noinline validator: ((List<FileBlob>?) -> Unit)? = null
-) = files(name.name, label, hint, value, isReadonly, isRequired, validator)
+) = files(name.name, label, hint, value, isReadonly, isRequired, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+}

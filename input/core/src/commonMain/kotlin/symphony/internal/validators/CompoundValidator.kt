@@ -14,6 +14,7 @@ class CompoundValidator<T>(
     override val feedback: MutableLive<InputFieldState>,
     vararg valigators: Validateable<T>
 ) : AbstractValidator<T>(feedback) {
+    override val name: String = "Compound Validator"
     private val validators = valigators
 
     override fun validate(value: T?): ValidationResult {

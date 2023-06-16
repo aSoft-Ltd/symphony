@@ -32,7 +32,7 @@ inline fun DoubleInputField(
     validator = validator,
 )
 
-inline fun Fields.double(
+inline fun Fields<*>.double(
     name: String,
     label: String = name,
     hint: String? = label,
@@ -48,7 +48,7 @@ inline fun Fields.double(
     DoubleInputField(name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
 }
 
-inline fun Fields.double(
+inline fun Fields<*>.double(
     name: KProperty<Double?>,
     label: String = name.name,
     hint: String? = label,

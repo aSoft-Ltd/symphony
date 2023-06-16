@@ -1,6 +1,7 @@
 package symphony.internal.text
 
 import symphony.Label
+import symphony.internal.AbstractBasicTextInputField
 import symphony.internal.validators.CompoundValidator
 import symphony.internal.validators.LambdaValidator
 import symphony.internal.validators.RequirementValidator

@@ -19,7 +19,7 @@ internal class SingleFileInputFieldImpl(
     override val isRequired: Boolean,
     private val validator: ((FileBlob?) -> Unit)?
 ) : PlainDataField<FileBlob>(value), SingleFileInputField {
-    override val serializer: KSerializer<FileBlob> = FileBlobSerializer
+
     override val cv = CompoundValidator(
         data, feedback,
         RequirementValidator(data, feedback, label.capitalizedWithoutAstrix(), isRequired),

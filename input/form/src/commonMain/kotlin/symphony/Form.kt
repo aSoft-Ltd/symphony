@@ -25,11 +25,11 @@ import symphony.validation.Validateable
 import symphony.validation.ValidationResult
 import symphony.validation.throwIfInvalid
 
-open class Form<out F : Fields, out P, out R>(
+open class Form<out F : Fields<P>, out P : Any, out R>(
     open val heading: String,
     open val details: String,
     open val fields: F,
-    val config: FormConfig<@UnsafeVariance P>,
+    val config: FormConfig,
     initializer: FormActionsBuildingBlock<P, R>,
 ) : Scene<FormState<R>>(Pending) {
 
@@ -45,8 +45,6 @@ open class Form<out F : Fields, out P, out R>(
 
     private val submitAction: Action1Invoker<P, Later<R>> = builtActions.submitAction
 
-    private val codec get() = config.codec
-
     val exitOnSubmitted get() = config.exitOnSubmitted
 
     fun cancel() = try {
@@ -61,7 +59,7 @@ open class Form<out F : Fields, out P, out R>(
         cancel()
     }
 
-    private fun Collection<SerializableLiveData<out Any?>>.errorTable() = simpleTableOf(this) {
+    private fun Collection<Validateable<out Any?>>.errorTable() = simpleTableOf(this) {
         column("Field") {
             (it.item as? Labeled)?.label?.capitalizedWithAstrix() ?: it.item.name
         }
@@ -69,7 +67,7 @@ open class Form<out F : Fields, out P, out R>(
             it.item.data.value.output.toString()
         }
         column("Reason") {
-            (it.item as? Validateable<Any?>)?.feedback?.value?.asError?.message ?: "Unknown"
+            it.item.feedback.value.asError?.message ?: "Unknown"
         }
     }.renderToString()
 
@@ -100,10 +98,10 @@ open class Form<out F : Fields, out P, out R>(
         logger.info("Validating")
         ui.value = Validating
         validate().throwIfInvalid()
-        val values = fields.encodedValuesToJson(codec)
         logger.info("Submitting")
-        ui.value = Submitting(values)
-        submitAction.invoke(codec.decodeFromString(config.serializer, values)).finally { res ->
+        val output = fields.output
+        ui.value = Submitting(output.toString())
+        submitAction.invoke(output).finally { res ->
             ui.value = when (res) {
                 is Failure -> showError(res.cause)
                 is Success -> Success(res.data)

@@ -11,6 +11,6 @@ import kotlin.js.JsExport
 open class StagedForm<out P, out R>(
     open val heading: String,
     open val details: String,
-    open val config: FormConfig<@UnsafeVariance P>,
+    open val config: FormConfig,
     initializer: FormActionsBuildingBlock<P, R>,
 ) : Scene<FormState<R>>(Pending)

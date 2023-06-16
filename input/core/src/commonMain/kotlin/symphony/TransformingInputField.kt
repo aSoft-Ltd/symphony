@@ -7,4 +7,4 @@ import symphony.properties.Settable
 import symphony.validation.Validateable
 import kotlin.js.JsExport
 
-interface TransformingInputField<I, O> : InputField, CommonInputProperties, Settable<I>, SerializableLiveFormattedData<I, O>, Validateable<O>
+interface TransformingInputField<I, O> : InputField, CommonInputProperties, Settable<I>, LiveData<O>, LiveDataFormatted<I, O>, Validateable<O>

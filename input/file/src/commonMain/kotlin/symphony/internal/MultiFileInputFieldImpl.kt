@@ -22,13 +22,12 @@ internal class MultiFileInputFieldImpl(
     override val isRequired: Boolean,
     private val validator: ((List<FileBlob>?) -> Unit)?,
 ) : PlainDataListField<FileBlob>(value), MultiFileInputField {
-    override val serializer: KSerializer<List<FileBlob>> = SERIALIZER
-
     override val cv = CompoundValidator(
         data, feedback,
         RequirementValidator(data, feedback, label.capitalizedWithoutAstrix(), isRequired),
         LambdaValidator(data, feedback, validator)
     )
+
     override fun add(file: FileBlob) = set((output + file).toIList())
 
     override fun addAll(files: List<FileBlob>) = set((output + files).toIList())
@@ -36,8 +35,4 @@ internal class MultiFileInputFieldImpl(
     override fun remove(file: FileBlob) = set((output - file).toIList())
 
     override fun removeAll(files: List<FileBlob>) = set((output - files).toIList())
-
-    private companion object {
-        private val SERIALIZER: KSerializer<List<FileBlob>> = ListSerializer(FileBlobSerializer)
-    }
 }

@@ -1,16 +1,19 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package symphony
 
+import cinematic.WatchMode
+import cinematic.watch
 import kollections.toIList
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.serializer
 import symphony.internal.SingleChoiceInputFieldImpl
-import kotlin.reflect.KProperty
+import kotlin.js.JsName
+import kotlin.jvm.JvmName
+import kotlin.reflect.KMutableProperty0
 
-inline fun <reified T : Any> SingleChoiceInputField(
+inline fun <T : Any> SingleChoiceInputField(
     name: String,
     items: Collection<T>,
     noinline mapper: (T) -> Option,
-    serializer: KSerializer<T> = serializer(),
     label: String = name.replaceFirstChar { it.uppercase() },
     hint: String = label,
     value: T? = null,
@@ -24,17 +27,15 @@ inline fun <reified T : Any> SingleChoiceInputField(
     label = Label(label, isReadonly),
     hint = hint,
     value = value,
-    serializer = serializer,
     isReadonly = isReadonly,
     isRequired = isRequired,
     validator = validator
 )
 
-inline fun <reified T : Any> Fields.selectSingle(
+inline fun <T : Any> Fields<*>.selectSingle(
     name: String,
     items: Collection<T>,
     noinline mapper: (T) -> Option,
-    serializer: KSerializer<T> = serializer(),
     label: String = name.replaceFirstChar { it.uppercase() },
     hint: String = label,
     value: T? = null,
@@ -42,18 +43,36 @@ inline fun <reified T : Any> Fields.selectSingle(
     isRequired: Boolean = false,
     noinline validator: ((T?) -> Unit)? = null
 ): SingleChoiceInputField<T> = getOrCreate(name) {
-    SingleChoiceInputField(name, items, mapper, serializer, label, hint, value, isReadonly, isRequired, validator)
+    SingleChoiceInputField(name, items, mapper, label, hint, value, isReadonly, isRequired, validator)
 }
 
-inline fun <reified T : Any> Fields.selectSingle(
-    name: KProperty<T?>,
+@JvmName("optionalSelectSingle")
+@JsName("_ignore_optionalSelectSingle")
+inline fun <T : Any, P : KMutableProperty0<T?>> Fields<*>.selectSingle(
+    name: P,
     items: Collection<T>,
     noinline mapper: (T) -> Option,
-    serializer: KSerializer<T> = serializer(),
     label: String = name.name.replaceFirstChar { it.uppercase() },
     hint: String = label,
-    value: T? = null,
+    value: T? = name.get(),
     isReadonly: Boolean = false,
     isRequired: Boolean = false,
     noinline validator: ((T?) -> Unit)? = null
-) = selectSingle(name.name, items, mapper, serializer, label, hint, value, isReadonly, isRequired, validator)
+) = selectSingle(name.name, items, mapper, label, hint, value, isReadonly, isRequired, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+}
+
+
+inline fun <T : Any, P : KMutableProperty0<T>> Fields<*>.selectSingle(
+    name: P,
+    items: Collection<T>,
+    noinline mapper: (T) -> Option,
+    label: String = name.name.replaceFirstChar { it.uppercase() },
+    hint: String = label,
+    value: T = name.get(),
+    isReadonly: Boolean = false,
+    isRequired: Boolean = true,
+    noinline validator: ((T?) -> Unit)? = null
+) = selectSingle(name.name, items, mapper, label, hint, value, isReadonly, isRequired, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(output) }
+}

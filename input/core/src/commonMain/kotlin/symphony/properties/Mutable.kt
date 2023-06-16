@@ -4,6 +4,6 @@ package symphony.properties
 
 import kotlin.js.JsExport
 
-interface Mutability {
+interface Mutable {
     val isReadonly: Boolean
 }
