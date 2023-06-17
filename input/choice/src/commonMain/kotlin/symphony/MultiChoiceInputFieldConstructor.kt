@@ -58,7 +58,7 @@ inline fun <reified T : Any> Fields<*>.selectMany(
     isReadonly: Boolean = false,
     noinline validator: ((List<T>?) -> Unit)? = null
 ) = selectMany(name.name, items, mapper, isRequired, label, hint, value, isReadonly, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 inline fun <reified T : Any> Fields<*>.selectMany(
@@ -72,5 +72,5 @@ inline fun <reified T : Any> Fields<*>.selectMany(
     isReadonly: Boolean = false,
     noinline validator: ((List<T>?) -> Unit)? = null
 ) = selectMany(name.name, items, mapper, isRequired, label, hint, value, isReadonly, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output.toISet()) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output.toISet()) }
 }

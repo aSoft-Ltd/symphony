@@ -58,7 +58,7 @@ inline fun Fields<*>.text(
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
 ) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 inline fun Fields<*>.text(
@@ -72,5 +72,5 @@ inline fun Fields<*>.text(
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
 ) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }

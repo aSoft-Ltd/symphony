@@ -40,7 +40,7 @@ inline fun Fields<*>.location(
     isReadonly: Boolean = false,
     noinline validator: ((GeoLocation?) -> Unit)? = null
 ) = location(name.name, isRequired, label, hint, value, isReadonly, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 inline fun Fields<*>.location(
@@ -52,5 +52,5 @@ inline fun Fields<*>.location(
     isReadonly: Boolean = false,
     noinline validator: ((GeoLocation?) -> Unit)? = null
 ) = location(name.name, isRequired, label, hint, value, isReadonly, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }

@@ -9,6 +9,7 @@ import cinematic.mutableLiveOf
 import kase.Failure
 import kase.FormState
 import kase.Pending
+import kase.Result
 import kase.Submitting
 import kase.Success
 import kase.Validating
@@ -34,7 +35,7 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
     open val details: String,
     open val fields: F,
     val config: FormConfig,
-    initializer: FormActionsBuildingBlock<P, R>,
+    initializer: FormInitialzer<P, R>,
 ) : Scene<FormState<R>>(Pending), Validateable<@UnsafeVariance P>, Clearable {
 
     private val logger = config.logger.with("source" to this::class.simpleName)
@@ -112,13 +113,16 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
         ui.history.clear()
     }
 
-    fun submit(): Later<R> = try {
+    open fun beforeSubmit(): Later<Any> = Later(Unit)
+
+    fun submit(): Later<R> = Later(Unit).andThen {
         logger.info("Validating")
         ui.value = Validating
         validate().throwIfInvalid()
         logger.info("Submitting")
+        beforeSubmit()
+    }.andThen {
         val output = fields.output
-        ui.value = Submitting(output.toString())
         submitAction.invoke(output).finally { res ->
             ui.value = when (res) {
                 is Failure -> showError(res.cause)
@@ -130,11 +134,34 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
                 if (exitOnSubmitted) exit()
             }
         }
-    } catch (err: Throwable) {
-        val e = showError(err)
-        ui.value = e
-        FailedLater(e.cause)
     }
+
+//    fun submit(): Later<R> = try {
+//        logger.info("Validating")
+//        ui.value = Validating
+//        validate().throwIfInvalid()
+//        logger.info("Submitting")
+//        val output = fields.output
+//        beforeSubmit().then {
+//
+//        }
+//
+//        submitAction.invoke(output).finally { res ->
+//            ui.value = when (res) {
+//                is Failure -> showError(res.cause)
+//                is Success -> Success(res.data)
+//            }
+//            if (res is Success) {
+//                logger.info("Success")
+//                data.value = OutputData(output)
+//                if (exitOnSubmitted) exit()
+//            }
+//        }
+//    } catch (err: Throwable) {
+//        val e = showError(err)
+//        ui.value = e
+//        FailedLater(e.cause)
+//    }
 
     private fun showError(err: Throwable): Failure<R> {
         logger.error("Failure")

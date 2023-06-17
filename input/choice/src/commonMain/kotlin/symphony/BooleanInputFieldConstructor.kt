@@ -48,7 +48,7 @@ inline fun Fields<*>.boolean(
     isRequired: Boolean = false,
     noinline validator: ((Boolean?) -> Unit)? = null
 ) = boolean(name.name, label, hint, value, isReadonly, isRequired, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 inline fun Fields<*>.boolean(
@@ -60,5 +60,5 @@ inline fun Fields<*>.boolean(
     isRequired: Boolean = true,
     noinline validator: ((Boolean?) -> Unit)? = null
 ) = boolean(name.name, label, hint, value, isReadonly, isRequired, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }

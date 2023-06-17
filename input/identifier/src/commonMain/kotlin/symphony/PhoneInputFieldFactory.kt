@@ -47,7 +47,7 @@ inline fun Fields<*>.phone(
     isRequired: Boolean = false,
     noinline validator: ((PhoneNumber?) -> Unit)? = null
 ) = phone(name.name, label, hint, value.toString(), isReadonly, isRequired, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 inline fun Fields<*>.phone(
@@ -59,5 +59,5 @@ inline fun Fields<*>.phone(
     isRequired: Boolean = true,
     noinline validator: ((PhoneNumber?) -> Unit)? = null
 ) = phone(name.name, label, hint, value.toString(), isReadonly, isRequired, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }

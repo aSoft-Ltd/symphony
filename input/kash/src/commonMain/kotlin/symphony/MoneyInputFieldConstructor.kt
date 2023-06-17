@@ -75,7 +75,7 @@ inline fun Fields<*>.money(
     stepAmount: Double? = null,
     noinline validator: ((Money?) -> Unit)? = null
 ) = money(name.name, isRequired, label, hint, value, currency, formatter, selectCurrency, isReadonly, maxAmount, minAmount, stepAmount, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 inline fun Fields<*>.money(
@@ -93,5 +93,5 @@ inline fun Fields<*>.money(
     stepAmount: Double? = null,
     noinline validator: ((Money?) -> Unit)? = null
 ) = money(name.name, isRequired, label, hint, value, currency, formatter, selectCurrency, isReadonly, maxAmount, minAmount, stepAmount, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }

@@ -53,5 +53,5 @@ inline fun Fields<*>.password(
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
 ) = password(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }

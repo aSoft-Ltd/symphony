@@ -59,7 +59,7 @@ inline fun <T : Any, P : KMutableProperty0<T?>> Fields<*>.selectSingle(
     isRequired: Boolean = false,
     noinline validator: ((T?) -> Unit)? = null
 ) = selectSingle(name.name, items, mapper, label, hint, value, isReadonly, isRequired, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 
@@ -74,5 +74,5 @@ inline fun <T : Any, P : KMutableProperty0<T>> Fields<*>.selectSingle(
     isRequired: Boolean = true,
     noinline validator: ((T?) -> Unit)? = null
 ) = selectSingle(name.name, items, mapper, label, hint, value, isReadonly, isRequired, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(output) }
 }

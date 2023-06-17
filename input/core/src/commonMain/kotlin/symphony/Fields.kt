@@ -3,14 +3,18 @@
 
 package symphony
 
+import cinematic.MutableLive
+import cinematic.mutableLiveOf
 import symphony.properties.Clearable
 import symphony.validation.Validateable
-import symphony.validation.ValidationResult
 import kotlin.js.JsExport
+import kotlin.js.JsName
+import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 
 abstract class Fields<out O : Any>(val output: O, @PublishedApi internal val cache: MutableMap<String, InputField> = mutableMapOf()) {
 
+    val live: MutableLive<@UnsafeVariance O> = mutableLiveOf(output)
 
     internal val all get() = cache.values
 
@@ -31,7 +35,17 @@ abstract class Fields<out O : Any>(val output: O, @PublishedApi internal val cac
         all.filterIsInstance<LiveData<*>>().forEach { it.data.stopAll() }
     }
 
-    inline fun <T : Any> KMutableProperty0<T>.setIfNotNull(value: T?) {
+    @JsName("_ignore_setAndUpdatenNoNullable")
+    @JvmName("_ignore_setAndUpdatenNoNullable")
+    inline fun <T : Any> KMutableProperty0<T>.setAndUpdate(value: T?) {
         if (value != null) set(value)
+        live.dispatch(output)
+    }
+
+    @JsName("_ignore_setAndUpdatenNullable")
+    @JvmName("_ignore_setAndUpdatenNullable")
+    inline fun <T : Any> KMutableProperty0<T?>.setAndUpdate(value: T?) {
+        set(value)
+        live.dispatch(output)
     }
 }

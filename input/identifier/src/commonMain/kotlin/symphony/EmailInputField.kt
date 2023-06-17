@@ -54,7 +54,7 @@ inline fun Fields<*>.email(
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
 ) = email(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 inline fun Fields<*>.email(
@@ -68,5 +68,5 @@ inline fun Fields<*>.email(
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
 ) = email(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }

@@ -2,8 +2,12 @@
 
 package symphony
 
+import cinematic.WatchMode
+import cinematic.watch
 import liquid.NumberFormatter
 import symphony.internal.DoubleInputFieldImpl
+import kotlin.jvm.JvmName
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
 inline fun DoubleInputField(
@@ -48,8 +52,9 @@ inline fun Fields<*>.double(
     DoubleInputField(name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
 }
 
+@JvmName("optionalDouble")
 inline fun Fields<*>.double(
-    name: KProperty<Double?>,
+    name: KMutableProperty0<Double?>,
     label: String = name.name,
     hint: String? = label,
     value: Double? = null,
@@ -60,4 +65,22 @@ inline fun Fields<*>.double(
     min: Double? = null,
     step: Double? = 0.1,
     noinline validator: ((Double?) -> Unit)? = null
-) = double(name.name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
+) = double(name.name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
+}
+
+inline fun Fields<*>.double(
+    name: KMutableProperty0<Double>,
+    label: String = name.name,
+    hint: String? = label,
+    value: Double? = null,
+    isReadonly: Boolean = false,
+    isRequired: Boolean = true,
+    formatter: NumberFormatter? = NumberFormatter(),
+    max: Double? = null,
+    min: Double? = null,
+    step: Double? = 0.1,
+    noinline validator: ((Double?) -> Unit)? = null
+) = double(name.name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
+}

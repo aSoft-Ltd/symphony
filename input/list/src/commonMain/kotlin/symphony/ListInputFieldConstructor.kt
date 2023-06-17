@@ -2,12 +2,15 @@
 
 package symphony
 
+import cinematic.WatchMode
+import cinematic.watch
 import kollections.List
 import kollections.iEmptyList
 import kollections.serializers.ListSerializer
 import kollections.toIList
 import kotlinx.serialization.serializer
 import symphony.internal.ListInputFieldImpl
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
 inline fun <E> ListInputField(
@@ -47,13 +50,15 @@ inline fun <E> Fields<*>.list(
 }
 
 inline fun <E> Fields<*>.list(
-    name: KProperty<Collection<E>?>,
+    name: KMutableProperty0<List<E>>,
     label: String = name.name,
     hint: String = label,
-    value: Collection<E>? = null,
+    value: Collection<E> = name.get(),
     isRequired: Boolean = false,
     isReadonly: Boolean = false,
     maxItems: Int? = null,
     minItems: Int? = null,
     noinline validator: ((List<E>) -> Unit)? = null
-) = list(name.name, label, hint, value, isRequired, isReadonly, maxItems, minItems, validator)
+) = list(name.name, label, hint, value, isRequired, isReadonly, maxItems, minItems, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
+}

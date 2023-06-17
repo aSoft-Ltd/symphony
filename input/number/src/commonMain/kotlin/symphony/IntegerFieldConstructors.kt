@@ -2,9 +2,12 @@
 
 package symphony
 
+import cinematic.WatchMode
+import cinematic.watch
 import liquid.NumberFormatter
 import symphony.internal.IntegerInputFieldImpl
-import kotlin.reflect.KProperty
+import kotlin.jvm.JvmName
+import kotlin.reflect.KMutableProperty0
 
 inline fun IntegerInputField(
     name: String,
@@ -48,11 +51,12 @@ inline fun Fields<*>.integer(
     IntegerInputField(name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
 }
 
+@JvmName("optionalInteger")
 inline fun Fields<*>.integer(
-    property: KProperty<Int?>,
-    label: String = property.name,
+    name: KMutableProperty0<Int?>,
+    label: String = name.name,
     hint: String? = label,
-    value: Int? = null,
+    value: Int? = name.get(),
     isReadonly: Boolean = false,
     isRequired: Boolean = false,
     formatter: NumberFormatter? = NumberFormatter(),
@@ -60,4 +64,22 @@ inline fun Fields<*>.integer(
     min: Int? = null,
     step: Int = 1,
     noinline validator: ((Int?) -> Unit)? = null
-) = integer(property.name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator)
+) = integer(name.name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
+}
+
+inline fun Fields<*>.integer(
+    name: KMutableProperty0<Int>,
+    label: String = name.name,
+    hint: String? = label,
+    value: Int = name.get(),
+    isReadonly: Boolean = false,
+    isRequired: Boolean = true,
+    formatter: NumberFormatter? = NumberFormatter(),
+    max: Int? = null,
+    min: Int? = null,
+    step: Int = 1,
+    noinline validator: ((Int?) -> Unit)? = null
+) = integer(name.name, label, hint, value, isReadonly, isRequired, formatter, max, min, step, validator).apply {
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
+}
