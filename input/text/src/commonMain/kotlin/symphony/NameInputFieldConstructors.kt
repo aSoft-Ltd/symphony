@@ -4,6 +4,7 @@ package symphony
 
 import cinematic.WatchMode
 import cinematic.watch
+import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
@@ -24,6 +25,7 @@ inline fun Fields<*>.name(
     noinline validator: ((String?) -> Unit)? = null
 ) = text(name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
 
+@JvmName("optionalName")
 inline fun Fields<*>.name(
     name: KMutableProperty0<String?>,
     label: String = name.name,

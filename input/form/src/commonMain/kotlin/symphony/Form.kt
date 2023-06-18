@@ -9,14 +9,11 @@ import cinematic.mutableLiveOf
 import kase.Failure
 import kase.FormState
 import kase.Pending
-import kase.Result
-import kase.Submitting
 import kase.Success
 import kase.Validating
 import kevlar.Action1Invoker
 import kevlar.action0
 import kollections.toIList
-import koncurrent.FailedLater
 import koncurrent.Later
 import koncurrent.later.finally
 import symphony.exceptions.FormValidationException
@@ -35,7 +32,7 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
     open val details: String,
     open val fields: F,
     val config: FormConfig,
-    initializer: FormInitialzer<P, R>,
+    initializer: FormInitializer<P, R>,
 ) : Scene<FormState<R>>(Pending), Validateable<@UnsafeVariance P>, Clearable {
 
     private val logger = config.logger.with("source" to this::class.simpleName)
@@ -131,6 +128,11 @@ open class Form<out F : Fields<P>, out P : Any, out R>(
             if (res is Success) {
                 logger.info("Success")
                 data.value = OutputData(output)
+                try {
+                    builtActions.onSuccess?.invoke()
+                } catch (err: Throwable) {
+                    logger.error("Post Submit failed", err)
+                }
                 if (exitOnSubmitted) exit()
             }
         }

@@ -2,7 +2,7 @@ package symphony
 
 class TestForm<F : Fields>(
     override val fields: F,
-    builder: FormInitialzer<Map<String, String>, Any?>
+    builder: FormInitializer<Map<String, String>, Any?>
 ) : Form<F, Map<String, String>, Any?>(
     heading = "Test Form",
     details = "This is a form for testing",

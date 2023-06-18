@@ -20,7 +20,7 @@ class FormWithMoneyInputFieldTest {
 
     class TestForm(
         curreny: Currency?,
-        init: FormInitialzer<TestParams, TestParams>
+        init: FormInitializer<TestParams, TestParams>
     ) : Form<TestFields, TestParams, TestParams>(
         heading = "Test Form",
         details = "This is a test form",

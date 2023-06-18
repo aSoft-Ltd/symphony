@@ -47,7 +47,7 @@ inline fun Fields<*>.file(
     isRequired: Boolean = false,
     noinline validator: ((FileBlob?) -> Unit)? = null
 ) = file(name.name, label, hint, value, isReadonly, isRequired, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.set(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }
 
 inline fun Fields<*>.file(
@@ -59,5 +59,5 @@ inline fun Fields<*>.file(
     isRequired: Boolean = true,
     noinline validator: ((FileBlob?) -> Unit)? = null
 ) = file(name.name, label, hint, value, isReadonly, isRequired, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setIfNotNull(it.output) }
+    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
 }

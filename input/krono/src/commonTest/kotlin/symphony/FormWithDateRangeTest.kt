@@ -24,7 +24,7 @@ class FormWithDateRangeTest {
 
     class PersonForm(
         config: FormConfig<Params>,
-        builder: FormInitialzer<Params, Any?>
+        builder: FormInitializer<Params, Any?>
     ) : Form<TestFormFields, Params, Any?>(
         heading = "Person Form",
         details = "Add this form to fill a person",

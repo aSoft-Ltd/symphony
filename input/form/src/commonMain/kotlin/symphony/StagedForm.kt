@@ -12,5 +12,5 @@ open class StagedForm<out P, out R>(
     open val heading: String,
     open val details: String,
     open val config: FormConfig,
-    initializer: FormInitialzer<P, R>,
+    initializer: FormInitializer<P, R>,
 ) : Scene<FormState<R>>(Pending)
