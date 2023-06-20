@@ -5,4 +5,4 @@ fun <O, P, F : Fields<P>, I : Input<F>> I.toForm(
     details: String,
     config: FormConfig,
     initializer: FormInitializer<P, O>
-): FormInput<O, P, F, I> = FormInput(heading, details, this, config, initializer)
+): Form<O, P, F, I> = Form(heading, details, this, config, initializer)

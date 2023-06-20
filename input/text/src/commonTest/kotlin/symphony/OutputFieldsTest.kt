@@ -23,11 +23,11 @@ class OutputFieldsTest {
         val age = fields.age
         expect(name.output).toBe("John")
         expect(fields.output).toBe(Person("John", ""))
-        name.type("Anderson")
+        name.set("Anderson")
         expect(name.output).toBe("JohnAnderson")
         name.set("Anderson")
         expect(name.output).toBe("Anderson")
-        age.type("22")
+        age.set("22")
         expect(age.output).toBe("22")
         expect(fields.output).toBe(Person("Anderson", "22"))
     }

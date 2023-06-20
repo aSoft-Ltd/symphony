@@ -10,7 +10,7 @@ import symphony.properties.Settable
 import symphony.properties.Validable
 import kotlin.js.JsExport
 
-interface TextField<T : String?> : Field<TextInputState<T>>, Hideable, Clearable, Resetable, Validable, Settable<T> {
+interface TextField<T : String?> : Field<TextFieldState<T>>, Hideable, Clearable, Resetable, Validable, Settable<T> {
 
     override val hidden get() = state.value.hidden
     val output get() = state.value.output

@@ -10,7 +10,7 @@ import neat.required
 import symphony.Feedbacks
 import symphony.Label
 import symphony.TextField
-import symphony.TextInputState
+import symphony.TextFieldState
 import symphony.toErrors
 import symphony.toWarnings
 import kotlin.reflect.KMutableProperty0
@@ -27,14 +27,13 @@ internal class TextFieldImpl<T : String?>(
 
     private val validator = custom<T>(label).configure(validator)
 
-    private val initial = TextInputState(
+    private val initial = TextFieldState(
         name = name.name,
         label = Label(label, this.validator.required),
         hint = hint,
         input = value,
         output = value,
         hidden = hidden,
-        suggestions = iEmptyList(),
         required = this.validator.required,
         feedbacks = Feedbacks(iEmptyList())
     )

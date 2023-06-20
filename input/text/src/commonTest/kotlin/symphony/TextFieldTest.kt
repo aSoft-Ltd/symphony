@@ -33,8 +33,8 @@ class TextFieldTest {
     @Test
     fun should_be_able_to_validate_text() {
         val tf = TextField(name = ::text) {
-            required()
             max(3)
+            required()
         }
 
         tf.set("Jane")

@@ -3,10 +3,9 @@
 
 package symphony
 
-import kollections.List
 import kotlin.js.JsExport
 
-data class TextInputState<T : String?>(
+data class TextFieldState<T : String?>(
     val name: String,
     val label: Label,
     val hidden: Boolean,
@@ -14,6 +13,5 @@ data class TextInputState<T : String?>(
     val required: Boolean,
     val output: T,
     val input: String?,
-    val suggestions: List<String>,
     val feedbacks: Feedbacks
 )
