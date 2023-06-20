@@ -19,6 +19,7 @@ fun Expect<PersonFields>.toBeInValidAndHaveInValidValues() {
     val errors = listOf(
         "fName should have more than 2 character(s), but has 1 character(s) instead",
         "lName is required, but was null",
+        "age is required, but was null",
         "hobbies collection should have more than 2 item(s), but has 0 items(s) instead"
     )
     expect(value.state.value.feedbacks.errors).toBe(errors)

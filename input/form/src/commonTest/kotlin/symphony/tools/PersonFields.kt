@@ -4,6 +4,8 @@ import neat.min
 import neat.required
 import symphony.Fields
 import symphony.boolean
+import symphony.double
+import symphony.integer
 import symphony.selectSingle
 import symphony.name
 import symphony.selectMany
@@ -13,6 +15,8 @@ import symphony.toOption
 class PersonFields : Fields<PersonOutput>(PersonOutput()) {
     val fName = name(output::fName) { required() }
     val lName = name(output::lName) { required() }
+    val age = integer(output::age) { required() }
+    val weight = double(output::wightInKg) { required() }
     val nickname = text(output::nickname) { optional() }
     val parent = boolean(output::parent)
     val scholar = boolean(output::scholar) { optional() }

@@ -14,6 +14,8 @@ fun PersonFields.setAllValidValues() {
     hobbies.addSelectedItem(Hobby.Tech)
     hobbies.addSelectedItem(Hobby.Math)
     colors.addSelectedItem(Color.Red)
+    age.set("21")
+    weight.set(33.0)
 }
 
 fun Expect<PersonFields>.toBeValidWithAllValuesSet() {
@@ -27,4 +29,6 @@ fun Expect<PersonFields>.toBeValidWithAllValuesSet() {
     expect(output.futureMaritalStatus).toBe(null)
     expect(output.hobbies).toBe(listOf(Hobby.Tech, Hobby.Math))
     expect(output.colors).toBe(listOf(Color.Red))
+    expect(output.age).toBe(21)
+    expect(output.wightInKg).toBe(33.0)
 }

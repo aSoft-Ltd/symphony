@@ -13,6 +13,7 @@ fun PersonFields.setRequiredValidValues() {
     hobbies.addSelectedItem(Hobby.Tech)
     hobbies.addSelectedItem(Hobby.Math)
     colors.clear()
+    age.set(21)
 }
 
 fun Expect<PersonFields>.toBeValidWithRequiredValuesOnly() {

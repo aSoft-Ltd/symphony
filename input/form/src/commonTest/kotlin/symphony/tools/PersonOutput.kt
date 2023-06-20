@@ -6,6 +6,8 @@ import kollections.List
 data class PersonOutput(
     var fName: String = "",
     var lName: String = "",
+    var age: Int? = null,
+    var wightInKg: Double = 0.0,
     var nickname: String? = null,
     var parent: Boolean = false,
     var scholar: Boolean? = null,

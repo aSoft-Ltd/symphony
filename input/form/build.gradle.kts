@@ -31,6 +31,7 @@ kotlin {
                 api(projects.koncurrentLaterCoroutines)
                 api(projects.symphonyInputChoice)
                 api(projects.symphonyInputText)
+                api(projects.symphonyInputNumber)
             }
         }
     }
