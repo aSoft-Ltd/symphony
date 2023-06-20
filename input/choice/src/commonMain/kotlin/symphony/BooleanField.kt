@@ -5,7 +5,7 @@ package symphony
 import symphony.properties.Settable
 import kotlin.js.JsExport
 
-interface BooleanField<T : Boolean?> : Field<FieldState<T, T>>, Settable<T> {
+interface BooleanField<T : Boolean?> : Field<PrimitiveFieldState<T, T>>, Settable<T> {
     fun toggle()
     val output: T
 }

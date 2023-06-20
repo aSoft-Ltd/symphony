@@ -1,27 +1,22 @@
 @file:JsExport
 @file:Suppress("NON_EXPORTABLE_TYPE")
 
-package symphony.internal
+package symphony
 
 import cinematic.mutableLiveOf
 import neat.Validator
 import neat.Validators
 import neat.Validity
 import neat.custom
-import symphony.Feedbacks
-import symphony.Field
-import symphony.FieldState
 import symphony.properties.Settable
-import symphony.toErrors
-import symphony.toWarnings
 import kotlin.js.JsExport
 import kotlin.reflect.KMutableProperty0
 
-abstract class AbstractField<I, O : I>(
+abstract class PrimitiveField<I, O : I>(
     open val name: KMutableProperty0<O>,
     label: String,
     validator: (Validators<O>.() -> Validator<O>)?
-) : Field<FieldState<I, O>>, Settable<O> {
+) : Field<PrimitiveFieldState<I, O>>, Settable<O> {
     protected val validator = custom<O>(label).configure(validator)
 
     override fun validate() = validator.validate(output)
@@ -62,7 +57,7 @@ abstract class AbstractField<I, O : I>(
         state.value = initial
     }
 
-    abstract val initial: FieldState<I, O>
+    abstract val initial: PrimitiveFieldState<I, O>
 
     override val state by lazy { mutableLiveOf(initial) }
 

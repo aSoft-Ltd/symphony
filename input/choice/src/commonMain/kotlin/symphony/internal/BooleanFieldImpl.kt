@@ -6,8 +6,9 @@ import neat.Validators
 import neat.required
 import symphony.BooleanField
 import symphony.Feedbacks
-import symphony.FieldState
+import symphony.PrimitiveFieldState
 import symphony.Label
+import symphony.PrimitiveField
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
@@ -18,9 +19,9 @@ internal class BooleanFieldImpl<T : Boolean?>(
     hidden: Boolean,
     hint: String,
     validator: (Validators<T>.() -> Validator<T>)?
-) : AbstractField<T, T>(name, label, validator), BooleanField<T> {
+) : PrimitiveField<T, T>(name, label, validator), BooleanField<T> {
 
-    override val initial = FieldState(
+    override val initial = PrimitiveFieldState(
         name = name.name,
         label = Label(label, this.validator.required),
         hint = hint,
