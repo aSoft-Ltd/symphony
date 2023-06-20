@@ -6,9 +6,18 @@ import kommander.expect
 fun PersonFields.setInvalidValues() {
     name.clear()
     nickname.set("wizo")
+    scholar.set(null)
 }
 
 fun Expect<PersonFields>.toBeInValidAndHaveInValidValues() {
-    expect(value.name.output).toBe("")
-    expect(value.nickname.output).toBe("wizo")
+    val output = value.output
+    expect(output.name).toBe("")
+    expect(output.nickname).toBe("wizo")
+    expect(output.scholar).toBe(null)
+
+    val errors = listOf(
+        "name should have a more than 2 character(s), but  has 0 character(s) instead",
+        "name is required to not be empty but it was"
+    )
+    expect(value.state.value.feedbacks.errors).toBe(errors)
 }

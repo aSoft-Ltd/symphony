@@ -3,6 +3,7 @@ package symphony
 import neat.Validator
 import neat.Validators
 import neat.min
+import neat.notBlank
 import symphony.internal.TextFieldImpl
 import kotlin.reflect.KMutableProperty0
 
@@ -40,5 +41,6 @@ fun <T : String?> Fields<*>.name(
     validator: (Validators<T>.() -> Validator<T>)? = null
 ) = text(name, label, value, hint, hidden) {
     min(2)
+    notBlank()
     configure(validator)
 }

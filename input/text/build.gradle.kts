@@ -6,6 +6,8 @@ plugins {
 
 description = "A kotlin multiplatform library for headless input fields"
 
+val tmp = 4
+
 kotlin {
     jvm { library() }
     if (Targeting.JS) js(IR) { library() }

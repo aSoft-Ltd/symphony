@@ -8,16 +8,20 @@ import kotlinx.coroutines.test.runTest
 import lexi.Logger
 import symphony.tools.CompanyInput
 import symphony.tools.CompanyOutput
+import symphony.tools.PersonInput
+import symphony.tools.PersonOutput
 import symphony.tools.setInvalidValues
-import symphony.tools.setValidValues
+import symphony.tools.setAllValidValues
+import symphony.tools.setRequiredValidValues
 import symphony.tools.toBeInValidAndHaveInValidValues
-import symphony.tools.toBeValidAndHaveValidValues
+import symphony.tools.toBeValidWithAllValuesSet
+import symphony.tools.toBeValidWithRequiredValuesOnly
 import kotlin.test.Test
 
 class LargeInputAsFieldTest {
 
     @Test
-    fun should_be_fail_to_submit_a_form_with_validation_errors() = runTest {
+    fun should_be_fail_to_submit_a_field_with_validation_errors() = runTest {
         var company: CompanyOutput? = null
         val form = CompanyInput().toForm(
             heading = "Company Form",
@@ -37,7 +41,7 @@ class LargeInputAsFieldTest {
     }
 
     @Test
-    fun should_be_able_to_submit_a_form_without_validation() = runTest {
+    fun should_be_able_to_submit_a_field_with_all_values_set_and_valid() = runTest {
         var company: CompanyOutput? = null
         val form = CompanyInput().toForm(
             heading = "Company Form",
@@ -50,9 +54,29 @@ class LargeInputAsFieldTest {
             }
         }
 
-        form.input.fields.director.fields.setValidValues()
+        form.input.fields.director.fields.setAllValidValues()
         form.submit().await()
         expect(company).toBeNonNull()
-        expect(form.input.fields.director.fields).toBeValidAndHaveValidValues()
+        expect(form.input.fields.director.fields).toBeValidWithAllValuesSet()
+    }
+
+    @Test
+    fun should_be_able_to_submit_a_field_with_only_required_values_set_and_valid() = runTest {
+        var company: CompanyOutput? = null
+        val form = CompanyInput().toForm(
+            heading = "Company Form",
+            details = "Test company form",
+            config = FormConfig(Logger())
+        ) {
+            onSubmit {
+                company = it
+                Later(it)
+            }
+        }
+
+        form.input.fields.director.fields.setRequiredValidValues()
+        form.submit().await()
+        expect(company).toBeNonNull()
+        expect(form.input.fields.director.fields).toBeValidWithRequiredValuesOnly()
     }
 }

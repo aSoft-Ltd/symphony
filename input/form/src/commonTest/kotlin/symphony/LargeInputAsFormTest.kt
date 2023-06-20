@@ -9,9 +9,11 @@ import lexi.Logger
 import symphony.tools.PersonInput
 import symphony.tools.PersonOutput
 import symphony.tools.setInvalidValues
-import symphony.tools.setValidValues
+import symphony.tools.setAllValidValues
+import symphony.tools.setRequiredValidValues
 import symphony.tools.toBeInValidAndHaveInValidValues
-import symphony.tools.toBeValidAndHaveValidValues
+import symphony.tools.toBeValidWithAllValuesSet
+import symphony.tools.toBeValidWithRequiredValuesOnly
 import kotlin.test.Test
 
 class LargeInputAsFormTest {
@@ -37,7 +39,7 @@ class LargeInputAsFormTest {
     }
 
     @Test
-    fun should_be_able_to_submit_a_form_without_validation_errors() = runTest {
+    fun should_be_able_to_submit_a_form_with_all_values_set_and_valid() = runTest {
         var person: PersonOutput? = null
         val form = PersonInput().toForm(
             heading = "",
@@ -50,9 +52,29 @@ class LargeInputAsFormTest {
             }
         }
 
-        form.input.fields.setValidValues()
+        form.input.fields.setAllValidValues()
         form.submit().await()
         expect(person).toBeNonNull()
-        expect(form.input.fields).toBeValidAndHaveValidValues()
+        expect(form.input.fields).toBeValidWithAllValuesSet()
+    }
+
+    @Test
+    fun should_be_able_to_submit_a_form_with_only_required_values_set_and_valid() = runTest {
+        var person: PersonOutput? = null
+        val form = PersonInput().toForm(
+            heading = "",
+            details = "",
+            config = FormConfig(Logger())
+        ) {
+            onSubmit {
+                person = it
+                Later(0)
+            }
+        }
+
+        form.input.fields.setRequiredValidValues()
+        form.submit().await()
+        expect(person).toBeNonNull()
+        expect(form.input.fields).toBeValidWithRequiredValuesOnly()
     }
 }

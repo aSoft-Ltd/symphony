@@ -54,7 +54,7 @@ open class Form<O, P, F : Fields<P>, I : Input<F>>(
         state.value = Pending
     }
 
-    fun validate(): Validity<*> = when (val res = input.validate()) {
+    fun validate(): Validity<*> = when (val res = input.validateToErrors()) {
         is neat.Valid -> res
         is neat.Invalid -> {
             val exception = res.exception()
