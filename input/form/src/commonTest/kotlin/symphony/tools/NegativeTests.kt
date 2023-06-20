@@ -16,8 +16,7 @@ fun Expect<PersonFields>.toBeInValidAndHaveInValidValues() {
     expect(output.scholar).toBe(null)
 
     val errors = listOf(
-        "name should have a more than 2 character(s), but  has 0 character(s) instead",
-        "name is required to not be empty but it was"
+        "name is required, but was null",
     )
     expect(value.state.value.feedbacks.errors).toBe(errors)
 }

@@ -5,16 +5,13 @@ import kollections.List
 import kollections.toIList
 import neat.Validator
 import neat.Validators
-import neat.required
 import symphony.Option
-import symphony.PrimitiveField
-import symphony.PrimitiveFieldState
 import symphony.SingleChoiceField
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
 internal class SingleChoiceFieldImpl<T>(
-    override val name: KMutableProperty0<T>,
+    name: KMutableProperty0<T>,
     label: String,
     value: T,
     override val items: Collection<T>,
@@ -22,7 +19,7 @@ internal class SingleChoiceFieldImpl<T>(
     hidden: Boolean,
     hint: String,
     validator: (Validators<T>.() -> Validator<T>)?
-) : PrimitiveField<T?, T>(name, label, validator), SingleChoiceField<T> {
+) : AbstractPrimitiveField<T>(name, label, value, hidden, hint, validator), SingleChoiceField<T> {
 
     override val selectedItem: T? get() = state.value.output
 
@@ -38,7 +35,8 @@ internal class SingleChoiceFieldImpl<T>(
     }).toIList()
 
     override fun selectOption(option: Option) {
-        TODO("Not yet implemented")
+        val item = items.find { mapper(it).value == option.value }
+        if (item != null) set(item)
     }
 
     override fun select(item: T) = set(item)
@@ -56,8 +54,6 @@ internal class SingleChoiceFieldImpl<T>(
     override fun selectItem(item: T) = set(item)
 
     override fun unselect() {
-        state.value = state.value.copy(input = null)
+        state.value = state.value.copy(output = null)
     }
-
-    override val initial = PrimitiveFieldState(name, label, this.validator.required, hint, value, hidden)
 }

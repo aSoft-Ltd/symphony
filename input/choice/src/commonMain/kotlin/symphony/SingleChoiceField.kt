@@ -8,7 +8,7 @@ import kollections.List
 import symphony.properties.Settable
 import kotlin.js.JsExport
 
-interface SingleChoiceField<O> : Field<PrimitiveFieldState<O?, O>>, Settable<O> {
+interface SingleChoiceField<O> : PrimitiveField<O>, Settable<O> {
     val mapper: (O) -> Option
 
     val items: Collection<O>

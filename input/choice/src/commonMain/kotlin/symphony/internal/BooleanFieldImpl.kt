@@ -1,36 +1,19 @@
 package symphony.internal
 
-import kollections.iEmptyList
 import neat.Validator
 import neat.Validators
-import neat.required
 import symphony.BooleanField
-import symphony.Feedbacks
-import symphony.PrimitiveFieldState
-import symphony.Label
-import symphony.PrimitiveField
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
-internal class BooleanFieldImpl<T : Boolean?>(
-    override val name: KMutableProperty0<T>,
+internal class BooleanFieldImpl<O : Boolean?>(
+    name: KMutableProperty0<O>,
     label: String,
-    value: T,
+    value: O,
     hidden: Boolean,
     hint: String,
-    validator: (Validators<T>.() -> Validator<T>)?
-) : PrimitiveField<T, T>(name, label, validator), BooleanField<T> {
+    validator: (Validators<O>.() -> Validator<O>)?
+) : AbstractPrimitiveField<O>(name,label,value,hidden,hint,validator), BooleanField<O> {
 
-    override val initial = PrimitiveFieldState(
-        name = name.name,
-        label = Label(label, this.validator.required),
-        hint = hint,
-        input = value,
-        output = value,
-        hidden = hidden,
-        required = this.validator.required,
-        feedbacks = Feedbacks(iEmptyList())
-    )
-
-    override fun toggle() = set((output?.not() ?: false) as T)
+    override fun toggle() = set((output?.not() ?: false) as O)
 }
