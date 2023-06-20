@@ -13,7 +13,7 @@ class FormattedOutputSetter<I : Any, O : Any>(
     private val transformer: DataTransformer<I, O>,
     private val validator: Validateable<O>
 ) : FeedbackSetter(feedback), Settable<I> {
-    override fun set(value: I?) {
+    override fun set(value: I) {
         val prev = data.value
         try {
             val d = transformer.toFormattedData(value)

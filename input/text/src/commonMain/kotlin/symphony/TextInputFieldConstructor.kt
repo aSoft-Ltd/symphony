@@ -41,36 +41,39 @@ inline fun Fields<*>.text(
     maxLength: Int? = null,
     minLength: Int? = null,
     noinline validator: ((String?) -> Unit)? = null
-): TextInputField = getOrCreate(name) {
-    TextInputField(name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
+): TextInputField {
+    TODO()
+//    getOrCreate(name) {
+//        TextInputField(name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator)
+//    }
 }
 
-@JvmName("optionalText")
-@JsName("optionalText")
-inline fun Fields<*>.text(
-    name: KMutableProperty0<String?>,
-    label: String = name.name,
-    hint: String = label,
-    value: String? = name.get(),
-    isReadonly: Boolean = false,
-    isRequired: Boolean = false,
-    maxLength: Int? = null,
-    minLength: Int? = null,
-    noinline validator: ((String?) -> Unit)? = null
-) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
-}
+//@JvmName("optionalText")
+//@JsName("optionalText")
+//inline fun Fields<*>.text(
+//    name: KMutableProperty0<String?>,
+//    label: String = name.name,
+//    hint: String = label,
+//    value: String? = name.get(),
+//    isReadonly: Boolean = false,
+//    isRequired: Boolean = false,
+//    maxLength: Int? = null,
+//    minLength: Int? = null,
+//    noinline validator: ((String?) -> Unit)? = null
+//) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
+//    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
+//}
 
-inline fun Fields<*>.text(
-    name: KMutableProperty0<String>,
-    label: String = name.name,
-    hint: String = label,
-    value: String? = name.get(),
-    isReadonly: Boolean = false,
-    isRequired: Boolean = true,
-    maxLength: Int? = null,
-    minLength: Int? = null,
-    noinline validator: ((String?) -> Unit)? = null
-) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
-    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
-}
+//inline fun Fields<*>.text(
+//    name: KMutableProperty0<String>,
+//    label: String = name.name,
+//    hint: String = label,
+//    value: String? = name.get(),
+//    isReadonly: Boolean = false,
+//    isRequired: Boolean = true,
+//    maxLength: Int? = null,
+//    minLength: Int? = null,
+//    noinline validator: ((String?) -> Unit)? = null
+//) = text(name.name, label, hint, value, isReadonly, isRequired, maxLength, minLength, validator).apply {
+//    data.watch(mode = WatchMode.Casually) { name.setAndUpdate(it.output) }
+//}

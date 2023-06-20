@@ -16,7 +16,7 @@ abstract class PlainDataListField<O>(value: Collection<O>?) : CompoundValidateab
     override val data = mutableLiveOf(default)
 
     protected val setter by lazy { OutputSetter(data as MutableLive<Data<List<O>>>, feedback, cv) }
-    override fun set(value: List<O>?) = setter.set(value)
+    override fun set(value: List<O>) = setter.set(value)
 
     private val clearer by lazy { Clearer(default, data as MutableLive<Data<List<O>>>, feedback) }
     override fun clear() = clearer.clear()

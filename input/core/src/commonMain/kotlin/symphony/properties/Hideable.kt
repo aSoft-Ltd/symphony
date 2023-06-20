@@ -1,4 +1,8 @@
+@file:JsExport
+
 package symphony.properties
+
+import kotlin.js.JsExport
 
 interface Hideable {
     val hidden: Boolean

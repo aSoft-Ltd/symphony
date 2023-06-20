@@ -12,7 +12,7 @@ abstract class PlainDataField<O : Any>(value: O?) : CompoundValidateableInputFie
     override val data = mutableLiveOf(default)
 
     protected val setter by lazy { OutputSetter(data, feedback, cv) }
-    override fun set(value: O?) = setter.set(value)
+    override fun set(value: O) = setter.set(value)
 
     private val clearer by lazy {  }
     override fun clear() = Clearer(default, data, feedback).clear()

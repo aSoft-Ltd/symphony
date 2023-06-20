@@ -1,6 +1,5 @@
 package symphony.internal
 
-import kotlinx.serialization.builtins.serializer
 import symphony.BasicTextInputField
 import symphony.internal.utils.Typer
 

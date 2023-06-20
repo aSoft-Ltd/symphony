@@ -35,9 +35,10 @@ inline fun <I : Any, reified O : Any> Fields<*>.transform(
     formatter: Formatter<O>? = null,
     noinline validator: ((O?) -> Unit)? = null,
     noinline transformer: (I?) -> O?
-): TransformingInputField<I, O> = getOrCreate(name) {
-    TransformingInputField(name, label, hint, value, isReadonly, isRequired, formatter, validator, transformer)
-}
+): TransformingInputField<I, O> = TODO()
+//getOrCreate(name) {
+//    TransformingInputField(name, label, hint, value, isReadonly, isRequired, formatter, validator, transformer)
+//}
 
 inline fun <I : Any, reified O : Any> Fields<*>.transform(
     name: KProperty<O?>,

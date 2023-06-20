@@ -14,7 +14,7 @@ class OutputSetter<in V>(
     private val feedback: MutableLive<InputFieldState>,
     private val validator: Validateable<V>
 ) : FeedbackSetter(feedback), Settable<V> {
-    override fun set(value: V?) {
+    override fun set(value: V) {
         data.value = when (value) {
             is Collection<Any?> -> OutputList(value.toIList()) as Data<V>
             else -> OutputData(value)

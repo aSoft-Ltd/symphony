@@ -17,7 +17,7 @@ abstract class TransformedDataField<I : Any, O : Any>(value: O?) : CompoundValid
     abstract val transformer: DataTransformer<I, O>
 
     protected val setter by lazy { FormattedOutputSetter(data, feedback, transformer, cv) }
-    override fun set(value: I?) = setter.set(value)
+    override fun set(value: I) = setter.set(value)
 
     private val clearer by lazy { Clearer(default, data, feedback) }
     override fun clear() = clearer.clear()

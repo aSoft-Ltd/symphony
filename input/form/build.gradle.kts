@@ -24,5 +24,13 @@ kotlin {
                 api(projects.lexiConsole)
             }
         }
+
+        val commonTest by getting {
+            dependencies {
+                api(projects.kommanderCoroutines)
+                api(projects.koncurrentLaterCoroutines)
+                api(projects.symphonyInputText)
+            }
+        }
     }
 }

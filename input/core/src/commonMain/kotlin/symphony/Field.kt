@@ -1,11 +1,12 @@
 @file:JsExport
+@file:Suppress("NON_EXPORTABLE_TYPE")
 
 package symphony
 
 import cinematic.Live
+import symphony.properties.Finishable
 import kotlin.js.JsExport
 
-@Suppress("NON_EXPORTABLE_TYPE")
-interface Field<out S> {
+interface Field<out S> : Finishable {
     val state: Live<S>
 }

@@ -7,5 +7,5 @@ import kotlin.js.JsName
 
 interface Settable<in V> {
     @JsName("setValue")
-    fun set(value: V?)
+    fun set(value: V)
 }

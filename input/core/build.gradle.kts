@@ -20,7 +20,7 @@ kotlin {
             dependencies {
                 api(projects.cinematicLiveCore)
                 api(projects.kollectionsInteroperable)
-                api(kotlinx.serialization.json) // because fields need to serialize
+                api(projects.neatCore)
             }
         }
     }

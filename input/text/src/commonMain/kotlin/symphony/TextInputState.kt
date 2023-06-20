@@ -6,14 +6,14 @@ package symphony
 import kollections.List
 import kotlin.js.JsExport
 
-data class TextFieldState(
+data class TextInputState<T : String?>(
     val name: String,
     val label: Label,
     val hidden: Boolean,
     val hint: String,
     val required: Boolean,
-    val output: String,
-    val input: String,
+    val output: T,
+    val input: String?,
     val suggestions: List<String>,
-    val feedback: Feedbacks
+    val feedbacks: Feedbacks
 )
