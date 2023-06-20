@@ -19,6 +19,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputChoice)
+                api(projects.symphonyInputNumber)
+                api(projects.geoCountries)
                 api(projects.kashMoney)
             }
         }

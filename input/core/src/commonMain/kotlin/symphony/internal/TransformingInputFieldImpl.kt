@@ -1,6 +1,5 @@
 package symphony.internal
 
-import kotlinx.serialization.KSerializer
 import symphony.Formatter
 import symphony.Label
 import symphony.TransformingInputField

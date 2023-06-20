@@ -5,13 +5,13 @@ package symphony
 
 import kotlin.js.JsExport
 
-data class NumberFieldState<N : Number?>(
+data class TransformingFieldState<I, O>(
     val name: String,
     val label: Label,
     val hidden: Boolean,
     val hint: String,
     val required: Boolean,
-    val input: String?,
-    val output: N?,
+    val input: I?,
+    val output: O?,
     val feedbacks: Feedbacks
 )
