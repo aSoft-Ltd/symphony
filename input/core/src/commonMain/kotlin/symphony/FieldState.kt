@@ -5,13 +5,13 @@ package symphony
 
 import kotlin.js.JsExport
 
-data class TextFieldState<T : String?>(
+data class FieldState<I, O>(
     val name: String,
     val label: Label,
     val hidden: Boolean,
     val hint: String,
     val required: Boolean,
-    val output: T,
-    val input: String?,
+    val input: I,
+    val output: O,
     val feedbacks: Feedbacks
 )

@@ -59,13 +59,7 @@ open class Form<O, P, F : Fields<P>, I : Input<F>>(
         is neat.Invalid -> {
             val exception = res.exception()
             logger.error(exception.message)
-            val message = buildString {
-                appendLine("Validation Error(s)")
-                exception.reasons.forEachIndexed { idx, it ->
-                    appendLine("\t${idx + 1}. $it")
-                }
-            }
-            logger.error(message)
+            logger.error(exception.details)
             state.value = showError(exception)
             res
         }

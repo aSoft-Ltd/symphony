@@ -4,23 +4,23 @@ import kollections.iEmptyList
 import neat.Validator
 import neat.Validators
 import neat.required
+import symphony.BooleanField
 import symphony.Feedbacks
 import symphony.FieldState
 import symphony.Label
-import symphony.TextField
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
-internal class TextFieldImpl<T : String?>(
-    name: KMutableProperty0<T>,
+internal class BooleanFieldImpl<T : Boolean?>(
+    override val name: KMutableProperty0<T>,
     label: String,
     value: T,
     hidden: Boolean,
     hint: String,
     validator: (Validators<T>.() -> Validator<T>)?
-) : AbstractField<String?, T>(name, label, validator), TextField<T> {
+) : AbstractField<T, T>(name, label, validator), BooleanField<T> {
 
-    override val initial = FieldState<String?, T>(
+    override val initial = FieldState(
         name = name.name,
         label = Label(label, this.validator.required),
         hint = hint,
@@ -31,6 +31,5 @@ internal class TextFieldImpl<T : String?>(
         feedbacks = Feedbacks(iEmptyList())
     )
 
-    override val output get() = state.value.output
-    override val hidden: Boolean get() = state.value.hidden
+    override fun toggle() = set((output?.not() ?: false) as T)
 }

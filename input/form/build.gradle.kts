@@ -29,6 +29,7 @@ kotlin {
             dependencies {
                 api(projects.kommanderCoroutines)
                 api(projects.koncurrentLaterCoroutines)
+                api(projects.symphonyInputChoice)
                 api(projects.symphonyInputText)
             }
         }
