@@ -27,9 +27,9 @@ open class AbstractPrimitiveField<O>(
     hint: String,
     validator: (Validators<O>.() -> Validator<O>)?
 ) : PrimitiveField<O> {
-    protected val validator = custom<O>(label).configure(validator) // as Validator<O?>
+    protected val validator = custom<O>(label).configure(validator)
 
-    override fun validate() = validator.validate(output as O)
+    override fun validate() = validator.validate(output)
 
     override fun set(value: O) {
         val res = validator.validate(value)
@@ -49,9 +49,9 @@ open class AbstractPrimitiveField<O>(
     }
 
     override fun validateToErrors(): Validity<O> {
-        val res = validator.validate(output as O)
+        val res = validator.validate(output)
         state.value = state.value.copy(feedbacks = Feedbacks(res.toErrors()))
-        return res as Validity<O>
+        return res
     }
 
     override fun finish() {
@@ -79,8 +79,8 @@ open class AbstractPrimitiveField<O>(
     override val state by lazy { mutableLiveOf(initial) }
 
     override val output get() = state.value.output
-    override val label: Label get() = state.value.label
-    override val required: Boolean get() = state.value.required
-    override val hint: String get() = state.value.hint
+    override val label get() = state.value.label
+    override val required get() = state.value.required
+    override val hint get() = state.value.hint
     override val hidden get() = state.value.hidden
 }

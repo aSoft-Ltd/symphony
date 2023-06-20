@@ -7,43 +7,40 @@ import kollections.toIList
 import kollections.toISet
 import kotlinx.serialization.KSerializer
 import cinematic.mutableLiveOf
+import kollections.iListOf
+import neat.Validator
+import neat.Validators
 import symphony.InputFieldState
 import symphony.Label
+import symphony.MultiChoiceField
 import symphony.MultiChoiceInputField
 import symphony.Option
 import symphony.internal.validators.CompoundValidator
 import symphony.internal.validators.LambdaValidator
 import symphony.internal.validators.RequirementValidator
+import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
-internal class MultiChoiceInputFieldImpl<T : Any>(
-    override val name: String,
-    override val isRequired: Boolean,
-    override val label: Label,
-    override val hint: String,
+internal class MultiChoiceFieldImpl<T : Any>(
+    name: KMutableProperty0<List<T>>,
+    label: String,
+    value: List<T>,
     override val items: Collection<T>,
     override val mapper: (T) -> Option,
-    private val value: Collection<T>?,
-    override val isReadonly: Boolean,
-    validator: ((List<T>) -> Unit)?
-) : PlainDataListField<T>(value), MultiChoiceInputField<T> {
+    hidden: Boolean,
+    hint: String,
+    validator: (Validators<List<T>>.() -> Validator<List<T>>)?
+) : AbstractPrimitiveField<List<T>>(name, label, value, hidden, hint, validator), MultiChoiceField<T> {
 
-    override val cv by lazy {
-        CompoundValidator(
-            data, feedback,
-            RequirementValidator(data, feedback, label.capitalizedWithoutAstrix(), isRequired),
-        )
-    }
+    override val output get() = state.value.output ?: iEmptyList()
 
     override val optionLabels get() = options.map { it.label }.toIList()
 
     override val optionValues get() = options.map { it.value }.toIList()
 
-    override val feedback = mutableLiveOf<InputFieldState>(InputFieldState.Empty)
-
     override val selectedValues get() = output.map { mapper(it).value }.toISet()
 
-    override val selectedItems: List<T> get() = output
+    override val selectedItems get() = output
 
     override val selectedOptions get() = output.map(mapper)
 
@@ -58,23 +55,13 @@ internal class MultiChoiceInputFieldImpl<T : Any>(
 
     override val optionsWithSelectLabel get() = (listOf(Option("Select $label", "")) + options).toIList()
 
-    private fun updateValue() {
-        val selectedItems = items.filter {
-            val o = mapper(it)
-            selectedValues.contains(o.value)
-        }.toIList()
-        data.value = OutputList(if (selectedItems.isEmpty()) iEmptyList() else selectedItems)
-    }
-
     private fun Collection<T>.findItemWithLabel(l: String) = find { mapper(it).label == l }
 
     private fun Collection<T>.findItemWithOption(o: Option): T? = find { mapper(it) == o }
 
     private fun Collection<T>.findItemWithValue(v: String): T? = find { mapper(it).value == v }
 
-    override fun addSelectedItem(item: T) {
-        data.value = OutputList((output + item).toIList())
-    }
+    override fun addSelectedItem(item: T) = set((output + item).toIList())
 
     override fun addSelectedOption(o: Option) {
         val item = items.findItemWithOption(o) ?: return
@@ -104,9 +91,7 @@ internal class MultiChoiceInputFieldImpl<T : Any>(
         unselectItem(item)
     }
 
-    override fun unselectItem(i: T) {
-        data.value = OutputList((output - i).toIList())
-    }
+    override fun unselectItem(i: T) = set((output - i).toIList())
 
     override fun unselectValue(v: String) {
         val item = output.findItemWithValue(v) ?: return
@@ -118,12 +103,10 @@ internal class MultiChoiceInputFieldImpl<T : Any>(
         unselectItem(item)
     }
 
-    override fun unselectAll() {
-        data.value = OutputList(iEmptyList())
-    }
+    override fun unselectAll() = set(iListOf())
 
     override fun clear() {
-        data.value = default
+        state.value = initial.copy(output = iListOf())
     }
 
     override fun toggleSelectedValue(v: String) {

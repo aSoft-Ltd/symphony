@@ -3,12 +3,18 @@
 
 package symphony
 
+import kollections.Collection
 import kollections.List
 import kollections.Set
-import symphony.validation.Validateable
 import kotlin.js.JsExport
 
-interface MultiChoiceInputField<O> : ChoiceField<O>, LiveDataList<O>, Validateable<List<O>> {
+interface MultiChoiceField<O> : PrimitiveField<List<O>> {
+    val mapper: (O) -> Option
+
+    val items: Collection<O>
+
+    override val output: List<O>
+
     val optionLabels: List<String>
     val optionValues: List<String>
 
