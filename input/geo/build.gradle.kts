@@ -19,6 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputCore)
+                api(kotlinx.serialization.json)
                 api(projects.geoCore)
             }
         }

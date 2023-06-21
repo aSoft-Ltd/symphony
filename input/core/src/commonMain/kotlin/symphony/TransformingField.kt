@@ -1,16 +1,12 @@
 @file:JsExport
-@file:Suppress("NON_EXPORTABLE_TYPE")
 
 package symphony
 
 import symphony.properties.Settable
 import kotlin.js.JsExport
+import symphony.TransformingFieldState as TState
 
-interface TransformingField<I, O> : Field<TransformingFieldState<I, O>>, Settable<I> {
-    val transformer: (I) -> O
-    val label: Label
-    val required: Boolean
+interface TransformingField<I, O> : Field<TState<I, O>>, Settable<I>, CommonField<O, TState<I, O>> {
+    val transformer: (I) -> O?
     val input: I?
-    val output: O?
-    val hint: String
 }

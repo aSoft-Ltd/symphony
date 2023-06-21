@@ -7,19 +7,20 @@ import geo.Country
 import kash.Cents
 import kash.Currency
 import kash.MoneyFormatter
-import kash.MoneyPresenter
-import kash.transformers.toPresenter
+import neat.required
 import kotlin.js.JsExport
 
 class MoneyFields(
     currency: Currency,
     cents: Cents,
     formatter: MoneyFormatter
-) : Fields<MoneyPresenter>(cents.toPresenter(currency, formatter)) {
+) : Fields<MoneyOutput>(MoneyOutput(currency)) {
     val currency = selectSingle(
         name = output::currency,
         items = Country.values().toList(),
         transformer = { it.currency },
         mapper = { Option(label = it.currency.details, value = it.currency.name) }
-    )
+    ) { required() }
+
+    val amount = double(name = output::amount)
 }

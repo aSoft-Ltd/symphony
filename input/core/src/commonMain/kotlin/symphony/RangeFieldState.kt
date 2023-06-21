@@ -5,12 +5,16 @@ package symphony
 
 import kotlin.js.JsExport
 
-data class PrimitiveFieldState<out O>(
+data class RangeFieldState<O>(
     val name: String,
+    val start: O?,
+    val end: O?,
     override val label: Label,
     override val hidden: Boolean,
     override val hint: String,
     override val required: Boolean,
-    override val output: O?,
     override val feedbacks: Feedbacks
-) : FieldState<O>
+) : FieldState<Range<O>> {
+    val input get() = Range(start, end)
+    override val output get() = if (start != null && end != null) Range(start, end) else null
+}

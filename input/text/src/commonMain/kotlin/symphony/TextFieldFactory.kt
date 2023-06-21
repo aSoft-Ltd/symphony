@@ -1,5 +1,6 @@
 package symphony
 
+import neat.ValidationFactory
 import neat.Validator
 import neat.Validators
 import neat.min
@@ -13,14 +14,14 @@ fun <T : String?> TextField(
     value: T = name.get(),
     hint: String = label,
     hidden: Boolean = false,
-    validator: (Validators<T>.() -> Validator<T>)? = null
+    factory: ValidationFactory<T>? = null
 ): TextField<T> = TextFieldImpl(
     name = name,
     label = label,
     value = value,
     hidden = hidden,
     hint = hint,
-    validator = validator
+    factory = factory
 )
 
 fun <T : String?> Fields<*>.text(
@@ -29,8 +30,8 @@ fun <T : String?> Fields<*>.text(
     value: T = name.get(),
     hint: String = label,
     hidden: Boolean = false,
-    validator: (Validators<T>.() -> Validator<T>)? = null
-) = getOrCreate(name) { TextField(name, label, value, hint, hidden, validator) }
+    factory: ValidationFactory<T>? = null
+) = getOrCreate(name) { TextField(name, label, value, hint, hidden, factory) }
 
 fun <T : String?> Fields<*>.name(
     name: KMutableProperty0<T>,
@@ -38,9 +39,18 @@ fun <T : String?> Fields<*>.name(
     value: T = name.get(),
     hint: String = label,
     hidden: Boolean = false,
-    validator: (Validators<T>.() -> Validator<T>)? = null
+    factory: ValidationFactory<T>? = null
 ) = text(name, label, value, hint, hidden) {
     min(2)
     notBlank()
-    configure(validator)
+    configure(factory)
 }
+
+fun <T : String?> Fields<*>.password(
+    name: KMutableProperty0<T>,
+    label: String = name.name,
+    value: T = name.get(),
+    hint: String = label,
+    hidden: Boolean = false,
+    factory: ValidationFactory<T>? = null
+) = text(name, label, value, hint, hidden,factory)

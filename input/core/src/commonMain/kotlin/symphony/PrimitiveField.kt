@@ -6,9 +6,4 @@ package symphony
 import symphony.properties.Settable
 import kotlin.js.JsExport
 
-interface PrimitiveField<O> : Field<PrimitiveFieldState<O>>, Settable<O> {
-    val label: Label
-    val required: Boolean
-    val output: O?
-    val hint: String
-}
+interface PrimitiveField<O> : Field<PrimitiveFieldState<O>>, CommonField<O,PrimitiveFieldState<O>>, Settable<O>

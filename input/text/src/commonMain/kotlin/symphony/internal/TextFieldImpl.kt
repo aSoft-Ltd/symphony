@@ -1,7 +1,6 @@
 package symphony.internal
 
-import neat.Validator
-import neat.Validators
+import neat.ValidationFactory
 import symphony.TextField
 import kotlin.reflect.KMutableProperty0
 
@@ -12,5 +11,5 @@ internal class TextFieldImpl<O : String?>(
     value: O,
     hidden: Boolean,
     hint: String,
-    validator: (Validators<O>.() -> Validator<O>)?
-) : AbstractPrimitiveField<O>(name, label, value, hidden, hint, validator), TextField<O>
+    factory: ValidationFactory<O>?
+) : AbstractPrimitiveField<O>(name, label, value, hidden, hint, factory), TextField<O>

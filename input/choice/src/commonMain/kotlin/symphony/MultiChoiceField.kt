@@ -3,16 +3,11 @@
 
 package symphony
 
-import kollections.Collection
 import kollections.List
 import kollections.Set
 import kotlin.js.JsExport
 
-interface MultiChoiceField<O> : PrimitiveField<List<O>> {
-    val mapper: (O) -> Option
-
-    val items: Collection<O>
-
+interface MultiChoiceField<O> : PrimitiveField<List<O>>, ChoiceField<O> {
     override val output: List<O>
 
     val optionLabels: List<String>

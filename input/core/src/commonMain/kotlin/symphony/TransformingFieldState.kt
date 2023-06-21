@@ -7,11 +7,11 @@ import kotlin.js.JsExport
 
 data class TransformingFieldState<I, O>(
     val name: String,
-    val label: Label,
-    val hidden: Boolean,
-    val hint: String,
-    val required: Boolean,
     val input: I?,
-    val output: O?,
-    val feedbacks: Feedbacks
-)
+    override val label: Label,
+    override val hidden: Boolean,
+    override val hint: String,
+    override val required: Boolean,
+    override val output: O?,
+    override val feedbacks: Feedbacks
+) : FieldState<O>
