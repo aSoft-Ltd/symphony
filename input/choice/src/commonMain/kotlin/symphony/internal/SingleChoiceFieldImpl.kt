@@ -14,8 +14,8 @@ internal class SingleChoiceFieldImpl<T>(
     name: KMutableProperty0<T>,
     label: String,
     value: T,
-    override val items: Collection<T>,
-    override val mapper: (T) -> Option,
+    override val items: Collection<T & Any>,
+    override val mapper: (T & Any) -> Option,
     hidden: Boolean,
     hint: String,
     validator: (Validators<T>.() -> Validator<T>)?

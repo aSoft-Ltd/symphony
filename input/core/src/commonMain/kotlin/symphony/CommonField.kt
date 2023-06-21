@@ -5,4 +5,4 @@ package symphony
 
 import kotlin.js.JsExport
 
-interface CommonField<out O, S : FieldState<O>> : Field<S>, FieldState<O>
+interface CommonField<out O, out S : FieldState<O>> : Field<S>, FieldState<O>

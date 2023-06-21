@@ -6,8 +6,8 @@ import geo.GeoLocation
 import kollections.JsExport
 import symphony.internal.GooglePlacesApiParser
 
-object GoogleLocationProvider : LocationProvider<String, GeoLocation> {
+class GoogleLocationProvider<G : GeoLocation?> : LocationProvider<String, G> {
     override val name = "Google"
     private val parser = GooglePlacesApiParser()
-    override fun transform(input: String?) = parser.parseOrNull(input)
+    override fun transform(input: String?) = parser.parseOrNull(input) as? G
 }

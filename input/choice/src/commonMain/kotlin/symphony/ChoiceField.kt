@@ -7,6 +7,6 @@ import kollections.Collection
 import kotlin.js.JsExport
 
 sealed interface ChoiceField<O> {
-    val items: Collection<O>
-    val mapper: (O) -> Option
+    val items: Collection<O & Any>
+    val mapper: (O & Any) -> Option
 }

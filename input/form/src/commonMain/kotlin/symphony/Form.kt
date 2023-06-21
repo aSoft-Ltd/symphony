@@ -3,6 +3,7 @@
 
 package symphony
 
+import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import kase.Failure
 import kase.FormState
@@ -18,7 +19,7 @@ import symphony.properties.Finishable
 import symphony.properties.Resetable
 import kotlin.js.JsExport
 
-open class Form<O, P, F : Fields<P>, I : Input<F>>(
+open class Form<out O, in P, out F : Fields<@UnsafeVariance P>, out I : Input<F>>(
     open val heading: String,
     open val details: String,
     open val input: I,
@@ -30,7 +31,9 @@ open class Form<O, P, F : Fields<P>, I : Input<F>>(
         config.logger.with("source" to "${input::class.simpleName ?: ""}Form")
     }
 
-    val state = mutableLiveOf<FormState<O>>(Pending)
+    val state: MutableLive<FormState<@UnsafeVariance O>> = mutableLiveOf<FormState<O>>(Pending)
+
+    val fields: F get() = input.fields
 
     private val actions = FormActionsBuilder<P, O>().apply { initializer() }
 

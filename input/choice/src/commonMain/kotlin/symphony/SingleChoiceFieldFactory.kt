@@ -9,8 +9,8 @@ import kotlin.reflect.KMutableProperty0
 
 fun <T> Fields<*>.selectSingle(
     name: KMutableProperty0<T>,
-    items: Collection<T>,
-    mapper: (T) -> Option,
+    items: Collection<T & Any>,
+    mapper: (T & Any) -> Option,
     label: String = name.name,
     value: T = name.get(),
     hint: String = label,

@@ -51,7 +51,8 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
         view.value = v
     }
 
-    val searchBox = TextInputField(name = "search-box")
+    private var searchText: String? = null
+    val searchBox = TextField(name = ::searchText)
 
     fun search(): Later<Page<T>> {
         paginator.clearPages()

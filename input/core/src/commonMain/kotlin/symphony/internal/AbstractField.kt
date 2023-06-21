@@ -6,6 +6,7 @@ package symphony.internal
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import neat.ValidationFactory
+import neat.Validator
 import neat.Validity
 import neat.custom
 import symphony.CommonField
@@ -15,12 +16,12 @@ import symphony.Label
 import symphony.toErrors
 import kotlin.js.JsExport
 
-abstract class AbstractField<O, S : FieldState<O>>(
+abstract class AbstractField<out O, out S : FieldState<O>>(
     label: String,
     factory: ValidationFactory<O>?
 ) : CommonField<O, S> {
 
-    protected val validator = custom<O>(label).configure(factory)
+    protected val validator: Validator<@UnsafeVariance O> = custom<O>(label).configure(factory)
 
     override fun validate() = validator.validate(output)
 
@@ -50,7 +51,7 @@ abstract class AbstractField<O, S : FieldState<O>>(
         state.value = cleared()
     }
 
-    abstract fun S.with(
+    protected abstract fun @UnsafeVariance S.with(
         hidden: Boolean = this.hidden,
         feedbacks: Feedbacks = this.feedbacks
     ): S
@@ -59,7 +60,7 @@ abstract class AbstractField<O, S : FieldState<O>>(
 
     abstract val initial: S
 
-    override val state: MutableLive<S> by lazy { mutableLiveOf(initial) }
+    override val state: MutableLive<@UnsafeVariance S> by lazy { mutableLiveOf(initial) }
 
     override val output: O? get() = state.value.output
     override val label: Label get() = state.value.label
