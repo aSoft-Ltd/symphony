@@ -23,16 +23,17 @@ class LargeInputAsFieldTest {
     @Test
     fun should_be_fail_to_submit_a_field_with_validation_errors() = runTest {
         var company: CompanyOutput? = null
+        Logger()
         val form = CompanyInput().toForm(
-            heading = "Company Form",
-            details = "Test company form",
-            config = FormConfig(Logger())
-        ) {
-            onSubmit {
-                company = it
-                Later(0)
-            }
-        }
+     heading = "Company Form",
+     details = "Test company form",
+     config = SubmitConfig()
+ ) {
+     onSubmit {
+         company = it
+         Later(0)
+     }
+ }
 
         form.input.fields.director.fields.setInvalidValues()
         expectFailure { form.submit().await() }
@@ -43,16 +44,17 @@ class LargeInputAsFieldTest {
     @Test
     fun should_be_able_to_submit_a_field_with_all_values_set_and_valid() = runTest {
         var company: CompanyOutput? = null
+        Logger()
         val form = CompanyInput().toForm(
-            heading = "Company Form",
-            details = "Test company form",
-            config = FormConfig(Logger())
-        ) {
-            onSubmit {
-                company = it
-                Later(it)
-            }
-        }
+     heading = "Company Form",
+     details = "Test company form",
+     config = SubmitConfig()
+ ) {
+     onSubmit {
+         company = it
+         Later(it)
+     }
+ }
 
         form.input.fields.director.fields.setAllValidValues()
         form.submit().await()
@@ -63,16 +65,17 @@ class LargeInputAsFieldTest {
     @Test
     fun should_be_able_to_submit_a_field_with_only_required_values_set_and_valid() = runTest {
         var company: CompanyOutput? = null
+        Logger()
         val form = CompanyInput().toForm(
-            heading = "Company Form",
-            details = "Test company form",
-            config = FormConfig(Logger())
-        ) {
-            onSubmit {
-                company = it
-                Later(it)
-            }
-        }
+     heading = "Company Form",
+     details = "Test company form",
+     config = SubmitConfig()
+ ) {
+     onSubmit {
+         company = it
+         Later(it)
+     }
+ }
 
         form.input.fields.director.fields.setRequiredValidValues()
         form.submit().await()

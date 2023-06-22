@@ -41,6 +41,7 @@ abstract class AbstractField<out O, out S : FieldState<O>>(
 
     override fun finish() {
         state.stopAll()
+        state.history.clear()
     }
 
     override fun reset() {
@@ -49,6 +50,7 @@ abstract class AbstractField<out O, out S : FieldState<O>>(
 
     override fun clear() {
         state.value = cleared()
+        state.history.clear()
     }
 
     protected abstract fun @UnsafeVariance S.with(

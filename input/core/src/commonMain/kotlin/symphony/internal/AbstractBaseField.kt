@@ -8,20 +8,20 @@ import neat.ValidationFactory
 import neat.required
 import symphony.Feedbacks
 import symphony.Label
-import symphony.PrimitiveField
-import symphony.PrimitiveFieldState
+import symphony.BaseField
+import symphony.BaseFieldState
 import symphony.toWarnings
 import kotlin.js.JsExport
 import kotlin.reflect.KMutableProperty0
 
-open class AbstractPrimitiveField<O>(
+open class AbstractBaseField<O>(
     val name: KMutableProperty0<O>,
     label: String,
     value: O,
     hidden: Boolean,
     hint: String,
     factory: ValidationFactory<O>?
-) : AbstractField<O, PrimitiveFieldState<O>>(label, factory), PrimitiveField<O> {
+) : AbstractField<O, BaseFieldState<O>>(label, factory), BaseField<O> {
 
     override fun set(value: O) {
         val res = validator.validate(value)
@@ -32,14 +32,14 @@ open class AbstractPrimitiveField<O>(
         )
     }
 
-    override fun PrimitiveFieldState<O>.with(
+    override fun BaseFieldState<O>.with(
         hidden: Boolean,
         feedbacks: Feedbacks
     ) = copy(hidden = hidden, feedbacks = feedbacks)
 
     override fun cleared() = initial.copy(output = null)
 
-    override val initial: PrimitiveFieldState<O> = PrimitiveFieldState(
+    override val initial: BaseFieldState<O> = BaseFieldState(
         name = name.name,
         label = Label(label, this.validator.required),
         hidden = hidden,

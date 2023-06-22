@@ -20,12 +20,15 @@ class FormWithMonetaryInputFieldTest {
 
     class TestForm(
         curreny: Currency?,
-        init: FormInitializer<TestParams, TestParams>
+        init: SubmitBuilder<TestParams, TestParams>
     ) : Form<TestFields, TestParams, TestParams>(
         heading = "Test Form",
         details = "This is a test form",
         fields = TestFields(curreny),
-        config = FormConfig(),
+        config = run {
+            Logger(ConsoleAppender())
+            SubmitConfig()
+        },
         initializer = init
     )
 

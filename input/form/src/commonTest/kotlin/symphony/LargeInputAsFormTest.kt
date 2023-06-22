@@ -21,16 +21,17 @@ class LargeInputAsFormTest {
     @Test
     fun should_be_fail_to_submit_a_form_with_validation_errors() = runTest {
         var person: PersonOutput? = null
+        Logger()
         val form = PersonInput().toForm(
-            heading = "",
-            details = "",
-            config = FormConfig(Logger())
-        ) {
-            onSubmit {
-                person = it
-                Later(0)
-            }
-        }
+     heading = "",
+     details = "",
+     config = SubmitConfig()
+ ) {
+     onSubmit {
+         person = it
+         Later(0)
+     }
+ }
 
         form.input.fields.setInvalidValues()
         expectFailure { form.submit().await() }
@@ -41,16 +42,17 @@ class LargeInputAsFormTest {
     @Test
     fun should_be_able_to_submit_a_form_with_all_values_set_and_valid() = runTest {
         var person: PersonOutput? = null
+        Logger()
         val form = PersonInput().toForm(
-            heading = "",
-            details = "",
-            config = FormConfig(Logger())
-        ) {
-            onSubmit {
-                person = it
-                Later(0)
-            }
-        }
+     heading = "",
+     details = "",
+     config = SubmitConfig()
+ ) {
+     onSubmit {
+         person = it
+         Later(0)
+     }
+ }
 
         form.input.fields.setAllValidValues()
         form.submit().await()
@@ -61,16 +63,17 @@ class LargeInputAsFormTest {
     @Test
     fun should_be_able_to_submit_a_form_with_only_required_values_set_and_valid() = runTest {
         var person: PersonOutput? = null
+        Logger()
         val form = PersonInput().toForm(
-            heading = "",
-            details = "",
-            config = FormConfig(Logger())
-        ) {
-            onSubmit {
-                person = it
-                Later(0)
-            }
-        }
+     heading = "",
+     details = "",
+     config = SubmitConfig()
+ ) {
+     onSubmit {
+         person = it
+         Later(0)
+     }
+ }
 
         form.input.fields.setRequiredValidValues()
         form.submit().await()

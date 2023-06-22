@@ -4,4 +4,4 @@ package symphony
 
 import kotlin.js.JsExport
 
-interface TextField<T : String?> : PrimitiveField<T>
+interface TextField<T : String?> : BaseField<T>

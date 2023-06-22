@@ -15,6 +15,6 @@ internal class DateFieldImpl<D : LocalDate?>(
     hidden: Boolean,
     hint: String,
     validator: (Validators<D>.() -> Validator<D>)?
-) : AbstractPrimitiveField<D>(name, label, value, hidden, hint, validator), DateField<D> {
+) : AbstractBaseField<D>(name, label, value, hidden, hint, validator), DateField<D> {
     override fun set(iso: String) = set(LocalDateOrNull(iso) as D)
 }

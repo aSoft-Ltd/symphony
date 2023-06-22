@@ -7,7 +7,7 @@ import kollections.List
 import kollections.Set
 import kotlin.js.JsExport
 
-interface MultiChoiceField<O> : PrimitiveField<List<O>>, ChoiceField<O> {
+interface MultiChoiceField<O> : BaseField<List<O>>, ChoiceField<O> {
     override val output: List<O>
 
     val optionLabels: List<String>

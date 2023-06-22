@@ -5,7 +5,7 @@ package symphony
 
 import kotlin.js.JsExport
 
-data class PrimitiveFieldState<out O>(
+data class BaseFieldState<out O>(
     val name: String,
     override val label: Label,
     override val hidden: Boolean,

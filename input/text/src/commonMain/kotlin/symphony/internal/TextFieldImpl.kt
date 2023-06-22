@@ -12,4 +12,4 @@ internal class TextFieldImpl<O : String?>(
     hidden: Boolean,
     hint: String,
     factory: ValidationFactory<O>?
-) : AbstractPrimitiveField<O>(name, label, value, hidden, hint, factory), TextField<O>
+) : AbstractBaseField<O>(name, label, value, hidden, hint, factory), TextField<O>

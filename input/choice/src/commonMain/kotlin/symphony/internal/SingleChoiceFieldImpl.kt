@@ -19,7 +19,7 @@ internal class SingleChoiceFieldImpl<T>(
     hidden: Boolean,
     hint: String,
     validator: (Validators<T>.() -> Validator<T>)?
-) : AbstractPrimitiveField<T>(name, label, value, hidden, hint, validator), SingleChoiceField<T> {
+) : AbstractBaseField<T>(name, label, value, hidden, hint, validator), SingleChoiceField<T> {
 
     override val selectedItem: T? get() = state.value.output
 

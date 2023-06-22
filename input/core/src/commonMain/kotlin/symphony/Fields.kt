@@ -14,7 +14,7 @@ import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
-abstract class Fields<out O>(initial: State<O>) : Field<Fields.State<O>> {
+abstract class Fields<out O : Any>(initial: State<O>) : Field<Fields.State<O>> {
     @JsName("_ignore_fields")
     constructor(output: O) : this(State(false, output, Feedbacks(iEmptyList())))
 

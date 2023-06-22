@@ -22,7 +22,7 @@ internal class MultiChoiceFieldImpl<T : Any>(
     hidden: Boolean,
     hint: String,
     validator: (Validators<List<T>>.() -> Validator<List<T>>)?
-) : AbstractPrimitiveField<List<T>>(name, label, value, hidden, hint, validator), MultiChoiceField<T> {
+) : AbstractBaseField<List<T>>(name, label, value, hidden, hint, validator), MultiChoiceField<T> {
 
     override val output get() = state.value.output ?: iEmptyList()
 

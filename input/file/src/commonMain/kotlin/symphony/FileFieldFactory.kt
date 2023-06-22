@@ -3,7 +3,7 @@ package symphony
 import epsilon.Blob
 import kollections.List
 import neat.ValidationFactory
-import symphony.internal.AbstractPrimitiveField
+import symphony.internal.AbstractBaseField
 import kotlin.reflect.KMutableProperty0
 
 fun <T : Blob> Fields<*>.files(
@@ -22,6 +22,6 @@ fun <T : Blob?> Fields<*>.file(
     hint: String = label,
     hidden: Boolean = false,
     factory: ValidationFactory<T>? = null
-): PrimitiveField<T> = getOrCreate(name) {
-    AbstractPrimitiveField(name, label, value, hidden, hint, factory)
+): BaseField<T> = getOrCreate(name) {
+    AbstractBaseField(name, label, value, hidden, hint, factory)
 }

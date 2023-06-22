@@ -13,7 +13,7 @@ internal class BooleanFieldImpl<O : Boolean?>(
     hidden: Boolean,
     hint: String,
     validator: (Validators<O>.() -> Validator<O>)?
-) : AbstractPrimitiveField<O>(name,label,value,hidden,hint,validator), BooleanField<O> {
+) : AbstractBaseField<O>(name,label,value,hidden,hint,validator), BooleanField<O> {
 
     override fun toggle() = set((output?.not() ?: false) as O)
 }

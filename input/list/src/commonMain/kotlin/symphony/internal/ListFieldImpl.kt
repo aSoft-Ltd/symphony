@@ -15,7 +15,7 @@ internal class ListFieldImpl<E>(
     hidden: Boolean,
     hint: String,
     validator: (Validators<List<E>>.() -> Validator<List<E>>)?
-) : AbstractPrimitiveField<List<E>>(name, label, value, hidden, hint, validator), ListField<E> {
+) : AbstractBaseField<List<E>>(name, label, value, hidden, hint, validator), ListField<E> {
 
     override val output: List<E> get() = state.value.output ?: iEmptyList()
 

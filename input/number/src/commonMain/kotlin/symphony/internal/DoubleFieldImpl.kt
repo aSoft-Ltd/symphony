@@ -12,7 +12,7 @@ internal class DoubleFieldImpl<N : Double?>(
     hidden: Boolean,
     hint: String,
     validator: (Validators<N>.() -> Validator<N>)?
-) : AbstractPrimitiveField<N>(name, label, value, hidden, hint, validator), NumberField<N> {
+) : AbstractBaseField<N>(name, label, value, hidden, hint, validator), NumberField<N> {
 
     override fun increment(step: N?) {
         val o = output ?: 0.0

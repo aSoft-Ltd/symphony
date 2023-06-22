@@ -6,7 +6,7 @@ package symphony
 import kollections.List
 import kotlin.js.JsExport
 
-interface SingleChoiceField<O> : PrimitiveField<O>, ChoiceField<O> {
+interface SingleChoiceField<O> : BaseField<O>, ChoiceField<O> {
 
     val selectedItem: O?
 

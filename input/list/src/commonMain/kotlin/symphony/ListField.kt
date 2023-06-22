@@ -6,7 +6,7 @@ package symphony
 import kollections.List
 import kotlin.js.JsExport
 
-interface ListField<E> : PrimitiveField<List<E>> {
+interface ListField<E> : BaseField<List<E>> {
     override val output: List<E>
     fun add(item: E)
     fun addAll(items: List<E>)

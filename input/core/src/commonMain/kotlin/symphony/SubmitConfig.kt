@@ -6,6 +6,6 @@ package symphony
 import lexi.Logable
 import kotlin.js.JsExport
 
-interface FormConfig : Logable {
-    val exitOnSubmitted: Boolean
+interface SubmitConfig : Logable {
+    val exitOnSuccess: Boolean
 }
