@@ -11,5 +11,6 @@ internal class TextFieldImpl<O : String?>(
     value: O,
     hidden: Boolean,
     hint: String,
+    onChange: Changer<O>?,
     factory: ValidationFactory<O>?
-) : AbstractBaseField<O>(name, label, value, hidden, hint, factory), TextField<O>
+) : AbstractBaseField<O>(name, label, value, hidden, hint, onChange, factory), TextField<O>

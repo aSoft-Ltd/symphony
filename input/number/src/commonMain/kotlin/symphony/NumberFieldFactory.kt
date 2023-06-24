@@ -1,7 +1,7 @@
 package symphony
 
-import neat.Validator
-import neat.Validators
+import neat.ValidationFactory
+import symphony.internal.Changer
 import symphony.internal.DoubleFieldImpl
 import symphony.internal.IntegerFieldImpl
 import symphony.internal.LongFieldImpl
@@ -14,9 +14,10 @@ fun <T : Double?> Fields<*>.double(
     value: T = name.get(),
     hint: String = label,
     hidden: Boolean = false,
-    validator: (Validators<T>.() -> Validator<T>)? = null
+    onChange: Changer<T>? = null,
+    factory: ValidationFactory<T>? = null
 ): NumberField<T> = getOrCreate(name) {
-    DoubleFieldImpl(name, label, value, hidden, hint, validator)
+    DoubleFieldImpl(name, label, value, hidden, hint, onChange, factory)
 }
 
 fun <I : Double?, O> Fields<*>.double(
@@ -26,9 +27,9 @@ fun <I : Double?, O> Fields<*>.double(
     value: O = name.get(),
     hint: String = label,
     hidden: Boolean = false,
-    validator: (Validators<O>.() -> Validator<O>)? = null
+    factory: ValidationFactory<O>? = null
 ): TransformingNumberField<I, O> = getOrCreate(name) {
-    TransformingDoubleFieldImpl(name, transformer, label, value, hidden, hint, validator)
+    TransformingDoubleFieldImpl(name, transformer, label, value, hidden, hint, factory)
 }
 
 fun <T : Long?> Fields<*>.long(
@@ -37,9 +38,10 @@ fun <T : Long?> Fields<*>.long(
     value: T = name.get(),
     hint: String = label,
     hidden: Boolean = false,
-    validator: (Validators<T>.() -> Validator<T>)? = null
+    onChange: Changer<T>? = null,
+    factory: ValidationFactory<T>? = null
 ): NumberField<T> = getOrCreate(name) {
-    LongFieldImpl(name, label, value, hidden, hint, validator)
+    LongFieldImpl(name, label, value, hidden, hint, onChange, factory)
 }
 
 fun <T : Int?> Fields<*>.integer(
@@ -47,8 +49,8 @@ fun <T : Int?> Fields<*>.integer(
     label: String = name.name,
     value: T = name.get(),
     hint: String = label,
-    hidden: Boolean = false,
-    validator: (Validators<T>.() -> Validator<T>)? = null
+    onChange: Changer<T>? = null,
+    factory: ValidationFactory<T>? = null
 ): NumberField<T> = getOrCreate(name) {
-    IntegerFieldImpl(name, label, value, hidden, hint, validator)
+    IntegerFieldImpl(name, label, value, hidden, hint, onChange, factory)
 }

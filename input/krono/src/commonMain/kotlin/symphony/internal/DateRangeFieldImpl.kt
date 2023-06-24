@@ -16,6 +16,6 @@ internal class DateRangeFieldImpl<R : Range<LocalDate>?>(
     hint: String,
     factory: ValidationFactory<Range<LocalDate>>?
 ) : AbstractRangeField<LocalDate, R>(name, label, value, hidden, hint, factory), DateRangeField<R> {
-    override fun setStart(iso: String) = setStart(LocalDateOrNull(iso))
-    override fun setEnd(iso: String) = setEnd(LocalDateOrNull(iso))
+    override fun setStart(iso: String?) = setStart(LocalDateOrNull(iso))
+    override fun setEnd(iso: String?) = setEnd(LocalDateOrNull(iso))
 }

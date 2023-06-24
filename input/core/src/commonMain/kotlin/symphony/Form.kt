@@ -1,5 +1,5 @@
 @file:JsExport
-@file:Suppress("NON_EXPORTABLE_TYPE")
+@file:Suppress("NON_EXPORTABLE_TYPE", "UNCHECKED_CAST")
 
 package symphony
 
@@ -13,33 +13,33 @@ import symphony.properties.Hideable
 import symphony.properties.Resetable
 import kotlin.js.JsExport
 
-open class Form<O, P : Any, out F : Fields<@UnsafeVariance P>, out I : Input<F>>(
+open class Form<out R, O : Any, out F : Fields<@UnsafeVariance O>, out I : Input<F>>(
     open val heading: String,
     open val details: String,
-    open val input: I,
+    val input: I,
     private val config: SubmitConfig,
-    builder: SubmitBuilder<P, O>,
+    builder: SubmitBuilder<O, R>,
 ) : Resetable by input, Clearable by input, Finishable by input, Hideable by input {
 
     private val label by lazy {
         if (input::class == Input::class) {
-            input.fields::class.simpleName
+            fields::class.simpleName
         } else {
             input::class.simpleName
         } + "Form"
     }
 
-    private val prerequisites = SubmitActionsBuilder<P, O>().apply { builder() }
+    private val prerequisites = SubmitActionsBuilder<O, R>().apply { builder() }
 
-    private val validator: Validator<P> = custom<P>(label).configure(prerequisites.factory)
+    private val validator: Validator<O> = custom<O>(label).configure(prerequisites.factory)
 
     val logger by lazy { config.logger.with("source" to label) }
 
-    val state get() = input.state as MutableLive<InputState<P, O>>
+    val state: MutableLive<InputState<O, @UnsafeVariance R>> = input.state as MutableLive<InputState<O, R>>
 
     val fields: F get() = input.fields
 
-    private val actions = SubmitActionsBuilder<P, O>().apply { builder() }
+    private val actions = SubmitActionsBuilder<O, R>().apply { builder() }
 
     private val cancelAction = actions.getOrSet("Cancel") {
         logger.warn("Cancel action was never setup")
@@ -58,5 +58,5 @@ open class Form<O, P : Any, out F : Fields<@UnsafeVariance P>, out I : Input<F>>
         finish()
     }
 
-    fun submit() = input.submit() as Later<O>
+    fun submit() = input.submit() as Later<R>
 }

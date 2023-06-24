@@ -14,11 +14,11 @@ data class InputState<out O, out R>(
 }
 
 sealed interface InputPhase<out O, out R> {
-    val asCapturing get() = this as CapturingPhase
-    val asValidating get() = this as ValidatingPhase
-    val asSubmitting get() = this as SubmittingPhase
-    val asSuccess get() = this as SuccessPhase
-    val asFailure get() = this as FailurePhase
+    val asCapturing get() = this as? CapturingPhase
+    val asValidating get() = this as? ValidatingPhase
+    val asSubmitting get() = this as? SubmittingPhase
+    val asSuccess get() = this as? SuccessPhase
+    val asFailure get() = this as? FailurePhase
 }
 
 object CapturingPhase : InputPhase<Nothing, Nothing>

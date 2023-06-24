@@ -62,7 +62,7 @@ open class Input<out F : Fields<*>>(
             if (res is Success) {
                 logger.info("Success")
                 try {
-                    prerequisites.onSuccess?.invoke(fields.output)
+                    prerequisites.onSuccess?.invoke(res.data)
                 } catch (err: Throwable) {
                     logger.error("Post Submit failed", err)
                 }

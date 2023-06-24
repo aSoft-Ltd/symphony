@@ -1,5 +1,6 @@
 package symphony
 
+import geo.Country
 import neat.ValidationFactory
 import symphony.internal.PhoneFieldImpl
 import symphony.validators.email
@@ -23,7 +24,8 @@ fun <T : PhoneOutput?> Fields<*>.phone(
     value: T = name.get(),
     hint: String = label,
     hidden: Boolean = false,
+    country: Country? = value?.country,
     factory: ValidationFactory<T>? = null
 ): PhoneField<T> = getOrCreate(name) {
-    PhoneFieldImpl(name, label, value, hidden, hint, factory)
+    PhoneFieldImpl(name, label, value, hidden, hint, country, factory)
 }

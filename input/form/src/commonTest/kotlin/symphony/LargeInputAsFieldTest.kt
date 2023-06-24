@@ -25,15 +25,15 @@ class LargeInputAsFieldTest {
         var company: CompanyOutput? = null
         Logger()
         val form = CompanyInput().toForm(
-     heading = "Company Form",
-     details = "Test company form",
-     config = SubmitConfig()
- ) {
-     onSubmit {
-         company = it
-         Later(0)
-     }
- }
+            heading = "Company Form",
+            details = "Test company form",
+            config = SubmitConfig()
+        ) {
+            onSubmit {
+                company = it
+                Later(0)
+            }
+        }
 
         form.input.fields.director.fields.setInvalidValues()
         expectFailure { form.submit().await() }
@@ -46,15 +46,15 @@ class LargeInputAsFieldTest {
         var company: CompanyOutput? = null
         Logger()
         val form = CompanyInput().toForm(
-     heading = "Company Form",
-     details = "Test company form",
-     config = SubmitConfig()
- ) {
-     onSubmit {
-         company = it
-         Later(it)
-     }
- }
+            heading = "Company Form",
+            details = "Test company form",
+            config = SubmitConfig()
+        ) {
+            onSubmit {
+                company = it
+                Later(it)
+            }
+        }
 
         form.input.fields.director.fields.setAllValidValues()
         form.submit().await()
@@ -67,15 +67,15 @@ class LargeInputAsFieldTest {
         var company: CompanyOutput? = null
         Logger()
         val form = CompanyInput().toForm(
-     heading = "Company Form",
-     details = "Test company form",
-     config = SubmitConfig()
- ) {
-     onSubmit {
-         company = it
-         Later(it)
-     }
- }
+            heading = "Company Form",
+            details = "Test company form",
+            config = SubmitConfig()
+        ) {
+            onSubmit {
+                company = it
+                Later(it)
+            }
+        }
 
         form.input.fields.director.fields.setRequiredValidValues()
         form.submit().await()

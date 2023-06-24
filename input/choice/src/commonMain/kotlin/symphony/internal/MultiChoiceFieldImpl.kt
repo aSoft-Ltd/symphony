@@ -21,8 +21,9 @@ internal class MultiChoiceFieldImpl<T : Any>(
     override val mapper: (T) -> Option,
     hidden: Boolean,
     hint: String,
-    validator: (Validators<List<T>>.() -> Validator<List<T>>)?
-) : AbstractBaseField<List<T>>(name, label, value, hidden, hint, validator), MultiChoiceField<T> {
+    onChange: Changer<List<T>>?,
+    factory: (Validators<List<T>>.() -> Validator<List<T>>)?
+) : AbstractBaseField<List<T>>(name, label, value, hidden, hint, onChange, factory), MultiChoiceField<T> {
 
     override val output get() = state.value.output ?: iEmptyList()
 

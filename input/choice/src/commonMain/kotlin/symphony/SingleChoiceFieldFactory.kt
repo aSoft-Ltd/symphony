@@ -1,8 +1,10 @@
 package symphony
 
 import kollections.toIList
+import neat.ValidationFactory
 import neat.Validator
 import neat.Validators
+import symphony.internal.Changer
 import symphony.internal.SingleChoiceFieldImpl
 import symphony.internal.TransformingSingleChoiceFieldImpl
 import kotlin.reflect.KMutableProperty0
@@ -15,9 +17,10 @@ fun <T> Fields<*>.selectSingle(
     value: T = name.get(),
     hint: String = label,
     hidden: Boolean = false,
-    validator: (Validators<T>.() -> Validator<T>)? = null
+    onChange: Changer<T>? = null,
+    factory: ValidationFactory<T>? = null
 ): SingleChoiceField<T> = getOrCreate(name) {
-    SingleChoiceFieldImpl(name, label, value, items.toIList(), mapper, hidden, hint, validator)
+    SingleChoiceFieldImpl(name, label, value, items.toIList(), mapper, hidden, hint, onChange, factory)
 }
 
 fun <I, O> Fields<*>.selectSingle(

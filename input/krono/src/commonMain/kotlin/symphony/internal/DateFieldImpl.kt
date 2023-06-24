@@ -2,8 +2,7 @@ package symphony.internal
 
 import krono.LocalDate
 import krono.LocalDateOrNull
-import neat.Validator
-import neat.Validators
+import neat.ValidationFactory
 import symphony.DateField
 import kotlin.reflect.KMutableProperty0
 
@@ -14,7 +13,8 @@ internal class DateFieldImpl<D : LocalDate?>(
     value: D,
     hidden: Boolean,
     hint: String,
-    validator: (Validators<D>.() -> Validator<D>)?
-) : AbstractBaseField<D>(name, label, value, hidden, hint, validator), DateField<D> {
+    onChange: Changer<D>?,
+    factory: ValidationFactory<D>?
+) : AbstractBaseField<D>(name, label, value, hidden, hint, onChange, factory), DateField<D> {
     override fun set(iso: String) = set(LocalDateOrNull(iso) as D)
 }

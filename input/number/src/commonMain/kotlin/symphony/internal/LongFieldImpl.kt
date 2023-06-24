@@ -1,7 +1,6 @@
 package symphony.internal
 
-import neat.Validator
-import neat.Validators
+import neat.ValidationFactory
 import symphony.NumberField
 import kotlin.math.roundToLong
 import kotlin.reflect.KMutableProperty0
@@ -12,8 +11,9 @@ internal class LongFieldImpl<N : Long?>(
     value: N,
     hidden: Boolean,
     hint: String,
-    validator: (Validators<N>.() -> Validator<N>)?
-) : AbstractBaseField<N>(name, label, value, hidden, hint, validator), NumberField<N> {
+    onChange: Changer<N>? = null,
+    factory: ValidationFactory<N>?
+) : AbstractBaseField<N>(name, label, value, hidden, hint, onChange, factory), NumberField<N> {
     override fun increment(step: N?) {
         val o = output ?: 0L
         val s = step ?: 1L

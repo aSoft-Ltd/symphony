@@ -4,11 +4,12 @@
 package symphony
 
 import kollections.List
+import kollections.toIList
 import kotlin.js.JsExport
 
 class Feedbacks(val items: List<Feedback>) {
-    val errors by lazy { items.filterIsInstance<Error>().map { it.message } }
-    val warnings by lazy { items.filterIsInstance<Warning>().map { it.message } }
+    val errors by lazy { items.filterIsInstance<Error>().map { it.message }.toIList() }
+    val warnings by lazy { items.filterIsInstance<Warning>().map { it.message }.toIList() }
 }
 
 sealed interface Feedback {

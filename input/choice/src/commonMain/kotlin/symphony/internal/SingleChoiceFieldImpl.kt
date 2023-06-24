@@ -3,8 +3,7 @@ package symphony.internal
 import kollections.Collection
 import kollections.List
 import kollections.toIList
-import neat.Validator
-import neat.Validators
+import neat.ValidationFactory
 import symphony.Option
 import symphony.SingleChoiceField
 import kotlin.reflect.KMutableProperty0
@@ -18,8 +17,9 @@ internal class SingleChoiceFieldImpl<T>(
     override val mapper: (T & Any) -> Option,
     hidden: Boolean,
     hint: String,
-    validator: (Validators<T>.() -> Validator<T>)?
-) : AbstractBaseField<T>(name, label, value, hidden, hint, validator), SingleChoiceField<T> {
+    onChange: Changer<T>? = null,
+    factory: ValidationFactory<T>?
+) : AbstractBaseField<T>(name, label, value, hidden, hint, onChange, factory), SingleChoiceField<T> {
 
     override val selectedItem: T? get() = state.value.output
 

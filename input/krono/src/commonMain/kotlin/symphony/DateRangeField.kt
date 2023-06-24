@@ -9,8 +9,8 @@ import kotlin.js.JsName
 
 interface DateRangeField<R : Range<LocalDate>?> : RangeField<LocalDate, R> {
     @JsName("setStartIsoString")
-    fun setStart(iso: String)
+    fun setStart(iso: String?)
 
     @JsName("setEndIsoString")
-    fun setEnd(iso: String)
+    fun setEnd(iso: String?)
 }

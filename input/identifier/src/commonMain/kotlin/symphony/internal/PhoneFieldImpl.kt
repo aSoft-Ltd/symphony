@@ -26,6 +26,7 @@ internal class PhoneFieldImpl<O : PhoneOutput?>(
     value: O,
     hidden: Boolean,
     hint: String,
+    country: Country?,
     factory: ValidationFactory<O>?
 ) : PhoneField<O> {
     protected val validator = custom<O>(label).configure(factory)
@@ -90,7 +91,7 @@ internal class PhoneFieldImpl<O : PhoneOutput?>(
         hidden = hidden,
         hint = hint,
         required = this.validator.required,
-        country = value?.country,
+        country = value?.country ?: country,
         body = value?.body,
         feedbacks = Feedbacks(iEmptyList()),
     )

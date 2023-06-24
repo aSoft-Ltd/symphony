@@ -20,16 +20,19 @@ open class AbstractBaseField<O>(
     value: O,
     hidden: Boolean,
     hint: String,
+    val onChange: Changer<O>?,
     factory: ValidationFactory<O>?
 ) : AbstractField<O, BaseFieldState<O>>(label, factory), BaseField<O> {
 
     override fun set(value: O) {
         val res = validator.validate(value)
-        name.set(value)
+        val output = res.value
+        name.set(output)
         state.value = state.value.copy(
-            output = res.value,
+            output = output,
             feedbacks = Feedbacks(res.toWarnings())
         )
+        onChange?.invoke(output)
     }
 
     override fun BaseFieldState<O>.with(

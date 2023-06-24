@@ -3,8 +3,7 @@ package symphony.internal
 import kollections.List
 import kollections.iEmptyList
 import kollections.toIList
-import neat.Validator
-import neat.Validators
+import neat.ValidationFactory
 import symphony.ListField
 import kotlin.reflect.KMutableProperty0
 
@@ -14,8 +13,9 @@ internal class ListFieldImpl<E>(
     value: List<E>,
     hidden: Boolean,
     hint: String,
-    validator: (Validators<List<E>>.() -> Validator<List<E>>)?
-) : AbstractBaseField<List<E>>(name, label, value, hidden, hint, validator), ListField<E> {
+    onChange: Changer<List<E>>?,
+    factory: ValidationFactory<List<E>>?
+) : AbstractBaseField<List<E>>(name, label, value, hidden, hint, onChange,factory), ListField<E> {
 
     override val output: List<E> get() = state.value.output ?: iEmptyList()
 

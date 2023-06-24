@@ -1,6 +1,7 @@
 package symphony
 
 import neat.ValidationFactory
+import symphony.internal.Changer
 import kotlin.reflect.KMutableProperty0
 
 fun <T : Double?> Fields<*>.money(
@@ -9,5 +10,6 @@ fun <T : Double?> Fields<*>.money(
     value: T = name.get(),
     hint: String = label,
     hidden: Boolean = false,
+    onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
-): NumberField<T> = double(name, label, value, hint, hidden, factory)
+): NumberField<T> = double(name, label, value, hint, hidden, onChange, factory)

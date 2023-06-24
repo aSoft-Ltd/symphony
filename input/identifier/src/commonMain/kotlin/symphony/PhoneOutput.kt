@@ -12,4 +12,12 @@ data class PhoneOutput(
 ) {
     val bodyAsDouble get() = body.toDouble()
     override fun toString() = "${country.dialingCode.toInt()}${body}"
+
+    companion object {
+        operator fun invoke(value: String): PhoneOutput? {
+            val phone = "+${value.replace("+", "")}"
+            val country = Country.values().firstOrNull { phone.startsWith(it.dialingCode) } ?: return null
+            return PhoneOutput(country, phone.replaceFirst(country.dialingCode, "").toLong())
+        }
+    }
 }

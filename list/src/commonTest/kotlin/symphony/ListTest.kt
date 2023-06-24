@@ -15,7 +15,7 @@ class ListTest {
 
         expect(list.paginator.currentPageOrNull?.number).toBe(null)
 
-        list.paginator.refresh()
+        list.paginator.refreshAllPages()
 
         list.paginator.loadNextPage()
 
@@ -99,7 +99,7 @@ class ListTest {
         list.paginator.loadNextPage()
         expect(list.rows).toBeOfSize(12)
 
-        list.paginator.refresh()
+        list.paginator.refreshAllPages()
         expect(list.rows).toBeOfSize(12)
 
         list.paginator.loadNextPage()

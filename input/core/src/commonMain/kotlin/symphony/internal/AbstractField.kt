@@ -35,7 +35,10 @@ abstract class AbstractField<out O, out S : FieldState<O>>(
 
     override fun validateToErrors(): Validity<O> {
         val res = validator.validate(output)
-        state.value = state.value.with(feedbacks = Feedbacks(res.toErrors()))
+        val errors = res.toErrors()
+        if (errors.isNotEmpty()) {
+            state.value = state.value.with(feedbacks = Feedbacks(errors))
+        }
         return res
     }
 

@@ -12,7 +12,7 @@ class TableTest {
         println(table.renderToString())
         expect(table.paginator.currentPageOrNull?.number).toBe(null)
 
-        paginator.refresh()
+        paginator.refreshAllPages()
         println(table.renderToString())
 
         paginator.loadNextPage()

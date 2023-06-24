@@ -43,7 +43,12 @@ internal class PaginationManagerImpl<T>(
             }
         }.toIList()
 
-    override fun initialize(loader: PageLoader<T>?) = loadFirstPage(loader)
+    override fun initialize(loader: PageLoader<T>?): Later<Page<T>> {
+        if (loader != null) {
+            loaderBag.value = loader
+        }
+        return loadFirstPage()
+    }
 
     override fun forEachPage(block: (Page<T>) -> Unit) {
         cache.records[capacity]?.pages?.values?.sortedBy { it.number }?.forEach(block)
@@ -62,32 +67,29 @@ internal class PaginationManagerImpl<T>(
         capacity = cap
     }
 
-    override fun loadNextPage(loader: PageLoader<T>?) = when (val state = current.value) {
-        is Pending -> loadPage(1, loader)
-        is Loading -> loadNothing(loader)
-        is Failure -> loadPage(1, loader)
+    override fun loadNextPage() = when (val state = current.value) {
+        is Pending -> loadPage(1)
+        is Loading -> Later(Unit)
+        is Failure -> loadPage(1)
         is Success -> when {
             state.data.isEmpty -> Later(state.data)
             state.data.items.size < state.data.capacity -> Later(state.data)
-            else -> loadPage(state.data.number + 1, loader)
+            else -> loadPage(state.data.number + 1)
         }
     }
 
-    override fun loadPreviousPage(loader: PageLoader<T>?) = when (val state = current.value) {
-        is Pending -> loadPage(1, loader)
-        is Loading -> loadNothing(loader)
-        is Failure -> loadPage(1, loader) // FailedLater(RESOLVE_ERROR)
+    override fun loadPreviousPage() = when (val state = current.value) {
+        is Pending -> loadPage(1)
+        is Loading -> Later(Unit)
+        is Failure -> loadPage(1)
         is Success -> when {
-            state.data.number > 1 -> loadPage(state.data.number - 1, loader)
-            else -> loadPage(1, loader)
+            state.data.number > 1 -> loadPage(state.data.number - 1)
+            else -> loadPage(1)
         }
     }
 
-    override fun loadPage(no: Int, loader: PageLoader<T>?): Later<Page<T>> {
+    override fun loadPage(no: Int): Later<Page<T>> {
         if (current.value is Loading) return FailedLater(LOADING_ERROR)
-        if (loader != null) {
-            loaderBag.value = loader
-        }
         val memorizedPage = cache.load(page = no, capacity)
         current.value = Loading("Loading", memorizedPage)
         return try {
@@ -101,23 +103,23 @@ internal class PaginationManagerImpl<T>(
         }
     }
 
-    override fun refresh(loader: PageLoader<T>?) = when (val state = current.value) {
-        is Pending -> loadPage(1, loader)
-        is Loading -> loadNothing(loader)
-        is Failure -> loadPage(1, loader)
-        is Success -> loadPage(state.data.number, loader)
+    override fun refreshAllPages(): Later<Any?> {
+        clearPages()
+        return loadFirstPage()
     }
 
-    private fun loadNothing(loader: PageLoader<T>?): Later<Unit> {
-        if (loader != null) {
-            loaderBag.value = loader
-        }
-        return Later(Unit)
+    override fun refreshCurrentPage() = when (val state = current.value) {
+        is Pending -> loadPage(1)
+        is Loading -> Later(Unit)
+        is Failure -> loadPage(1)
+        is Success -> loadPage(state.data.number)
     }
 
-    override fun loadFirstPage(loader: PageLoader<T>?): Later<Page<T>> = loadPage(1, loader)
+    private fun loadNothing() = Later(Unit)
 
-    override fun loadLastPage(loader: PageLoader<T>?): Later<Page<T>> = loadPage(-1, loader)
+    override fun loadFirstPage(): Later<Page<T>> = loadPage(1)
+
+    override fun loadLastPage(): Later<Page<T>> = loadPage(-1)
 
     override fun find(row: Int, page: Int) = cache.load(row, page, capacity)
 
