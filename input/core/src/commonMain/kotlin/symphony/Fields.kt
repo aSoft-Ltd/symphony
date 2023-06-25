@@ -64,8 +64,8 @@ abstract class Fields<out O : Any>(initial: State<O>) : Field<Fields.State<O>> {
         state.dispatch(state.value.copy(output = output))
     }
 
-    @JsName("_ignore_setAndUpdatenNullable")
-    @JvmName("_ignore_setAndUpdatenNullable")
+    @JsName("_ignore_setAndUpdateNullable")
+    @JvmName("_ignore_setAndUpdateNullable")
     inline fun <T : Any> KMutableProperty0<T?>.setAndUpdate(value: T?) {
         set(value)
         state.dispatch(state.value.copy(output = output))
