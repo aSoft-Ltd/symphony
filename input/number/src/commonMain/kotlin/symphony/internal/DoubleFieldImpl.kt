@@ -28,13 +28,7 @@ internal class DoubleFieldImpl<N : Double?>(
         set((o + s) as N)
     }
 
-    override fun set(double: Double?) {
-        val s = double as? N ?: return
-        set(s)
-    }
+    override fun set(double: Double?) = set((double ?: 0.0) as N)
 
-    override fun set(text: String?) {
-        val s = text?.toDoubleOrNull() as? N ?: return
-        set(s)
-    }
+    override fun set(text: String?) = set(text?.toDoubleOrNull() ?: 0.0)
 }

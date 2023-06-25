@@ -27,13 +27,7 @@ internal class TransformingDoubleFieldImpl<I : Double?, O>(
         set((o + s) as I)
     }
 
-    override fun set(double: Double?) {
-        val s = double as? I ?: return
-        set(s)
-    }
+    override fun set(double: Double?) = set((double ?: 0.0) as I)
 
-    override fun set(text: String?) {
-        val s = text?.toDoubleOrNull() as? I ?: return
-        set(s)
-    }
+    override fun set(text: String?) = set((text?.toDoubleOrNull() ?: 0.0) as I)
 }

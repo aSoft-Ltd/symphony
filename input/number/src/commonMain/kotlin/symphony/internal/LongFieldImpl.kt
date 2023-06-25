@@ -26,13 +26,7 @@ internal class LongFieldImpl<N : Long?>(
         set((o + s) as N)
     }
 
-    override fun set(double: Double?) {
-        val s = double?.roundToLong() as? N ?: return
-        set(s)
-    }
+    override fun set(double: Double?) = set((double?.roundToLong() ?: 0L) as N)
 
-    override fun set(text: String?) {
-        val s = text?.toLongOrNull() as? N ?: return
-        set(s)
-    }
+    override fun set(text: String?) = set((text?.toLongOrNull() ?: 0L) as N)
 }

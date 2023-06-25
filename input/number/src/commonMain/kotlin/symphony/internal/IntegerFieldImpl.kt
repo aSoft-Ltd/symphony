@@ -26,13 +26,7 @@ internal class IntegerFieldImpl<N : Int?>(
         set((o + s) as N)
     }
 
-    override fun set(double: Double?) {
-        val s = double?.roundToInt() as? N ?: return
-        set(s)
-    }
+    override fun set(double: Double?) = set((double?.roundToInt() ?: 0) as N)
 
-    override fun set(text: String?) {
-        val s = text?.toIntOrNull() as? N ?: return
-        set(s)
-    }
+    override fun set(text: String?) = set((text?.toIntOrNull() ?: 0) as N)
 }
