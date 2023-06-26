@@ -1,3 +1,3 @@
 package symphony.internal
 
-typealias Changer<O> = (O) -> Unit
+typealias Changer<O> = (O?) -> Unit

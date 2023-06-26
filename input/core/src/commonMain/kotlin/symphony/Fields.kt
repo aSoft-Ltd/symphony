@@ -61,14 +61,14 @@ abstract class Fields<out O : Any>(initial: State<O>) : Field<Fields.State<O>> {
     @JvmName("_ignore_setAndUpdateNoNullable")
     inline fun <T : Any> KMutableProperty0<T>.setAndUpdate(value: T?) {
         if (value != null) set(value)
-        state.dispatch(state.value.copy(output = output))
+        notify()
     }
 
     @JsName("_ignore_setAndUpdateNullable")
     @JvmName("_ignore_setAndUpdateNullable")
     inline fun <T : Any> KMutableProperty0<T?>.setAndUpdate(value: T?) {
         set(value)
-        state.dispatch(state.value.copy(output = output))
+        notify()
     }
 
     fun <F : Field<*>> Fields<*>.getOrCreate(
@@ -81,4 +81,8 @@ abstract class Fields<out O : Any>(initial: State<O>) : Field<Fields.State<O>> {
         val output: O,
         val feedbacks: Feedbacks
     )
+
+    fun notify() {
+        state.value = state.value.copy(output = output)
+    }
 }
