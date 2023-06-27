@@ -3,66 +3,92 @@
 
 package symphony.internal
 
+import cinematic.mutableLiveOf
 import kollections.iEmptyList
 import neat.ValidationFactory
+import neat.Validity
+import neat.custom
 import neat.required
 import symphony.Feedbacks
-import symphony.Label
 import symphony.Range
 import symphony.RangeField
 import symphony.RangeFieldState
+import symphony.Visibility
+import symphony.toErrors
 import symphony.toWarnings
 import kotlin.js.JsExport
 import kotlin.reflect.KMutableProperty0
 
-open class AbstractRangeField<O : Any, R : Range<O>?>(
-    val name: KMutableProperty0<R>,
+open class AbstractRangeField<O : Any>(
+    private val property: KMutableProperty0<Range<O>?>,
     label: String,
-    value: R,
-    hidden: Boolean,
-    hint: String,
+    visibility: Visibility,
+    private val onChange: Changer<Range<O>>?,
     factory: ValidationFactory<Range<O>>?
-) : AbstractField<Range<O>, RangeFieldState<O>>(label, factory), RangeField<O, R> {
+) : AbstractHideable(), RangeField<O> {
 
-    override fun set(value: R) {
-        val res = validator.validate(value)
-        name.set(value)
-        state.value = state.value.copy(
-            start = res.value.start,
-            end = res.value.end,
-            feedbacks = Feedbacks(res.toWarnings())
-        )
+    protected val validator = custom<Range<O>>(label).configure(factory)
+
+    override fun setStart(value: O?) = validateAndNotify(state.value.copy(start = value))
+
+    override fun setEnd(value: O?) = validateAndNotify(state.value.copy(end = value))
+
+    override fun clear() = validateAndNotify(state.value.copy(start = null, end = null))
+
+    override fun finish() {
+        state.stopAll()
+        state.history.clear()
     }
 
-    override fun setStart(value: O?) {
-        val s = state.value.copy(start = value)
+    override fun reset() = validateAndNotify(initial)
+
+    private fun validateAndNotify(s: State<O>) {
         val res = validator.validate(s.output)
-        name.set(s.output as R)
+        property.set(s.output)
         state.value = s.copy(feedbacks = Feedbacks(res.toWarnings()))
+        onChange?.invoke(s.output)
     }
 
-    override fun setEnd(value: O?) {
-        val s = state.value.copy(end = value)
-        val res = validator.validate(s.output)
-        name.set(s.output as R)
-        state.value = s.copy(feedbacks = Feedbacks(res.toWarnings()))
+    override fun validate() = validator.validate(output)
+
+    override fun validateToErrors(): Validity<Range<O>> {
+        val res = validator.validate(output)
+        val errors = res.toErrors()
+        if (errors.isNotEmpty()) {
+            state.value = state.value.copy(feedbacks = Feedbacks(errors))
+        }
+        return res
     }
 
-    override fun RangeFieldState<O>.with(
-        hidden: Boolean,
-        feedbacks: Feedbacks
-    ) = copy(hidden = hidden, feedbacks = feedbacks)
+    override fun setVisibility(v: Visibility) {
+        state.value = state.value.copy(visibility = v)
+    }
 
-    override fun cleared() = initial.copy(start = null, end = null)
+    data class State<out O : Any>(
+        val name: String,
+        override val start: O?,
+        override val end: O?,
+        override val visibility: Visibility,
+        override val required: Boolean,
+        override val feedbacks: Feedbacks
+    ) : RangeFieldState<O> {
+        override val input get() = Range(start, end)
+        override val output get() = if (start != null && end != null) Range(start, end) else null
+    }
 
-    override val initial: RangeFieldState<O> = RangeFieldState(
-        name = name.name,
-        label = Label(label, this.validator.required),
-        hidden = hidden,
-        hint = hint,
+    private val initial = State(
+        name = property.name,
         required = this.validator.required,
-        start = value?.start,
-        end = value?.end,
+        start = property.get()?.start,
+        end = property.get()?.end,
+        visibility = visibility,
         feedbacks = Feedbacks(iEmptyList()),
     )
+
+    override val state = mutableLiveOf(initial)
+
+    override val output get() = state.value.output
+    override val required get() = state.value.required
+    override val visibility get() = state.value.visibility
+    override val feedbacks get() = state.value.feedbacks
 }

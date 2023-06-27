@@ -7,7 +7,7 @@ import kollections.List
 import kollections.Set
 import kotlin.js.JsExport
 
-interface MultiChoiceField<O> : BaseField<List<O>>, ChoiceField<O> {
+interface MultiChoiceField<O> : ListField<O>, ChoiceField<O> {
     override val output: List<O>
 
     val optionLabels: List<String>
@@ -23,6 +23,7 @@ interface MultiChoiceField<O> : BaseField<List<O>>, ChoiceField<O> {
 
     val optionsWithSelectLabel: List<Option>
 
+    // checkers
     fun isSelected(item: O): Boolean
 
     fun isSelectedValue(v: String): Boolean
@@ -31,6 +32,7 @@ interface MultiChoiceField<O> : BaseField<List<O>>, ChoiceField<O> {
 
     fun isSelectedLabel(l: String): Boolean
 
+    // adders
     fun addSelectedItem(item: O)
 
     fun addSelectedOption(o: Option)
@@ -39,6 +41,7 @@ interface MultiChoiceField<O> : BaseField<List<O>>, ChoiceField<O> {
 
     fun addSelectLabel(l: String)
 
+    // removers
     fun unselectOption(o: Option)
 
     fun unselectItem(i: O)
@@ -49,6 +52,7 @@ interface MultiChoiceField<O> : BaseField<List<O>>, ChoiceField<O> {
 
     fun unselectAll()
 
+    // toggles
     fun toggleSelectedValue(v: String)
 
     fun toggleSelectedOption(o: Option)

@@ -1,32 +1,34 @@
 package symphony.internal
 
 import neat.ValidationFactory
-import symphony.NumberField
+import symphony.Visibility
 import kotlin.math.roundToInt
 import kotlin.reflect.KMutableProperty0
 
-internal class IntegerFieldImpl<N : Int?>(
-    name: KMutableProperty0<N>,
+internal class IntegerFieldImpl(
+    property: KMutableProperty0<Int?>,
     label: String,
-    value: N,
-    hidden: Boolean,
+    visibility: Visibility,
     hint: String,
-    onChange: Changer<N>? = null,
-    factory: ValidationFactory<N>?
-) : AbstractBaseField<N>(name, label, value, hidden, hint, onChange, factory), NumberField<N> {
-    override fun increment(step: N?) {
+    onChange: Changer<Int>? = null,
+    factory: ValidationFactory<Int>?
+) : NumberFieldImpl<Int>(property, label, visibility, hint, onChange, factory) {
+
+    override fun set(value: Int?) = setProhibiting(value)
+
+    override fun increment(step: Int?) {
         val o = output ?: 0
         val s = step ?: 1
-        set((o + s) as N)
+        set(o + s)
     }
 
-    override fun decrement(step: N?) {
+    override fun decrement(step: Int?) {
         val o = output ?: 0
         val s = step ?: 1
-        set((o + s) as N)
+        set(o + s)
     }
 
-    override fun set(double: Double?) = set((double?.roundToInt() ?: 0) as N)
+    override fun set(double: Double?) = set(double?.roundToInt())
 
-    override fun set(text: String?) = set((text?.toIntOrNull() ?: 0) as N)
+    override fun set(text: String?) = set(text?.toIntOrNull())
 }

@@ -1,32 +1,34 @@
 package symphony.internal
 
 import neat.ValidationFactory
-import symphony.NumberField
+import symphony.Visibility
 import kotlin.math.roundToLong
 import kotlin.reflect.KMutableProperty0
 
-internal class LongFieldImpl<N : Long?>(
-    name: KMutableProperty0<N>,
+internal class LongFieldImpl(
+    name: KMutableProperty0<Long?>,
     label: String,
-    value: N,
-    hidden: Boolean,
+    visibility: Visibility,
     hint: String,
-    onChange: Changer<N>? = null,
-    factory: ValidationFactory<N>?
-) : AbstractBaseField<N>(name, label, value, hidden, hint, onChange, factory), NumberField<N> {
-    override fun increment(step: N?) {
+    onChange: Changer<Long>? = null,
+    factory: ValidationFactory<Long>?
+) : NumberFieldImpl<Long>(name, label, visibility, hint, onChange, factory) {
+
+    override fun set(value: Long?) = setProhibiting(value)
+
+    override fun increment(step: Long?) {
         val o = output ?: 0L
         val s = step ?: 1L
-        set((o + s) as N)
+        set(o + s)
     }
 
-    override fun decrement(step: N?) {
+    override fun decrement(step: Long?) {
         val o = output ?: 0L
         val s = step ?: 1L
-        set((o + s) as N)
+        set(o + s)
     }
 
-    override fun set(double: Double?) = set((double?.roundToLong() ?: 0L) as N)
+    override fun set(double: Double?) = set(double?.roundToLong())
 
-    override fun set(text: String?) = set((text?.toLongOrNull() ?: 0L) as N)
+    override fun set(text: String?) = set(text?.toLongOrNull())
 }

@@ -27,7 +27,6 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.symphonyInputForm)
                 implementation(projects.symphonyInputText)
                 implementation(projects.kommanderCoroutines)
                 implementation(projects.koncurrentLaterCoroutines)

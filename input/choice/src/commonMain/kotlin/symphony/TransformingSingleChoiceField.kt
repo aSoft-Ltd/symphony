@@ -3,14 +3,10 @@
 
 package symphony
 
-import kollections.Collection
 import kollections.List
 import kotlin.js.JsExport
 
-interface TransformingSingleChoiceField<I, O> : TransformingField<I, O> {
-    val mapper: (I) -> Option
-
-    val items: Collection<I>
+interface TransformingSingleChoiceField<I, O> : TransformingField<I, O>, ChoiceField<I> {
 
     val selectedItem: O?
 

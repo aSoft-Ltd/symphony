@@ -7,29 +7,29 @@ import neat.Validator
 import neat.Validators
 import symphony.Option
 import symphony.TransformingSingleChoiceField
+import symphony.Visibility
+import symphony.internal.transforming.BaseTransformingFieldImpl
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
 internal class TransformingSingleChoiceFieldImpl<I, O>(
-    name: KMutableProperty0<O>,
+    property: KMutableProperty0<O?>,
     label: String,
-    value: O,
-    override val transformer: (I) -> O,
-    override val items: Collection<I>,
+    private val transformer: (I?) -> O?,
+    override val items: Collection<I & Any>,
     override val mapper: (I) -> Option,
-    hidden: Boolean,
+    visibility: Visibility,
     hint: String,
-    validator: (Validators<O>.() -> Validator<O>)?
-) : AbstractTransformingField<I, O>(name, transformer, label, value, hidden, hint, validator), TransformingSingleChoiceField<I, O> {
-
-    var selectedInput: I? = null
+    onChange: Changer<O>?,
+    factory: (Validators<O>.() -> Validator<O>)?
+) : BaseTransformingFieldImpl<I, O>(property, label, visibility, hint, transformer, onChange, factory), TransformingSingleChoiceField<I, O> {
 
     override val selectedItem: O? get() = selectedInput?.let(transformer)
 
     override val selectedOption: Option? get() = selectedInput?.let(mapper)?.copy(selected = true)
 
     override fun options(withSelect: Boolean): List<Option> = (if (withSelect) {
-        listOf(Option("Select ${state.value.label.capitalizedWithoutAstrix()}", ""))
+        listOf(Option("Select option", ""))
     } else {
         emptyList()
     } + items.toList().map {
@@ -59,4 +59,6 @@ internal class TransformingSingleChoiceFieldImpl<I, O>(
     override fun unselect() {
         state.value = state.value.copy(output = null)
     }
+
+    val selectedInput get() = state.value.input
 }

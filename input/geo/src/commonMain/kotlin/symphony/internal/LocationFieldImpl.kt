@@ -4,15 +4,17 @@ import geo.GeoLocation
 import neat.ValidationFactory
 import symphony.LocationField
 import symphony.LocationProvider
+import symphony.Visibility
+import symphony.internal.transforming.BaseTransformingFieldImpl
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
-internal class LocationFieldImpl<I, O : GeoLocation?>(
-    name: KMutableProperty0<O>,
-    override val provider: LocationProvider<I, O>,
+internal class LocationFieldImpl(
+    name: KMutableProperty0<GeoLocation?>,
+    override val provider: LocationProvider,
     label: String,
-    value: O,
-    hidden: Boolean,
+    visibility: Visibility,
     hint: String,
-    factory: ValidationFactory<O>?
-) : AbstractTransformingField<I, O>(name, provider::transform, label, value, hidden, hint, factory), LocationField<I, O>
+    onChange: Changer<GeoLocation>?,
+    factory: ValidationFactory<GeoLocation>?
+) : BaseTransformingFieldImpl<String, GeoLocation>(name, label, visibility, hint, provider::transform, onChange, factory), LocationField

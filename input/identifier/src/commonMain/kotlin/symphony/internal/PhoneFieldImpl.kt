@@ -15,59 +15,39 @@ import symphony.Option
 import symphony.PhoneField
 import symphony.PhoneFieldState
 import symphony.PhoneOutput
+import symphony.Visibility
 import symphony.toErrors
 import symphony.toWarnings
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
-internal class PhoneFieldImpl<O : PhoneOutput?>(
-    val name: KMutableProperty0<O>,
+internal class PhoneFieldImpl(
+    private val property: KMutableProperty0<PhoneOutput?>,
     label: String,
-    value: O,
-    hidden: Boolean,
+    visibility: Visibility,
     hint: String,
     country: Country?,
-    factory: ValidationFactory<O>?
-) : PhoneField<O> {
-    protected val validator = custom<O>(label).configure(factory)
+    private val onChange: Changer<PhoneOutput>?,
+    factory: ValidationFactory<PhoneOutput>?
+) : AbstractHideable(), PhoneField {
+    protected val validator = custom<PhoneOutput>(label).configure(factory)
 
     override fun validate() = validator.validate(output)
 
-    override fun set(value: O) {
-        val res = validator.validate(value)
-        name.set(value)
-        state.value = state.value.copy(
-            country = res.value?.country,
-            body = res.value?.body,
-            feedbacks = Feedbacks(res.toWarnings())
-        )
-    }
+    override fun setCountry(country: Country?) = setValidateAndNotify(state.value.copy(country = country))
 
-    override fun setCountry(country: Country?) {
-        val s = state.value.copy(country = country)
-        val o = s.output as? O
-        if (o != null) return set(o)
-        state.value = s
-    }
-
-    override fun setBody(long: Long?) {
-        val s = state.value.copy(body = long)
-        val o = s.output as? O
-        if (o != null) return set(o)
-        state.value = s
-    }
+    override fun setBody(long: Long?) = setValidateAndNotify(state.value.copy(body = long))
 
     override fun setBody(value: String?) = setBody(value?.toLongOrNull())
 
-    override fun hide(hide: Boolean?) {
-        state.value = state.value.copy(hidden = hide == true)
+    private fun setValidateAndNotify(s: State) {
+        property.set(s.output)
+        val res = validator.validate(s.output)
+        state.value = s.copy(feedbacks = Feedbacks(res.toWarnings()))
+        onChange?.invoke(s.output)
     }
 
-    override fun show(show: Boolean?) {
-        state.value = state.value.copy(hidden = show != true)
-    }
-
-    override fun validateToErrors(): Validity<O> {
+    override fun validateToErrors(): Validity<PhoneOutput> {
         val res = validator.validate(output)
         state.value = state.value.copy(feedbacks = Feedbacks(res.toErrors()))
         return res
@@ -77,38 +57,47 @@ internal class PhoneFieldImpl<O : PhoneOutput?>(
         state.stopAll()
     }
 
-    override fun reset() {
-        state.value = initial
-    }
+    override fun reset() = setValidateAndNotify(initial)
 
-    override fun clear() {
-        state.value = initial.copy(country = null, body = null)
-    }
+    override fun clear() = setValidateAndNotify(initial.copy(country = null, body = null))
 
-    val initial: PhoneFieldState = PhoneFieldState(
-        name = name.name,
+    private val initial = State(
+        name = property.name,
         label = Label(label, this.validator.required),
-        hidden = hidden,
+        visibility = visibility,
         hint = hint,
         required = this.validator.required,
-        country = value?.country ?: country,
-        body = value?.body,
+        country = country ?: property.get()?.country,
+        body = property.get()?.body,
         feedbacks = Feedbacks(iEmptyList()),
     )
 
-    override val state by lazy { mutableLiveOf(initial) }
+    data class State(
+        override val name: String,
+        override val label: Label,
+        override val visibility: Visibility,
+        override val hint: String,
+        override val required: Boolean,
+        override val country: Country?,
+        override val body: Long?,
+        override val feedbacks: Feedbacks
+    ) : PhoneFieldState {
+        override val output get() = if (country != null && body != null) PhoneOutput(country, body) else null
+    }
 
-    override val output: O? get() = state.value.output as? O
+    override val state by lazy { mutableLiveOf(initial) }
 
     override val selectedCountry: Country? get() = state.value.country
 
     override val selectedOption: Option? get() = selectedCountry?.let(mapper)
 
-    override val hidden: Boolean get() = state.value.hidden
-
     override val countries: List<Country> by lazy { Country.values().toIList() }
 
     private val mapper = { c: Country -> Option(c.label, c.code, c == selectedCountry) }
+
+    override fun setVisibility(v: Visibility) {
+        state.value = state.value.copy(visibility = v)
+    }
 
     override fun options(withSelect: Boolean): List<Option> = (if (withSelect) {
         listOf(Option("Select ${state.value.label.capitalizedWithoutAstrix()}", ""))
@@ -131,7 +120,15 @@ internal class PhoneFieldImpl<O : PhoneOutput?>(
         if (item != null) setCountry(item)
     }
 
-    override fun unsetCountry() {
-        state.value = state.value.copy(country = null)
-    }
+    override fun unsetCountry() = setValidateAndNotify(state.value.copy(country = null))
+
+    override val output get() = state.value.output
+    override val label get() = state.value.label
+    override val required get() = state.value.required
+    override val hint get() = state.value.hint
+    override val visibility get() = state.value.visibility
+    override val feedbacks get() = state.value.feedbacks
+    override val body get() = state.value.body
+    override val country get() = state.value.country
+    override val name get() = property.name
 }

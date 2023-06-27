@@ -1,19 +1,32 @@
 package symphony
 
-fun <R, P : Any, F : Fields<P>, I : Input<F>> I.toForm(
+import symphony.internal.FormImpl
+
+fun <R, P : Any, F : Fields<P>> F.toForm(
     heading: String,
     details: String,
     config: SubmitConfig,
-    initializer: SubmitBuilder<P, R>
-): Form<R, P, F, I> = Form(heading, details, this, config, initializer)
+    visibility: Visibility,
+    builder: SubmitBuilder<P, R>
+): Form<R, P, F> = FormImpl(
+    heading = heading,
+    details = details,
+    fields = this,
+    config = config,
+    visibility = visibility,
+    builder = builder,
+)
 
 fun <R, P : Any, F : Fields<P>> F.toForm(
     heading: String,
     details: String,
     config: SubmitConfig,
     builder: SubmitBuilder<P, R>
-): Form<R, P, F, Input<F>> = toInput(
-    hidden = false,
+): Form<R, P, F> = FormImpl(
+    heading = heading,
+    details = details,
+    fields = this,
     config = config,
+    visibility = Visibility.Visible,
     builder = builder,
-).toForm(heading, details, config, builder)
+)

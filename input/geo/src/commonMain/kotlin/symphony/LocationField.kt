@@ -6,6 +6,6 @@ package symphony
 import geo.GeoLocation
 import kotlin.js.JsExport
 
-interface LocationField<I, O : GeoLocation?> : TransformingField<I, O> {
-    val provider: LocationProvider<I, O>
+interface LocationField : TransformingField<String, GeoLocation> {
+    val provider: LocationProvider
 }

@@ -5,17 +5,17 @@ import krono.LocalDateOrNull
 import neat.ValidationFactory
 import symphony.DateRangeField
 import symphony.Range
+import symphony.Visibility
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
-internal class DateRangeFieldImpl<R : Range<LocalDate>?>(
-    name: KMutableProperty0<R>,
+internal class DateRangeFieldImpl(
+    name: KMutableProperty0<Range<LocalDate>?>,
     label: String,
-    value: R,
-    hidden: Boolean,
-    hint: String,
+    visibility: Visibility,
+    onChange: Changer<Range<LocalDate>>?,
     factory: ValidationFactory<Range<LocalDate>>?
-) : AbstractRangeField<LocalDate, R>(name, label, value, hidden, hint, factory), DateRangeField<R> {
+) : AbstractRangeField<LocalDate>(name, label, visibility, onChange, factory), DateRangeField {
     override fun setStart(iso: String?) = setStart(LocalDateOrNull(iso))
     override fun setEnd(iso: String?) = setEnd(LocalDateOrNull(iso))
 }

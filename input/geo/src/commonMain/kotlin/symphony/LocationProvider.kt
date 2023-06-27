@@ -2,7 +2,7 @@ package symphony
 
 import geo.GeoLocation
 
-interface LocationProvider<in I, out O : GeoLocation?> {
+interface LocationProvider {
     val name: String
-    fun transform(input: I?): O?
+    fun transform(input: String?): GeoLocation?
 }

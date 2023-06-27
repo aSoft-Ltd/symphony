@@ -15,7 +15,7 @@ class TextFieldTest {
         tf.state.watch { notifyCount++ }
         tf.hide()
         expect(notifyCount).toBe(1)
-        expect(tf.hidden).toBe(true)
+        expect(tf.visibility).toBe(true)
     }
 
     @Test

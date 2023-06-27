@@ -7,8 +7,7 @@ import krono.LocalDate
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-interface DateField<D : LocalDate?> : BaseField<D> {
-
+interface DateField : BaseField<LocalDate> {
     @JsName("setIso")
-    fun set(iso: String)
+    fun set(iso: String?)
 }

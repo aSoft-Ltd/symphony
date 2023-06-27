@@ -7,7 +7,7 @@ import krono.LocalDate
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-interface DateRangeField<R : Range<LocalDate>?> : RangeField<LocalDate, R> {
+interface DateRangeField : RangeField<LocalDate> {
     @JsName("setStartIsoString")
     fun setStart(iso: String?)
 

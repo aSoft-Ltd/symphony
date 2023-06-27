@@ -4,6 +4,6 @@ package symphony
 
 import kotlin.js.JsExport
 
-interface BooleanField<T : Boolean?> : BaseField<T> {
+interface BooleanField : BaseField<Boolean> {
     fun toggle()
 }

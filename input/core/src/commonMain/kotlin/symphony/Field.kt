@@ -11,6 +11,6 @@ import symphony.properties.Resetable
 import symphony.properties.Validable
 import kotlin.js.JsExport
 
-interface Field<out S> : Hideable, Clearable, Resetable, Validable, Finishable {
+interface Field<out O, out S : FState<O>> : Hideable, Clearable, Resetable, Validable, Finishable, FState<O> {
     val state: Live<S>
 }

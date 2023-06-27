@@ -6,14 +6,14 @@ package symphony
 import kollections.List
 import kotlin.js.JsExport
 
-data class InputState<out O, out R>(
-    val phase: InputPhase<O, R>,
-    val hidden: Boolean
+data class FormState<out O, out R>(
+    val visibility: Visibility,
+    val phase: FormPhase<O, R>
 ) {
     val isSubmitting get() = phase is SubmittingPhase
 }
 
-sealed interface InputPhase<out O, out R> {
+sealed interface FormPhase<out O, out R> {
     val asCapturing get() = this as? CapturingPhase
     val asValidating get() = this as? ValidatingPhase
     val asSubmitting get() = this as? SubmittingPhase
@@ -21,22 +21,22 @@ sealed interface InputPhase<out O, out R> {
     val asFailure get() = this as? FailurePhase
 }
 
-object CapturingPhase : InputPhase<Nothing, Nothing>
+object CapturingPhase : FormPhase<Nothing, Nothing>
 
 data class ValidatingPhase<out O>(
     val output: O
-) : InputPhase<O, Nothing>
+) : FormPhase<O, Nothing>
 
 data class SubmittingPhase<out O>(
     val output: O
-) : InputPhase<O, Nothing>
+) : FormPhase<O, Nothing>
 
 data class SuccessPhase<out O, out R>(
     val output: O,
     val result: R
-) : InputPhase<O, R>
+) : FormPhase<O, R>
 
 data class FailurePhase<out O>(
     val output: O,
     val reasons: List<String>
-) : InputPhase<O, Nothing>
+) : FormPhase<O, Nothing>

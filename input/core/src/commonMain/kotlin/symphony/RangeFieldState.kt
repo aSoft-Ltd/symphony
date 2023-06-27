@@ -5,16 +5,12 @@ package symphony
 
 import kotlin.js.JsExport
 
-data class RangeFieldState<O>(
-    val name: String,
-    val start: O?,
-    val end: O?,
-    override val label: Label,
-    override val hidden: Boolean,
-    override val hint: String,
-    override val required: Boolean,
+interface RangeFieldState<out O : Any> : FState<Range<O>> {
+    val start: O?
+    val end: O?
+    override val visibility: Visibility
+    override val required: Boolean
     override val feedbacks: Feedbacks
-) : FieldState<Range<O>> {
-    val input get() = Range(start, end)
-    override val output get() = if (start != null && end != null) Range(start, end) else null
+    val input: Range<O?>
+    override val output: Range<O>?
 }

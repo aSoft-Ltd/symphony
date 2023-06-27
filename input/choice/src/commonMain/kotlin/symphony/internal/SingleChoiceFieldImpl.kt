@@ -6,20 +6,20 @@ import kollections.toIList
 import neat.ValidationFactory
 import symphony.Option
 import symphony.SingleChoiceField
+import symphony.Visibility
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
 internal class SingleChoiceFieldImpl<T>(
-    name: KMutableProperty0<T>,
+    name: KMutableProperty0<T?>,
     label: String,
-    value: T,
     override val items: Collection<T & Any>,
     override val mapper: (T & Any) -> Option,
-    hidden: Boolean,
+    visibility: Visibility,
     hint: String,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>?
-) : AbstractBaseField<T>(name, label, value, hidden, hint, onChange, factory), SingleChoiceField<T> {
+) : BaseFieldImpl<T>(name, label, visibility, hint, onChange, factory), SingleChoiceField<T> {
 
     override val selectedItem: T? get() = state.value.output
 

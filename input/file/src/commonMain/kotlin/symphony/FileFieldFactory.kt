@@ -1,30 +1,28 @@
 package symphony
 
-import epsilon.Blob
+import epsilon.FileBlob
 import kollections.List
+import kollections.MutableList
 import neat.ValidationFactory
-import symphony.internal.AbstractBaseField
+import symphony.internal.BaseFieldImpl
 import symphony.internal.Changer
 import kotlin.reflect.KMutableProperty0
 
-fun <T : Blob> Fields<*>.files(
-    name: KMutableProperty0<List<T>>,
+fun Fields<*>.files(
+    name: KMutableProperty0<MutableList<FileBlob>>,
     label: String = name.name,
-    value: List<T> = name.get(),
-    hint: String = label,
-    hidden: Boolean = false,
-    onChange: Changer<List<T>>? = null,
-    factory: ValidationFactory<List<T>>? = null
-): ListField<T> = list(name, label, value, hint, hidden, onChange, factory)
+    visibility: Visibility = Visibility.Visible,
+    onChange: Changer<List<FileBlob>>? = null,
+    factory: ValidationFactory<List<FileBlob>>? = null
+): ListField<FileBlob> = list(name, label, visibility, onChange, factory)
 
-fun <T : Blob?> Fields<*>.file(
-    name: KMutableProperty0<T>,
+fun Fields<*>.file(
+    name: KMutableProperty0<FileBlob?>,
     label: String = name.name,
-    value: T = name.get(),
     hint: String = label,
-    hidden: Boolean = false,
-    onChange: Changer<T>? = null,
-    factory: ValidationFactory<T>? = null
-): BaseField<T> = getOrCreate(name) {
-    AbstractBaseField(name, label, value, hidden, hint, onChange, factory)
+    visibility: Visibility = Visibility.Visible,
+    onChange: Changer<FileBlob>? = null,
+    factory: ValidationFactory<FileBlob>? = null
+): BaseField<FileBlob> = getOrCreate(name) {
+    BaseFieldImpl(name, label, visibility, hint, onChange, factory)
 }

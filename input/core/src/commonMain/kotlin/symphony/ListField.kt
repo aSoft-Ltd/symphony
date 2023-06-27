@@ -4,10 +4,10 @@
 package symphony
 
 import kollections.List
+import kollections.MutableList
 import kotlin.js.JsExport
 
-interface ListField<E> : BaseField<List<E>> {
-    override val output: List<E>
+interface ListField<E> : Field<List<E>, ListFieldState<E>>, ListFieldState<E> {
     fun add(item: E)
     fun addAll(items: List<E>)
     fun remove(item: E)

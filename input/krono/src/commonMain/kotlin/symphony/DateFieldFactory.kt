@@ -6,14 +6,13 @@ import symphony.internal.Changer
 import symphony.internal.DateFieldImpl
 import kotlin.reflect.KMutableProperty0
 
-fun <D : LocalDate?> Fields<*>.date(
-    name: KMutableProperty0<D>,
+fun Fields<*>.date(
+    name: KMutableProperty0<LocalDate?>,
     label: String = name.name,
-    value: D = name.get(),
     hint: String = label,
-    hidden: Boolean = false,
-    onChange: Changer<D>? = null,
-    factory: ValidationFactory<D>? = null
-): DateField<D> = getOrCreate(name) {
-    DateFieldImpl(name, label, value, hidden, hint, onChange, factory)
+    visibility: Visibility = Visibility.Visible,
+    onChange: Changer<LocalDate>? = null,
+    factory: ValidationFactory<LocalDate>? = null
+): DateField = getOrCreate(name) {
+    DateFieldImpl(name, label, visibility, hint, onChange, factory)
 }

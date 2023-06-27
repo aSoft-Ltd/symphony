@@ -2,30 +2,31 @@ package symphony
 
 import geo.Country
 import neat.ValidationFactory
+import symphony.internal.Changer
 import symphony.internal.PhoneFieldImpl
 import symphony.validators.email
 import kotlin.reflect.KMutableProperty0
 
-fun <T : String?> Fields<*>.email(
-    name: KMutableProperty0<T>,
+fun Fields<*>.email(
+    name: KMutableProperty0<String?>,
     label: String = name.name,
-    value: T = name.get(),
     hint: String = label,
-    hidden: Boolean = false,
-    factory: ValidationFactory<T>? = null
-) = text(name, label, value, hint, hidden) {
+    visibility: Visibility = Visibility.Visible,
+    onChange: Changer<String>? = null,
+    factory: ValidationFactory<String>? = null
+) = text(name, label, visibility, hint, onChange) {
     email()
     configure(factory)
 }
 
-fun <T : PhoneOutput?> Fields<*>.phone(
-    name: KMutableProperty0<T>,
+fun Fields<*>.phone(
+    name: KMutableProperty0<PhoneOutput?>,
     label: String = name.name,
-    value: T = name.get(),
     hint: String = label,
-    hidden: Boolean = false,
-    country: Country? = value?.country,
-    factory: ValidationFactory<T>? = null
-): PhoneField<T> = getOrCreate(name) {
-    PhoneFieldImpl(name, label, value, hidden, hint, country, factory)
+    visibility: Visibility = Visibility.Visible,
+    country: Country? = name.get()?.country,
+    onChange: Changer<PhoneOutput>? = null,
+    factory: ValidationFactory<PhoneOutput>? = null
+): PhoneField = getOrCreate(name) {
+    PhoneFieldImpl(name, label, visibility, hint, country, onChange, factory)
 }

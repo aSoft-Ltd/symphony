@@ -2,6 +2,7 @@ package symphony.internal
 
 import kollections.Collection
 import kollections.List
+import kollections.MutableList
 import kollections.iEmptyList
 import kollections.iListOf
 import kollections.toIList
@@ -10,22 +11,19 @@ import neat.Validator
 import neat.Validators
 import symphony.MultiChoiceField
 import symphony.Option
+import symphony.Visibility
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
 internal class MultiChoiceFieldImpl<T : Any>(
-    name: KMutableProperty0<List<T>>,
+    property: KMutableProperty0<MutableList<T>>,
     label: String,
-    value: List<T>,
     override val items: Collection<T>,
     override val mapper: (T) -> Option,
-    hidden: Boolean,
-    hint: String,
+    visibility: Visibility,
     onChange: Changer<List<T>>?,
     factory: (Validators<List<T>>.() -> Validator<List<T>>)?
-) : AbstractBaseField<List<T>>(name, label, value, hidden, hint, onChange, factory), MultiChoiceField<T> {
-
-    override val output get() = state.value.output ?: iEmptyList()
+) : ListFieldImpl<T>(property, label, visibility, onChange, factory), MultiChoiceField<T> {
 
     override val optionLabels get() = options.map { it.label }.toIList()
 
@@ -46,7 +44,7 @@ internal class MultiChoiceFieldImpl<T : Any>(
             }.toIList()
         }
 
-    override val optionsWithSelectLabel get() = (listOf(Option("Select $label", "")) + options).toIList()
+    override val optionsWithSelectLabel get() = (listOf(Option("Select $name", "")) + options).toIList()
 
     private fun Collection<T>.findItemWithLabel(l: String) = find { mapper(it).label == l }
 
@@ -54,7 +52,7 @@ internal class MultiChoiceFieldImpl<T : Any>(
 
     private fun Collection<T>.findItemWithValue(v: String): T? = find { mapper(it).value == v }
 
-    override fun addSelectedItem(item: T) = set((output + item).toIList())
+    override fun addSelectedItem(item: T) = add(item)
 
     override fun addSelectedOption(o: Option) {
         val item = items.findItemWithOption(o) ?: return
@@ -84,7 +82,7 @@ internal class MultiChoiceFieldImpl<T : Any>(
         unselectItem(item)
     }
 
-    override fun unselectItem(i: T) = set((output - i).toIList())
+    override fun unselectItem(i: T) = remove(i)
 
     override fun unselectValue(v: String) {
         val item = output.findItemWithValue(v) ?: return
@@ -96,11 +94,7 @@ internal class MultiChoiceFieldImpl<T : Any>(
         unselectItem(item)
     }
 
-    override fun unselectAll() = set(iListOf())
-
-    override fun clear() {
-        state.value = initial.copy(output = iListOf())
-    }
+    override fun unselectAll() = removeAll(output)
 
     override fun toggleSelectedValue(v: String) {
         if (selectedValues.contains(v)) {
@@ -125,4 +119,6 @@ internal class MultiChoiceFieldImpl<T : Any>(
             addSelectLabel(l)
         }
     }
+
+    val name = property.name
 }

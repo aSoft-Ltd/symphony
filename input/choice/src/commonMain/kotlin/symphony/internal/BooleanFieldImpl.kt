@@ -2,18 +2,18 @@ package symphony.internal
 
 import neat.ValidationFactory
 import symphony.BooleanField
+import symphony.Visibility
 import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
-internal class BooleanFieldImpl<B : Boolean?>(
-    name: KMutableProperty0<B>,
+internal class BooleanFieldImpl(
+    name: KMutableProperty0<Boolean?>,
     label: String,
-    value: B,
-    hidden: Boolean,
+    visibility: Visibility,
     hint: String,
-    onChange: Changer<B>? = null,
-    factory: ValidationFactory<B>?
-) : AbstractBaseField<B>(name, label, value, hidden, hint, onChange, factory), BooleanField<B> {
+    onChange: Changer<Boolean>? = null,
+    factory: ValidationFactory<Boolean>?
+) : BaseFieldImpl<Boolean>(name, label, visibility, hint, onChange, factory), BooleanField {
 
-    override fun toggle() = set((output?.not() ?: false) as B)
+    override fun toggle() = set(output?.not() ?: true)
 }

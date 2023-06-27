@@ -6,7 +6,7 @@ package symphony
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-interface NumberField<N : Number?> : BaseField<N> {
+interface NumberField<N : Number> : BaseField<N> {
 
     fun increment(step: N? = null)
 

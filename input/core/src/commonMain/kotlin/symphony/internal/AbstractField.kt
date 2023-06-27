@@ -7,40 +7,22 @@ import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import neat.ValidationFactory
 import neat.Validator
-import neat.Validity
 import neat.custom
-import symphony.CommonField
+import symphony.FState
 import symphony.Feedbacks
-import symphony.FieldState
-import symphony.Label
-import symphony.toErrors
+import symphony.Field
+import symphony.Visibility
+import symphony.properties.Settable
 import kotlin.js.JsExport
 
-abstract class AbstractField<out O, out S : FieldState<O>>(
+abstract class AbstractField<O, S : FState<O>>(
     label: String,
     factory: ValidationFactory<O>?
-) : CommonField<O, S> {
+) : AbstractHideable(), Field<O, S>, Settable<O> {
 
     protected val validator: Validator<@UnsafeVariance O> = custom<O>(label).configure(factory)
 
     override fun validate() = validator.validate(output)
-
-    override fun hide(hide: Boolean?) {
-        state.value = state.value.with(hidden = hide == true)
-    }
-
-    override fun show(show: Boolean?) {
-        state.value = state.value.with(hidden = show != true)
-    }
-
-    override fun validateToErrors(): Validity<O> {
-        val res = validator.validate(output)
-        val errors = res.toErrors()
-        if (errors.isNotEmpty()) {
-            state.value = state.value.with(feedbacks = Feedbacks(errors))
-        }
-        return res
-    }
 
     override fun finish() {
         state.stopAll()
@@ -52,25 +34,20 @@ abstract class AbstractField<out O, out S : FieldState<O>>(
     }
 
     override fun clear() {
-        state.value = cleared()
+        set(null)
         state.history.clear()
     }
 
-    protected abstract fun @UnsafeVariance S.with(
-        hidden: Boolean = this.hidden,
+    protected abstract fun S.with(
+        visibility: Visibility = this.visibility,
         feedbacks: Feedbacks = this.feedbacks
     ): S
 
-    protected abstract fun cleared(): S
+    override fun setVisibility(v: Visibility) {
+        state.value = state.value.with(visibility = v)
+    }
 
     abstract val initial: S
 
-    override val state: MutableLive<@UnsafeVariance S> by lazy { mutableLiveOf(initial) }
-
-    override val output: O? get() = state.value.output
-    override val label: Label get() = state.value.label
-    override val required: Boolean get() = state.value.required
-    override val hint: String get() = state.value.hint
-    override val hidden: Boolean get() = state.value.hidden
-    override val feedbacks: Feedbacks get() = state.value.feedbacks
+    override val state: MutableLive<S> by lazy { mutableLiveOf(initial) }
 }
