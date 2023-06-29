@@ -11,6 +11,7 @@ import neat.custom
 import neat.required
 import symphony.BaseField
 import symphony.BaseFieldState
+import symphony.Changer
 import symphony.Feedbacks
 import symphony.Label
 import symphony.Visibility

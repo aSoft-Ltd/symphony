@@ -2,7 +2,6 @@ package symphony
 
 import kollections.toIList
 import neat.ValidationFactory
-import symphony.internal.Changer
 import symphony.internal.SingleChoiceFieldImpl
 import symphony.internal.TransformingSingleChoiceFieldImpl
 import kotlin.reflect.KMutableProperty0

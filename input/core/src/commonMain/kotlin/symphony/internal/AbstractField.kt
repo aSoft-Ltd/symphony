@@ -8,14 +8,14 @@ import cinematic.mutableLiveOf
 import neat.ValidationFactory
 import neat.Validator
 import neat.custom
-import symphony.FState
+import symphony.FieldState
 import symphony.Feedbacks
 import symphony.Field
 import symphony.Visibility
 import symphony.properties.Settable
 import kotlin.js.JsExport
 
-abstract class AbstractField<O, S : FState<O>>(
+abstract class AbstractField<O, S : FieldState<O>>(
     label: String,
     factory: ValidationFactory<O>?
 ) : AbstractHideable(), Field<O, S>, Settable<O> {

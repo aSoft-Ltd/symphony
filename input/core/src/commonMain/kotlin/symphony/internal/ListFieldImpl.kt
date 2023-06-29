@@ -4,21 +4,21 @@ import cinematic.mutableLiveOf
 import kollections.List
 import kollections.MutableList
 import kollections.iEmptyList
-import kollections.toIMutableList
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
 import neat.required
+import symphony.Changer
 import symphony.Feedbacks
 import symphony.ListField
 import symphony.ListFieldState
 import symphony.Visibility
 import symphony.toErrors
 import symphony.toWarnings
-import kotlin.reflect.KMutableProperty0
+import kotlin.reflect.KProperty0
 
 open class ListFieldImpl<E>(
-    private val property: KMutableProperty0<MutableList<E>>,
+    private val property: KProperty0<MutableList<E>>,
     label: String,
     visibility: Visibility,
     private val onChange: Changer<List<E>>?,
@@ -67,7 +67,7 @@ open class ListFieldImpl<E>(
     data class State<O>(
         override val visibility: Visibility,
         override val required: Boolean,
-        override val output: List<O>,
+        override val output: MutableList<O>,
         override val feedbacks: Feedbacks
     ) : ListFieldState<O>
 
@@ -108,7 +108,10 @@ open class ListFieldImpl<E>(
     }
 
     override fun reset() {
-        property.set(initial.output.toIMutableList())
+        property.get().apply {
+            clear()
+            addAll(initial.output)
+        }
         val res = validator.validate(property.get())
         state.value = state.value.copy(
             output = property.get(),

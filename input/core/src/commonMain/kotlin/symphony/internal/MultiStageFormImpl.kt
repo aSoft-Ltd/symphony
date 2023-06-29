@@ -1,0 +1,137 @@
+@file:JsExport
+@file:Suppress("NON_EXPORTABLE_TYPE", "UNCHECKED_CAST")
+
+package symphony.internal
+
+import cinematic.mutableLiveOf
+import kase.Failure
+import kase.Success
+import kollections.List
+import kollections.iListOf
+import koncurrent.FailedLater
+import koncurrent.Later
+import koncurrent.later.finally
+import neat.Invalid
+import neat.Validator
+import neat.custom
+import symphony.CapturingPhase
+import symphony.FailurePhase
+import symphony.FormStage
+import symphony.MultiStageForm
+import symphony.MultiStageFormState
+import symphony.SubmitActionsBuilder
+import symphony.SubmitBuilder
+import symphony.SubmitConfig
+import symphony.SubmittingPhase
+import symphony.SuccessPhase
+import symphony.ValidatingPhase
+import symphony.Visibility
+import symphony.properties.Clearable
+import symphony.properties.Resetable
+import kotlin.js.JsExport
+
+@PublishedApi
+internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
+    val output: O,
+    override val stages: List<S>,
+    visibility: Visibility,
+    private val config: SubmitConfig,
+    builder: SubmitBuilder<O, R>,
+) : AbstractHideable(), MultiStageForm<R, O, S>, Resetable, Clearable {
+
+    override fun prev(): Later<*> {
+        if(state.value.stage.isFirst) return Later(Unit)
+        val prev = state.value.prev()
+        state.value = prev
+        return Later(prev)
+    }
+
+    override fun next(): Later<Any> {
+        val stage = state.value.stage
+        if (stage.isLast) return submit()
+        val validity = stage.current.fields.validateToErrors()
+        if(validity is Invalid) return FailedLater(validity.exception())
+        val next = state.value.next()
+        state.value = next
+        return Later(next)
+    }
+
+    private fun submit(): Later<R> {
+        logger.info("Validating")
+        val stage = state.value.stage.current
+        state.value = state.value.copy(phase = ValidatingPhase(output))
+        val validity = stage.fields.validateToErrors()
+        if (validity is Invalid) return FailedLater(validity.exception())
+
+        logger.info("Submitting")
+        state.value = state.value.copy(phase = SubmittingPhase(output))
+        return submitAction.invoke(output).finally { res ->
+            val phase = when (res) {
+                is Failure -> FailurePhase(output, iListOf(res.message))
+                is Success -> SuccessPhase(output, res.data)
+            }
+            state.value = state.value.copy(phase = phase)
+            if (res is Success) {
+                logger.info("Success")
+                try {
+                    prerequisites.onSuccess?.invoke(res.data)
+                } catch (err: Throwable) {
+                    logger.error("Post Submit failed", err)
+                }
+            }
+        }
+    }
+
+    private val label by lazy {
+        "${stages::class.simpleName}Form"
+    }
+
+    private val prerequisites = SubmitActionsBuilder<O, R>().apply { builder() }
+
+    private val validator: Validator<O> = custom<O>(label).configure(prerequisites.factory)
+
+    val logger by lazy { config.logger.with("source" to label) }
+
+    private val actions = SubmitActionsBuilder<O, R>().apply { builder() }
+
+    private val cancelAction = actions.getOrSet("Cancel") {
+        logger.warn("Cancel action was never setup")
+    }
+
+    private val submitAction = prerequisites.submitAction
+
+    val exitOnSubmitted get() = config.exitOnSuccess
+
+    override fun exit() {
+        cancelAction.asInvoker?.invoke()
+        stages.forEach { it.fields.finish() }
+        state.stopAll()
+        state.history.clear()
+    }
+
+    override val visibility get() = state.value.visibility
+
+    override fun setVisibility(v: Visibility) {
+        state.value = state.value.copy(visibility = v)
+    }
+
+    override fun clear() {
+        stages.forEach { it.fields.clear() }
+        state.value = state.value.copy(phase = CapturingPhase)
+    }
+
+    override fun reset() {
+        stages.forEach { it.fields.reset() }
+        state.value = state.value.copy(phase = CapturingPhase)
+    }
+
+
+    private val initial = MultiStageFormState<R,O,S>(
+        visibility = visibility,
+        stages = stages,
+        output = output,
+        phase = CapturingPhase
+    )
+
+    override val state = mutableLiveOf(initial)
+}

@@ -6,7 +6,7 @@ package symphony
 import geo.Country
 import kotlin.js.JsExport
 
-interface PhoneFieldState : FState<PhoneOutput> {
+interface PhoneFieldState : FieldState<PhoneOutput> {
     val name: String
     val label: Label
     val hint: String

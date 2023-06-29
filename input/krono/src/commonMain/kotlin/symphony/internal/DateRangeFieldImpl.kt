@@ -3,6 +3,7 @@ package symphony.internal
 import krono.LocalDate
 import krono.LocalDateOrNull
 import neat.ValidationFactory
+import symphony.Changer
 import symphony.DateRangeField
 import symphony.Range
 import symphony.Visibility

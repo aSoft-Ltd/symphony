@@ -5,11 +5,11 @@ import kollections.List
 import kollections.MutableList
 import neat.ValidationFactory
 import symphony.internal.BaseFieldImpl
-import symphony.internal.Changer
 import kotlin.reflect.KMutableProperty0
+import kotlin.reflect.KProperty0
 
 fun Fields<*>.files(
-    name: KMutableProperty0<MutableList<FileBlob>>,
+    name: KProperty0<MutableList<FileBlob>>,
     label: String = name.name,
     visibility: Visibility = Visibility.Visible,
     onChange: Changer<List<FileBlob>>? = null,

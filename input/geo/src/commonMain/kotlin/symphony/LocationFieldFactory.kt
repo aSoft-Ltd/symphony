@@ -2,7 +2,6 @@ package symphony
 
 import geo.GeoLocation
 import neat.ValidationFactory
-import symphony.internal.Changer
 import symphony.internal.LocationFieldImpl
 import kotlin.reflect.KMutableProperty0
 

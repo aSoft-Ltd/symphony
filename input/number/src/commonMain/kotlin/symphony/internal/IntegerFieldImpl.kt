@@ -1,6 +1,7 @@
 package symphony.internal
 
 import neat.ValidationFactory
+import symphony.Changer
 import symphony.Visibility
 import kotlin.math.roundToInt
 import kotlin.reflect.KMutableProperty0

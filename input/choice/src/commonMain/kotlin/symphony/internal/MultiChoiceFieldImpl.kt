@@ -3,12 +3,11 @@ package symphony.internal
 import kollections.Collection
 import kollections.List
 import kollections.MutableList
-import kollections.iEmptyList
-import kollections.iListOf
 import kollections.toIList
 import kollections.toISet
 import neat.Validator
 import neat.Validators
+import symphony.Changer
 import symphony.MultiChoiceField
 import symphony.Option
 import symphony.Visibility

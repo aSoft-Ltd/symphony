@@ -2,6 +2,7 @@ package symphony.internal
 
 import geo.GeoLocation
 import neat.ValidationFactory
+import symphony.Changer
 import symphony.LocationField
 import symphony.LocationProvider
 import symphony.Visibility

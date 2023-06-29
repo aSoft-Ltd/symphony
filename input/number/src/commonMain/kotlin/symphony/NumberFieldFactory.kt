@@ -1,7 +1,6 @@
 package symphony
 
 import neat.ValidationFactory
-import symphony.internal.Changer
 import symphony.internal.DoubleFieldImpl
 import symphony.internal.IntegerFieldImpl
 import symphony.internal.LongFieldImpl

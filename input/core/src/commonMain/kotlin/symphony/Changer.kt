@@ -1,3 +1,3 @@
-package symphony.internal
+package symphony
 
 typealias Changer<O> = (O?) -> Unit

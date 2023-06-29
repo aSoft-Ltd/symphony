@@ -5,7 +5,7 @@ package symphony
 
 import kotlin.js.JsExport
 
-interface RangeFieldState<out O : Any> : FState<Range<O>> {
+interface RangeFieldState<out O : Any> : FieldState<Range<O>> {
     val start: O?
     val end: O?
     override val visibility: Visibility

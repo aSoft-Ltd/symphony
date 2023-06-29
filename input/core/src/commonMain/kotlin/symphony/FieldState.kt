@@ -7,9 +7,7 @@ import kotlin.js.JsExport
 
 interface FieldState<out O> {
     val output: O?
-    val label: Label
     val required: Boolean
-    val hint: String
-    val hidden: Boolean
+    val visibility: Visibility
     val feedbacks: Feedbacks
 }

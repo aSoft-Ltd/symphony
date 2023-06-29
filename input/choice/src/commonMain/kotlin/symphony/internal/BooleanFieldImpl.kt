@@ -2,6 +2,7 @@ package symphony.internal
 
 import neat.ValidationFactory
 import symphony.BooleanField
+import symphony.Changer
 import symphony.Visibility
 import kotlin.reflect.KMutableProperty0
 

@@ -1,7 +1,6 @@
 package symphony
 
 import neat.ValidationFactory
-import symphony.internal.Changer
 import kotlin.reflect.KMutableProperty0
 
 fun Fields<*>.money(

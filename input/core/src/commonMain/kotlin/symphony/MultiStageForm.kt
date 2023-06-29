@@ -4,19 +4,22 @@
 package symphony
 
 import cinematic.Live
+import kollections.List
 import koncurrent.Later
 import symphony.properties.Clearable
 import symphony.properties.Hideable
 import symphony.properties.Resetable
 import kotlin.js.JsExport
 
-interface Form<out R, out O : Any, out F : Fields<O>> : FormInfo, Resetable, Clearable, Hideable {
+interface MultiStageForm<out R, out O : Any, S : FormStage> : Resetable, Clearable, Hideable {
 
-    val state: Live<FormState<O, R>>
+    val stages: List<S>
 
-    val fields: F
+    val state: Live<MultiStageFormState<R, O, S>>
 
     fun exit()
 
-    fun submit(): Later<R>
+    fun prev(): Later<*>
+
+    fun next(): Later<*>
 }

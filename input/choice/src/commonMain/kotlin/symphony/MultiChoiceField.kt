@@ -8,8 +8,6 @@ import kollections.Set
 import kotlin.js.JsExport
 
 interface MultiChoiceField<O> : ListField<O>, ChoiceField<O> {
-    override val output: List<O>
-
     val optionLabels: List<String>
     val optionValues: List<String>
 

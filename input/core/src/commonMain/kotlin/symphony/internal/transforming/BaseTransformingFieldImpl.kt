@@ -11,7 +11,7 @@ import symphony.TransState
 import symphony.TransformingField
 import symphony.Visibility
 import symphony.internal.AbstractHideable
-import symphony.internal.Changer
+import symphony.Changer
 import symphony.toErrors
 import symphony.toWarnings
 import kotlin.reflect.KMutableProperty0

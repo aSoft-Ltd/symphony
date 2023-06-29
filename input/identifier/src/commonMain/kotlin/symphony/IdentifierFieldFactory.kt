@@ -2,7 +2,6 @@ package symphony
 
 import geo.Country
 import neat.ValidationFactory
-import symphony.internal.Changer
 import symphony.internal.PhoneFieldImpl
 import symphony.validators.email
 import kotlin.reflect.KMutableProperty0

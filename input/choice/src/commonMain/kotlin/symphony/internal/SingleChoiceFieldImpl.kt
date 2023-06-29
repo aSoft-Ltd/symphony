@@ -4,6 +4,7 @@ import kollections.Collection
 import kollections.List
 import kollections.toIList
 import neat.ValidationFactory
+import symphony.Changer
 import symphony.Option
 import symphony.SingleChoiceField
 import symphony.Visibility

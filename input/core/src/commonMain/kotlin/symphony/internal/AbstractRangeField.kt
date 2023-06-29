@@ -9,6 +9,7 @@ import neat.ValidationFactory
 import neat.Validity
 import neat.custom
 import neat.required
+import symphony.Changer
 import symphony.Feedbacks
 import symphony.Range
 import symphony.RangeField
