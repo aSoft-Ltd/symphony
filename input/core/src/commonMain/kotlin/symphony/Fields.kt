@@ -77,6 +77,7 @@ abstract class Fields<out O : Any>(initial: State<O>) : Validable, Clearable, Fi
         val feedbacks: Feedbacks
     )
 
+    @JvmName("inform")
     fun notify() {
         state.value = state.value.copy(output = output)
     }

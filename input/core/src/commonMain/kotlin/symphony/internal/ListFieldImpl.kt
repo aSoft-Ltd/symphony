@@ -71,7 +71,7 @@ open class ListFieldImpl<E>(
         override val feedbacks: Feedbacks
     ) : ListFieldState<O>
 
-    final override val state = mutableLiveOf(initial)
+    override val state = mutableLiveOf(initial)
 
     override fun validate() = validator.validate(output)
 

@@ -27,7 +27,7 @@ data class MultiStageFormState<out R, out O, out S : FormStage>(
         val percentage get() = (step * 100) / total
     }
 
-    val progress = Progress(stages.indexOf(stage.current), stages.size)
+    val progress = Progress(stages.indexOf(stage.current) + 1, stages.size)
 
     companion object {
         @JsName("initial")

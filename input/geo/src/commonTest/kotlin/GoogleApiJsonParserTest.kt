@@ -1,5 +1,6 @@
 import expect.expect
 import geo.Country
+import kommander.expect
 import symphony.internal.GooglePlacesApiParser
 import kotlin.test.Test
 
@@ -9,7 +10,7 @@ class GoogleApiJsonParserTest {
     fun should_be_able_to_parse_the_address_properly() {
         val parser = GooglePlacesApiParser()
         val resp = parser.parse(googlePlacesJson)
-        expect(resp.address).toBe("Ubungo Terminal Rd, Dar es Salaam, Tanzania")
+        expect<String>(resp.address).toBe("Ubungo Terminal Rd, Dar es Salaam, Tanzania")
     }
 
     @Test
