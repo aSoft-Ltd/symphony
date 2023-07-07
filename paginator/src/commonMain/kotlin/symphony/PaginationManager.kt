@@ -48,5 +48,5 @@ interface PaginationManager<T> {
 
     fun <R> map(transform: (T) -> R): PaginationManager<R>
 
-    fun deInitialize(clearPages: Boolean = false)
+    fun deInitialize(clearPages: Boolean? = false)
 }

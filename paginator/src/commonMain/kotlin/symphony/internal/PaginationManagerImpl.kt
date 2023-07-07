@@ -129,8 +129,8 @@ internal class PaginationManagerImpl<T>(
         pageLoader(no, capacity).then { it.map(transform) }
     }
 
-    override fun deInitialize(clearPages: Boolean) {
-        if (clearPages) clearPages()
+    override fun deInitialize(clearPages: Boolean?) {
+        if (clearPages != false) clearPages()
         current.value = Pending
         loaderBag.value = DE_INITIALIZED_LOADER
     }
