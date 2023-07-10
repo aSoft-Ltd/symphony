@@ -1,7 +1,7 @@
 package symphony
 
 import kommander.expect
-import neat.max
+import neat.collections.max
 import neat.required
 import kotlin.test.Test
 
