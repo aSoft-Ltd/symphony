@@ -1,7 +1,7 @@
 package symphony
 
 import neat.ValidationFactory
-import neat.collections.min
+import neat.min
 import neat.notBlank
 import kotlin.reflect.KMutableProperty0
 

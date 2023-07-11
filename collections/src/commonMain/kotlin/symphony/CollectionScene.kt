@@ -67,9 +67,6 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
     fun select(item: T): Later<T> {
         selector.select(item)
         return Later(item)
-//        return cache.save(CacheKeys.SELECTED_ITEM, item, serializer).catch {
-//            item
-//        }
     }
 
     private companion object {
