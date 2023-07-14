@@ -23,6 +23,7 @@ kotlin {
                 api(projects.cinematicSceneCore)
                 api(projects.koncurrentLaterCore)
                 api(projects.lexiApi)
+                api(projects.kaseOptional)
             }
         }
 

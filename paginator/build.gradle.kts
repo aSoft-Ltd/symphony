@@ -20,6 +20,7 @@ kotlin {
             dependencies {
                 api(projects.cinematicLiveCore)
                 api(projects.koncurrentLaterCore)
+                api(projects.kaseOptional)
             }
         }
 
