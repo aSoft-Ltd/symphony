@@ -68,7 +68,7 @@ internal class PhoneFieldImpl(
         visibility = visibility,
         hint = hint,
         required = this.validator.required,
-        country = country ?: property.get()?.country,
+        country = property.get()?.country ?: country,
         body = property.get()?.body,
         feedbacks = Feedbacks(iEmptyList()),
     )
