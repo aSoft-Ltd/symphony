@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalTypeInference::class)
+
 package symphony
 
 import symphony.internal.FormImpl
+import kotlin.experimental.ExperimentalTypeInference
 
 fun <R, P : Any, F : Fields<P>> Form(
     heading: String,
@@ -52,7 +55,7 @@ fun <R, P : Any, F : Fields<P>> F.toForm(
     heading: String,
     details: String,
     config: SubmitConfig,
-    builder: SubmitBuilder<P, R>
+    @BuilderInference builder: SubmitBuilder<P, R>
 ): Form<R, P, F> = FormImpl(
     heading = heading,
     details = details,
