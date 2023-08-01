@@ -17,6 +17,8 @@ interface PhoneField : Field<PhoneOutput,PhoneFieldState>, PhoneFieldState {
 
     fun searchByOrdering(key: String?)
 
+    fun clearSearch()
+
     fun selectCountryOption(option: Option)
 
     fun selectCountryLabel(optionLabel: String)

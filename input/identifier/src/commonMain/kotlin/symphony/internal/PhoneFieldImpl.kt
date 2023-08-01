@@ -25,7 +25,7 @@ import kotlin.reflect.KMutableProperty0
 internal class PhoneFieldImpl(
     private val property: KMutableProperty0<PhoneOutput?>,
     label: String,
-    private val filter: (Country,key: String) -> Boolean,
+    private val filter: (Country, key: String) -> Boolean,
     visibility: Visibility,
     hint: String,
     country: Country?,
@@ -63,9 +63,9 @@ internal class PhoneFieldImpl(
 
     override fun clear() = setValidateAndNotify(initial.copy(country = null, body = null))
 
-    private val mapper = { c: Country -> c.toOption() }
+    private val mapper = { c: Country -> c.toOption(c == this.state.value.country) }
 
-    private fun Country.toOption(selected: Boolean = this == state.value.country) = Option(label, code, selected)
+    private fun Country.toOption(selected: Boolean) = Option(label, code, selected)
 
     private val initial = State(
         name = property.name,
@@ -74,7 +74,7 @@ internal class PhoneFieldImpl(
         hint = hint,
         required = this.validator.required,
         country = property.get()?.country ?: country,
-        option = (property.get()?.country ?: country)?.let { mapper(it) },
+        option = (property.get()?.country ?: country)?.toOption(true),
         body = property.get()?.body,
         countries = Country.values().toIList(),
         feedbacks = Feedbacks(iEmptyList()),
@@ -103,7 +103,7 @@ internal class PhoneFieldImpl(
 
     override fun searchByFiltering(key: String?) {
         state.value = state.value.copy(
-            countries = if (key.isNullOrEmpty()) countries else countries.filter { filter(it,key) }
+            countries = if (key.isNullOrEmpty()) countries else countries.filter { filter(it, key) }
         )
     }
 
@@ -112,10 +112,14 @@ internal class PhoneFieldImpl(
             countries = if (key.isNullOrEmpty()) {
                 countries
             } else {
-                val partitions = countries.partition { filter(it,key) }
+                val partitions = countries.partition { filter(it, key) }
                 (partitions.first + partitions.second).toIList()
             }
         )
+    }
+
+    override fun clearSearch() {
+        state.value = state.value.copy(countries = countries)
     }
 
     override fun setVisibility(v: Visibility) {

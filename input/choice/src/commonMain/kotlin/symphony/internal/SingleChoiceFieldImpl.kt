@@ -63,6 +63,10 @@ internal class SingleChoiceFieldImpl<T>(
         )
     }
 
+    override fun clearSearch() {
+        state.value = state.value.copy(items = items)
+    }
+
     override fun selectValue(optionValue: String) {
         val item = items.find { mapper(it).value == optionValue }
         if (item != null) set(item)

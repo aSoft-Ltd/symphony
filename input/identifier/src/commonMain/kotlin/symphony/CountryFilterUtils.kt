@@ -4,4 +4,6 @@ package symphony
 
 import geo.Country
 
-inline fun Country.matches(key: String) = label.startsWith(key) || code.startsWith(key) || dialingCode.startsWith(key.replace("+", ""))
+inline fun Country.matches(key: String): Boolean = label.startsWith(key, ignoreCase = true)
+        || code.startsWith(key, ignoreCase = true)
+        || dialingCode.replace("+","").startsWith(key.replace("+", ""))

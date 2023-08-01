@@ -17,6 +17,8 @@ interface SingleChoiceField<O> : Field<O, SingleChoiceFieldState<O>>, BaseFieldS
 
     fun searchByOrdering(key: String?)
 
+    fun clearSearch()
+
     fun options(withSelect: Boolean = false): List<Option>
 
     fun selectOption(option: Option)
