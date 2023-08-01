@@ -25,6 +25,7 @@ import kotlin.reflect.KMutableProperty0
 internal class PhoneFieldImpl(
     private val property: KMutableProperty0<PhoneOutput?>,
     label: String,
+    private val filter: (Country,key: String) -> Boolean,
     visibility: Visibility,
     hint: String,
     country: Country?,
@@ -62,6 +63,10 @@ internal class PhoneFieldImpl(
 
     override fun clear() = setValidateAndNotify(initial.copy(country = null, body = null))
 
+    private val mapper = { c: Country -> c.toOption() }
+
+    private fun Country.toOption(selected: Boolean = this == state.value.country) = Option(label, code, selected)
+
     private val initial = State(
         name = property.name,
         label = Label(label, this.validator.required),
@@ -69,7 +74,9 @@ internal class PhoneFieldImpl(
         hint = hint,
         required = this.validator.required,
         country = property.get()?.country ?: country,
+        option = (property.get()?.country ?: country)?.let { mapper(it) },
         body = property.get()?.body,
+        countries = Country.values().toIList(),
         feedbacks = Feedbacks(iEmptyList()),
     )
 
@@ -79,6 +86,8 @@ internal class PhoneFieldImpl(
         override val visibility: Visibility,
         override val hint: String,
         override val required: Boolean,
+        override val countries: List<Country>,
+        override val option: Option?,
         override val country: Country?,
         override val body: Long?,
         override val feedbacks: Feedbacks
@@ -88,13 +97,26 @@ internal class PhoneFieldImpl(
 
     override val state by lazy { mutableLiveOf(initial) }
 
-    override val selectedCountry: Country? get() = state.value.country
-
-    override val selectedOption: Option? get() = selectedCountry?.let(mapper)
+    override val option: Option? get() = this.country?.let(mapper)
 
     override val countries: List<Country> by lazy { Country.values().toIList() }
 
-    private val mapper = { c: Country -> Option(c.label, c.code, c == selectedCountry) }
+    override fun searchByFiltering(key: String?) {
+        state.value = state.value.copy(
+            countries = if (key.isNullOrEmpty()) countries else countries.filter { filter(it,key) }
+        )
+    }
+
+    override fun searchByOrdering(key: String?) {
+        state.value = state.value.copy(
+            countries = if (key.isNullOrEmpty()) {
+                countries
+            } else {
+                val partitions = countries.partition { filter(it,key) }
+                (partitions.first + partitions.second).toIList()
+            }
+        )
+    }
 
     override fun setVisibility(v: Visibility) {
         state.value = state.value.copy(visibility = v)

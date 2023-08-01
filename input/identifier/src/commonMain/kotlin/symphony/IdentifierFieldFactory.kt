@@ -24,8 +24,9 @@ fun Fields<*>.phone(
     hint: String = label,
     visibility: Visibility = Visibility.Visible,
     country: Country? = name.get()?.country,
+    filter: (Country, key: String) -> Boolean = { c, key -> c.matches(key)},
     onChange: Changer<PhoneOutput>? = null,
     factory: ValidationFactory<PhoneOutput>? = null
 ): PhoneField = getOrCreate(name) {
-    PhoneFieldImpl(name, label, visibility, hint, country, onChange, factory)
+    PhoneFieldImpl(name, label, filter, visibility, hint, country, onChange, factory)
 }

@@ -11,13 +11,11 @@ import kotlin.js.JsName
 
 interface PhoneField : Field<PhoneOutput,PhoneFieldState>, PhoneFieldState {
 
-    val countries: List<Country>
-
-    val selectedCountry: Country?
-
-    val selectedOption: Option?
-
     fun options(withSelect: Boolean = false): List<Option>
+
+    fun searchByFiltering(key: String?)
+
+    fun searchByOrdering(key: String?)
 
     fun selectCountryOption(option: Option)
 

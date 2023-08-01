@@ -1,22 +1,36 @@
 package symphony
 
+import kollections.List
 import kollections.toIList
 import neat.ValidationFactory
 import symphony.internal.SingleChoiceFieldImpl
 import symphony.internal.TransformingSingleChoiceFieldImpl
 import kotlin.reflect.KMutableProperty0
 
+fun <T> SingleChoiceField(
+    name: KMutableProperty0<T?>,
+    items: Collection<T & Any>,
+    mapper: (T & Any) -> Option,
+    filter: (item: T & Any,key: String) -> Boolean = { _, _ -> true },
+    label: String = name.name,
+    hint: String = label,
+    visibility: Visibility = Visibility.Visible,
+    onChange: Changer<T>? = null,
+    factory: ValidationFactory<T>? = null
+): SingleChoiceField<T> = SingleChoiceFieldImpl(name, label, items.toIList(), mapper, filter, visibility, hint, onChange, factory)
+
 fun <T> Fields<*>.selectSingle(
     name: KMutableProperty0<T?>,
     items: Collection<T & Any>,
     mapper: (T & Any) -> Option,
+    filter: (item: T & Any,key: String) -> Boolean = { _, _ -> true },
     label: String = name.name,
     hint: String = label,
     visibility: Visibility = Visibility.Visible,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
 ): SingleChoiceField<T> = getOrCreate(name) {
-    SingleChoiceFieldImpl(name, label, items.toIList(), mapper, visibility, hint, onChange, factory)
+    SingleChoiceFieldImpl(name, label, items.toIList(), mapper, filter, visibility, hint, onChange, factory)
 }
 
 fun <I, O> Fields<*>.selectSingle(

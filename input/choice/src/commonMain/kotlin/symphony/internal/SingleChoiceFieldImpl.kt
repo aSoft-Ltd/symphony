@@ -1,10 +1,13 @@
 package symphony.internal
 
-import kollections.Collection
 import kollections.List
+import kollections.iEmptyList
 import kollections.toIList
 import neat.ValidationFactory
+import neat.required
 import symphony.Changer
+import symphony.Feedbacks
+import symphony.Label
 import symphony.Option
 import symphony.SingleChoiceField
 import symphony.Visibility
@@ -12,15 +15,16 @@ import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
 internal class SingleChoiceFieldImpl<T>(
-    name: KMutableProperty0<T?>,
+    property: KMutableProperty0<T?>,
     label: String,
-    override val items: Collection<T & Any>,
+    override val items: List<T & Any>,
     override val mapper: (T & Any) -> Option,
+    private val filter: (item: T & Any, key: String) -> Boolean,
     visibility: Visibility,
     hint: String,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>?
-) : BaseFieldImpl<T>(name, label, visibility, hint, onChange, factory), SingleChoiceField<T> {
+) : AbstractSingleChoiceField<T>(property, label, visibility, hint, onChange, factory), SingleChoiceField<T> {
 
     override val selectedItem: T? get() = state.value.output
 
@@ -42,6 +46,23 @@ internal class SingleChoiceFieldImpl<T>(
 
     override fun select(item: T) = set(item)
 
+    override fun searchByFiltering(key: String?) {
+        state.value = state.value.copy(
+            items = if (key.isNullOrEmpty()) items else items.filter { filter(it,key) }
+        )
+    }
+
+    override fun searchByOrdering(key: String?) {
+        state.value = state.value.copy(
+            items = if (key.isNullOrEmpty()) {
+                items
+            } else {
+                val partitions = items.partition { filter(it,key) }
+                (partitions.first + partitions.second).toIList()
+            }
+        )
+    }
+
     override fun selectValue(optionValue: String) {
         val item = items.find { mapper(it).value == optionValue }
         if (item != null) set(item)
@@ -57,4 +78,17 @@ internal class SingleChoiceFieldImpl<T>(
     override fun unselect() {
         state.value = state.value.copy(output = null)
     }
+
+    override val initial = State(
+        name = property.name,
+        label = Label(label, this.validator.required),
+        items = items,
+        selectedItem = property.get(),
+        selectedOption = property.get()?.let { mapper(it) },
+        hint = hint,
+        required = this.validator.required,
+        output = property.get(),
+        visibility = visibility,
+        feedbacks = Feedbacks(iEmptyList()),
+    )
 }
