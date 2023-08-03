@@ -46,7 +46,7 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
         state.value = state.value.copy(phase = ValidatingPhase(fields.output))
         val validity = fields.validateToErrors()
         if (validity is Invalid) {
-            state.value = state.value.copy(phase = FailurePhase(fields.output,validity.reasons.toIList()))
+            state.value = state.value.copy(phase = FailurePhase(fields.output, validity.reasons.toIList()))
             return FailedLater(validity.exception())
         }
 
@@ -55,18 +55,27 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
         state.value = state.value.copy(phase = SubmittingPhase(output))
         return submitAction.invoke(output).finally { res ->
             val phase = when (res) {
-                is Failure -> FailurePhase(output, iListOf(res.message))
-                is Success -> SuccessPhase(output, res.data)
-            }
-            state.value = state.value.copy(phase = phase)
-            if (res is Success) {
-                logger.info("Success")
-                try {
-                    prerequisites.onSuccess?.invoke(res.data)
-                } catch (err: Throwable) {
-                    logger.error("Post Submit failed", err)
+                is Success -> {
+                    logger.info("Success")
+                    try {
+                        prerequisites.onSuccess?.invoke(res.data)
+                    } catch (err: Throwable) {
+                        logger.error("Post Submit failed", err)
+                    }
+                    SuccessPhase(output, res.data)
+                }
+
+                is Failure -> {
+                    logger.info("Success")
+                    try {
+                        prerequisites.onFailure?.invoke(res.cause)
+                    } catch (err: Throwable) {
+                        logger.error("Post Submit failed", err)
+                    }
+                    FailurePhase(output, iListOf(res.message))
                 }
             }
+            state.value = state.value.copy(phase = phase)
         }
     }
 

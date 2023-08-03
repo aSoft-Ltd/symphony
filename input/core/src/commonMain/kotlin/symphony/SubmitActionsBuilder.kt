@@ -23,8 +23,14 @@ class SubmitActionsBuilder<P, R> : Actions0Builder<Unit>() {
     }
 
     internal var onSuccess: ((R) -> Unit)? = null
-    fun onSuccess(cleanup: (R) -> Unit): Finalizer {
-        onSuccess = cleanup
+    fun onSuccess(handler: (R) -> Unit): Finalizer {
+        onSuccess = handler
+        return Finalizer
+    }
+
+    internal var onFailure: ((Throwable) -> Unit)? = null
+    fun onFailure(handler: (Throwable) -> Unit): Finalizer {
+        onFailure = handler
         return Finalizer
     }
 
