@@ -42,8 +42,8 @@ open class ListFieldImpl<E>(
         validateAndNotify()
     }
 
-    override fun removeAll(items: List<E>) {
-        property.get().removeAll(items)
+    override fun removeAll(items: List<E>?) {
+        property.get().removeAll(items ?: output)
         validateAndNotify()
     }
 
