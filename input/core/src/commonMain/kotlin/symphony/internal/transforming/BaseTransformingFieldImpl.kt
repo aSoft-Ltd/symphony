@@ -29,7 +29,7 @@ open class BaseTransformingFieldImpl<I, O>(
     protected val validator = custom<O>(label).configure(factory)
 
     override fun set(value: I?) {
-        val output = transformer(input)
+        val output = transformer(value)
         val res = validator.validate(output)
         property.set(output)
         state.value = state.value.copy(
