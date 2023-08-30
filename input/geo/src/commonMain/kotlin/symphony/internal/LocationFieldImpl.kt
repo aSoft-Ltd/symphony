@@ -18,4 +18,4 @@ internal class LocationFieldImpl(
     hint: String,
     onChange: Changer<GeoLocation>?,
     factory: ValidationFactory<GeoLocation>?
-) : BaseTransformingFieldImpl<String, GeoLocation>(name, label, visibility, hint, provider::transform, onChange, factory), LocationField
+) : BaseTransformingFieldImpl<String, GeoLocation>(name, label, visibility, hint, provider::transform, onChange, factory), LocationField {}
