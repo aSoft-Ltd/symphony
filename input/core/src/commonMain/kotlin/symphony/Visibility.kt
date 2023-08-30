@@ -5,8 +5,8 @@ package symphony
 import kollections.JsExport
 
 sealed class Visibility {
-    object Visible : Visibility()
-    object Hidden : Visibility()
+    data object Visible : Visibility()
+    data object Hidden : Visibility()
 
     val isVisible get() = this is Visible
     val isHidden get() = this is Hidden
