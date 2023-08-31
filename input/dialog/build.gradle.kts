@@ -20,9 +20,9 @@ kotlin {
             dependencies {
                 api(projects.symphonyInputCore)
                 api(projects.cinematicSceneCore)
-                api(projects.koncurrentLaterCore)
+                api(libs.koncurrent.later.core)
                 api(projects.lexiApi)
-                api(projects.kaseOptional)
+                api(libs.kase.optional)
                 api(libs.kevlar.core)
             }
         }

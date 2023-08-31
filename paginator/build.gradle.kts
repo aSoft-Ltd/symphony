@@ -19,8 +19,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.cinematicLiveCore)
-                api(projects.koncurrentLaterCore)
-                api(projects.kaseOptional)
+                api(libs.koncurrent.later.core)
+                api(libs.kase.optional)
             }
         }
 

@@ -28,7 +28,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 api(libs.kommander.coroutines)
-                api(projects.koncurrentLaterCoroutines)
+                api(libs.koncurrent.later.coroutines)
                 api(projects.symphonyInputChoice)
                 api(projects.symphonyInputText)
                 api(projects.symphonyInputNumber)

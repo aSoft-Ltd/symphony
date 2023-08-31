@@ -20,7 +20,7 @@ kotlin {
             dependencies {
                 api(projects.cinematicLiveCore)
                 api(libs.kollections.interoperable)
-                api(projects.koncurrentLaterCore)
+                api(libs.koncurrent.later.core)
                 api(projects.neatCore)
                 api(projects.lexiConsole)
             }

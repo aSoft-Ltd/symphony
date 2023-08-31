@@ -29,9 +29,9 @@ kotlin {
             dependencies {
                 implementation(projects.symphonyInputText)
                 implementation(libs.kommander.coroutines)
-                implementation(projects.koncurrentLaterCoroutines)
+                implementation(libs.koncurrent.later.coroutines)
                 implementation(projects.cinematicLiveTest)
-                implementation(projects.koncurrentExecutorsMock)
+                implementation(libs.koncurrent.executors.mock)
             }
         }
     }
