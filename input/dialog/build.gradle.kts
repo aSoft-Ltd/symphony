@@ -19,11 +19,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputCore)
-                api(projects.kevlarCore)
                 api(projects.cinematicSceneCore)
                 api(projects.koncurrentLaterCore)
                 api(projects.lexiApi)
                 api(projects.kaseOptional)
+                api(libs.kevlar.core)
             }
         }
 
