@@ -19,7 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputCore)
-                api(projects.liquidNumber) // because number inputs sometimes want to be formatted
+                api(libs.neat.formatting) // because number inputs sometimes want to be formatted
             }
         }
 

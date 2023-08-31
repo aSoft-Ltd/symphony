@@ -21,7 +21,7 @@ kotlin {
                 api(libs.cinematic.live.core)
                 api(libs.kollections.interoperable)
                 api(libs.koncurrent.later.core)
-                api(projects.neatCore)
+                api(libs.neat.validation)
                 api(libs.lexi.console)
             }
         }
