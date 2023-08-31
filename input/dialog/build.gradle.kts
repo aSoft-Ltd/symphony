@@ -21,7 +21,7 @@ kotlin {
                 api(projects.symphonyInputCore)
                 api(libs.cinematic.scene.core)
                 api(libs.koncurrent.later.core)
-                api(projects.lexiApi)
+                api(libs.lexi.api)
                 api(libs.kase.optional)
                 api(libs.kevlar.core)
             }

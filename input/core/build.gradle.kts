@@ -22,7 +22,7 @@ kotlin {
                 api(libs.kollections.interoperable)
                 api(libs.koncurrent.later.core)
                 api(projects.neatCore)
-                api(projects.lexiConsole)
+                api(libs.lexi.console)
             }
         }
     }

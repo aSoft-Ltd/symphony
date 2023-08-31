@@ -21,7 +21,7 @@ kotlin {
                 api(projects.symphonyInputCore)
                 api(libs.cinematic.scene.core) // because a form is a scene
                 api(projects.symphonyTable)
-                api(projects.lexiConsole)
+                api(libs.lexi.console)
             }
         }
 
