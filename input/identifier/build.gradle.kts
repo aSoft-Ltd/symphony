@@ -30,7 +30,7 @@ kotlin {
             dependencies {
                 implementation(projects.symphonyInputText)
                 implementation(projects.symphonyInputChoice)
-                implementation(projects.kommanderCoroutines)
+                implementation(libs.kommander.coroutines)
                 implementation(projects.koncurrentLaterCoroutines)
                 implementation(projects.cinematicLiveTest)
                 implementation(projects.koncurrentExecutorsMock)
