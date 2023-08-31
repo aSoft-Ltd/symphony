@@ -19,7 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.cinematicLiveCore)
-                api(projects.kollectionsInteroperable)
+                api(libs.kollections.interoperable)
                 api(projects.koncurrentLaterCore)
                 api(projects.neatCore)
                 api(projects.lexiConsole)
