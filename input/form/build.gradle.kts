@@ -18,9 +18,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyInputCore)
+                api(libs.symphony.input.core)
                 api(libs.cinematic.scene.core) // because a form is a scene
-                api(projects.symphonyTable)
+                api(libs.symphony.table)
                 api(libs.lexi.console)
             }
         }
@@ -29,9 +29,9 @@ kotlin {
             dependencies {
                 api(libs.kommander.coroutines)
                 api(libs.koncurrent.later.coroutines)
-                api(projects.symphonyInputChoice)
-                api(projects.symphonyInputText)
-                api(projects.symphonyInputNumber)
+                api(libs.symphony.input.choice)
+                api(libs.symphony.input.text)
+                api(libs.symphony.input.number)
             }
         }
     }

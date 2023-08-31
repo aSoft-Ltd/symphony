@@ -21,9 +21,9 @@ kotlin {
             dependencies {
                 api(libs.keep.api)
                 api(libs.cinematic.scene.core)
-                api(projects.symphonyInputText)
-                api(projects.symphonyTable)
-                api(projects.symphonyList)
+                api(libs.symphony.input.text)
+                api(libs.symphony.table)
+                api(libs.symphony.list)
             }
         }
     }

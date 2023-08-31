@@ -18,8 +18,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyInputChoice)
-                api(projects.symphonyInputNumber)
+                api(libs.symphony.input.choice)
+                api(libs.symphony.input.number)
                 api(libs.geo.countries)
                 api(libs.kash.money)
             }
@@ -27,7 +27,7 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.symphonyInputText)
+                implementation(libs.symphony.input.text)
                 implementation(libs.kommander.coroutines)
                 implementation(libs.koncurrent.later.coroutines)
                 implementation(libs.cinematic.live.test)

@@ -18,7 +18,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyInputCore)
+                api(libs.symphony.input.core)
                 api(kotlinx.serialization.json)
                 api(libs.geo.core)
             }

@@ -18,15 +18,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyInputCore)
+                api(libs.symphony.input.core)
                 api(libs.krono.kotlinx)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.symphonyInputText)
-                implementation(projects.symphonyInputChoice)
+                implementation(libs.symphony.input.text)
+                implementation(libs.symphony.input.choice)
                 implementation(libs.kommander.coroutines)
                 implementation(libs.koncurrent.later.coroutines)
                 implementation(libs.cinematic.live.test)
