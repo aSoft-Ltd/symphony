@@ -19,7 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputCore)
-                api(projects.epsilonFile)
+                api(libs.epsilon.file)
             }
         }
 
