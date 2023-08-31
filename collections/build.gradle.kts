@@ -20,7 +20,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.keepApi)
-                api(projects.cinematicSceneCore)
+                api(libs.cinematic.scene.core)
                 api(projects.symphonyInputText)
                 api(projects.symphonyTable)
                 api(projects.symphonyList)

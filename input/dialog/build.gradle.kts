@@ -19,7 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputCore)
-                api(projects.cinematicSceneCore)
+                api(libs.cinematic.scene.core)
                 api(libs.koncurrent.later.core)
                 api(projects.lexiApi)
                 api(libs.kase.optional)
@@ -30,7 +30,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kommander.coroutines)
-                implementation(projects.cinematicLiveTest)
+                implementation(libs.cinematic.live.test)
             }
         }
     }

@@ -19,7 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputImageCore)
-                api(projects.cinematicLiveCompose)
+                api(libs.cinematic.live.compose)
                 api(compose.runtime)
                 api(compose.foundation)
             }

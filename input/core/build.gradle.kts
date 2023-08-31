@@ -18,7 +18,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.cinematicLiveCore)
+                api(libs.cinematic.live.core)
                 api(libs.kollections.interoperable)
                 api(libs.koncurrent.later.core)
                 api(projects.neatCore)

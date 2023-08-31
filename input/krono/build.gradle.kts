@@ -29,7 +29,7 @@ kotlin {
                 implementation(projects.symphonyInputChoice)
                 implementation(libs.kommander.coroutines)
                 implementation(libs.koncurrent.later.coroutines)
-                implementation(projects.cinematicLiveTest)
+                implementation(libs.cinematic.live.test)
                 implementation(libs.koncurrent.executors.mock)
             }
         }

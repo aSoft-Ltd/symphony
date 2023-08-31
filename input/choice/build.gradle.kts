@@ -25,7 +25,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kommander.coroutines)
-                implementation(projects.cinematicLiveTest)
+                implementation(libs.cinematic.live.test)
             }
         }
     }

@@ -19,7 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputCore)
-                api(projects.cinematicSceneCore) // because a form is a scene
+                api(libs.cinematic.scene.core) // because a form is a scene
                 api(projects.symphonyTable)
                 api(projects.lexiConsole)
             }

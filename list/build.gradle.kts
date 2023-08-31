@@ -19,7 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyActions)
-//                api(projects.cinematicLiveKollections)
+//                api(libs.cinematic.live.kollections)
             }
         }
 
