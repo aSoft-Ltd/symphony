@@ -21,7 +21,7 @@ kotlin {
                 api(projects.symphonyInputText)
                 api(projects.symphonyInputNumber)
                 api(projects.symphonyInputChoice)
-                api(projects.geoCountries)
+                api(libs.geo.countries)
                 api(projects.identifierComm)
             }
         }

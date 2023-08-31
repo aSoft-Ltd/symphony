@@ -20,7 +20,7 @@ kotlin {
             dependencies {
                 api(projects.symphonyInputCore)
                 api(kotlinx.serialization.json)
-                api(projects.geoCore)
+                api(libs.geo.core)
             }
         }
 

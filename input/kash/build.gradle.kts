@@ -20,8 +20,8 @@ kotlin {
             dependencies {
                 api(projects.symphonyInputChoice)
                 api(projects.symphonyInputNumber)
-                api(projects.geoCountries)
-                api(projects.kashMoney)
+                api(libs.geo.countries)
+                api(libs.kash.money)
             }
         }
 
