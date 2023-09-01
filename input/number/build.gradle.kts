@@ -18,15 +18,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyInputCore)
-                api(projects.liquidNumber) // because number inputs sometimes want to be formatted
+                api(libs.symphony.input.core)
+                api(libs.neat.formatting) // because number inputs sometimes want to be formatted
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.kommanderCoroutines)
-                implementation(projects.cinematicLiveTest)
+                implementation(libs.kommander.coroutines)
+                implementation(libs.cinematic.live.test)
             }
         }
     }

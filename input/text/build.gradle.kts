@@ -20,15 +20,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyInputCore)
-                api(projects.neatCore)
+                api(libs.symphony.input.core)
+                api(libs.neat.validation)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.kommanderCoroutines)
-                implementation(projects.cinematicLiveTest)
+                implementation(libs.kommander.coroutines)
+                implementation(libs.cinematic.live.test)
             }
         }
     }

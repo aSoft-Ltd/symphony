@@ -18,11 +18,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.cinematicLiveCore)
-                api(projects.kollectionsInteroperable)
-                api(projects.koncurrentLaterCore)
-                api(projects.neatCore)
-                api(projects.lexiConsole)
+                api(libs.cinematic.live.core)
+                api(libs.kollections.interoperable)
+                api(libs.koncurrent.later.core)
+                api(libs.neat.validation)
+                api(libs.lexi.console)
             }
         }
     }

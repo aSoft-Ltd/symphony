@@ -18,14 +18,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyActions)
-//                api(projects.cinematicLiveKollections)
+                api(libs.symphony.actions)
+//                api(libs.cinematic.live.kollections)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.kommanderCore)
+                implementation(libs.kommander.core)
             }
         }
     }

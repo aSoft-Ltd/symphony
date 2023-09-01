@@ -18,19 +18,19 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyInputCore)
-                api(projects.kevlarCore)
-                api(projects.cinematicSceneCore)
-                api(projects.koncurrentLaterCore)
-                api(projects.lexiApi)
-                api(projects.kaseOptional)
+                api(libs.symphony.input.core)
+                api(libs.cinematic.scene.core)
+                api(libs.koncurrent.later.core)
+                api(libs.lexi.api)
+                api(libs.kase.optional)
+                api(libs.kevlar.core)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.kommanderCoroutines)
-                implementation(projects.cinematicLiveTest)
+                implementation(libs.kommander.coroutines)
+                implementation(libs.cinematic.live.test)
             }
         }
     }

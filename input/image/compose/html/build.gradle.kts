@@ -13,7 +13,7 @@ kotlin {
             dependencies {
                 api(compose.html.core)
                 api(projects.symphonyInputImageWeb)
-                api(projects.cinematicLiveCompose)
+                api(libs.cinematic.live.compose)
             }
         }
     }

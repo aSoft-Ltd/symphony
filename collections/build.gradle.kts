@@ -19,11 +19,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.keepApi)
-                api(projects.cinematicSceneCore)
-                api(projects.symphonyInputText)
-                api(projects.symphonyTable)
-                api(projects.symphonyList)
+                api(libs.keep.api)
+                api(libs.cinematic.scene.core)
+                api(libs.symphony.input.text)
+                api(libs.symphony.table)
+                api(libs.symphony.list)
             }
         }
     }

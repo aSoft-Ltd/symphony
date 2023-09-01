@@ -18,15 +18,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyInputCore)
+                api(libs.symphony.input.core)
                 api(kotlinx.serialization.json)
-                api(projects.geoCore)
+                api(libs.geo.core)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.kommanderCore)
+                implementation(libs.kommander.core)
             }
         }
     }
