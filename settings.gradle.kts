@@ -25,7 +25,3 @@ rootProject.name = "symphony"
 // submodules
 includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list", "collections")
 includeSubs("symphony-input", "input", "core", "text", "number", "choice", "list", "dialog")
-
-// grounds
-// includeSubs("grounds-battle", "grounds/battle", "react")
-// includeSubs("grounds-battle-compose", "grounds/battle/compose", "core", "html")

@@ -19,7 +19,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.cinematic.live.core)
-                api(libs.epsilon.file)
+                api(libs.epsilon.file.core)
             }
         }
 
