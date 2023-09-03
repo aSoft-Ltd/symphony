@@ -18,7 +18,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(libs.symphony.paginator)
+                api(projects.symphonyPaginator)
             }
         }
 

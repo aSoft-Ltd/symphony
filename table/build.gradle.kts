@@ -18,7 +18,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(libs.symphony.actions)
+                api(projects.symphonyActions)
                 api(libs.cinematic.live.kollections)
             }
         }

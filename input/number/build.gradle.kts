@@ -18,7 +18,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(libs.symphony.input.core)
+                api(projects.symphonyInputCore)
                 api(libs.neat.formatting) // because number inputs sometimes want to be formatted
             }
         }
