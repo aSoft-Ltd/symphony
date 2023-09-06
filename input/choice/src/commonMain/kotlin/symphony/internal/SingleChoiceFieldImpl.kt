@@ -9,6 +9,7 @@ import symphony.Changer
 import symphony.Feedbacks
 import symphony.Label
 import symphony.Option
+import symphony.SearchBy
 import symphony.SingleChoiceField
 import symphony.Visibility
 import kotlin.reflect.KMutableProperty0
@@ -20,6 +21,7 @@ internal class SingleChoiceFieldImpl<T>(
     override val items: List<T & Any>,
     override val mapper: (T & Any) -> Option,
     private val filter: (item: T & Any, key: String) -> Boolean,
+    private val searchBy: SearchBy,
     visibility: Visibility,
     hint: String,
     onChange: Changer<T>? = null,
@@ -46,27 +48,6 @@ internal class SingleChoiceFieldImpl<T>(
 
     override fun select(item: T) = set(item)
 
-    override fun searchByFiltering(key: String?) {
-        state.value = state.value.copy(
-            items = if (key.isNullOrEmpty()) items else items.filter { filter(it,key) }
-        )
-    }
-
-    override fun searchByOrdering(key: String?) {
-        state.value = state.value.copy(
-            items = if (key.isNullOrEmpty()) {
-                items
-            } else {
-                val partitions = items.partition { filter(it,key) }
-                (partitions.first + partitions.second).toIList()
-            }
-        )
-    }
-
-    override fun clearSearch() {
-        state.value = state.value.copy(items = items)
-    }
-
     override fun selectValue(optionValue: String) {
         val item = items.find { mapper(it).value == optionValue }
         if (item != null) set(item)
@@ -79,14 +60,55 @@ internal class SingleChoiceFieldImpl<T>(
 
     override fun selectItem(item: T) = set(item)
 
+    override fun setSearchBy(sb: SearchBy) {
+        val s = state.value.searchBy
+        if (s == sb) return
+        state.value = state.value.copy(searchBy = s)
+    }
+
+    override fun setSearchByFiltering() = setSearchBy(SearchBy.Filtering)
+
+    override fun setSearchByOrdering() = setSearchBy(SearchBy.Ordering)
+
+    override fun search() {
+        val key = state.value.key
+        val found = if (key.isEmpty()) items else when (state.value.searchBy) {
+            SearchBy.Filtering -> items.filter { filter(it, key) }
+            SearchBy.Ordering -> {
+                val partitions = items.partition { filter(it, key) }
+                (partitions.first + partitions.second).toIList()
+            }
+        }
+        state.value = state.value.copy(items = found)
+    }
+
+    override fun appendSearchKey(key: String?) = setSearchKey(state.value.key + (key ?: ""))
+
+    override fun clearSearchKey() = setSearchKey("")
+
+    override fun backspaceSearchKey(): String {
+        val key = state.value.key
+        if (key.isEmpty()) return ""
+        return setSearchKey(key.dropLast(1))
+    }
+
+    override fun setSearchKey(key: String?): String {
+        val k = key ?: ""
+        state.value = state.value.copy(key = k)
+        return k
+    }
+
     override fun unselect() {
         state.value = state.value.copy(output = null)
+        clearSearchKey()
     }
 
     override val initial = State(
         name = property.name,
         label = Label(label, this.validator.required),
         items = items,
+        searchBy = searchBy,
+        key = "",
         selectedItem = property.get(),
         selectedOption = property.get()?.let { mapper(it) },
         hint = hint,

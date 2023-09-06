@@ -6,7 +6,8 @@ package symphony
 import kollections.List
 import kotlin.js.JsExport
 
-interface SingleChoiceFieldState<out O> : BaseFieldState<O> {
+interface SingleChoiceFieldState<out O> : BaseFieldState<O>, SearchableState {
+
     val items: List<O & Any>
 
     val selectedItem: O?

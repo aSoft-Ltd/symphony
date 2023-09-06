@@ -17,6 +17,7 @@ import symphony.Feedbacks
 import symphony.Field
 import symphony.Label
 import symphony.Option
+import symphony.SearchBy
 import symphony.SingleChoiceFieldState
 import symphony.Visibility
 import symphony.properties.Settable
@@ -53,6 +54,8 @@ abstract class AbstractSingleChoiceField<O>(
         override val name: String,
         override val label: Label,
         override val items: List<O & Any>,
+        override val key: String,
+        override val searchBy: SearchBy,
         override val selectedItem: O?,
         override val selectedOption: Option?,
         override val hint: String,

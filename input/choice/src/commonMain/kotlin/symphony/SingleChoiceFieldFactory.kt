@@ -1,6 +1,5 @@
 package symphony
 
-import kollections.List
 import kollections.toIList
 import neat.ValidationFactory
 import symphony.internal.SingleChoiceFieldImpl
@@ -11,26 +10,28 @@ fun <T> SingleChoiceField(
     name: KMutableProperty0<T?>,
     items: Collection<T & Any>,
     mapper: (T & Any) -> Option,
-    filter: (item: T & Any,key: String) -> Boolean = { _, _ -> true },
+    filter: (item: T & Any, key: String) -> Boolean = { item, key -> item.toString().contains(key, ignoreCase = true) },
+    searchBy: SearchBy = SearchBy.Filtering,
     label: String = name.name,
     hint: String = label,
     visibility: Visibility = Visibility.Visible,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
-): SingleChoiceField<T> = SingleChoiceFieldImpl(name, label, items.toIList(), mapper, filter, visibility, hint, onChange, factory)
+): SingleChoiceField<T> = SingleChoiceFieldImpl(name, label, items.toIList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
 
 fun <T> Fields<*>.selectSingle(
     name: KMutableProperty0<T?>,
     items: Collection<T & Any>,
     mapper: (T & Any) -> Option,
-    filter: (item: T & Any,key: String) -> Boolean = { _, _ -> true },
+    filter: (item: T & Any, key: String) -> Boolean = { item, key -> item.toString().contains(key, ignoreCase = true) },
+    searchBy: SearchBy = SearchBy.Filtering,
     label: String = name.name,
     hint: String = label,
     visibility: Visibility = Visibility.Visible,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
 ): SingleChoiceField<T> = getOrCreate(name) {
-    SingleChoiceFieldImpl(name, label, items.toIList(), mapper, filter, visibility, hint, onChange, factory)
+    SingleChoiceFieldImpl(name, label, items.toIList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
 }
 
 fun <I, O> Fields<*>.selectSingle(

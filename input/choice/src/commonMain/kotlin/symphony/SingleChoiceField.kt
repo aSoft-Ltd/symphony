@@ -7,17 +7,11 @@ import kollections.List
 import symphony.properties.Settable
 import kotlin.js.JsExport
 
-interface SingleChoiceField<O> : Field<O, SingleChoiceFieldState<O>>, BaseFieldState<O>, Settable<O>, ChoiceField<O> {
+interface SingleChoiceField<O> : Field<O, SingleChoiceFieldState<O>>, BaseFieldState<O>, Settable<O>, ChoiceField<O>, Searchable {
 
     val selectedItem: O?
 
     val selectedOption: Option?
-
-    fun searchByFiltering(key: String?)
-
-    fun searchByOrdering(key: String?)
-
-    fun clearSearch()
 
     fun options(withSelect: Boolean = false): List<Option>
 
