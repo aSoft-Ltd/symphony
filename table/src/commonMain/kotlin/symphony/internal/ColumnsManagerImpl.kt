@@ -17,7 +17,7 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
 
     override fun all() = current.value
 
-    override fun find(name: String) = all().find { it.name == name }
+    override fun find(name: String) = all().find { it.name.contentEquals(name, ignoreCase = true) }
 
     override fun hide(name: String): ColumnsManager<D> {
         val column = find(name)?.copy(visibility = Visibility.Hidden) ?: return this
@@ -51,6 +51,7 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
     }
 
     override fun add(name: String, accessor: (Row<D>) -> String): ColumnsManager<D> {
+        find(name)?.let { current.remove(it) }
         current.add(Column.Data(name, name, current.size, Visibility.Visible, name, accessor))
         return this
     }

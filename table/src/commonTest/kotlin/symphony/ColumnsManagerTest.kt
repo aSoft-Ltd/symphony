@@ -38,4 +38,17 @@ class ColumnsManagerTest {
         columns.show("name")
         expect(columns.find("name")?.visibility).toBe(Visibility.Visible)
     }
+
+    @Test
+    fun should_not_add_a_different_column_even_when_reindexing() {
+        val columns = columnsOf<Person> {
+            selectable()
+            column("name") { it.item.name }
+            column("age") { it.item.age.toString() }
+        }
+        expect(columns.all()).toBeOfSize(3)
+        columns.add("Status") { "Status 1" }
+        columns.add("Status") { "Status 2" }
+        expect(columns.all()).toBeOfSize(4)
+    }
 }
