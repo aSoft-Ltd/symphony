@@ -3,7 +3,6 @@ package symphony.internal
 import symphony.CollectionSceneConfig
 import keep.Cache
 import symphony.SelectorBasedActionsBuilder
-import symphony.ColumnsBuilder
 
 @PublishedApi
 internal class CollectionSceneConfigImpl<T>(

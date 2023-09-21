@@ -14,17 +14,4 @@ kotlin {
 //    val ndkTargets = if (Targeting.NDK) ndkTargets() else listOf()
     val linuxTargets = if (Targeting.LINUX) linuxTargets() else listOf()
 //    val mingwTargets = if (Targeting.MINGW) mingwTargets() else listOf()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(projects.symphonyVisibility)
-                api(libs.cinematic.live.core)
-                api(libs.kollections.interoperable)
-                api(libs.koncurrent.later.core)
-                api(libs.neat.validation)
-                api(libs.lexi.console)
-            }
-        }
-    }
 }

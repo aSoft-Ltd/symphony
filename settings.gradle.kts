@@ -14,14 +14,14 @@ fun includeSubs(base: String, path: String = base, vararg subs: String) {
 }
 
 listOf(
-	"kommander", "kollections", "kevlar", "kase",
-	"keep", "lexi", "neat", "cinematic", "koncurrent",
+    "kommander", "kollections", "kevlar", "kase",
+    "keep", "lexi", "neat", "cinematic", "koncurrent",
 ).forEach {
-	includeBuild("../$it")
+    includeBuild("../$it")
 }
 
 rootProject.name = "symphony"
 
 // submodules
-includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list", "collections")
+includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list", "collections", "visibility")
 includeSubs("symphony-input", "input", "core", "text", "number", "choice", "list", "dialog")

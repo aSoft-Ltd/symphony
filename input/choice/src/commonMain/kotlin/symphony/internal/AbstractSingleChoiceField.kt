@@ -4,20 +4,13 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
-import kollections.List
-import kollections.iEmptyList
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
-import neat.required
-import symphony.BaseField
 import symphony.BaseFieldState
 import symphony.Changer
 import symphony.Feedbacks
 import symphony.Field
-import symphony.Label
-import symphony.Option
-import symphony.SearchBy
 import symphony.SingleChoiceFieldState
 import symphony.Visibility
 import symphony.properties.Settable
@@ -25,6 +18,7 @@ import symphony.toErrors
 import symphony.toWarnings
 import kotlin.js.JsExport
 import kotlin.reflect.KMutableProperty0
+import symphony.internal.SingleChoiceFieldStateImpl as State
 
 abstract class AbstractSingleChoiceField<O>(
     private val property: KMutableProperty0<O?>,
@@ -49,21 +43,6 @@ abstract class AbstractSingleChoiceField<O>(
     }
 
     protected abstract val initial : State<O>
-
-    data class State<out O>(
-        override val name: String,
-        override val label: Label,
-        override val items: List<O & Any>,
-        override val key: String,
-        override val searchBy: SearchBy,
-        override val selectedItem: O?,
-        override val selectedOption: Option?,
-        override val hint: String,
-        override val visibility: Visibility,
-        override val required: Boolean,
-        override val output: O?,
-        override val feedbacks: Feedbacks
-    ) : SingleChoiceFieldState<O>
 
 
     final override val state by lazy { mutableLiveOf(initial) }

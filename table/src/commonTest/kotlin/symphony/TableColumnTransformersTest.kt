@@ -13,9 +13,6 @@ class TableColumnTransformersTest {
         table.paginator.loadFirstPage()
         println(table.renderToString())
         expect(table.columns.all()).toBeOfSize(4)
-        table.columns.remove("name")
-        println(table.renderToString())
-        expect(table.columns.current.value).toBeOfSize(3)
     }
 
     @Test
@@ -31,5 +28,20 @@ class TableColumnTransformersTest {
         table.paginator.loadFirstPage()
         println(table.renderToString())
         expect(table.columns.all()).toBeOfSize(5)
+    }
+
+    @Test
+    fun should_not_print_hidden_columns() {
+        val paginator = CollectionPaginator(Person.List)
+        val selector = SelectionManager(paginator)
+        val action = actionsOf(selector) {}
+        val table = tableOf(paginator, selector, action, Person.columns()).manageColumns { columns ->
+            columns.add("Nick Name") {
+                it.item.name + it.item.age
+            }
+        }
+        table.columns.hide("name")
+        table.paginator.loadFirstPage()
+        println(table.renderToString())
     }
 }

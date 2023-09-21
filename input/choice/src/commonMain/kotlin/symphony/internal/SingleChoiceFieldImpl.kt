@@ -13,6 +13,7 @@ import symphony.SearchBy
 import symphony.SingleChoiceField
 import symphony.Visibility
 import kotlin.reflect.KMutableProperty0
+import symphony.internal.SingleChoiceFieldStateImpl as State
 
 @PublishedApi
 internal class SingleChoiceFieldImpl<T>(
