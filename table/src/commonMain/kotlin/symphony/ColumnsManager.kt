@@ -13,9 +13,11 @@ interface ColumnsManager<D> {
     fun add(name: String, accessor: (Row<D>) -> String): ColumnsManager<D>
 
     fun find(name: String): Column<D>?
-
     fun hide(name: String): ColumnsManager<D>
     fun show(name: String): ColumnsManager<D>
+
+    fun remove(name: String) : ColumnsManager<D>
+
     fun rename(prev: String, curr: String): ColumnsManager<D>
     fun index(name: String, idx: Int): ColumnsManager<D>
 }

@@ -33,13 +33,20 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
 
     override fun rename(prev: String, curr: String): ColumnsManager<D> {
         val column = find(prev)?.copy(name = curr) ?: return this
-        replace(prev,column)
+        replace(prev, column)
+        return this
+    }
+
+
+    override fun remove(name: String): ColumnsManager<D> {
+        val column = find(name) ?: return this
+        current.value = (all() - column).toISet()
         return this
     }
 
     override fun index(name: String, idx: Int): ColumnsManager<D> {
         val column = find(name)?.copy(index = idx) ?: return this
-        replace(name,column)
+        replace(name, column)
         return this
     }
 

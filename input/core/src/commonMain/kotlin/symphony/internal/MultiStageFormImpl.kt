@@ -41,12 +41,14 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
 
     override fun prev(): Later<*> {
         if(state.value.stage.isFirst) return Later(Unit)
+        state.value.stage.current.onPrev?.invoke()
         val prev = state.value.prev()
         state.value = prev
         return Later(prev)
     }
 
     override fun next(): Later<Any> {
+        state.value.stage.current.onNext?.invoke()
         val stage = state.value.stage
         if (stage.isLast) return submit()
         val validity = stage.current.fields.validateToErrors()

@@ -23,11 +23,11 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
     @Deprecated(message = "Might not be needed")
     open val serializer: KSerializer<T>? = null
 
-    protected inline fun columnsOf(noinline builder: ColumnsBuilder<T>.() -> Unit) = columnsOf(emptyList(), builder)
-
     val paginator: PaginationManager<T> by lazy { PaginationManager() }
 
     val selector: SelectionManager<T> by lazy { SelectionManager(paginator) }
+
+    protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(builder)
 
     open val actions: SelectorBasedActionsManager<T> by lazy { actionsOf() }
 
