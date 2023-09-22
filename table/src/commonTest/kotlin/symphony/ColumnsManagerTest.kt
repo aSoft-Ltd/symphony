@@ -40,6 +40,22 @@ class ColumnsManagerTest {
     }
 
     @Test
+    fun hiding_columns_should_not_affect_their_indexing_and_ordering() {
+        val columns = columnsOf<Person> {
+            selectable()
+            column("name") { it.item.name }
+            column("age") { it.item.age.toString() }
+        }
+        columns.hide("name")
+        expect(columns.find("name")?.index).toBe(1)
+        columns.show("name")
+        expect(columns.find("name")?.index).toBe(1)
+        val (_, col1, col2) = columns.all().toList()
+        expect(col1.name).toBe("name")
+        expect(col2.name).toBe("age")
+    }
+
+    @Test
     fun should_not_add_a_different_column_even_when_reindexing() {
         val columns = columnsOf<Person> {
             selectable()
@@ -73,7 +89,7 @@ class ColumnsManagerTest {
         columns.move("age").before("name")
         val allColumns = columns.all().toList()
         expect(allColumns.filter { it.index == 1 }).toBeOfSize(1)
-        val (_,age,name) = allColumns
+        val (_, age, name) = allColumns
         expect(age.index).toBe(1)
         expect(name.index).toBe(2)
     }
@@ -88,7 +104,7 @@ class ColumnsManagerTest {
         columns.move("name").after("age")
         val allColumns = columns.all().toList()
         expect(allColumns.filter { it.index == 2 }).toBeOfSize(1)
-        val (_,age,name) = allColumns
+        val (_, age, name) = allColumns
         expect(age.index).toBe(1)
         expect(name.index).toBe(2)
     }
