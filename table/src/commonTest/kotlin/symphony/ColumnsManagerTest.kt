@@ -51,4 +51,45 @@ class ColumnsManagerTest {
         columns.add("Status") { "Status 2" }
         expect(columns.all()).toBeOfSize(4)
     }
+
+    @Test
+    fun indexing_should_propagate_properly() {
+        val columns = columnsOf<Person> {
+            selectable()
+            column("name") { it.item.name }
+            column("age") { it.item.age.toString() }
+        }
+        columns.index("age", 1)
+        expect(columns.all().filter { it.index == 1 }).toBeOfSize(1)
+    }
+
+    @Test
+    fun should_move_a_column_before_another() {
+        val columns = columnsOf<Person> {
+            selectable()
+            column("name") { it.item.name }
+            column("age") { it.item.age.toString() }
+        }
+        columns.move("age").before("name")
+        val allColumns = columns.all().toList()
+        expect(allColumns.filter { it.index == 1 }).toBeOfSize(1)
+        val (_,age,name) = allColumns
+        expect(age.index).toBe(1)
+        expect(name.index).toBe(2)
+    }
+
+    @Test
+    fun should_move_a_column_after_another() {
+        val columns = columnsOf<Person> {
+            selectable()
+            column("name") { it.item.name }
+            column("age") { it.item.age.toString() }
+        }
+        columns.move("name").after("age")
+        val allColumns = columns.all().toList()
+        expect(allColumns.filter { it.index == 2 }).toBeOfSize(1)
+        val (_,age,name) = allColumns
+        expect(age.index).toBe(1)
+        expect(name.index).toBe(2)
+    }
 }
