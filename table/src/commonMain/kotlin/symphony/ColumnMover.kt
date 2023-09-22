@@ -4,7 +4,6 @@
 package symphony
 
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 interface ColumnMover<D> {
     fun before(name: String): ColumnsManager<D>
