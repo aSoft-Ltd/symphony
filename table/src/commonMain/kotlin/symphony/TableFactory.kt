@@ -38,6 +38,28 @@ inline fun <T> tableOf(
     selector: SelectionManager<T>
 ): Table<T> = TableImpl(paginator, selector, actionsOf(selector) {}, columnsOf())
 
+@JvmSynthetic
+inline fun <T> tableOf(paginator: PaginationManager<T>): Table<T> {
+    val selector = SelectionManager(paginator)
+    return TableImpl(paginator, selector, actionsOf(selector) {}, columnsOf())
+}
+
+/*
+ * DEAR DEVELOPER,
+ * Do not mark this class as inline, because it tends to increase bundle size
+ * due to very long columns declarations that can be found in complex tables
+ */
+@JvmSynthetic
+fun <T> tableOf(
+    items: Collection<T>,
+    capacity: Int = items.size,
+    columns: ColumnsBuilder<T>.() -> Unit
+): Table<T> {
+    val paginator = CollectionPaginator(items, capacity)
+    val selector = SelectionManager(paginator)
+    return TableImpl(paginator, selector, actionsOf(selector) {}, columnsOf(columns))
+}
+
 /*
  * DEAR DEVELOPER,
  * Do not mark this class as inline, because it tends to increase bundle size
