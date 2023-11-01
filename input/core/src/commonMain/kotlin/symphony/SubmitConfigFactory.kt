@@ -8,7 +8,7 @@ import lexi.Logger
 import symphony.internal.SubmitConfigImpl
 
 inline fun SubmitConfig(
-    logger: Logger = Logger(ConsoleAppender()),
+    logger: Logger = Logger("Unset", listOf(ConsoleAppender())),
     exitOnSuccess: Boolean = SubmitConfigImpl.exitOnSuccess
 ): SubmitConfig = SubmitConfigImpl(logger, exitOnSuccess)
 

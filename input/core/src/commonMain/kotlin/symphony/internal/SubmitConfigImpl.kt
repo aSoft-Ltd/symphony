@@ -10,7 +10,7 @@ internal open class SubmitConfigImpl(
     override val exitOnSuccess: Boolean
 ) : SubmitConfig {
     companion object DEFAULT : SubmitConfigImpl(
-        logger = Logger(ConsoleAppender()),
+        logger = Logger("Unset", listOf(ConsoleAppender())),
         exitOnSuccess = true,
     )
 }
