@@ -7,6 +7,7 @@ import lexi.Logable
 import lexi.Logger
 import symphony.internal.SubmitConfigImpl
 
+@Deprecated("Use an injected logger factory")
 inline fun SubmitConfig(
     logger: Logger = Logger("Unset", listOf(ConsoleAppender())),
     exitOnSuccess: Boolean = SubmitConfigImpl.exitOnSuccess
