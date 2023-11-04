@@ -3,7 +3,7 @@ package symphony
 import kommander.expect
 import kotlin.test.Test
 
-class ListTest {
+class LazyListTest {
 
     @Test
     fun can_be_assigned_a_paginator() {
@@ -11,7 +11,7 @@ class ListTest {
         val selector = SelectionManager(paginator)
         val actions = actionsOf(selector) {}
 
-        val list = listOf(paginator, selector, actions)
+        val list = lazyListOf(paginator, selector, actions)
 
         expect(list.paginator.currentPageOrNull?.number).toBe(null)
 
@@ -28,7 +28,7 @@ class ListTest {
         val selector = SelectionManager(paginator)
         val actions = actionsOf(selector) {}
 
-        val list = listOf(paginator, selector, actions)
+        val list = lazyListOf(paginator, selector, actions)
 
         list.paginator.loadFirstPage()
 
@@ -44,7 +44,7 @@ class ListTest {
         val selector = SelectionManager(paginator)
         val actions = actionsOf(selector) {}
 
-        val list = listOf(paginator, selector, actions)
+        val list = lazyListOf(paginator, selector, actions)
 
         list.paginator.loadFirstPage()
 
@@ -78,7 +78,7 @@ class ListTest {
             }
         }
 
-        val list = listOf(paginator, selector, actions)
+        val list = lazyListOf(paginator, selector, actions)
 
         list.paginator.loadFirstPage()
         list.selector.select(row = 1)
@@ -91,7 +91,7 @@ class ListTest {
         val paginator = CollectionPaginator(Person.List, capacity = 6)
         val selector = SelectionManager(paginator)
         val actions = actionsOf(selector) {}
-        val list = listOf(paginator, selector, actions)
+        val list = lazyListOf(paginator, selector, actions)
 
         list.paginator.loadFirstPage()
         expect(list.rows).toBeOfSize(6)

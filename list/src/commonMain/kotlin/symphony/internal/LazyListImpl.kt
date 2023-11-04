@@ -6,24 +6,24 @@ import symphony.Row
 import symphony.SelectionManager
 import symphony.actionsOf
 import kollections.List as KList
-import symphony.List
+import symphony.LazyList
 
 @PublishedApi
-internal class ListImpl<T>(
+internal class LazyListImpl<T>(
     override val paginator: PaginationManager<T>,
     override val selector: SelectionManager<T>,
     override val actions: SelectorBasedActionsManager<T>
-) : List<T> {
+) : LazyList<T> {
     override val rows: KList<Row<T>> get() = paginator.continuous
 
-    override fun manageActions(block: (SelectorBasedActionsManager<T>) -> Unit): ListImpl<T> {
+    override fun manageActions(block: (SelectorBasedActionsManager<T>) -> Unit): LazyListImpl<T> {
         actions.apply(block)
         return this
     }
 
-    override fun <R> map(transform: (T) -> R): ListImpl<R> {
+    override fun <R> map(transform: (T) -> R): LazyListImpl<R> {
         val p = paginator.map(transform)
         val s = SelectionManagerImpl(p)
-        return ListImpl(p, s, actionsOf())
+        return LazyListImpl(p, s, actionsOf())
     }
 }

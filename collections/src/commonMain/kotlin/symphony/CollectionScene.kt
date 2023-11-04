@@ -33,7 +33,7 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     open val columns: ColumnsManager<T> by lazy { columnsOf() }
 
-    val list: List<T> by lazy { listOf(paginator, selector, actions) }
+    val list: LazyList<T> by lazy { lazyListOf(paginator, selector, actions) }
 
     val table: Table<T> by lazy { tableOf(paginator, selector, actions, columns) }
 

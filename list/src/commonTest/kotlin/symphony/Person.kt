@@ -1,14 +1,8 @@
 package symphony
 
-data class Person(val name: String = "Andy", val age: Int = 12) {
+data class Person(val name: String = "Andy", val age: Int = 12, val gender: Gender) {
+    enum class Gender { Male, Female }
     companion object {
-        val List = List(25) { Person("Anderson $it", age = 15 + it) }
-
-//        fun columns() = columnsOf<Person> {
-//            selectable()
-//            column("No") { it.number.toString() }
-//            column("name") { it.item.name }
-//            column("age") { it.item.age.toString() }
-//        }
+        val List = List(30) { Person("Anderson $it", age = 10 + it, Gender.entries.random()) }
     }
 }
