@@ -9,6 +9,7 @@ import kotlin.js.JsExport
 
 /**
  * A model representation of what a Page of data should contain
+ * TODO: Use LinearPage Instead
  */
 interface Page<out T> {
     /**

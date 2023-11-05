@@ -10,6 +10,7 @@ import cinematic.Live
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
+@Deprecated("In favour of LinearPaginationManager")
 interface PaginationManager<T> {
     val current: Live<LazyState<Page<T>>>
     val continuous: List<Row<T>>

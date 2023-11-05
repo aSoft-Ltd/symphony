@@ -8,32 +8,62 @@ class GroupedListTest {
     fun should_be_able_to_group_by_age() {
         val paginator = CollectionPaginator(Person.List, capacity = 15)
         val selector = SelectionManager(paginator)
-        val list = groupedListOf(paginator, selector) {
+        val list = locallyGroupedListOf(paginator, selector) {
             if (it.age < 15) it to "Below 15" else it to "Above 15"
         }
-        list.paginator.loadFirstPage()
-        list.groups.forEach { chunk ->
-            println(chunk.group)
-            chunk.rows.forEach {
-                println("\t${it.item}")
-            }
-        }
+        paginator.loadFirstPage()
+        println(list)
     }
 
     @Test
     fun should_be_able_to_group_by_gender() {
         val paginator = CollectionPaginator(Person.List, capacity = 15)
         val selector = SelectionManager(paginator)
-        val list = groupedListOf(paginator, selector) {
+        val list = locallyGroupedListOf(paginator, selector) {
             if (it.age < 15) it to it.gender else it to it.gender
         }
 
         list.paginator.loadFirstPage()
-        list.groups.forEach { chunk ->
-            println(chunk.group)
-            chunk.rows.forEach {
-                println("\t${it.item}")
+        println(list)
+    }
+
+    sealed interface PeopleGroupedBy {
+        data object Age : PeopleGroupedBy
+        data object Hobby : PeopleGroupedBy
+        data object Gender : PeopleGroupedBy
+    }
+
+    sealed interface Group
+
+    sealed interface AgeGroup : Group
+
+    data object BelowAgeGroup : AgeGroup
+    data object AboveAgeGroup : AgeGroup
+
+    data class HobbyGroup(val hobby: Person.Hobby) : Group
+    data class GenderGroup(val gender: Person.Gender) : Group
+
+    @Test
+    fun should_be_able_to_dynamically_change_the_grouping_after_list_instantiating() {
+        val paginator = CollectionPaginator(Person.List, capacity = 15)
+        val selector = SelectionManager(paginator)
+        var groupedBy: PeopleGroupedBy = PeopleGroupedBy.Age
+        val list = locallyGroupedListOf(paginator, selector) {
+            when (groupedBy) {
+                PeopleGroupedBy.Age -> if (it.age <= 15) it to BelowAgeGroup else it to AboveAgeGroup
+                PeopleGroupedBy.Hobby -> it to HobbyGroup(it.hobby)
+                PeopleGroupedBy.Gender -> it to GenderGroup(it.gender)
             }
         }
+        list.paginator.loadFirstPage()
+        println(list)
+
+        groupedBy = PeopleGroupedBy.Gender
+        list.paginator.loadFirstPage()
+        println(list)
+
+        groupedBy = PeopleGroupedBy.Hobby
+        list.paginator.loadFirstPage()
+        println(list)
     }
 }
