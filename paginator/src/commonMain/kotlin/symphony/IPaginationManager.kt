@@ -9,7 +9,7 @@ import koncurrent.Later
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-interface IPaginationManager<out T, out P : AbstractPage, out R : IPageResult<T>> {
+interface IPaginationManager<out T, out P : AbstractPage, out R : IPageFindResult<T>> {
     val current: Live<LazyState<P>>
     val currentPageOrNull: P?
 

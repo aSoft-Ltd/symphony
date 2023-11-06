@@ -7,7 +7,7 @@ import kollections.List
 import koncurrent.Later
 import kotlin.js.JsExport
 
-interface GroupedPaginationManager<out G, out T> : IPaginationManager<T, GroupedPage<G, T>, GroupedPageResult<G, T>> {
+interface GroupedPaginationManager<out G, out T> : IPaginationManager<T, GroupedPage<G, T>, GroupedPageFindResult<G, T>> {
     val continuous: List<Chunk<G, Row<T>>>
 
     fun initialize(ld: PageLoader<Chunk<@UnsafeVariance G, @UnsafeVariance T>>): Later<GroupedPage<G, T>>

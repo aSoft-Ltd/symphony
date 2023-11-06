@@ -3,9 +3,11 @@
 package symphony
 
 import koncurrent.Later
-import koncurrent.SynchronousExecutor
+import symphony.internal.GroupedPaginationManagerImpl
+import symphony.internal.LinearPaginationManagerImpl
 import symphony.internal.PaginationManagerImpl
 
+const val DEFAULT_PAGINATION_CAPACITY = 10
 inline fun <T> PaginationManager(
     capacity: Int = PaginationManagerImpl.DEFAULT_CAPACITY,
     noinline loader: PageLoader<T>? = null
@@ -38,3 +40,18 @@ fun <T> CollectionPaginator(
 ): PaginationManager<T> = PaginationManager(capacity) { no, cap -> collection.paged(no, cap) }
 
 inline fun <T> PageLoader(noinline loader: PageLoader<T>) = loader
+
+internal fun <T> linearPaginatorOf(
+    capacity: Int = DEFAULT_PAGINATION_CAPACITY
+): LinearPaginationManager<T> = LinearPaginationManagerImpl(capacity)
+
+inline fun <T> linearPaginatorOf(
+    items: Collection<T>,
+    capacity: Int = items.size
+): LinearPaginationManager<T> = LinearPaginationManagerImpl<T>(capacity).also {
+    it.initialize { no, capacity -> items.paged(no, capacity) }
+}
+
+internal fun <G, T> groupedPaginatorOf(
+    capacity: Int = DEFAULT_PAGINATION_CAPACITY
+): GroupedPaginationManager<G, T> = GroupedPaginationManagerImpl(capacity)

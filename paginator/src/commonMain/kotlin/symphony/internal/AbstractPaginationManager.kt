@@ -14,12 +14,12 @@ import koncurrent.Later
 import koncurrent.later.finally
 import symphony.AbstractPage
 import symphony.IPageLoader
-import symphony.IPageResult
+import symphony.IPageFindResult
 import symphony.IPaginationManager
 import symphony.internal.memory.PageMemoryManager
 
 @PublishedApi
-internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : IPageResult<T>>(
+internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : IPageFindResult<T>>(
     override var capacity: Int
 ) : IPaginationManager<T, P, R> {
 

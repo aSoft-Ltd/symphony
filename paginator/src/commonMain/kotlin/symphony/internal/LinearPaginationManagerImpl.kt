@@ -1,36 +1,25 @@
 package symphony.internal
 
 import kollections.toIList
-import koncurrent.FailedLater
 import koncurrent.Later
-import cinematic.MutableLive
-import cinematic.mutableLiveOf
 import kase.Bag
 import symphony.Row
-import kase.Failure
-import kase.LazyState
-import kase.Loading
 import kase.Pending
-import kase.Success
-import kase.toLazyState
 import kollections.iEmptyList
-import koncurrent.later.finally
-import symphony.AbstractPage
 import symphony.LinearPage
 import symphony.LinearPageLoader
-import symphony.LinearPageResult
+import symphony.LinearPageFindResult
 import symphony.LinearPaginationManager
 import symphony.PageLoader
 import symphony.internal.loaders.LinearPageLoaderFinal
 import symphony.internal.loaders.LinearPageLoaderInitial
 import symphony.internal.loaders.LinearPageLoaderImpl
 import symphony.internal.memory.LinearPageMemoryManager
-import symphony.internal.memory.PageMemoryManager
 
 @PublishedApi
 internal class LinearPaginationManagerImpl<T>(
     capacity: Int
-) : AbstractPaginationManager<T, LinearPage<T>, LinearPageResult<T>>(capacity), LinearPaginationManager<T> {
+) : AbstractPaginationManager<T, LinearPage<T>, LinearPageFindResult<T>>(capacity), LinearPaginationManager<T> {
 
     override val loader by lazy { Bag<LinearPageLoader<T>>(LinearPageLoaderInitial) }
 

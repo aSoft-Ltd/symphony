@@ -1,18 +1,18 @@
 package symphony.internal.memory
 
 import symphony.LinearPage
-import symphony.LinearPageResult
+import symphony.LinearPageFindResult
 import symphony.Row
 
-internal class LinearPageMemoryManager<T> : PageMemoryManager<T, LinearPage<T>, LinearPageResult<T>>(mutableMapOf()) {
+internal class LinearPageMemoryManager<T> : PageMemoryManager<T, LinearPage<T>, LinearPageFindResult<T>>(mutableMapOf()) {
 
-    override fun load(row: Int, page: Int, capacity: Int): LinearPageResult<T>? {
+    override fun load(row: Int, page: Int, capacity: Int): LinearPageFindResult<T>? {
         val p = load(page, capacity) ?: return null
         val r = p.items.firstOrNull { it.number == row } ?: return null
-        return LinearPageResult(p, r)
+        return LinearPageFindResult(p, r)
     }
 
-    override fun load(item: T, capacity: Int): LinearPageResult<T>? {
+    override fun load(item: T, capacity: Int): LinearPageFindResult<T>? {
         val record = entries[capacity] ?: return null
         var page: LinearPage<T>? = null
         var row: Row<T>? = null
@@ -24,6 +24,6 @@ internal class LinearPageMemoryManager<T> : PageMemoryManager<T, LinearPage<T>, 
         }
         if (page == null) return null
         if (row == null) return null
-        return LinearPageResult(page, row)
+        return LinearPageFindResult(page, row)
     }
 }

@@ -14,7 +14,7 @@ sealed interface Selected<out T> {
     val global get() = this as? SelectedGlobal
 }
 
-object SelectedNone : Selected<Nothing>
+data object SelectedNone : Selected<Nothing>
 
 data class SelectedItem<out T>(
     val page: Page<T>,

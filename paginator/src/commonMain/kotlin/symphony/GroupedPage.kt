@@ -1,6 +1,10 @@
+@file:JsExport
+@file:Suppress("NON_EXPORTABLE_TYPE")
+
 package symphony
 
 import kollections.List
+import kotlin.js.JsExport
 
 /**
  * A model representation of what a GroupedPage of data should contain

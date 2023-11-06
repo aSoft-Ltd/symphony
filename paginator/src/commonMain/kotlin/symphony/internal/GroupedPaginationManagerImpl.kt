@@ -8,7 +8,7 @@ import koncurrent.Later
 import symphony.Chunk
 import symphony.GroupedPage
 import symphony.GroupedPageLoader
-import symphony.GroupedPageResult
+import symphony.GroupedPageFindResult
 import symphony.GroupedPaginationManager
 import symphony.PageLoader
 import symphony.internal.loaders.GroupedPageLoaderFinal
@@ -19,7 +19,7 @@ import symphony.internal.memory.GroupedPageMemoryManager
 @PublishedApi
 internal class GroupedPaginationManagerImpl<G, T>(
     capacity: Int
-) : AbstractPaginationManager<T, GroupedPage<G, T>, GroupedPageResult<G, T>>(capacity), GroupedPaginationManager<G, T> {
+) : AbstractPaginationManager<T, GroupedPage<G, T>, GroupedPageFindResult<G, T>>(capacity), GroupedPaginationManager<G, T> {
 
     override val loader by lazy { Bag<GroupedPageLoader<G, T>>(GroupedPageLoaderInitial) }
 
