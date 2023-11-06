@@ -33,11 +33,11 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     open val columns: ColumnsManager<T> by lazy { columnsOf() }
 
-    val list: List<T> by lazy { lazyListOf(paginator, selector, actions) }
+    val list: List<T> by lazy { listOf(paginator, selector, actions) }
 
     val table: Table<T> by lazy { tableOf(paginator, selector, actions, columns) }
 
-    private val preferredView = "${this::class.simpleName?.replace("ViewModel", "")}.$PREFERRED_VIEW"
+    private val preferredView = "${this::class.simpleName?.replace("Scene", "")}.$PREFERRED_VIEW"
 
     fun switchToLatestSelectedView() = cache.load<View>(preferredView).finally {
         view.value = it.data ?: DEFAULT_VIEW

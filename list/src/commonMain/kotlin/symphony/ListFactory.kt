@@ -12,17 +12,17 @@ inline fun <T> listOf(
     actionsManager: SelectorBasedActionsManager<T>
 ): List<T> = List(paginator, selector, actionsManager)
 
-inline fun <T> lazyListOf(
-    paginator: LinearPaginationManager<T>,
-    selector: LinearSelectionManager<T>,
-    actionsManager: SelectorBasedActionsManager<T>
-): LinearList<T> = LinearList(paginator, selector, actionsManager)
-
 @Deprecated("in favour of lazyListOf", replaceWith = ReplaceWith("lazyListOf(paginator,selector)"))
 inline fun <T> listOf(
     paginator: PaginationManager<T>,
     selector: SelectionManager<T>
 ): List<T> = List(paginator, selector, actionsOf(selector) {})
+
+inline fun <T> lazyListOf(
+    paginator: LinearPaginationManager<T>,
+    selector: LinearSelectionManager<T>,
+    actionsManager: SelectorBasedActionsManager<T>
+): LinearList<T> = LinearList(paginator, selector, actionsManager)
 
 inline fun <T> lazyListOf(
     paginator: LinearPaginationManager<T>,
@@ -42,6 +42,13 @@ inline fun <G, T> lazyListOf(
     selector: LinearSelectionManager<T>,
     noinline grouper: (T) -> Pair<T, G>
 ): GroupedList<G, T> = LocallyGroupedList(paginator, Grouper(grouper), selector, emptyActions())
+
+fun <G, T> lazyListOf(
+    paginator: LinearPaginationManager<T>,
+    selector: LinearSelectionManager<T>,
+    grouper: (T) -> Pair<T, G>,
+    actions: LinearSelectorBasedActionsBuilder<T>.() -> Unit
+): GroupedList<G, T> = LocallyGroupedList(paginator, Grouper(grouper), selector, actionsOf(selector, actions))
 
 inline fun <G, T> lazyListOf(
     paginator: GroupedPaginationManager<G, T>,

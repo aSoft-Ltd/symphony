@@ -41,7 +41,7 @@ fun <T> CollectionPaginator(
 
 inline fun <T> PageLoader(noinline loader: PageLoader<T>) = loader
 
-internal fun <T> linearPaginatorOf(
+inline fun <T> linearPaginatorOf(
     capacity: Int = DEFAULT_PAGINATION_CAPACITY
 ): LinearPaginationManager<T> = LinearPaginationManagerImpl(capacity)
 
@@ -52,6 +52,6 @@ inline fun <T> linearPaginatorOf(
     it.initialize { no, capacity -> items.paged(no, capacity) }
 }
 
-internal fun <G, T> groupedPaginatorOf(
+inline fun <G, T> groupedPaginatorOf(
     capacity: Int = DEFAULT_PAGINATION_CAPACITY
 ): GroupedPaginationManager<G, T> = GroupedPaginationManagerImpl(capacity)
