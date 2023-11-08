@@ -5,8 +5,10 @@ package symphony
 
 import kollections.List as KList
 import kotlin.js.JsExport
+import kotlin.js.JsName
 import symphony.internal.SelectionManagerImpl
 
+@JsName("ScrollableList")
 @Deprecated("In favour of LinearList")
 class List<T> @PublishedApi internal constructor(
     override val paginator: PaginationManager<T>,

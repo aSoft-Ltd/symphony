@@ -1,17 +1,21 @@
 package symphony
 
 import kotlin.math.max
+import symphony.columns.ActionColumn
+import symphony.columns.Column
+import symphony.columns.DataColumn
+import symphony.columns.SelectColumn
 
 private fun <D> ITable<D>.text(row: Row<D>, col: Column<D>) = when (col) {
-    is Column.Select -> if (selector.isRowSelectedOnCurrentPage(row.number)) "[x]" else "[ ]"
-    is Column.Data -> col.resolve(row)
-    is Column.Action -> actions.of(row.item).joinToString(separator = "|") { it.name }
+    is SelectColumn -> if (selector.isRowSelectedOnCurrentPage(row.number)) "[x]" else "[ ]"
+    is DataColumn -> col.resolve(row)
+    is ActionColumn -> actions.of(row.item).joinToString(separator = "|") { it.name }
 }
 
 private fun <D> ITable<D>.text(col: Column<D>) = when (col) {
-    is Column.Data -> col.name
-    is Column.Action -> col.name
-    is Column.Select -> when {
+    is DataColumn -> col.name
+    is ActionColumn -> col.name
+    is SelectColumn -> when {
         selector.isCurrentPageSelectedWholly() -> "[x]"
         selector.isCurrentPageSelectedPartially() -> "[-]"
         else -> "[ ]"

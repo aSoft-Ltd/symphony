@@ -42,7 +42,7 @@ open class BaseFieldImpl<O>(
         onChange?.invoke(property.get())
     }
 
-    private val initial = State(
+    private val initial = BaseFieldImplState(
         name = property.name,
         label = Label(label, this.validator.required),
         hint = hint,
@@ -51,16 +51,6 @@ open class BaseFieldImpl<O>(
         visibility = visibility,
         feedbacks = Feedbacks(iEmptyList()),
     )
-
-    data class State<out O>(
-        override val name: String,
-        override val label: Label,
-        override val hint: String,
-        override val visibility: Visibility,
-        override val required: Boolean,
-        override val output: O?,
-        override val feedbacks: Feedbacks
-    ) : BaseFieldState<O>
 
     final override val state = mutableLiveOf(initial)
 

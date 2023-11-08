@@ -15,7 +15,7 @@ interface MultiStageForm<out R, out O : Any, S : FormStage> : Resetable, Clearab
 
     val stages: List<S>
 
-    val state: Live<MultiStageFormState<R, O, S>>
+    val state: Live<MultiStageFormStageState<R, O, S>>
 
     fun exit()
 

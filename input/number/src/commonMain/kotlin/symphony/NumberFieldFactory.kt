@@ -10,7 +10,7 @@ fun Fields<*>.double(
     name: KMutableProperty0<Double?>,
     label: String = name.name,
     hint: String = label,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     onChange: Changer<Double>? = null,
     factory: ValidationFactory<Double>? = null
 ): NumberField<Double> = getOrCreate(name) {
@@ -33,7 +33,7 @@ fun Fields<*>.long(
     name: KMutableProperty0<Long?>,
     label: String = name.name,
     hint: String = label,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     onChange: Changer<Long>? = null,
     factory: ValidationFactory<Long>? = null
 ): NumberField<Long> = getOrCreate(name) {
@@ -44,7 +44,7 @@ fun Fields<*>.integer(
     name: KMutableProperty0<Int?>,
     label: String = name.name,
     hint: String = label,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     onChange: Changer<Int>? = null,
     factory: ValidationFactory<Int>? = null
 ): NumberField<Int> = getOrCreate(name) {

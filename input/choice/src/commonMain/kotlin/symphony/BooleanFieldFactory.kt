@@ -8,7 +8,7 @@ fun Fields<*>.boolean(
     name: KMutableProperty0<Boolean?>,
     label: String = name.name,
     hint: String = label,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     onChange: Changer<Boolean>? = null,
     factory: ValidationFactory<Boolean>? = null
 ): BooleanField = getOrCreate(name) {

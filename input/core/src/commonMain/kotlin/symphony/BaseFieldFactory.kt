@@ -7,7 +7,7 @@ import kotlin.reflect.KMutableProperty0
 fun <O> BaseField(
     name: KMutableProperty0<O?>,
     label: String = name.name,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     hint: String = label,
     onChange: Changer<O>? = null,
     factory: ValidationFactory<O>? = null
@@ -16,7 +16,7 @@ fun <O> BaseField(
 fun <O> Fields<*>.field(
     name: KMutableProperty0<O?>,
     label: String = name.name,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     hint: String = label,
     onChange: Changer<O>? = null,
     factory: ValidationFactory<O>? = null

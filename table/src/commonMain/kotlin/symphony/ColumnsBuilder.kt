@@ -1,18 +1,23 @@
 package symphony
 
+import symphony.columns.ActionColumn
+import symphony.columns.Column
+import symphony.columns.DataColumn
+import symphony.columns.SelectColumn
+
 class ColumnsBuilder<D> @PublishedApi internal constructor() {
 
     internal val columns = mutableMapOf<String, Column<D>>()
 
     fun selectable(name: String = "Select", key: String = name) {
-        columns[name] = Column.Select(name, key, columns.size, Visibility.Visible)
+        columns[name] = SelectColumn(name, key, columns.size, Visibilities.Visible)
     }
 
     fun column(name: String, key: String = name, default: String = "N/A", accessor: (Row<D>) -> Any?) {
-        columns[name] = Column.Data(name, key, columns.size, Visibility.Visible, default, accessor)
+        columns[name] = DataColumn(name, key, columns.size, Visibilities.Visible, default, accessor)
     }
 
     fun action(name: String, key: String) {
-        columns[name] = Column.Action(name, key, columns.size, Visibility.Visible)
+        columns[name] = ActionColumn(name, key, columns.size, Visibilities.Visible)
     }
 }

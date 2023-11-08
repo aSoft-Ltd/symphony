@@ -1,5 +1,5 @@
 @file:JsExport
-@file:Suppress("NON_EXPORTABLE_TYPE")
+@file:Suppress("NON_EXPORTABLE_TYPE", "OPT_IN_USAGE", "NOTHING_TO_INLINE")
 
 package symphony
 
@@ -20,13 +20,14 @@ import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
 abstract class Fields<out O : Any>(initial: State<O>) : Validable, Clearable, Finishable, Resetable {
-    @JsName("_ignore_fields")
+    @JsExport.Ignore
     constructor(output: O) : this(State(output, Feedbacks(iEmptyList())))
 
     private val all = mutableMapOf<KProperty<*>, Field<*, *>>()
 
     val output get() = state.value.output
 
+    @JsExport.Ignore
     val state: MutableLive<State<@UnsafeVariance O>> = mutableLiveOf(initial)
 
     override fun validate(): Validity<O> = all.values.map {
@@ -72,6 +73,7 @@ abstract class Fields<out O : Any>(initial: State<O>) : Validable, Clearable, Fi
         builder: () -> F
     ): F = all.getOrPut(property, builder) as F
 
+    @JsExport.Ignore
     data class State<out O>(
         val output: O,
         val feedbacks: Feedbacks

@@ -13,7 +13,6 @@ import symphony.Changer
 import symphony.Feedbacks
 import symphony.Range
 import symphony.RangeField
-import symphony.RangeFieldState
 import symphony.Visibility
 import symphony.toErrors
 import symphony.toWarnings
@@ -43,7 +42,7 @@ open class AbstractRangeField<O : Any>(
 
     override fun reset() = validateAndNotify(initial)
 
-    private fun validateAndNotify(s: State<O>) {
+    private fun validateAndNotify(s: AbstractRangeFieldState<O>) {
         val res = validator.validate(s.output)
         property.set(s.output)
         state.value = s.copy(feedbacks = Feedbacks(res.toWarnings()))
@@ -65,19 +64,7 @@ open class AbstractRangeField<O : Any>(
         state.value = state.value.copy(visibility = v)
     }
 
-    data class State<out O : Any>(
-        val name: String,
-        override val start: O?,
-        override val end: O?,
-        override val visibility: Visibility,
-        override val required: Boolean,
-        override val feedbacks: Feedbacks
-    ) : RangeFieldState<O> {
-        override val input get() = Range(start, end)
-        override val output get() = if (start != null && end != null) Range(start, end) else null
-    }
-
-    private val initial = State(
+    private val initial = AbstractRangeFieldState(
         name = property.name,
         required = this.validator.required,
         start = property.get()?.start,

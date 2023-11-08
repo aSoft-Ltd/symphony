@@ -9,7 +9,7 @@ import kotlin.reflect.KProperty0
 fun <T : Any> Fields<*>.list(
     name: KProperty0<MutableList<T>>,
     label: String = name.name,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     onChange: Changer<List<T>>? = null,
     factory: ValidationFactory<List<T>>? = null
 ): ListField<T> = getOrCreate(name) {

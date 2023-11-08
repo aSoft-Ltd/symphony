@@ -8,7 +8,7 @@ import kotlin.reflect.KMutableProperty0
 fun TextField(
     name: KMutableProperty0<String?>,
     label: String = name.name,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     hint: String = label,
     onChange: Changer<String>? = null,
     factory: ValidationFactory<String>? = null
@@ -17,7 +17,7 @@ fun TextField(
 fun Fields<*>.text(
     name: KMutableProperty0<String?>,
     label: String = name.name,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     hint: String = label,
     onChange: Changer<String>? = null,
     factory: ValidationFactory<String>? = null
@@ -26,7 +26,7 @@ fun Fields<*>.text(
 fun Fields<*>.name(
     name: KMutableProperty0<String?>,
     label: String = name.name,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     hint: String = label,
     onChange: Changer<String>? = null,
     factory: ValidationFactory<String>? = null
@@ -39,7 +39,7 @@ fun Fields<*>.name(
 fun Fields<*>.password(
     name: KMutableProperty0<String?>,
     label: String = name.name,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     hint: String = label,
     onChange: Changer<String>? = null,
     factory: ValidationFactory<String>? = null

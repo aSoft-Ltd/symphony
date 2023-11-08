@@ -14,7 +14,7 @@ fun <T> SingleChoiceField(
     searchBy: SearchBy = SearchBy.Filtering,
     label: String = name.name,
     hint: String = label,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
 ): SingleChoiceField<T> = SingleChoiceFieldImpl(name, label, items.toIList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
@@ -27,7 +27,7 @@ fun <T> Fields<*>.selectSingle(
     searchBy: SearchBy = SearchBy.Filtering,
     label: String = name.name,
     hint: String = label,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
 ): SingleChoiceField<T> = getOrCreate(name) {
@@ -41,7 +41,7 @@ fun <I, O> Fields<*>.selectSingle(
     mapper: (I) -> Option,
     label: String = name.name,
     hint: String = label,
-    visibility: Visibility = Visibility.Visible,
+    visibility: Visibility = Visibilities.Visible,
     onChange: Changer<O>? = null,
     factory: ValidationFactory<O>? = null
 ): TransformingSingleChoiceField<I, O> = getOrCreate(name) {

@@ -6,6 +6,7 @@ package symphony
 import kollections.Set
 import cinematic.Live
 import kotlin.js.JsExport
+import symphony.columns.Column
 
 interface ColumnsManager<D> {
     val current: Live<Set<Column<D>>>

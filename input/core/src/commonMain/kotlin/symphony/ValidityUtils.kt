@@ -10,6 +10,6 @@ fun Validity<*>.reasons(): List<String> = when (this) {
     is Invalid -> reasons
 }
 
-fun Validity<*>.toWarnings() = reasons().map { Warning(it) }.toIList()
+fun Validity<*>.toWarnings() = reasons().map { WarningFeedback(it) }.toIList()
 
-fun Validity<*>.toErrors() = reasons().map { Error(it) }.toIList()
+fun Validity<*>.toErrors() = reasons().map { ErrorFeedback(it) }.toIList()

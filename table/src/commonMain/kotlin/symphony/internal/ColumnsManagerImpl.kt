@@ -2,12 +2,14 @@ package symphony.internal
 
 import cinematic.mutableLiveSetOf
 import kollections.toISet
-import symphony.Column
 import symphony.ColumnMover
-import symphony.ColumnsManager
 import symphony.ColumnsBuilder
+import symphony.ColumnsManager
 import symphony.Row
+import symphony.Visibilities
 import symphony.Visibility
+import symphony.columns.Column
+import symphony.columns.DataColumn
 
 @PublishedApi
 internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) : ColumnsManager<D> {
@@ -21,13 +23,13 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
     override fun find(name: String) = all().find { it.name.contentEquals(name, ignoreCase = true) }
 
     override fun hide(name: String): ColumnsManager<D> {
-        val column = find(name)?.copy(visibility = Visibility.Hidden) ?: return this
+        val column = find(name)?.copy(visibility = Visibilities.Hidden) ?: return this
         replace(name, column)
         return this
     }
 
     override fun show(name: String): ColumnsManager<D> {
-        val column = find(name)?.copy(visibility = Visibility.Visible) ?: return this
+        val column = find(name)?.copy(visibility = Visibilities.Visible) ?: return this
         replace(name, column)
         return this
     }
@@ -86,7 +88,7 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
 
     override fun add(name: String, accessor: (Row<D>) -> String): ColumnsManager<D> {
         find(name)?.let { current.remove(it) }
-        current.add(Column.Data(name, name, current.size, Visibility.Visible, name, accessor))
+        current.add(DataColumn(name, name, current.size, Visibilities.Visible, name, accessor))
         return this
     }
 

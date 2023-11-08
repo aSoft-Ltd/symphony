@@ -12,7 +12,7 @@ fun <T : Any> Fields<*>.selectMany(
     items: Collection<T>,
     mapper: (T) -> Option,
     label: String = name.name,
-    visibility: Visibility = Visibility.Hidden,
+    visibility: Visibility = Visibilities.Hidden,
     onChange: Changer<List<T>>? = null,
     factory: ValidationFactory<List<T>>? = null
 ): MultiChoiceField<T> = getOrCreate(name) {

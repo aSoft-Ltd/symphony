@@ -18,7 +18,7 @@ import symphony.CapturingPhase
 import symphony.FailurePhase
 import symphony.FormStage
 import symphony.MultiStageForm
-import symphony.MultiStageFormState
+import symphony.MultiStageFormStageState
 import symphony.SubmitActionsBuilder
 import symphony.SubmitBuilder
 import symphony.SubmitConfig
@@ -128,7 +128,7 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
     }
 
 
-    private val initial = MultiStageFormState<R,O,S>(
+    private val initial = MultiStageFormStageState<R,O,S>(
         visibility = visibility,
         stages = stages,
         output = output,

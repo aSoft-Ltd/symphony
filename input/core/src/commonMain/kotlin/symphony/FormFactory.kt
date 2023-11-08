@@ -32,7 +32,7 @@ fun <R, P : Any, F : Fields<P>> Form(
     details = details,
     fields = fields,
     config = config,
-    visibility = Visibility.Visible,
+    visibility = Visibilities.Visible,
     builder = builder,
 )
 
@@ -61,6 +61,6 @@ fun <R, P : Any, F : Fields<P>> F.toForm(
     details = details,
     fields = this,
     config = config,
-    visibility = Visibility.Visible,
+    visibility = Visibilities.Visible,
     builder = builder,
 )

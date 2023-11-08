@@ -4,15 +4,13 @@ package symphony
 
 import kotlin.js.JsExport
 
-sealed class Visibility {
-    data object Visible : Visibility()
-    data object Hidden : Visibility()
+sealed interface Visibility {
 
-    val isVisible get() = this is Visible
-    val isHidden get() = this is Hidden
+    val isVisible get() = this is VisibleVisibility
+    val isHidden get() = this is HiddenVisibility
 
     fun toggled() = when (this) {
-        Hidden -> Visible
-        Visible -> Hidden
+        HiddenVisibility -> VisibleVisibility
+        VisibleVisibility -> HiddenVisibility
     }
 }

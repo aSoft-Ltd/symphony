@@ -11,7 +11,6 @@ import neat.required
 import symphony.Changer
 import symphony.Feedbacks
 import symphony.ListField
-import symphony.ListFieldState
 import symphony.Visibility
 import symphony.toErrors
 import symphony.toWarnings
@@ -57,19 +56,12 @@ open class ListFieldImpl<E>(
         validateAndNotify()
     }
 
-    private val initial = State(
+    private val initial = LIstFieldImplState(
         required = this.validator.required,
         output = property.get(),
         visibility = visibility,
         feedbacks = Feedbacks(iEmptyList()),
     )
-
-    data class State<O>(
-        override val visibility: Visibility,
-        override val required: Boolean,
-        override val output: MutableList<O>,
-        override val feedbacks: Feedbacks
-    ) : ListFieldState<O>
 
     override val state = mutableLiveOf(initial)
 

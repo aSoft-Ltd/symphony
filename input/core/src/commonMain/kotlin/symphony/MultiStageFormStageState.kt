@@ -7,27 +7,14 @@ import kollections.List
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-data class MultiStageFormState<out R, out O, out S : FormStage>(
+data class MultiStageFormStageState<out R, out O, out S : FormStage>(
     val visibility: Visibility,
     val stages: List<S>,
-    val stage: StageState<S>,
+    val stage: MultiFormStageState<S>,
     val phase: FormPhase<O, R>,
     val output: O
 ) {
-    data class StageState<out S>(
-        val current: S,
-        val isFirst: Boolean,
-        val isLast: Boolean,
-    )
-
-    data class Progress(
-        val step: Int,
-        val total: Int
-    ) {
-        val percentage get() = (step * 100) / total
-    }
-
-    val progress = Progress(stages.indexOf(stage.current) + 1, stages.size)
+    val progress = MultiStageFormStageProgress(stages.indexOf(stage.current) + 1, stages.size)
 
     companion object {
         @JsName("initial")
@@ -36,7 +23,7 @@ data class MultiStageFormState<out R, out O, out S : FormStage>(
             stages: List<S>,
             output: O,
             phase: FormPhase<O, R>,
-        ) = MultiStageFormState(
+        ) = MultiStageFormStageState(
             visibility = visibility,
             stages = stages,
             stage = stages.first(),
@@ -51,10 +38,10 @@ data class MultiStageFormState<out R, out O, out S : FormStage>(
             stage: S,
             output: O,
             phase: FormPhase<O, R>
-        ) = MultiStageFormState(
+        ) = MultiStageFormStageState(
             visibility = visibility,
             stages = stages,
-            stage = StageState(
+            stage = MultiFormStageState(
                 current = stage,
                 isFirst = stages.first() == stage,
                 isLast = stages.last() == stage
@@ -64,17 +51,17 @@ data class MultiStageFormState<out R, out O, out S : FormStage>(
         )
     }
 
-    internal fun prev(): MultiStageFormState<R, O, S> {
+    internal fun prev(): MultiStageFormStageState<R, O, S> {
         if (stage.isFirst) return this
         val curr = stage.current
         val s = stages[stages.indexOf(curr) - 1]
-        return MultiStageFormState(visibility, stages, s, output, phase)
+        return MultiStageFormStageState(visibility, stages, s, output, phase)
     }
 
-    internal fun next(): MultiStageFormState<R, O, S> {
+    internal fun next(): MultiStageFormStageState<R, O, S> {
         if (stage.isLast) return this
         val curr = stage.current
         val s = stages[stages.indexOf(curr) + 1]
-        return MultiStageFormState(visibility, stages, s, output, phase)
+        return MultiStageFormStageState(visibility, stages, s, output, phase)
     }
 }
