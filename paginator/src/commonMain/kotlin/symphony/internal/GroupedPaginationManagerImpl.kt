@@ -10,7 +10,7 @@ import symphony.GroupedPage
 import symphony.GroupedPageLoader
 import symphony.GroupedPageFindResult
 import symphony.GroupedPaginationManager
-import symphony.PageLoader
+import symphony.PageLoaderFunction
 import symphony.internal.loaders.GroupedPageLoaderFinal
 import symphony.internal.loaders.GroupedPageLoaderImpl
 import symphony.internal.loaders.GroupedPageLoaderInitial
@@ -27,7 +27,7 @@ internal class GroupedPaginationManagerImpl<G, T>(
 
     override val continuous get() = buildList { forEachPage { page -> addAll(page.groups) } }.toIList()
 
-    override fun initialize(ld: PageLoader<Chunk<G, T>>): Later<GroupedPage<G, T>> {
+    override fun initialize(ld: PageLoaderFunction<Chunk<G, T>>): Later<GroupedPage<G, T>> {
         loader.value = GroupedPageLoaderImpl(ld)
         return loadFirstPage()
     }

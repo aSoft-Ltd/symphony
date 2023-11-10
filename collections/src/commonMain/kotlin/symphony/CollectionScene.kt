@@ -23,19 +23,19 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
     @Deprecated(message = "Might not be needed")
     open val serializer: KSerializer<T>? = null
 
-    val paginator: PaginationManager<T> by lazy { PaginationManager() }
+    open val paginator by lazy { paginatorOf<T>() }
 
-    val selector: SelectionManager<T> by lazy { SelectionManager(paginator) }
+    val selector by lazy { selectorOf(paginator) }
 
     protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(builder)
 
-    open val actions: SelectorBasedActionsManager<T> by lazy { actionsOf() }
+    open val actions by lazy { actionsOf(selector) {} }
 
-    open val columns: ColumnsManager<T> by lazy { columnsOf() }
+    open val columns by lazy { columnsOf<T>() }
 
-    val list: List<T> by lazy { listOf(paginator, selector, actions) }
+    val list by lazy { lazyListOf(paginator) }
 
-    val table: Table<T> by lazy { tableOf(paginator, selector, actions, columns) }
+    val table by lazy { tableOf(paginator, selector, actions, columns) }
 
     private val preferredView = "${this::class.simpleName?.replace("Scene", "")}.$PREFERRED_VIEW"
 
@@ -54,7 +54,7 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
     private var searchText: String? = null
     val searchBox = TextField(name = ::searchText)
 
-    fun search(): Later<Page<T>> {
+    fun search(): Later<Page> {
         paginator.clearPages()
         return paginator.loadFirstPage()
     }

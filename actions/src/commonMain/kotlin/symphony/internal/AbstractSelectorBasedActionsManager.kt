@@ -2,12 +2,13 @@ package symphony.internal
 
 import kollections.List
 import symphony.AbstractSelectorBasedActionsBuilder
-import symphony.ISelectionManager
+import symphony.SelectionManager
 import symphony.SelectorBasedActionsManager
+import symphony.selected.Selected
 
 @PublishedApi
-internal abstract class AbstractSelectorBasedActionsManager<T, S>(
-    private val selector: ISelectionManager<T, S>,
+internal abstract class AbstractSelectorBasedActionsManager<T, S : Selected<T>>(
+    private val selector: SelectionManager<T, S>,
     private val builder: AbstractSelectorBasedActionsBuilder<T, S>
 ) : SelectorBasedActionsManager<T> {
     override val current = selector.selected.map {

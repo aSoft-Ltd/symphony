@@ -3,7 +3,7 @@ package symphony
 
 import kotlin.js.JsExport
 
-abstract class AbstractPage : IPage {
+abstract class AbstractPage : Page {
 
     override val isEmpty by lazy { size == 0 }
 

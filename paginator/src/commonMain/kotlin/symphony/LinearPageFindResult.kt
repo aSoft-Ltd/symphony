@@ -6,4 +6,4 @@ import kollections.JsExport
 data class LinearPageFindResult<out T>(
     override val page: LinearPage<T>,
     override val row: Row<T>
-): IPageFindResult<T>
+): PageFindResult<T>

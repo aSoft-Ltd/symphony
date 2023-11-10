@@ -1,11 +1,14 @@
 package symphony.internal
 
+import symphony.AbstractPage
+import symphony.PageFindResult
 import symphony.PaginationManager
 import symphony.SelectionManager
+import symphony.selected.Selected
 
-abstract class AbstractSelectionManager<T>(
-    private val paginator: PaginationManager<T>
-) : SelectionManager<T> {
+abstract class AbstractSelectionManager<T, S : Selected<T>>(
+    private val paginator: PaginationManager<T, AbstractPage, PageFindResult<T>>
+) : SelectionManager<T, S> {
 
     protected val currentLoadedPage get() = paginator.currentPageOrNull
 

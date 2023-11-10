@@ -7,16 +7,16 @@ class ActionManagerTest {
 
     @Test
     fun should_not_crash_if_there_are_no_current_actions() {
-        val pag = SinglePagePaginator(Person.List)
-        val sel = SelectionManager(pag)
+        val pag = linearPaginatorOf(Person.List)
+        val sel = selectorOf(pag)
         val acts = actionsOf(sel) {}
         expect(acts.current.value).toBeEmpty()
     }
 
     @Test
     fun should_not_crash_if_there_is_a_selected_item_and_there_are_no_current_actions() {
-        val pag = CollectionPaginator(Person.List)
-        val sel = SelectionManager(pag)
+        val pag = linearPaginatorOf(Person.List)
+        val sel = selectorOf(pag)
         val actions = actionsOf(sel) {
             primary {
                 onCreate { println("Create things") }
@@ -34,8 +34,8 @@ class ActionManagerTest {
 
     @Test
     fun should_add_actions_after_table_creations() {
-        val pag = CollectionPaginator(Person.List)
-        val sel = SelectionManager(pag)
+        val pag = linearPaginatorOf(Person.List)
+        val sel = selectorOf(pag)
         val actions = actionsOf(sel) {
             primary {
                 onCreate { println("Create things") }
@@ -56,8 +56,8 @@ class ActionManagerTest {
 
     @Test
     fun should_delete_actions_after_table_creations() {
-        val pag = CollectionPaginator(Person.List)
-        val sel = SelectionManager(pag)
+        val pag = linearPaginatorOf(Person.List)
+        val sel = selectorOf(pag)
         val actions = actionsOf(sel) {
             primary {
                 onCreate { println("Create things") }
@@ -74,8 +74,8 @@ class ActionManagerTest {
 
     @Test
     fun should_only_display_current_multi_actions() {
-        val pag = CollectionPaginator(Person.List)
-        val sel = SelectionManager(pag)
+        val pag = linearPaginatorOf(Person.List)
+        val sel = selectorOf(pag)
         val actions = actionsOf(sel) {
             primary {
                 onAdd { println("Add Person") }

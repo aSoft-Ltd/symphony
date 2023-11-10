@@ -10,7 +10,7 @@ import symphony.LinearPage
 import symphony.LinearPageLoader
 import symphony.LinearPageFindResult
 import symphony.LinearPaginationManager
-import symphony.PageLoader
+import symphony.PageLoaderFunction
 import symphony.internal.loaders.LinearPageLoaderFinal
 import symphony.internal.loaders.LinearPageLoaderInitial
 import symphony.internal.loaders.LinearPageLoaderImpl
@@ -32,7 +32,7 @@ internal class LinearPaginationManagerImpl<T>(
             }
         }.toIList()
 
-    override fun initialize(pl: PageLoader<T>): Later<LinearPage<T>> {
+    override fun initialize(pl: PageLoaderFunction<T>): Later<LinearPage<T>> {
         loader.value = LinearPageLoaderImpl(pl)
         return loadFirstPage()
     }

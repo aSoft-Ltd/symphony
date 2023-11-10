@@ -5,6 +5,7 @@ package symphony
 
 import kotlin.js.JsExport
 
-interface Pageable<T> {
-    val paginator: PaginationManager<T>
-}
+data class FieldsState<out O>(
+    val output: O,
+    val feedbacks: Feedbacks
+)

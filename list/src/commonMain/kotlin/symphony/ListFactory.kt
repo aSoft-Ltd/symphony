@@ -2,61 +2,51 @@
 
 package symphony
 
-import symphony.internal.LocallyGroupedList
-import symphony.internal.RemotelyGroupedList
-
-@Deprecated("in favour of lazyListOf", replaceWith = ReplaceWith("lazyListOf(paginator,selector,actionsManager)"))
-inline fun <T> listOf(
-    paginator: PaginationManager<T>,
-    selector: SelectionManager<T>,
-    actionsManager: SelectorBasedActionsManager<T>
-): List<T> = List(paginator, selector, actionsManager)
-
-@Deprecated("in favour of lazyListOf", replaceWith = ReplaceWith("lazyListOf(paginator,selector)"))
-inline fun <T> listOf(
-    paginator: PaginationManager<T>,
-    selector: SelectionManager<T>
-): List<T> = List(paginator, selector, actionsOf(selector) {})
+import symphony.internal.LinearlyPaginatedLinearList
+import symphony.internal.LinearlyPaginatedGroupedList
+import symphony.internal.GroupedPaginatedGroupedList
+import symphony.internal.GroupedPaginatedLinearList
 
 inline fun <T> lazyListOf(
-    paginator: LinearPaginationManager<T>,
-    selector: LinearSelectionManager<T>,
-    actionsManager: SelectorBasedActionsManager<T>
-): LinearList<T> = LinearList(paginator, selector, actionsManager)
-
-inline fun <T> lazyListOf(
-    paginator: LinearPaginationManager<T>,
-    selector: LinearSelectionManager<T>
-): LinearList<T> = LinearList(paginator, selector, emptyActions())
+    paginator: LinearPaginationManager<T>
+): LinearList<T> = LinearlyPaginatedLinearList(paginator)
 
 
 inline fun <G, T> lazyListOf(
     paginator: LinearPaginationManager<T>,
-    selector: LinearSelectionManager<T>,
-    noinline grouper: (T) -> Pair<T, G>,
-    actionsManager: SelectorBasedActionsManager<T>
-): GroupedList<G, T> = LocallyGroupedList(paginator, Grouper(grouper), selector, actionsManager)
-
-inline fun <G, T> lazyListOf(
-    paginator: LinearPaginationManager<T>,
-    selector: LinearSelectionManager<T>,
     noinline grouper: (T) -> Pair<T, G>
-): GroupedList<G, T> = LocallyGroupedList(paginator, Grouper(grouper), selector, emptyActions())
-
-fun <G, T> lazyListOf(
-    paginator: LinearPaginationManager<T>,
-    selector: LinearSelectionManager<T>,
-    grouper: (T) -> Pair<T, G>,
-    actions: LinearSelectorBasedActionsBuilder<T>.() -> Unit
-): GroupedList<G, T> = LocallyGroupedList(paginator, Grouper(grouper), selector, actionsOf(selector, actions))
+): GroupedList<G, T> = LinearlyPaginatedGroupedList(paginator, Grouper(grouper))
 
 inline fun <G, T> lazyListOf(
-    paginator: GroupedPaginationManager<G, T>,
-    selector: GroupedSelectionManager<G, T>,
-    actionsManager: SelectorBasedActionsManager<T>
-): GroupedList<G, T> = RemotelyGroupedList(paginator, selector, actionsManager)
+    paginator: GroupedPaginationManager<G, T>
+): GroupedList<G, T> = GroupedPaginatedGroupedList(paginator)
+
+
+inline fun <T> lazyListOf(
+    paginator: PaginationManager<T, *, *>
+): LazyList<T> = when (paginator) {
+    is LinearPaginationManager -> lazyListOf(paginator)
+    is GroupedPaginationManager<*, T> -> lazyListOf(paginator)
+    else -> throw IllegalArgumentException("implementation ${paginator::class.simpleName} of PaginationManager is not supported")
+}
 
 inline fun <G, T> lazyListOf(
-    paginator: GroupedPaginationManager<G, T>,
-    selector: GroupedSelectionManager<G, T>
-): GroupedList<G, T> = RemotelyGroupedList(paginator, selector, emptyActions())
+    paginator: PaginationManager<T, *, *>,
+    noinline grouper: (T) -> Pair<T, G>
+): GroupedList<G, T> = when (paginator) {
+    is LinearPaginationManager -> lazyListOf(paginator, grouper)
+    is GroupedPaginationManager<*, *> -> lazyListOf(paginator as GroupedPaginationManager<G, T>)
+    else -> throw IllegalArgumentException("implementation ${paginator::class.simpleName} of PaginationManager is not supported")
+}
+
+inline fun <T> linearListOf(
+    paginator: GroupedPaginationManager<*,T>
+): LinearList<T> = GroupedPaginatedLinearList(paginator)
+
+inline fun <T> linearListOf(
+    paginator: PaginationManager<T,*,*>
+): LinearList<T> = when (paginator) {
+    is LinearPaginationManager -> lazyListOf(paginator)
+    is GroupedPaginationManager<*, T> -> linearListOf(paginator)
+    else -> throw IllegalArgumentException("implementation ${paginator::class.simpleName} of PaginationManager is not supported")
+}

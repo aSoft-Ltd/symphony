@@ -4,5 +4,6 @@
 package symphony
 
 import kotlin.js.JsExport
+import symphony.selected.LinearSelected
 
-interface LinearSelectionManager<T> : ISelectionManager<T, LinearSelected<T>>
+interface LinearSelectionManager<out T> : SelectionManager<T, LinearSelected<T>>

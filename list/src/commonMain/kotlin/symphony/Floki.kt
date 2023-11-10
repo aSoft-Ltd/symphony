@@ -4,9 +4,10 @@
 package symphony
 
 import kollections.Flock
-import kollections.List
 import kotlin.js.JsExport
+import kollections.MutableFlock
 
-interface LinearList<out T> : LazyList<T> {
-    val rows: List<Row<T>>
-}
+class Floki(
+    val numbers: Flock<Int>,
+    val mutableNumbers: MutableFlock<Int>
+)

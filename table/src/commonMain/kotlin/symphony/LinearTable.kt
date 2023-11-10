@@ -5,7 +5,7 @@ package symphony
 
 import kotlin.js.JsExport
 
-interface LinearTable<T> : ITable<T> {
+interface LinearTable<T> : Table<T> {
     override val paginator: LinearPaginationManager<T>
     override val selector: LinearSelectionManager<T>
 }

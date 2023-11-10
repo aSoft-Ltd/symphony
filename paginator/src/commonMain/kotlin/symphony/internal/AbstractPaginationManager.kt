@@ -13,23 +13,25 @@ import koncurrent.FailedLater
 import koncurrent.Later
 import koncurrent.later.finally
 import symphony.AbstractPage
-import symphony.IPageLoader
-import symphony.IPageFindResult
-import symphony.IPaginationManager
+import symphony.PageLoader
+import symphony.PageFindResult
+import symphony.PaginationManager
 import symphony.internal.memory.PageMemoryManager
 
 @PublishedApi
-internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : IPageFindResult<T>>(
+internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageFindResult<T>>(
     override var capacity: Int
-) : IPaginationManager<T, P, R> {
+) : PaginationManager<T, P, R> {
 
-    abstract val loader: Bag<IPageLoader<P>>
+    abstract val loader: Bag<PageLoader<P>>
 
     abstract val memory: PageMemoryManager<T, P, R>
 
     override val current: MutableLive<LazyState<P>> = mutableLiveOf(Pending)
 
     override val currentPageOrNull get() = current.value.data
+
+    override val currentPageSize get() = currentPageOrNull?.size ?: 0
 
     override val hasMore: Boolean get() = currentPageOrNull?.hasMore == true
 

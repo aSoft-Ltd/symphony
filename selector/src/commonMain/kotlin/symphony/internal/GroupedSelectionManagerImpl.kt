@@ -9,17 +9,17 @@ import kollections.toIMap
 import kollections.toISet
 import symphony.GroupedPage
 import symphony.GroupedPaginationManager
-import symphony.GroupedSelected
-import symphony.GroupedSelectedGlobal
-import symphony.GroupedSelectedItem
-import symphony.GroupedSelectedItems
-import symphony.GroupedSelectedNone
+import symphony.selected.GroupedSelected
+import symphony.selected.GroupedSelectedGlobal
+import symphony.selected.GroupedSelectedItem
+import symphony.selected.GroupedSelectedItems
+import symphony.selected.GroupedSelectedNone
 import symphony.GroupedSelectionManager
 import symphony.Row
 
 class GroupedSelectionManagerImpl<G, T>(
     private val paginator: GroupedPaginationManager<G, T>
-) : AbstractSelectionManager2<T, GroupedSelected<G, T>>(paginator), GroupedSelectionManager<G, T> {
+) : AbstractSelectionManager<T, GroupedSelected<G, T>>(paginator), GroupedSelectionManager<G, T> {
 
     override val selected: MutableLive<GroupedSelected<G, T>> = mutableLiveOf(GroupedSelectedNone)
 

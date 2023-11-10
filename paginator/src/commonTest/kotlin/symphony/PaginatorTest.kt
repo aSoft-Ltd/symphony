@@ -9,7 +9,7 @@ import kotlin.test.Test
 class PaginatorTest {
     @Test
     fun single_page_paginator_should_always_return_the_same_list() {
-        val p: PaginationManager<Person> = SinglePagePaginator(List(5) { Person("Andy $it", age = 12 + it) })
+        val p: PaginationManager<Person> = linearPaginatorOf(List(5) { Person("Andy $it", age = 12 + it) })
         expect(p.currentPageOrNull).toBe(null)
         p.refreshAllPages()
         expect(p.currentPageOrNull?.capacity).toBe(5)
@@ -17,7 +17,7 @@ class PaginatorTest {
 
     @Test
     fun paginator_should_be_able_to_paginate_through_different_pages() {
-        val p: PaginationManager<Person> = CollectionPaginator(Person.List)
+        val p: PaginationManager<Person> = linearPaginatorOf(Person.List)
         val watcher = p.current.watch {
             println("Page at: ${it.data?.number}")
         }

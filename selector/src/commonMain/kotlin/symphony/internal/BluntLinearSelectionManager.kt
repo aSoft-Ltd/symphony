@@ -2,8 +2,8 @@ package symphony.internal
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import symphony.LinearSelected
-import symphony.LinearSelectedNone
+import symphony.selected.LinearSelected
+import symphony.selected.LinearSelectedNone
 import symphony.LinearSelectionManager
 
 class BluntLinearSelectionManager<T> private constructor() :  LinearSelectionManager<T> {

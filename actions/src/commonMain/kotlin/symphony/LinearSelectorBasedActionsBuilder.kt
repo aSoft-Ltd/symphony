@@ -4,8 +4,12 @@ package symphony
 
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
-import kollections.List
 import kollections.toIList
+import symphony.selected.LinearSelected
+import symphony.selected.LinearSelectedGlobal
+import symphony.selected.LinearSelectedItem
+import symphony.selected.LinearSelectedItems
+import symphony.selected.LinearSelectedNone
 
 class LinearSelectorBasedActionsBuilder<T> @PublishedApi internal constructor(
     primary: MutableList<Action0<Unit>> = mutableListOf(),
@@ -13,7 +17,7 @@ class LinearSelectorBasedActionsBuilder<T> @PublishedApi internal constructor(
     multi: MutableList<Action0<Unit>> = mutableListOf(),
     global: MutableList<Action0<Unit>> = mutableListOf(),
     filters: MutableSet<String> = mutableSetOf()
-) : AbstractSelectorBasedActionsBuilder<T,LinearSelected<T>>(primary, single, multi, global, filters){
+) : AbstractSelectorBasedActionsBuilder<T, LinearSelected<T>>(primary, single, multi, global, filters){
 
 
     @PublishedApi

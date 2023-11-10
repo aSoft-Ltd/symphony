@@ -5,12 +5,6 @@ package symphony
 import symphony.internal.BluntLinearSelectionManager
 import symphony.internal.GroupedSelectionManagerImpl
 import symphony.internal.LinearSelectionManagerImpl
-import symphony.internal.SelectionManagerImpl
-
-@Deprecated("In favour of LinearSelectionManager")
-inline fun <T> SelectionManager(
-    paginator: PaginationManager<T>
-): SelectionManager<T> = SelectionManagerImpl(paginator)
 
 inline fun selectorOf(): LinearSelectionManager<Nothing> = BluntLinearSelectionManager.instance
 
@@ -21,3 +15,11 @@ inline fun <T> selectorOf(
 inline fun <G, T> selectorOf(
     paginator: GroupedPaginationManager<G, T>
 ): GroupedSelectionManager<G, T> = GroupedSelectionManagerImpl(paginator)
+
+inline fun <T> selectorOf(
+    paginator: PaginationManager<T, *, *>
+): SelectionManager<T, *> = when (paginator) {
+    is LinearPaginationManager -> selectorOf(paginator)
+    is GroupedPaginationManager<*, T> -> selectorOf(paginator)
+    else -> throw IllegalArgumentException("Unsupported paginator type: ${paginator::class.simpleName}")
+}

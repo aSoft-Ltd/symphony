@@ -7,10 +7,10 @@ import kollections.List
 import koncurrent.Later
 import kotlin.js.JsExport
 
-interface GroupedPaginationManager<out G, out T> : IPaginationManager<T, GroupedPage<G, T>, GroupedPageFindResult<G, T>> {
+interface GroupedPaginationManager<out G, out T> : PaginationManager<T, GroupedPage<G, T>, GroupedPageFindResult<G, T>> {
     val continuous: List<Chunk<G, Row<T>>>
 
-    fun initialize(ld: PageLoader<Chunk<@UnsafeVariance G, @UnsafeVariance T>>): Later<GroupedPage<G, T>>
+    fun initialize(ld: PageLoaderFunction<Chunk<@UnsafeVariance G, @UnsafeVariance T>>): Later<GroupedPage<G, T>>
 
     // --------------------- loopers ----------------------
     fun forEachPage(block: (GroupedPage<G, T>) -> Unit)

@@ -1,6 +1,6 @@
 package symphony.internal
 
-import symphony.LinearSelected
+import symphony.selected.LinearSelected
 import symphony.LinearSelectionManager
 import symphony.LinearSelectorBasedActionsBuilder
 
@@ -8,4 +8,4 @@ import symphony.LinearSelectorBasedActionsBuilder
 internal class LinearSelectorBasedActionsManagerImpl<T>(
     selector: LinearSelectionManager<T>,
     builder: LinearSelectorBasedActionsBuilder<T>
-) : AbstractSelectorBasedActionsManager<T,LinearSelected<T>>(selector, builder)
+) : AbstractSelectorBasedActionsManager<T, LinearSelected<T>>(selector, builder)

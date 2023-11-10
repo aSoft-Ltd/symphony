@@ -6,8 +6,8 @@ import kotlin.test.Test
 class TableTest {
     @Test
     fun can_be_assigned_a_paginator() {
-        val paginator = CollectionPaginator(Person.List)
-        val selector = SelectionManager(paginator)
+        val paginator = linearPaginatorOf(Person.List)
+        val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, actionsOf(), Person.columns())
         println(table.renderToString())
         expect(table.paginator.currentPageOrNull?.number).toBe(null)
@@ -24,8 +24,8 @@ class TableTest {
 
     @Test
     fun should_be_able_to_select_table_items() {
-        val paginator = CollectionPaginator(Person.List)
-        val selector = SelectionManager(paginator)
+        val paginator = linearPaginatorOf(Person.List)
+        val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, actionsOf(), Person.columns())
         paginator.loadFirstPage()
         println(table.renderToString())
@@ -40,8 +40,8 @@ class TableTest {
 
     @Test
     fun should_be_able_to_select_the_whole_current_page() {
-        val paginator = CollectionPaginator(Person.List)
-        val selector = SelectionManager(paginator)
+        val paginator = linearPaginatorOf(Person.List)
+        val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, actionsOf(), Person.columns())
 
         paginator.loadFirstPage()
@@ -54,8 +54,8 @@ class TableTest {
 
     @Test
     fun should_be_able_to_retrieve_primary_actions() {
-        val paginator = CollectionPaginator(Person.List)
-        val selector = SelectionManager(paginator)
+        val paginator = linearPaginatorOf(Person.List)
+        val selector = selectorOf(paginator)
         val actions = actionsOf(selector) {
             primary {
                 on("Create Person") { println("Just create da nigga") }

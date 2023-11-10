@@ -9,17 +9,17 @@ import kollections.toIMap
 import kollections.toISet
 import symphony.LinearPage
 import symphony.LinearPaginationManager
-import symphony.LinearSelected
-import symphony.LinearSelectedGlobal
-import symphony.LinearSelectedItem
-import symphony.LinearSelectedItems
-import symphony.LinearSelectedNone
+import symphony.selected.LinearSelected
+import symphony.selected.LinearSelectedGlobal
+import symphony.selected.LinearSelectedItem
+import symphony.selected.LinearSelectedItems
+import symphony.selected.LinearSelectedNone
 import symphony.LinearSelectionManager
 import symphony.Row
 
 class LinearSelectionManagerImpl<T>(
     private val paginator: LinearPaginationManager<T>
-) : AbstractSelectionManager2<T, LinearSelected<T>>(paginator), LinearSelectionManager<T> {
+) : AbstractSelectionManager<T, LinearSelected<T>>(paginator), LinearSelectionManager<T> {
 
     override val selected: MutableLive<LinearSelected<T>> = mutableLiveOf(LinearSelectedNone)
 

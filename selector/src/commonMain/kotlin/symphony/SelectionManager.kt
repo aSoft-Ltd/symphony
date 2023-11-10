@@ -6,10 +6,11 @@ package symphony
 import cinematic.Live
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import symphony.selected.Selected
 
-interface SelectionManager<T> {
+interface SelectionManager<out T, out S : Selected<T>> {
     // ---------------------------------SelectionGetters--------------------------
-    val selected: Live<Selected<T>>
+    val selected: Live<S>
 
     // ---------------------------------Selections--------------------------
     fun selectAllItemsInTheCurrentPage()
@@ -32,7 +33,7 @@ interface SelectionManager<T> {
     @JsName("selectRow")
     fun select(row: Int)
 
-    fun select(obj: T)
+    fun select(obj: @UnsafeVariance T)
 
     // ---------------------------------Selection Adders --------------------------
 
@@ -51,7 +52,7 @@ interface SelectionManager<T> {
     fun addSelection(row: Int)
 
     @JsName("addSelectionOf")
-    fun addSelection(obj: T)
+    fun addSelection(obj: @UnsafeVariance T)
 
     // ---------------------------------Selection Toggles --------------------------
 
@@ -94,7 +95,5 @@ interface SelectionManager<T> {
      */
     fun unSelectRowInPage(row: Int, page: Int)
 
-    fun unSelect(item: T)
-
-    fun <R> map(transform: (T) -> R): SelectionManager<R>
+    fun unSelect(item: @UnsafeVariance T)
 }

@@ -7,10 +7,10 @@ import kollections.List
 import koncurrent.Later
 import kotlin.js.JsExport
 
-interface LinearPaginationManager<out T> : IPaginationManager<T, LinearPage<T>, LinearPageFindResult<T>> {
+interface LinearPaginationManager<out T> : PaginationManager<T, LinearPage<T>, LinearPageFindResult<T>> {
     val continuous: List<Row<T>>
 
-    fun initialize(pl: PageLoader<@UnsafeVariance T>): Later<LinearPage<T>>
+    fun initialize(pl: PageLoaderFunction<@UnsafeVariance T>): Later<LinearPage<T>>
 
     // --------------------- loopers ----------------------
     fun forEachPage(block: (LinearPage<T>) -> Unit)

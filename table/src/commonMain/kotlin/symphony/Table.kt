@@ -3,11 +3,13 @@
 
 package symphony
 
+import kollections.List
 import kotlin.js.JsExport
 
-interface Table<T> : Pageable<T>, Selectable<T>, ActionableSelection<T> {
+interface Table<T> {
+    val paginator: PaginationManager<T, *, *>
+    val selector: SelectionManager<T, *>
+    val actions: SelectorBasedActionsManager<T>
+    val rows: List<Row<T>>
     val columns: ColumnsManager<T>
-    fun manageActions(block: (SelectorBasedActionsManager<T>) -> Unit): Table<T>
-    fun manageColumns(block: (manager: ColumnsManager<T>) -> Unit): Table<T>
-    fun <R> map(transform: (T) -> R): Table<R>
 }

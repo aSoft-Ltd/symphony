@@ -1,6 +1,6 @@
 package symphony.internal
 
-import symphony.GroupedSelected
+import symphony.selected.GroupedSelected
 import symphony.GroupedSelectionManager
 import symphony.GroupedSelectorBasedActionsBuilder
 
@@ -8,4 +8,4 @@ import symphony.GroupedSelectorBasedActionsBuilder
 internal class GroupedSelectorBasedActionsManagerImpl<G, T>(
     selector: GroupedSelectionManager<G, T>,
     builder: GroupedSelectorBasedActionsBuilder<G, T>
-) : AbstractSelectorBasedActionsManager<T,GroupedSelected<G,T>>(selector, builder)
+) : AbstractSelectorBasedActionsManager<T, GroupedSelected<G, T>>(selector, builder)

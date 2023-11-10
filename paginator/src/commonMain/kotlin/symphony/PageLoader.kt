@@ -2,4 +2,6 @@ package symphony
 
 import koncurrent.Later
 
-typealias PageLoader<T> = (no: Int, capacity: Int) -> Later<Collection<T>>
+sealed interface PageLoader<out P : AbstractPage> {
+    fun load(page: Int, capacity: Int): Later<P>
+}

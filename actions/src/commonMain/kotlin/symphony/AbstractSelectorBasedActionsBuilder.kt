@@ -6,8 +6,9 @@ import kevlar.Action0
 import kevlar.builders.Actions0Builder
 import kollections.List
 import kollections.toIList
+import symphony.selected.Selected
 
-abstract class AbstractSelectorBasedActionsBuilder<T, S> @PublishedApi internal constructor(
+abstract class AbstractSelectorBasedActionsBuilder<T, S : Selected<T>> @PublishedApi internal constructor(
     primary: MutableList<Action0<Unit>> = mutableListOf(),
     single: MutableList<Action0<Unit>> = mutableListOf(),
     multi: MutableList<Action0<Unit>> = mutableListOf(),

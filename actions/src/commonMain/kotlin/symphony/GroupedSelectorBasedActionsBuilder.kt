@@ -5,6 +5,11 @@ package symphony
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
 import kollections.toIList
+import symphony.selected.GroupedSelected
+import symphony.selected.GroupedSelectedGlobal
+import symphony.selected.GroupedSelectedItem
+import symphony.selected.GroupedSelectedItems
+import symphony.selected.GroupedSelectedNone
 
 class GroupedSelectorBasedActionsBuilder<G, T> @PublishedApi internal constructor(
     primary: MutableList<Action0<Unit>> = mutableListOf(),

@@ -4,5 +4,6 @@
 package symphony
 
 import kotlin.js.JsExport
+import symphony.selected.GroupedSelected
 
-interface GroupedSelectionManager<G, T> : ISelectionManager<T, GroupedSelected<G, T>>
+interface GroupedSelectionManager<out G, out T> : SelectionManager<T, GroupedSelected<G, T>>

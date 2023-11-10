@@ -4,6 +4,7 @@ import cinematic.mutableLiveOf
 import kollections.List
 import kollections.MutableList
 import kollections.iEmptyList
+import kollections.toIList
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
@@ -36,6 +37,8 @@ open class ListFieldImpl<E>(
         validateAndNotify()
     }
 
+    override fun addAll(items: Array<E>) = addAll(items.toIList())
+
     override fun remove(item: E) {
         property.get().remove(item)
         validateAndNotify()
@@ -45,6 +48,8 @@ open class ListFieldImpl<E>(
         property.get().removeAll(items ?: output)
         validateAndNotify()
     }
+
+    override fun removeAll(items: Array<E>?) = removeAll(items?.toIList())
 
     override fun update(item: E, updater: () -> E) {
         val idx = output.indexOf(item)

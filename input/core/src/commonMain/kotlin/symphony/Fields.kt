@@ -10,7 +10,6 @@ import neat.Validity
 import neat.aggregate
 import symphony.properties.Clearable
 import symphony.properties.Finishable
-import symphony.properties.Hideable
 import symphony.properties.Resetable
 import symphony.properties.Validable
 import kotlin.js.JsExport
@@ -19,16 +18,15 @@ import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
-abstract class Fields<out O : Any>(initial: State<O>) : Validable, Clearable, Finishable, Resetable {
+abstract class Fields<out O : Any>(initial: FieldsState<O>) : Validable, Clearable, Finishable, Resetable {
     @JsExport.Ignore
-    constructor(output: O) : this(State(output, Feedbacks(iEmptyList())))
+    constructor(output: O) : this(FieldsState(output, Feedbacks(iEmptyList())))
 
     private val all = mutableMapOf<KProperty<*>, Field<*, *>>()
 
     val output get() = state.value.output
 
-    @JsExport.Ignore
-    val state: MutableLive<State<@UnsafeVariance O>> = mutableLiveOf(initial)
+    val state: MutableLive<FieldsState<@UnsafeVariance O>> = mutableLiveOf(initial)
 
     override fun validate(): Validity<O> = all.values.map {
         it.validateToErrors()
@@ -72,12 +70,6 @@ abstract class Fields<out O : Any>(initial: State<O>) : Validable, Clearable, Fi
         property: KProperty<Any?>,
         builder: () -> F
     ): F = all.getOrPut(property, builder) as F
-
-    @JsExport.Ignore
-    data class State<out O>(
-        val output: O,
-        val feedbacks: Feedbacks
-    )
 
     @JvmName("inform")
     fun notify() {

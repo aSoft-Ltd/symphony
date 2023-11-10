@@ -3,26 +3,16 @@
 
 package symphony
 
-import kollections.List
 import kotlin.js.JsExport
 
 
 /**
  * A model representation of what a Page of data should contain
- * TODO: Use LinearPage Instead
  */
-interface Page<out T> {
-    /**
-     * The items of elements the page contains
-     */
-    val items: List<Row<T>>
+interface Page {
 
-    /**
-     * The capacity of the contained items.
-     * This will always equal [items].size, except for last pages
-     * e.g. The last page can have 7 items, while the page can hold up to 10 items.
-     * if ([items].size < [capacity]) is satisfied, one can safely assume that this is the last page.
-     */
+    val size: Int
+
     val capacity: Int
 
     /**
@@ -40,8 +30,4 @@ interface Page<out T> {
     val isFistPage: Boolean
 
     val isLastPage: Boolean
-
-    fun <R> map(transformer: (item: T) -> R): Page<R>
-
-    fun <R> mapIndexed(transformer: (index: Int, item: T) -> R): Page<R>
 }

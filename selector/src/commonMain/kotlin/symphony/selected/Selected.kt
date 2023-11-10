@@ -1,11 +1,14 @@
 @file:JsExport
 @file:Suppress("NON_EXPORTABLE_TYPE")
 
-package symphony
+package symphony.selected
 
 import kollections.Map
 import kollections.Set
 import kotlin.js.JsExport
+import symphony.LinearPage
+import symphony.Page
+import symphony.Row
 
 sealed interface Selected<out T> {
     val none get() = this as? SelectedNone
@@ -14,17 +17,17 @@ sealed interface Selected<out T> {
     val global get() = this as? SelectedGlobal
 }
 
-data object SelectedNone : Selected<Nothing>
+sealed interface SelectedNone : Selected<Nothing>
 
-data class SelectedItem<out T>(
-    val page: Page<T>,
+sealed interface SelectedItem<out T> : Selected<T> {
+    val page: Page
     val row: Row<T>
-) : Selected<T>
+}
 
-data class SelectedItems<out T>(
-    val page: Map<Page<@UnsafeVariance T>, Set<Row<T>>>
-) : Selected<T>
+sealed interface SelectedItems<out T> : Selected<T> {
+    val page: Map<*, Set<Row<T>>>
+}
 
-data class SelectedGlobal<out T>(
+sealed interface SelectedGlobal<out T> : Selected<T> {
     val exceptions: Set<SelectedItem<T>>
-) : Selected<T>
+}

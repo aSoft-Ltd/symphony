@@ -1,9 +1,9 @@
 package symphony.internal.memory
 
 import symphony.AbstractPage
-import symphony.IPageFindResult
+import symphony.PageFindResult
 
-internal abstract class PageMemoryManager<out T, out P : AbstractPage, R : IPageFindResult<T>>(
+internal abstract class PageMemoryManager<out T, out P : AbstractPage, R : PageFindResult<T>>(
     internal val entries: MutableMap<Int, PageMemoryEntry<@UnsafeVariance P>>
 ) {
     fun save(page: @UnsafeVariance P): P {
