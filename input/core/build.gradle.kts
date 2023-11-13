@@ -23,6 +23,7 @@ kotlin {
                 api(libs.kollections.interoperable)
                 api(libs.koncurrent.later.core)
                 api(libs.neat.validation)
+                api(libs.kevlar.core)
                 api(libs.lexi.console)
             }
         }

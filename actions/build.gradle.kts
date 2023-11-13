@@ -18,6 +18,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(libs.kevlar.core)
                 api(projects.symphonySelector)
             }
         }
