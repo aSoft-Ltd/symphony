@@ -6,7 +6,6 @@ package symphony.internal
 import cinematic.mutableLiveOf
 import kollections.iEmptyList
 import kotlin.js.JsExport
-import kotlin.reflect.KMutableProperty0
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
@@ -19,9 +18,9 @@ import symphony.Visibility
 import symphony.toErrors
 import symphony.toWarnings
 
-@Deprecated("In favour of GenericBaseField")
-open class BaseFieldImpl<O>(
-    private val property: KMutableProperty0<O?>,
+open class GenericBaseField<O>(
+    private val backer: FieldBacker<O>,
+    value: O?,
     label: String,
     visibility: Visibility,
     hint: String,
@@ -34,20 +33,20 @@ open class BaseFieldImpl<O>(
     override fun set(value: O?) {
         val res = validator.validate(value)
         val output = res.value
-        property.set(output)
+        backer.asProp?.set(output)
         state.value = state.value.copy(
-            output = property.get(),
+            output = output,
             feedbacks = Feedbacks(res.toWarnings())
         )
-        onChange?.invoke(property.get())
+        onChange?.invoke(value)
     }
 
     private val initial = BaseFieldImplState(
-        name = property.name,
+        name = backer.name,
         label = Label(label, this.validator.required),
         hint = hint,
         required = this.validator.required,
-        output = property.get(),
+        output = value,
         visibility = visibility,
         feedbacks = Feedbacks(iEmptyList()),
     )
@@ -78,6 +77,7 @@ open class BaseFieldImpl<O>(
 
     override fun reset() {
         state.value = initial
+        backer.asProp?.set(initial.output)
     }
 
     override val name get() = state.value.name
