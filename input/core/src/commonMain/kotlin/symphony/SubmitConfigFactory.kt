@@ -13,6 +13,7 @@ inline fun SubmitConfig(
     exitOnSuccess: Boolean = SubmitConfigImpl.exitOnSuccess
 ): SubmitConfig = SubmitConfigImpl(logger, exitOnSuccess)
 
+@Deprecated("Favour using the logger factory")
 inline fun Logable.toSubmitConfig(
     logger: Logger = this.logger,
     exitOnSuccess: Boolean = SubmitConfigImpl.exitOnSuccess

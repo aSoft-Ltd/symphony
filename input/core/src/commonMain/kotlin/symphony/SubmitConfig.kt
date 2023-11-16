@@ -6,6 +6,7 @@ package symphony
 import lexi.Logable
 import kotlin.js.JsExport
 
+@Deprecated("Do not use this anymore")
 interface SubmitConfig : Logable {
     val exitOnSuccess: Boolean
 }

@@ -17,9 +17,6 @@ import symphony.FailurePhase
 import symphony.Fields
 import symphony.Form
 import symphony.FormState
-import symphony.SubmitActionsBuilder
-import symphony.SubmitBuilder
-import symphony.SubmitConfig
 import symphony.SubmittingPhase
 import symphony.SuccessPhase
 import symphony.ValidatingPhase
@@ -28,15 +25,13 @@ import symphony.properties.Clearable
 import symphony.properties.Resetable
 
 @PublishedApi
-internal class FormImpl<R, O : Any, F : Fields<O>>(
-    override val heading: String,
-    override val details: String,
-    override val fields: F,
-    private val config: SubmitConfig,
-    visibility: Visibility,
-    builder: SubmitBuilder<O, R>,
+internal class FormImpl2<R, O : Any, F : Fields<O>>(
+    private val options: FormOptions<R,O,F>
 ) : AbstractHideable(), Form<R, O, F>, Resetable, Clearable {
 
+    override val heading = options.heading
+    override val details = options.details
+    override val fields = options.fields
     override fun submit(): Later<R> {
         logger.info("Validating")
         state.value = state.value.copy(phase = ValidatingPhase(fields.output))
@@ -54,7 +49,7 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
                 is Success -> {
                     logger.info("Success")
                     try {
-                        prerequisites.onSuccess?.invoke(res.data)
+                        actions.onSuccess?.invoke(res.data)
                     } catch (err: Throwable) {
                         logger.error("Post Submit failed", err)
                     }
@@ -64,7 +59,7 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
                 is Failure -> {
                     logger.info("Success")
                     try {
-                        prerequisites.onFailure?.invoke(res.cause)
+                        actions.onFailure?.invoke(res.cause)
                     } catch (err: Throwable) {
                         logger.error("Post Submit failed", err)
                     }
@@ -79,28 +74,26 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
         "${fields::class.simpleName}Form"
     }
 
-    private val prerequisites = SubmitActionsBuilder<O, R>().apply { builder() }
+    private val actions = options.actions
 
-    private val validator: Validator<O> = custom<O>(label).configure(prerequisites.factory)
+    private val validator: Validator<O> = custom<O>(label).configure(actions.factory)
 
-    private val logger by config.logger
+    private val logger = options.logger.get(label)
 
     private val initial = FormState<O, R>(
-        visibility = visibility,
+        visibility = options.visibility,
         phase = CapturingPhase
     )
 
     override val state: MutableLive<FormState<O, R>> = mutableLiveOf(initial)
 
-    private val actions = SubmitActionsBuilder<O, R>().apply { builder() }
-
     private val cancelAction = actions.getOrSet("Cancel") {
         logger.warn("Cancel action was never setup")
     }
 
-    private val submitAction = prerequisites.submitAction
+    private val submitAction = actions.submitAction
 
-    val exitOnSubmitted get() = config.exitOnSuccess
+    val exitOnSubmitted get() = options.exitOnSuccess
 
     override fun exit() {
         cancelAction.asInvoker?.invoke()
