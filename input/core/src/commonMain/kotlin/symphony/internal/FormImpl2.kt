@@ -57,7 +57,7 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
                 }
 
                 is Failure -> {
-                    logger.info("Success")
+                    logger.error("Failed",res.cause)
                     try {
                         actions.onFailure?.invoke(res.cause)
                     } catch (err: Throwable) {
@@ -71,7 +71,7 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
     }
 
     private val label by lazy {
-        "${fields::class.simpleName}Form"
+        "${fields::class.simpleName}"
     }
 
     private val actions = options.actions
