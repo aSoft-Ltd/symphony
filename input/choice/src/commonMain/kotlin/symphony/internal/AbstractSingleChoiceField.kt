@@ -17,14 +17,11 @@ import symphony.properties.Settable
 import symphony.toErrors
 import symphony.toWarnings
 import kotlin.js.JsExport
-import kotlin.reflect.KMutableProperty0
 import symphony.internal.SingleChoiceFieldStateImpl as State
 
 abstract class AbstractSingleChoiceField<O>(
-    private val property: KMutableProperty0<O?>,
+    private val backer: FieldBacker<O>,
     label: String,
-    visibility: Visibility,
-    hint: String,
     private val onChange: Changer<O>?,
     factory: ValidationFactory<O>?
 ) : AbstractHideable(), Field<O, SingleChoiceFieldState<O>>, BaseFieldState<O>, Settable<O> {
@@ -34,12 +31,12 @@ abstract class AbstractSingleChoiceField<O>(
     override fun set(value: O?) {
         val res = validator.validate(value)
         val output = res.value
-        property.set(output)
+        backer.asProp?.set(output)
         state.value = state.value.copy(
-            output = property.get(),
+            output = output,
             feedbacks = Feedbacks(res.toWarnings())
         )
-        onChange?.invoke(property.get())
+        onChange?.invoke(output)
     }
 
     protected abstract val initial : State<O>

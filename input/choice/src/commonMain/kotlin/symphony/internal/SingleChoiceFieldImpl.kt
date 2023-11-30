@@ -17,8 +17,9 @@ import symphony.internal.SingleChoiceFieldStateImpl as State
 
 @PublishedApi
 internal class SingleChoiceFieldImpl<T>(
-    property: KMutableProperty0<T?>,
+    backer: FieldBacker<T>,
     label: String,
+    value: T?,
     override val items: List<T & Any>,
     override val mapper: (T & Any) -> Option,
     private val filter: (item: T & Any, key: String) -> Boolean,
@@ -27,7 +28,7 @@ internal class SingleChoiceFieldImpl<T>(
     hint: String,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>?
-) : AbstractSingleChoiceField<T>(property, label, visibility, hint, onChange, factory), SingleChoiceField<T> {
+) : AbstractSingleChoiceField<T>(backer, label, onChange, factory), SingleChoiceField<T> {
 
     override val selectedItem: T? get() = state.value.output
 
@@ -105,16 +106,16 @@ internal class SingleChoiceFieldImpl<T>(
     }
 
     override val initial = State(
-        name = property.name,
+        name = backer.name,
         label = Label(label, this.validator.required),
         items = items,
         searchBy = searchBy,
         key = "",
-        selectedItem = property.get(),
-        selectedOption = property.get()?.let { mapper(it) },
+        selectedItem = backer.asProp?.get(),
+        selectedOption = backer.asProp?.get()?.let { mapper(it) },
         hint = hint,
         required = this.validator.required,
-        output = property.get(),
+        output = value,
         visibility = visibility,
         feedbacks = Feedbacks(iEmptyList()),
     )
