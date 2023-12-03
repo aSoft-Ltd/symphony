@@ -16,7 +16,10 @@ import symphony.CapturingPhase
 import symphony.FailurePhase
 import symphony.Fields
 import symphony.Form
+import symphony.FormAction
+import symphony.FormActions
 import symphony.FormState
+import symphony.Label
 import symphony.SubmittingPhase
 import symphony.SuccessPhase
 import symphony.ValidatingPhase
@@ -26,7 +29,7 @@ import symphony.properties.Resetable
 
 @PublishedApi
 internal class FormImpl2<R, O : Any, F : Fields<O>>(
-    private val options: FormOptions<R,O,F>
+    private val options: FormOptions<R, O, F>
 ) : AbstractHideable(), Form<R, O, F>, Resetable, Clearable {
 
     override val heading = options.heading
@@ -49,7 +52,7 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
                 is Success -> {
                     logger.info("Success")
                     try {
-                        actions.onSuccess?.invoke(res.data)
+                        this.acts.onSuccess?.invoke(res.data)
                     } catch (err: Throwable) {
                         logger.error("Post Submit failed", err)
                     }
@@ -57,9 +60,9 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
                 }
 
                 is Failure -> {
-                    logger.error("Failed",res.cause)
+                    logger.error("Failed", res.cause)
                     try {
-                        actions.onFailure?.invoke(res.cause)
+                        this.acts.onFailure?.invoke(res.cause)
                     } catch (err: Throwable) {
                         logger.error("Post Submit failed", err)
                     }
@@ -74,9 +77,16 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
         "${fields::class.simpleName}"
     }
 
-    private val actions = options.actions
+    override val actions by lazy {
+        val cancel = acts.getOrSet("Cancel") { logger.warn("Cancel action was never setup") }
+        val sub = acts.submitAction
+        FormActions(
+            cancel = FormAction(label = Label(cancel.name, false), handler = { exit() }),
+            submit = FormAction(label = Label(sub.name, false), handler = { submit() })
+        )
+    }
 
-    private val validator: Validator<O> = custom<O>(label).configure(actions.factory)
+    private val acts = options.actions
 
     private val logger = options.logger.get(label)
 
@@ -87,13 +97,11 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
 
     override val state: MutableLive<FormState<O, R>> = mutableLiveOf(initial)
 
-    private val cancelAction = actions.getOrSet("Cancel") {
+    private val cancelAction = acts.getOrSet("Cancel") {
         logger.warn("Cancel action was never setup")
     }
 
-    private val submitAction = actions.submitAction
-
-    val exitOnSubmitted get() = options.exitOnSuccess
+    private val submitAction = acts.submitAction
 
     override fun exit() {
         cancelAction.asInvoker?.invoke()

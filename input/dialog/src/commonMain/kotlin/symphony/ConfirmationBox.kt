@@ -8,6 +8,7 @@ import kase.ExecutorState
 import koncurrent.Later
 import kotlin.js.JsExport
 
+@Deprecated("In favour of symphony.Confirm")
 interface ConfirmationBox {
     val heading: String
     val details: String

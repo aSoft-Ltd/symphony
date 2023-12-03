@@ -2,6 +2,7 @@ package symphony
 
 import symphony.internal.ConfirmationBoxImpl
 
+@Deprecated("In favour of symphony.Confirm")
 fun ConfirmationBox(
     heading: String,
     details: String,

@@ -16,6 +16,8 @@ interface Form<out R, out O : Any, out F : Fields<O>> : FormInfo, Resetable, Cle
 
     val fields: F
 
+    val actions: FormActions
+
     fun exit()
 
     fun submit(): Later<R>

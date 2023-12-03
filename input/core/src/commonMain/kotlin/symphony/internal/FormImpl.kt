@@ -16,7 +16,10 @@ import symphony.CapturingPhase
 import symphony.FailurePhase
 import symphony.Fields
 import symphony.Form
+import symphony.FormAction
+import symphony.FormActions
 import symphony.FormState
+import symphony.Label
 import symphony.SubmitActionsBuilder
 import symphony.SubmitBuilder
 import symphony.SubmitConfig
@@ -92,13 +95,23 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
 
     override val state: MutableLive<FormState<O, R>> = mutableLiveOf(initial)
 
-    private val actions = SubmitActionsBuilder<O, R>().apply { builder() }
 
-    private val cancelAction = actions.getOrSet("Cancel") {
+    private val acts = SubmitActionsBuilder<O, R>().apply { builder() }
+
+    private val cancelAction = acts.getOrSet("Cancel") {
         logger.warn("Cancel action was never setup")
     }
 
     private val submitAction = prerequisites.submitAction
+
+    override val actions by lazy {
+        val cancel = acts.getOrSet("Cancel") { logger.warn("Cancel action was never setup") }
+        val sub = acts.submitAction
+        FormActions(
+            cancel = FormAction(label = Label(cancel.name, false), handler = { exit() }),
+            submit = FormAction(label = Label(sub.name, false), handler = { submit() })
+        )
+    }
 
     val exitOnSubmitted get() = config.exitOnSuccess
 

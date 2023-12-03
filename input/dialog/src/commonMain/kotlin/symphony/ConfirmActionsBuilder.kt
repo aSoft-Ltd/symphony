@@ -6,6 +6,7 @@ import kevlar.action0
 import kevlar.builders.Actions0Builder
 import koncurrent.Later
 
+@Deprecated("In favour of symphony.ConfirmBuilder")
 class ConfirmActionsBuilder : Actions0Builder<Unit>() {
     private var _submitAction: Action0Invoker<Later<Any?>>? = null
     val submitAction: Action0Invoker<Later<Any?>> get() = _submitAction ?: error("Submit action has not been initialize just yet")
