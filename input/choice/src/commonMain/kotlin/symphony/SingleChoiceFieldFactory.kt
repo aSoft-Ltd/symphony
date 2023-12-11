@@ -8,18 +8,18 @@ import kotlin.reflect.KMutableProperty0
 import symphony.internal.FieldBacker
 
 fun <T> SingleChoiceField(
-    name: KMutableProperty0<T?>,
+    name: String = "",
     items: Collection<T & Any>,
     mapper: (T & Any) -> Option,
     filter: (item: T & Any, key: String) -> Boolean = { item, key -> item.toString().contains(key, ignoreCase = true) },
     searchBy: SearchBy = SearchBy.Filtering,
-    value: T? = name.get(),
-    label: String = name.name,
+    value: T? = null,
+    label: String = name,
     hint: String = label,
     visibility: Visibility = Visibilities.Visible,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
-): SingleChoiceField<T> = SingleChoiceFieldImpl(FieldBacker.Prop(name), label, value, items.toIList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
+): SingleChoiceField<T> = SingleChoiceFieldImpl(FieldBacker.Name(name), label, value, items.toIList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
 
 fun <T> Fields<*>.selectSingle(
     name: KMutableProperty0<T?>,

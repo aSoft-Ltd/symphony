@@ -31,7 +31,12 @@ open class GenericBaseField<O>(
     protected val validator = custom<O>(label).configure(factory)
 
     override fun set(value: O?) {
-        val res = validator.validate(value)
+        val v = if(value is String && value.isBlank()) {
+            null
+        } else {
+            value
+        }
+        val res = validator.validate(v)
         val output = res.value
         backer.asProp?.set(output)
         state.value = state.value.copy(
