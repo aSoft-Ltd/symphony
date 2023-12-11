@@ -3,7 +3,7 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface RangeFieldState<out O : Any> : FieldState<Range<O>> {
     val start: O?

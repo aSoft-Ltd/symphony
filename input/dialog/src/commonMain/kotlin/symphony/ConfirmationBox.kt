@@ -6,7 +6,7 @@ package symphony
 import cinematic.Live
 import kase.ExecutorState
 import koncurrent.Later
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 @Deprecated("In favour of symphony.Confirm")
 interface ConfirmationBox {

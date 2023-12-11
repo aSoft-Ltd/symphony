@@ -1,6 +1,6 @@
 package symphony
 
-import kollections.JsExport
+import kotlinx.JsExport
 
 @JsExport
 data class LinearPageFindResult<out T>(

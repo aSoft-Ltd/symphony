@@ -3,7 +3,7 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import symphony.RangeFieldState as RState
 
 interface RangeField<O : Any> : Field<Range<O>,RState<O>> {

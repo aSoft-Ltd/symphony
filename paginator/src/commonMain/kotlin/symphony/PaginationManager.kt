@@ -6,7 +6,7 @@ package symphony
 import cinematic.Live
 import kase.LazyState
 import koncurrent.Later
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import kotlin.js.JsName
 
 interface PaginationManager<out T, out P : AbstractPage, out R : PageFindResult<T>> {

@@ -3,7 +3,7 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface FieldState<out O> {
     val output: O?

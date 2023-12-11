@@ -4,7 +4,7 @@
 package symphony
 
 import kollections.List
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 /**
  * A model representation of what a GroupedPage of data should contain

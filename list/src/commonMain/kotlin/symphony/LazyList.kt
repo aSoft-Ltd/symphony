@@ -3,7 +3,7 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface LazyList<out T> {
     val paginator: PaginationManager<T, AbstractPage, PageFindResult<T>>

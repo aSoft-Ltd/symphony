@@ -4,7 +4,7 @@
 package symphony.properties
 
 import symphony.Visibility
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface Hideable {
     val visibility: Visibility

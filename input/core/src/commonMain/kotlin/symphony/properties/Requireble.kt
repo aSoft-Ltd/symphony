@@ -1,7 +1,7 @@
 @file:JsExport
 package symphony.properties
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface Requireble {
     val isRequired: Boolean

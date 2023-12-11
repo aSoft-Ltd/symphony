@@ -1,7 +1,7 @@
 @file:JsExport
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 abstract class AbstractPage : Page {
 

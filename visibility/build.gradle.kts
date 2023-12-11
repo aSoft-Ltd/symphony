@@ -14,4 +14,10 @@ kotlin {
 //    val ndkTargets = if (Targeting.NDK) ndkTargets() else listOf()
     val linuxTargets = if (Targeting.LINUX) linuxTargets() else listOf()
 //    val mingwTargets = if (Targeting.MINGW) mingwTargets() else listOf()
+
+    sourceSets {
+        commonMain.dependencies {
+            api(libs.kotlinx.exports)
+        }
+    }
 }

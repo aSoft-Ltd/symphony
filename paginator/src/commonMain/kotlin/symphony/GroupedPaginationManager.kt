@@ -5,7 +5,7 @@ package symphony
 
 import kollections.List
 import koncurrent.Later
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface GroupedPaginationManager<out G, out T> : PaginationManager<T, GroupedPage<G, T>, GroupedPageFindResult<G, T>> {
     val continuous: List<Chunk<G, Row<T>>>

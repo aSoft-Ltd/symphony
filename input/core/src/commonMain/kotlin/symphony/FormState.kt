@@ -4,7 +4,7 @@
 package symphony
 
 import kollections.List
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 data class FormState<out O, out R>(
     val visibility: Visibility,

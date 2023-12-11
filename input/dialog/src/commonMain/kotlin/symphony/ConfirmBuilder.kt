@@ -14,13 +14,21 @@ class ConfirmBuilder : Actions0Builder<Unit>() {
     var details: String = "No Details"
     var message: String = "Executing, please wait . . ."
 
-    private var _submitAction: Action0Invoker<Later<Any?>>? = null
-    internal val confirmAction: Action0Invoker<Later<Any?>> get() = _submitAction ?: error("Confirm action has not been initialize just yet")
+    internal var confirm: Action0Invoker<Later<Any?>>? = null
     fun onConfirm(name: String = "Confirm", handler: () -> Later<Any?>): Action0<Any?> {
         val action = action0(name, handler = handler)
-        _submitAction = action
+        confirm = action
         return action
     }
+
+    internal var cancel: Action0Invoker<Unit>? = null
+    fun onCancel(name: String = "Cancel", handler: () -> Unit): Action0<Unit> {
+        val action = action0(name, handler = handler)
+        cancel = action
+        return action
+    }
+
+    fun noConfirmAction(): Nothing = error("Confirm action has not been initialize just yet")
 
     internal val cancelBag by lazy {
         bagOf(actions.find { it.name.contains("cancel", ignoreCase = true) }?.asInvoker?.handler)

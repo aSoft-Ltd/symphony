@@ -4,7 +4,7 @@
 package symphony
 
 import kollections.List
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 data class Chunk<out G, out D>(
     val group: G,

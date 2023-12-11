@@ -5,7 +5,7 @@ package symphony
 
 import kevlar.Action0
 import kollections.List
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface SelectorBasedActionsManager<out T> : ActionsManager<T> {
 

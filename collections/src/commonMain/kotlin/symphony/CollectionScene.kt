@@ -12,7 +12,7 @@ import koncurrent.later.finally
 import kotlinx.serialization.KSerializer
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 

@@ -5,7 +5,7 @@ package symphony
 
 import kollections.List
 import kollections.Set
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface MultiChoiceField<O> : ListField<O>, ChoiceField<O> {
     val optionLabels: List<String>

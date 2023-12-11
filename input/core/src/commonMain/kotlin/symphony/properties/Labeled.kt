@@ -4,7 +4,7 @@
 package symphony.properties
 
 import symphony.Label
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface Labeled {
     val label: Label

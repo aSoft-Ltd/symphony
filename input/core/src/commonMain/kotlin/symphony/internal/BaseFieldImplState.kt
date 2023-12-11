@@ -3,7 +3,7 @@
 
 package symphony.internal
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import symphony.BaseFieldState
 import symphony.Label
 import symphony.Visibility

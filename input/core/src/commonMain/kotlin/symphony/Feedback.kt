@@ -5,7 +5,7 @@ package symphony
 
 import kollections.List
 import kollections.toIList
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 class Feedbacks(val items: List<Feedback>) {
     val errors by lazy { items.filterIsInstance<ErrorFeedback>().map { it.message }.toIList() }

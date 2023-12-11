@@ -9,7 +9,7 @@ import symphony.properties.Finishable
 import symphony.properties.Hideable
 import symphony.properties.Resetable
 import symphony.properties.Validable
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface Field<out O, out S : FieldState<O>> : Hideable, Clearable, Resetable, Validable, Finishable, FieldState<O> {
     val state: Live<S>

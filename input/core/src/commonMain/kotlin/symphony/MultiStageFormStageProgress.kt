@@ -2,7 +2,7 @@
 
 package symphony
 
-import kollections.JsExport
+import kotlinx.JsExport
 
 data class MultiStageFormStageProgress(
     val step: Int,

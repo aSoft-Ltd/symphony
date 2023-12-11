@@ -4,7 +4,7 @@
 package symphony
 
 import kollections.List
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface SingleChoiceFieldState<out O> : BaseFieldState<O>, SearchableState {
 

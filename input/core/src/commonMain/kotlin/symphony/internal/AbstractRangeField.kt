@@ -16,7 +16,7 @@ import symphony.RangeField
 import symphony.Visibility
 import symphony.toErrors
 import symphony.toWarnings
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import kotlin.reflect.KMutableProperty0
 
 open class AbstractRangeField<O : Any>(

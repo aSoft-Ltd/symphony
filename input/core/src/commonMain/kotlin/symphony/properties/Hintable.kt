@@ -2,7 +2,7 @@
 
 package symphony.properties
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface Hintable {
     val hint: String

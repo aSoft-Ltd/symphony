@@ -16,7 +16,7 @@ import symphony.Visibility
 import symphony.properties.Settable
 import symphony.toErrors
 import symphony.toWarnings
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import symphony.internal.SingleChoiceFieldStateImpl as State
 
 abstract class AbstractSingleChoiceField<O>(

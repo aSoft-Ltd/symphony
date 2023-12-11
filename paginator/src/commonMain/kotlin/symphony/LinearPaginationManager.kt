@@ -5,7 +5,7 @@ package symphony
 
 import kollections.List
 import koncurrent.Later
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface LinearPaginationManager<out T> : PaginationManager<T, LinearPage<T>, LinearPageFindResult<T>> {
     val continuous: List<Row<T>>

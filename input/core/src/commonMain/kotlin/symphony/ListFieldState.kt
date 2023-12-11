@@ -5,7 +5,7 @@ package symphony
 
 import kollections.List
 import kollections.MutableList
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface ListFieldState<E> : FieldState<List<E>> {
     override val output: MutableList<E>

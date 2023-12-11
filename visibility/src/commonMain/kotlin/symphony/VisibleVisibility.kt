@@ -2,6 +2,6 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 data object VisibleVisibility : Visibility

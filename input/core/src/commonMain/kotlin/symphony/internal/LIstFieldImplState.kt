@@ -2,7 +2,7 @@
 
 package symphony.internal
 
-import kollections.JsExport
+import kotlinx.JsExport
 import kollections.MutableList
 import symphony.Feedbacks
 import symphony.ListFieldState

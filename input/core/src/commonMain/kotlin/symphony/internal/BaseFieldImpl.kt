@@ -5,7 +5,7 @@ package symphony.internal
 
 import cinematic.mutableLiveOf
 import kollections.iEmptyList
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import kotlin.reflect.KMutableProperty0
 import neat.ValidationFactory
 import neat.Validity

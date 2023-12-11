@@ -4,7 +4,7 @@
 package symphony
 
 import kollections.Collection
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 sealed interface ChoiceField<O> {
     val items: Collection<O & Any>

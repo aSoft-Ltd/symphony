@@ -3,7 +3,7 @@
 
 package symphony.columns
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import symphony.Visibility
 
 sealed class Column<in D> : Comparable<Column<Any>> {

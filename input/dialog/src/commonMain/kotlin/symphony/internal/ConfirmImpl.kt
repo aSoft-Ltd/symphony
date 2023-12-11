@@ -24,15 +24,17 @@ internal class ConfirmImpl<P>(private val factory: ConfirmBuilder.(P) -> Action0
     override val actions: FormActions
         get() {
             return FormActions(
-                cancel = FormAction(Label("Cancel", false)) { hide() },
-                submit = FormAction(Label(acts.confirmAction.name, false)) { confirm() }
+                cancel = FormAction(Label(acts.cancel?.name ?: "Cancel", false)) { hide() },
+                submit = FormAction(Label(acts.confirm?.name ?: "Confirm", false)) { confirm() }
             )
         }
 
     private var acts = ConfirmBuilder()
 
     private var recursionDetector = 0
+
     override fun hide() {
+        if (state.value.isWorking) return
         try {
             if (recursionDetector > 0) {
                 throw UnsupportedOperationException("Do not confirm.cancel() a in its onCancel block, the confirm modal already calls itself")
@@ -52,9 +54,10 @@ internal class ConfirmImpl<P>(private val factory: ConfirmBuilder.(P) -> Action0
 
     override fun confirm(): Later<Unit> {
         val s = state.value.data ?: return FailedLater("Confirming an invisible confirm is not allowed")
+        if (state.value.isWorking) return FailedLater("Can't confirm while confirmation is busy")
         return try {
             state.value = s.copy(phase = Executing(message = s.message))
-            acts.confirmAction()
+            acts.confirm?.invoke() ?: acts.noConfirmAction()
         } catch (err: Throwable) {
             FailedLater(err)
         }.then {

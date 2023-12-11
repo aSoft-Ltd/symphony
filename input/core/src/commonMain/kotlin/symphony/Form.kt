@@ -8,7 +8,7 @@ import koncurrent.Later
 import symphony.properties.Clearable
 import symphony.properties.Hideable
 import symphony.properties.Resetable
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface Form<out R, out O : Any, out F : Fields<O>> : FormInfo, Resetable, Clearable, Hideable {
 

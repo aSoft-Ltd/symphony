@@ -28,7 +28,7 @@ import symphony.ValidatingPhase
 import symphony.Visibility
 import symphony.properties.Clearable
 import symphony.properties.Resetable
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 @PublishedApi
 internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(

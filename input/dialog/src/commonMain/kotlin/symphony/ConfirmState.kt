@@ -4,7 +4,7 @@
 package symphony
 
 import kase.ExecutorState
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 sealed interface ConfirmState<out S> {
     val visibility
@@ -13,6 +13,10 @@ sealed interface ConfirmState<out S> {
             is VisibleConfirmState -> VisibleVisibility
         }
     val data get() = this as? VisibleConfirmState
+
+    val isWorking get() = data?.phase?.asExecuting != null
+
+    val canHide get() = !isWorking
 }
 
 data object HiddenConfirmState : ConfirmState<Nothing>

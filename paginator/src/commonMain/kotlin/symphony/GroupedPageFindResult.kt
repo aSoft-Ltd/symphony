@@ -1,6 +1,6 @@
 package symphony
 
-import kollections.JsExport
+import kotlinx.JsExport
 
 @JsExport
 data class GroupedPageFindResult<out G,out T>(

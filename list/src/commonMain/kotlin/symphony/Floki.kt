@@ -4,7 +4,7 @@
 package symphony
 
 import kollections.Flock
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import kollections.MutableFlock
 
 class Floki(

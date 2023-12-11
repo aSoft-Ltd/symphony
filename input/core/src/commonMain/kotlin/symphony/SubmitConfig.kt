@@ -4,7 +4,7 @@
 package symphony
 
 import lexi.Logable
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 @Deprecated("Do not use this anymore")
 interface SubmitConfig : Logable {

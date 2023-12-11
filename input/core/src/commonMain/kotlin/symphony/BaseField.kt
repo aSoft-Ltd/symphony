@@ -4,6 +4,6 @@
 package symphony
 
 import symphony.properties.Settable
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface BaseField<O> : Field<O, BaseFieldState<O>>, BaseFieldState<O>, Settable<O>

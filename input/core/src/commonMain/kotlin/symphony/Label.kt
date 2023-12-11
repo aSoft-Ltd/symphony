@@ -2,7 +2,7 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 data class Label(
     val text: String,

@@ -2,7 +2,7 @@
 @file:Suppress("NON_EXPORTABLE_TYPE")
 package symphony.internal
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import symphony.Feedbacks
 import symphony.Range
 import symphony.RangeFieldState

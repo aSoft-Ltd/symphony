@@ -2,7 +2,7 @@
 
 package symphony
 
-import kollections.JsExport
+import kotlinx.JsExport
 import kotlinx.serialization.Serializable
 
 @Serializable

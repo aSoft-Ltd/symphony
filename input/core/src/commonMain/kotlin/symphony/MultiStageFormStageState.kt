@@ -4,7 +4,7 @@
 package symphony
 
 import kollections.List
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import kotlin.js.JsName
 
 data class MultiStageFormStageState<out R, out O, out S : FormStage>(

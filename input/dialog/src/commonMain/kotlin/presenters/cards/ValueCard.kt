@@ -4,7 +4,7 @@
 package presenters.cards
 
 import kotlinx.serialization.Serializable
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 @Deprecated("use symphony instead")
 @Serializable

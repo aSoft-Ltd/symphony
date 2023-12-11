@@ -5,7 +5,7 @@ package symphony
 
 import kollections.List
 import symphony.properties.Settable
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface SingleChoiceField<O> : Field<O, SingleChoiceFieldState<O>>, BaseFieldState<O>, Settable<O>, ChoiceField<O>, Searchable {
 

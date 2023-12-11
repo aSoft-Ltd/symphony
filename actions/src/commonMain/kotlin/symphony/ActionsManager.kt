@@ -6,7 +6,7 @@ package symphony
 import kevlar.Action0
 import kollections.List
 import cinematic.Live
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface ActionsManager<out T> {
     val current: Live<List<Action0<Unit>>>

@@ -4,7 +4,7 @@
 package symphony
 
 import cinematic.Live
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import kotlin.js.JsName
 import symphony.selected.Selected
 

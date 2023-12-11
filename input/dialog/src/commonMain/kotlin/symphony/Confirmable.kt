@@ -3,7 +3,7 @@
 package symphony
 
 import cinematic.MutableLive
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 @Suppress("NON_EXPORTABLE_TYPE")
 @Deprecated("In favour of symphony.Confirm")

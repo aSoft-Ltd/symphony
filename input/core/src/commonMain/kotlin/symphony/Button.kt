@@ -4,7 +4,7 @@
 package symphony
 
 import symphony.properties.Labeled
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 data class Button(
     val name: String,

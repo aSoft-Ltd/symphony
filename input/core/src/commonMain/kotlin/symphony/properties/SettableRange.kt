@@ -2,7 +2,7 @@
 
 package symphony.properties
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface SettableRange<in V> {
     fun setStart(value: V?)

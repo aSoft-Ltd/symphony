@@ -2,7 +2,7 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface TransState<out I, out O> : FieldState<O> {
     val input: I?

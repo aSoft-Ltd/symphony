@@ -1,7 +1,7 @@
 @file:JsExport
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface Searchable {
     fun setSearchKey(key: String?): String

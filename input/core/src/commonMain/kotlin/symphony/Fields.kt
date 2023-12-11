@@ -12,14 +12,15 @@ import symphony.properties.Clearable
 import symphony.properties.Finishable
 import symphony.properties.Resetable
 import symphony.properties.Validable
-import kotlin.js.JsExport
+import kotlinx.JsExport
+import kotlinx.JsExportIgnore
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 
 abstract class Fields<out O : Any>(initial: FieldsState<O>) : Validable, Clearable, Finishable, Resetable {
-    @JsExport.Ignore
+    @JsExportIgnore
     constructor(output: O) : this(FieldsState(output, Feedbacks(iEmptyList())))
 
     private val all = mutableMapOf<KProperty<*>, Field<*, *>>()

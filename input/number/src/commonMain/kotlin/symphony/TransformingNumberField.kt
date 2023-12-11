@@ -3,7 +3,7 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import kotlin.js.JsName
 
 interface TransformingNumberField<I : Number?, O> : TransformingField<I, O> {

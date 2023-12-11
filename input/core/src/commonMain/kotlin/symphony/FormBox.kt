@@ -4,7 +4,7 @@
 package symphony
 
 import cinematic.Live
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface FormBox {
     val state: Live<FormBoxState>

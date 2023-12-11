@@ -5,7 +5,7 @@ package symphony
 
 import kollections.Set
 import cinematic.Live
-import kotlin.js.JsExport
+import kotlinx.JsExport
 import symphony.columns.Column
 
 interface ColumnsManager<D> {

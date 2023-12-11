@@ -3,7 +3,7 @@
 
 package symphony
 
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface GroupedTable<T> : Table<T> {
     override val paginator: GroupedPaginationManager<*, T>

@@ -5,7 +5,7 @@ package symphony
 
 import kollections.Flock
 import kollections.List
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface LinearList<out T> : LazyList<T> {
     val rows: List<Row<T>>
