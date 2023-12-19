@@ -1,7 +1,8 @@
 package symphony.internal.transforming
 
 import cinematic.mutableLiveOf
-import kollections.iEmptyList
+import kollections.emptyList
+import kollections.isNotEmpty
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
@@ -45,7 +46,7 @@ open class BaseTransformingFieldImpl<I, O>(
         required = this.validator.required,
         output = property.get(),
         visibility = visibility,
-        feedbacks = Feedbacks(iEmptyList()),
+        feedbacks = Feedbacks(emptyList()),
     )
 
     override val state = mutableLiveOf(initial)

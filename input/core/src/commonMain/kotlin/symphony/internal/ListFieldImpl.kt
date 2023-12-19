@@ -3,8 +3,15 @@ package symphony.internal
 import cinematic.mutableLiveOf
 import kollections.List
 import kollections.MutableList
-import kollections.iEmptyList
-import kollections.toIList
+import kollections.add
+import kollections.addAll
+import kollections.clear
+import kollections.emptyList
+import kollections.indexOf
+import kollections.isNotEmpty
+import kollections.remove
+import kollections.removeAll
+import kollections.toList
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
@@ -37,7 +44,7 @@ open class ListFieldImpl<E>(
         validateAndNotify()
     }
 
-    override fun addAll(items: Array<E>) = addAll(items.toIList())
+    override fun addAll(items: Array<E>) = addAll(items.toList())
 
     override fun remove(item: E) {
         property.get().remove(item)
@@ -49,7 +56,9 @@ open class ListFieldImpl<E>(
         validateAndNotify()
     }
 
-    override fun removeAll(items: Array<E>?) = removeAll(items?.toIList())
+    override fun removeAll(items: Array<E>?) {
+        removeAll(items?.toList())
+    }
 
     override fun update(item: E, updater: () -> E) {
         val idx = output.indexOf(item)
@@ -65,7 +74,7 @@ open class ListFieldImpl<E>(
         required = this.validator.required,
         output = property.get(),
         visibility = visibility,
-        feedbacks = Feedbacks(iEmptyList()),
+        feedbacks = Feedbacks(emptyList()),
     )
 
     override val state = mutableLiveOf(initial)

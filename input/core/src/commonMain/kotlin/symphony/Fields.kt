@@ -5,7 +5,7 @@ package symphony
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kollections.iEmptyList
+import kollections.emptyList
 import neat.Validity
 import neat.aggregate
 import symphony.properties.Clearable
@@ -21,7 +21,7 @@ import kotlin.reflect.KProperty
 
 abstract class Fields<out O : Any>(initial: FieldsState<O>) : Validable, Clearable, Finishable, Resetable {
     @JsExportIgnore
-    constructor(output: O) : this(FieldsState(output, Feedbacks(iEmptyList())))
+    constructor(output: O) : this(FieldsState(output, Feedbacks(emptyList())))
 
     private val all = mutableMapOf<KProperty<*>, Field<*, *>>()
 

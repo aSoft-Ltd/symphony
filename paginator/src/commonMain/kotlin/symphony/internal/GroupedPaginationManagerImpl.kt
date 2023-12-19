@@ -2,8 +2,9 @@ package symphony.internal
 
 import kase.Bag
 import kase.Pending
-import kollections.iEmptyList
-import kollections.toIList
+import kollections.addAll
+import kollections.emptyList
+import kollections.buildList
 import koncurrent.Later
 import symphony.Chunk
 import symphony.GroupedPage
@@ -11,6 +12,7 @@ import symphony.GroupedPageLoader
 import symphony.GroupedPageFindResult
 import symphony.GroupedPaginationManager
 import symphony.PageLoaderFunction
+import symphony.Row
 import symphony.internal.loaders.GroupedPageLoaderFinal
 import symphony.internal.loaders.GroupedPageLoaderImpl
 import symphony.internal.loaders.GroupedPageLoaderInitial
@@ -25,7 +27,7 @@ internal class GroupedPaginationManagerImpl<G, T>(
 
     override val memory by lazy { GroupedPageMemoryManager<G, T>() }
 
-    override val continuous get() = buildList { forEachPage { page -> addAll(page.groups) } }.toIList()
+    override val continuous get() = buildList<Chunk<G, Row<T>>> { forEachPage { page -> addAll(page.groups) } }
 
     override fun initialize(ld: PageLoaderFunction<Chunk<G, T>>): Later<GroupedPage<G, T>> {
         loader.value = GroupedPageLoaderImpl(ld)
@@ -37,7 +39,7 @@ internal class GroupedPaginationManagerImpl<G, T>(
     }
 
     override fun loadPage(no: Int): Later<GroupedPage<G, T>> {
-        if (capacity <= 0) return Later(GroupedPage(iEmptyList(), 0, no))
+        if (capacity <= 0) return Later(GroupedPage(emptyList(), 0, no))
 
         return load(page = no)
     }

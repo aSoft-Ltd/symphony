@@ -4,6 +4,9 @@
 package symphony
 
 import kollections.List
+import kollections.flatMap
+import kollections.forEach
+import kollections.size
 import kotlinx.JsExport
 
 /**

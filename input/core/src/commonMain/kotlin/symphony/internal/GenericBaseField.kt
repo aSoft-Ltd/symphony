@@ -4,7 +4,8 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
-import kollections.iEmptyList
+import kollections.emptyList
+import kollections.isNotEmpty
 import kotlinx.JsExport
 import neat.ValidationFactory
 import neat.Validity
@@ -53,7 +54,7 @@ open class GenericBaseField<O>(
         required = this.validator.required,
         output = value,
         visibility = visibility,
-        feedbacks = Feedbacks(iEmptyList()),
+        feedbacks = Feedbacks(emptyList()),
     )
 
     final override val state = mutableLiveOf(initial)

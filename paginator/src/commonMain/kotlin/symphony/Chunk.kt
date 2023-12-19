@@ -4,6 +4,8 @@
 package symphony
 
 import kollections.List
+import kollections.map
+import kollections.mapIndexed
 import kotlinx.JsExport
 
 data class Chunk<out G, out D>(
@@ -11,5 +13,5 @@ data class Chunk<out G, out D>(
     val items: List<D>
 ) {
     fun <R> map(transformer: (D) -> R) = Chunk(group, items.map(transformer))
-    fun <R> mapWithIndex(transformer: (item: D, index: Int) -> R) = Chunk(group, items.mapWithIndex(transformer))
+    fun <R> mapIndexed(transformer: (item: D, index: Int) -> R) = Chunk(group, items.mapIndexed { idx, it -> transformer(it, idx) })
 }

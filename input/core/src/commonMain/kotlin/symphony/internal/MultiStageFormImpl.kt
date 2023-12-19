@@ -7,10 +7,12 @@ import cinematic.mutableLiveOf
 import kase.Failure
 import kase.Success
 import kollections.List
-import kollections.iListOf
+import kollections.forEach
+import kollections.listOf
 import koncurrent.FailedLater
 import koncurrent.Later
 import koncurrent.later.finally
+import kotlinx.JsExport
 import neat.Invalid
 import neat.Validator
 import neat.custom
@@ -28,7 +30,6 @@ import symphony.ValidatingPhase
 import symphony.Visibility
 import symphony.properties.Clearable
 import symphony.properties.Resetable
-import kotlinx.JsExport
 
 @PublishedApi
 internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
@@ -40,7 +41,7 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
 ) : AbstractHideable(), MultiStageForm<R, O, S>, Resetable, Clearable {
 
     override fun prev(): Later<*> {
-        if(state.value.stage.isFirst) return Later(Unit)
+        if (state.value.stage.isFirst) return Later(Unit)
         state.value.stage.current.onPrev?.invoke()
         val prev = state.value.prev()
         state.value = prev
@@ -52,7 +53,7 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
         val stage = state.value.stage
         if (stage.isLast) return submit()
         val validity = stage.current.fields.validateToErrors()
-        if(validity is Invalid) return FailedLater(validity.exception())
+        if (validity is Invalid) return FailedLater(validity.exception())
         val next = state.value.next()
         state.value = next
         return Later(next)
@@ -69,7 +70,7 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
         state.value = state.value.copy(phase = SubmittingPhase(output))
         return submitAction.invoke(output).finally { res ->
             val phase = when (res) {
-                is Failure -> FailurePhase(output, iListOf(res.message))
+                is Failure -> FailurePhase(output, listOf(res.message))
                 is Success -> SuccessPhase(output, res.data)
             }
             state.value = state.value.copy(phase = phase)
@@ -128,7 +129,7 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
     }
 
 
-    private val initial = MultiStageFormStageState<R,O,S>(
+    private val initial = MultiStageFormStageState<R, O, S>(
         visibility = visibility,
         stages = stages,
         output = output,

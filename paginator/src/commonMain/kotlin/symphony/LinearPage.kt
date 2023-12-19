@@ -4,6 +4,8 @@
 package symphony
 
 import kollections.List
+import kollections.forEach
+import kollections.size
 import kotlinx.JsExport
 
 data class LinearPage<out T>(

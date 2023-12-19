@@ -4,8 +4,8 @@ import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import kase.Failure
 import kase.Success
-import kollections.iListOf
-import kollections.toIList
+import kollections.listOf
+import kollections.toList
 import koncurrent.FailedLater
 import koncurrent.Later
 import koncurrent.later.finally
@@ -40,7 +40,7 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
         state.value = state.value.copy(phase = ValidatingPhase(fields.output))
         val validity = fields.validateToErrors()
         if (validity is Invalid) {
-            state.value = state.value.copy(phase = FailurePhase(fields.output, validity.reasons.toIList()))
+            state.value = state.value.copy(phase = FailurePhase(fields.output, validity.reasons.toList()))
             return FailedLater(validity.exception())
         }
 
@@ -66,7 +66,7 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
                     } catch (err: Throwable) {
                         logger.error("Post Submit failed", err)
                     }
-                    FailurePhase(output, iListOf(res.message))
+                    FailurePhase(output, listOf(res.message))
                 }
             }
             state.value = state.value.copy(phase = phase)

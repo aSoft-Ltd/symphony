@@ -4,7 +4,8 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
-import kollections.iEmptyList
+import kollections.emptyList
+import kollections.isNotEmpty
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
@@ -70,7 +71,7 @@ open class AbstractRangeField<O : Any>(
         start = property.get()?.start,
         end = property.get()?.end,
         visibility = visibility,
-        feedbacks = Feedbacks(iEmptyList()),
+        feedbacks = Feedbacks(emptyList()),
     )
 
     override val state = mutableLiveOf(initial)

@@ -1,11 +1,10 @@
 package symphony.internal
 
-import kollections.toIList
 import koncurrent.Later
 import kase.Bag
 import symphony.Row
 import kase.Pending
-import kollections.iEmptyList
+import kollections.emptyList
 import symphony.LinearPage
 import symphony.LinearPageLoader
 import symphony.LinearPageFindResult
@@ -42,7 +41,7 @@ internal class LinearPaginationManagerImpl<T>(
     }
 
     override fun loadPage(no: Int): Later<LinearPage<T>> {
-        if (capacity <= 0) return Later(LinearPage(iEmptyList(), 0, no))
+        if (capacity <= 0) return Later(LinearPage(emptyList(), 0, no))
         return load(page = no)
     }
 
