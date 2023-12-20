@@ -24,4 +24,4 @@ rootProject.name = "symphony"
 
 // submodules
 includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list", "collections", "visibility")
-includeSubs("symphony-input", "input", "core", "text", "number", "choice", "list", "dialog")
+includeSubs("symphony-input", "input", "core", "text", "number", "choice", "dialog")

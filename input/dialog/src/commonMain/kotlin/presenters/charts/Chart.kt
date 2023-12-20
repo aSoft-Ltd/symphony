@@ -4,9 +4,9 @@
 package presenters.charts
 
 import kollections.List
-import kollections.toIList
-import kotlinx.serialization.Serializable
+import kollections.map
 import kotlinx.JsExport
+import kotlinx.serialization.Serializable
 
 @Deprecated("use symphony instead")
 @Serializable
@@ -27,7 +27,7 @@ data class Chart<out D>(
         description = description,
         labels = labels,
         datasets = datasets.map {
-            DataSet(it.name, it.values.map(transform).toIList())
-        }.toIList()
+            DataSet(it.name, it.values.map(transform))
+        }
     )
 }

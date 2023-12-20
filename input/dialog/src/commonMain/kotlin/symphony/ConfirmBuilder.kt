@@ -6,6 +6,7 @@ import kevlar.Action0
 import kevlar.Action0Invoker
 import kevlar.action0
 import kevlar.builders.Actions0Builder
+import kollections.find
 import koncurrent.Later
 import symphony.internal.VisibleConfirmStateImpl
 
