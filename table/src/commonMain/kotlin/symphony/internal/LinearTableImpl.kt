@@ -1,7 +1,7 @@
 package symphony.internal
 
 import kollections.List
-import kollections.iEmptyList
+import kollections.emptyList
 import symphony.ColumnsManager
 import symphony.LinearPaginationManager
 import symphony.LinearSelectionManager
@@ -16,5 +16,5 @@ internal class LinearTableImpl<T>(
     override val actions: SelectorBasedActionsManager<T>,
     override val columns: ColumnsManager<T>
 ) : LinearTable<T> {
-    override val rows: List<Row<T>> get() = paginator.currentPageOrNull?.items ?: iEmptyList()
+    override val rows: List<Row<T>> get() = paginator.currentPageOrNull?.items ?: emptyList()
 }

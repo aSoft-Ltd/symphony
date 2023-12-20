@@ -1,5 +1,6 @@
 package symphony
 
+import kollections.size
 import kommander.expect
 import kotlin.test.Test
 
@@ -12,7 +13,7 @@ class TableColumnTransformersTest {
         val table = tableOf(paginator, selector, action, Person.columns())
         table.paginator.loadFirstPage()
         println(table.renderToString())
-        expect(table.columns.all()).toBeOfSize(4)
+        expect(table.columns.all().size).toBe(4)
     }
 
     @Test
@@ -20,14 +21,13 @@ class TableColumnTransformersTest {
         val paginator = linearPaginatorOf(Person.List)
         val selector = selectorOf(paginator)
         val action = actionsOf(selector) {}
-        val table = tableOf(paginator, selector, action, Person.columns()).manageColumns { columns ->
-            columns.add("Nick Name") {
-                it.item.name + it.item.age
-            }
+        val table = tableOf(paginator, selector, action, Person.columns())
+        table.columns.add("Nick Name") {
+            it.item.name + it.item.age
         }
         table.paginator.loadFirstPage()
         println(table.renderToString())
-        expect(table.columns.all()).toBeOfSize(5)
+        expect(table.columns.all().size).toBe(5)
     }
 
     @Test
@@ -35,10 +35,10 @@ class TableColumnTransformersTest {
         val paginator = linearPaginatorOf(Person.List)
         val selector = selectorOf(paginator)
         val action = actionsOf(selector) {}
-        val table = tableOf(paginator, selector, action, Person.columns()).manageColumns { columns ->
-            columns.add("Nick Name") {
-                it.item.name + it.item.age
-            }
+        val table = tableOf(paginator, selector, action, Person.columns())
+
+        table.columns.add("Nick Name") {
+            it.item.name + it.item.age
         }
         table.columns.hide("name")
         table.paginator.loadFirstPage()

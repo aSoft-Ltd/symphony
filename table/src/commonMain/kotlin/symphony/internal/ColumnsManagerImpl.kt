@@ -8,6 +8,7 @@ import kollections.minus
 import kollections.plus
 import kollections.remove
 import kollections.size
+import kollections.sortedBy
 import kollections.toMutableList
 import kollections.toSet
 import kollections.values
@@ -16,7 +17,6 @@ import symphony.ColumnsBuilder
 import symphony.ColumnsManager
 import symphony.Row
 import symphony.Visibilities
-import symphony.Visibility
 import symphony.columns.Column
 import symphony.columns.DataColumn
 
@@ -104,6 +104,6 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
     private fun replace(name: String, column: Column<D>) {
         val c = find(name) ?: return
         val old = all()
-        current.value = ((old - c) + column).sortedBy { it.index }.toISet()
+        current.value = ((old - c) + column).sortedBy { it.index }.toSet()
     }
 }

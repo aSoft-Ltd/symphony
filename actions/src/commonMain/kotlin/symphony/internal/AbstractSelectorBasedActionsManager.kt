@@ -1,6 +1,7 @@
 package symphony.internal
 
 import kollections.List
+import kollections.add
 import kollections.toList
 import symphony.AbstractSelectorBasedActionsBuilder
 import symphony.SelectionManager

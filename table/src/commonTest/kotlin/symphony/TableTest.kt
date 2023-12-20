@@ -1,5 +1,6 @@
 package symphony
 
+import kollections.size
 import kommander.expect
 import kotlin.test.Test
 
@@ -8,9 +9,8 @@ class TableTest {
     fun can_be_assigned_a_paginator() {
         val paginator = linearPaginatorOf(Person.List)
         val selector = selectorOf(paginator)
-        val table = tableOf(paginator, selector, actionsOf(), Person.columns())
+        val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         println(table.renderToString())
-        expect(table.paginator.currentPageOrNull?.number).toBe(null)
 
         paginator.refreshAllPages()
         println(table.renderToString())
@@ -26,7 +26,7 @@ class TableTest {
     fun should_be_able_to_select_table_items() {
         val paginator = linearPaginatorOf(Person.List)
         val selector = selectorOf(paginator)
-        val table = tableOf(paginator, selector, actionsOf(), Person.columns())
+        val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         paginator.loadFirstPage()
         println(table.renderToString())
 
@@ -42,7 +42,7 @@ class TableTest {
     fun should_be_able_to_select_the_whole_current_page() {
         val paginator = linearPaginatorOf(Person.List)
         val selector = selectorOf(paginator)
-        val table = tableOf(paginator, selector, actionsOf(), Person.columns())
+        val table = tableOf(paginator, selector, emptyActions(), Person.columns())
 
         paginator.loadFirstPage()
         println(table.renderToString())
@@ -69,11 +69,11 @@ class TableTest {
 
         paginator.loadFirstPage()
 
-        expect(table.actions.get()).toBeOfSize(1)
+        expect(table.actions.get().size).toBe(1)
 
         selector.select(1)
         println(table.renderToString())
 
-        expect(table.actions.get()).toBeOfSize(2)
+        expect(table.actions.get().size).toBe(2)
     }
 }

@@ -1,10 +1,13 @@
 package symphony
 
-import cinematic.WatchMode
-import cinematic.watch
 import kollections.Set
-import kollections.iSetOf
+import kollections.filter
+import kollections.get
+import kollections.setOf
+import kollections.size
+import kollections.toList
 import kommander.expect
+import symphony.columns.Column
 import kotlin.test.Test
 
 class ColumnsManagerTest {
@@ -15,13 +18,13 @@ class ColumnsManagerTest {
             column("name") { it.item.name }
             column("age") { it.item.age.toString() }
         }
-        var current: Set<Column<Person>> = iSetOf()
-        val watcher = columns.current.watch(mode = WatchMode.Eagerly) {
+        var current: Set<Column<Person>> = setOf()
+        val watcher = columns.current.watchEagerly {
             current = it
         }
-        expect(current).toBeOfSize(3)
+        expect(current.size).toBe(3)
         columns.add("no") { it.number.toString() }
-        expect(current).toBeOfSize(4)
+        expect(current.size).toBe(4)
         watcher.stop()
     }
 
@@ -32,11 +35,11 @@ class ColumnsManagerTest {
             column("name") { it.item.name }
             column("age") { it.item.age.toString() }
         }
-        expect(columns.find("name")?.visibility).toBe(Visibility.Visible)
+        expect(columns.find("name")?.visibility).toBe(VisibleVisibility)
         columns.hide("name")
-        expect(columns.find("name")?.visibility).toBe(Visibility.Hidden)
+        expect(columns.find("name")?.visibility).toBe(HiddenVisibility)
         columns.show("name")
-        expect(columns.find("name")?.visibility).toBe(Visibility.Visible)
+        expect(columns.find("name")?.visibility).toBe(VisibleVisibility)
     }
 
     @Test
@@ -50,7 +53,9 @@ class ColumnsManagerTest {
         expect(columns.find("name")?.index).toBe(1)
         columns.show("name")
         expect(columns.find("name")?.index).toBe(1)
-        val (_, col1, col2) = columns.all().toList()
+        val all = columns.all().toList()
+        val col1 = all[1]
+        val col2 = all[2]
         expect(col1.name).toBe("name")
         expect(col2.name).toBe("age")
     }
@@ -62,10 +67,10 @@ class ColumnsManagerTest {
             column("name") { it.item.name }
             column("age") { it.item.age.toString() }
         }
-        expect(columns.all()).toBeOfSize(3)
+        expect(columns.all().size).toBe(3)
         columns.add("Status") { "Status 1" }
         columns.add("Status") { "Status 2" }
-        expect(columns.all()).toBeOfSize(4)
+        expect(columns.all().size).toBe(4)
     }
 
     @Test
@@ -76,7 +81,7 @@ class ColumnsManagerTest {
             column("age") { it.item.age.toString() }
         }
         columns.index("age", 1)
-        expect(columns.all().filter { it.index == 1 }).toBeOfSize(1)
+        expect(columns.all().filter { it.index == 1 }.size).toBe(1)
     }
 
     @Test
@@ -88,8 +93,9 @@ class ColumnsManagerTest {
         }
         columns.move("age").before("name")
         val allColumns = columns.all().toList()
-        expect(allColumns.filter { it.index == 1 }).toBeOfSize(1)
-        val (_, age, name) = allColumns
+        expect(allColumns.filter { it.index == 1 }.size).toBe(1)
+        val age = allColumns[1]
+        val name = allColumns[2]
         expect(age.index).toBe(1)
         expect(name.index).toBe(2)
     }
@@ -103,8 +109,9 @@ class ColumnsManagerTest {
         }
         columns.move("name").after("age")
         val allColumns = columns.all().toList()
-        expect(allColumns.filter { it.index == 2 }).toBeOfSize(1)
-        val (_, age, name) = allColumns
+        expect(allColumns.filter { it.index == 2 }.size).toBe(1)
+        val age = allColumns[1]
+        val name = allColumns[2]
         expect(age.index).toBe(1)
         expect(name.index).toBe(2)
     }
