@@ -130,7 +130,10 @@ class LinearSelectionManagerImpl<T>(
             is LinearSelectedNone -> s
             is LinearSelectedItem -> if (s.page.number == page && s.row.number == row) LinearSelectedNone else s
             is LinearSelectedItems -> s.unselectRowFromPage(row, pageNo)
-            is LinearSelectedGlobal -> LinearSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toSet())
+            is LinearSelectedGlobal -> {
+                val exceptions = s.exceptions.filter { it.page.number == page && it.row.number == row }
+                LinearSelectedGlobal(exceptions.toSet())
+            }
         }
     }
 
@@ -152,7 +155,10 @@ class LinearSelectionManagerImpl<T>(
             is LinearSelectedNone -> paginator.find(row, pageNo)?.toSelectedItem() ?: return
             is LinearSelectedItem -> s.addRowSelection(row, pageNo)
             is LinearSelectedItems -> s.addRowSelection(row, pageNo)
-            is LinearSelectedGlobal -> LinearSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toSet())
+            is LinearSelectedGlobal -> {
+                val exceptions = s.exceptions.filter { it.page.number == page && it.row.number == row }
+                LinearSelectedGlobal(exceptions.toSet())
+            }
         }
     }
 

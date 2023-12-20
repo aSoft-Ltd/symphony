@@ -5,7 +5,11 @@ package symphony
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
 import kollections.List
-import kollections.toIList
+import kollections.mutableListOf
+import kollections.Collection
+import kollections.MutableList
+import kollections.add
+import kollections.forEach
 import symphony.selected.Selected
 
 abstract class AbstractSelectorBasedActionsBuilder<T, S : Selected<T>> @PublishedApi internal constructor(
@@ -50,7 +54,7 @@ abstract class AbstractSelectorBasedActionsBuilder<T, S : Selected<T>> @Publishe
         it.key
     }.filterKeys {
         !filters.contains(it.lowercase())
-    }.values.toIList()
+    }.values
 
     fun buildPrimaryActions() = primaryActions.actions.applyFilters()
 

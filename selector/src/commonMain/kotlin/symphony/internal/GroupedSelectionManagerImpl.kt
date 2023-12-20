@@ -27,6 +27,8 @@ import kollections.mutableSetOf
 import kollections.remove
 import kollections.setOf
 import kollections.size
+import kollections.toKList
+import kollections.toList
 import kollections.toMutableMap
 import kollections.toMutableSet
 import kollections.toSet
@@ -129,7 +131,10 @@ class GroupedSelectionManagerImpl<G, T>(
             is GroupedSelectedNone -> s
             is GroupedSelectedItem -> if (s.page.number == page && s.row.number == row) GroupedSelectedNone else s
             is GroupedSelectedItems -> s.unselectRowFromPage(row, pageNo)
-            is GroupedSelectedGlobal -> GroupedSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toSet())
+            is GroupedSelectedGlobal -> {
+                val exceptions = s.exceptions.filter { it.page.number == page && it.row.number == row }
+                GroupedSelectedGlobal(exceptions.toSet())
+            }
         }
     }
 
@@ -151,7 +156,10 @@ class GroupedSelectionManagerImpl<G, T>(
             is GroupedSelectedNone -> paginator.find(row, pageNo)?.toSelectedItem() ?: return
             is GroupedSelectedItem -> s.addRowSelection(row, pageNo)
             is GroupedSelectedItems -> s.addRowSelection(row, pageNo)
-            is GroupedSelectedGlobal -> GroupedSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toSet())
+            is GroupedSelectedGlobal -> {
+                val exceptions = s.exceptions.filter { it.page.number == page && it.row.number == row }
+                GroupedSelectedGlobal(exceptions.toSet())
+            }
         }
     }
 
