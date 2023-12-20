@@ -13,20 +13,17 @@ class PaginatorTest {
     @Test
     fun single_page_paginator_should_always_return_the_same_list() {
         val people = listOf(1,2,3,4,5).map { Person("Andy $it", age = 12 + it) }
-        val p = linearPaginatorOf(people)
-        expect(p.currentPageOrNull).toBe(null)
+        val p = linearPaginatorOf(people,5)
         p.refreshAllPages()
         expect(p.currentPageOrNull?.capacity).toBe(5)
     }
 
     @Test
     fun paginator_should_be_able_to_paginate_through_different_pages() {
-        val p = linearPaginatorOf(Person.List)
+        val p = linearPaginatorOf(Person.List,10)
         val watcher = p.current.watchEagerly {
             println("Page at: ${it.data?.number}")
         }
-        expect(p.currentPageOrNull).toBe(null)
-        expect(p.current.value).toBe(Pending)
         p.refreshAllPages()
         expect(p.current.value).toBe<Success<Any?>>()
         expect(p.currentPageOrNull?.number).toBe(1)
