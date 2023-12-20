@@ -1,6 +1,8 @@
 package symphony.internal
 
 import kollections.List
+import kollections.forEach
+import kollections.map
 import symphony.Chunk
 import symphony.GroupedList
 import symphony.Grouper

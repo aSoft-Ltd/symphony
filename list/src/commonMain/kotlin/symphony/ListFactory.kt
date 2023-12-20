@@ -40,11 +40,11 @@ inline fun <G, T> lazyListOf(
 }
 
 inline fun <T> linearListOf(
-    paginator: GroupedPaginationManager<*,T>
+    paginator: GroupedPaginationManager<*, T>
 ): LinearList<T> = GroupedPaginatedLinearList(paginator)
 
 inline fun <T> linearListOf(
-    paginator: PaginationManager<T,*,*>
+    paginator: PaginationManager<T, *, *>
 ): LinearList<T> = when (paginator) {
     is LinearPaginationManager -> lazyListOf(paginator)
     is GroupedPaginationManager<*, T> -> linearListOf(paginator)

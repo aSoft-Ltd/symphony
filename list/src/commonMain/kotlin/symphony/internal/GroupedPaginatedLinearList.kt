@@ -1,7 +1,7 @@
 package symphony.internal
 
 import kollections.List
-import kollections.toIList
+import kollections.flatMap
 import symphony.GroupedPaginationManager
 import symphony.LinearList
 import symphony.Row
@@ -10,5 +10,5 @@ import symphony.Row
 internal class GroupedPaginatedLinearList<T> @PublishedApi internal constructor(
     override val paginator: GroupedPaginationManager<*, T>
 ) : LinearList<T> {
-    override val rows: List<Row<T>> get() = paginator.continuous.flatMap { it.items }.toIList()
+    override val rows: List<Row<T>> get() = paginator.continuous.flatMap { it.items }
 }

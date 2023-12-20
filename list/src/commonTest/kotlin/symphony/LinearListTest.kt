@@ -1,5 +1,6 @@
 package symphony
 
+import kollections.size
 import kommander.expect
 import kotlin.test.Test
 
@@ -8,9 +9,8 @@ class LinearListTest {
     @Test
     fun can_be_assigned_a_paginator() {
         val paginator = linearPaginatorOf(Person.List)
-        val selector = selectorOf(paginator)
 
-        val list = lazyListOf(paginator, selector)
+        val list = lazyListOf(paginator)
 
         list.paginator.refreshAllPages()
 
@@ -23,16 +23,15 @@ class LinearListTest {
     fun should_be_able_to_select_table_items() {
         val paginator = linearPaginatorOf(Person.List)
         val selector = selectorOf(paginator)
-        val actions = actionsOf(selector) {}
 
-        val list = lazyListOf(paginator, selector, actions)
+        val list = lazyListOf(paginator)
 
         list.paginator.loadFirstPage()
 
-        list.selector.select(row = 1)
+        selector.select(row = 1)
         selector.select(row = 1)
         expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Explicit selector failed to select")
-        expect(list.selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Implicit selector failed to select")
+        expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Implicit selector failed to select")
     }
 
     @Test
@@ -40,13 +39,13 @@ class LinearListTest {
         val paginator = linearPaginatorOf(Person.List)
         val selector = selectorOf(paginator)
 
-        val list = lazyListOf(paginator, selector)
+        val list = lazyListOf(paginator)
 
         list.paginator.loadFirstPage()
 
-        list.selector.selectAllItemsInTheCurrentPage()
+        selector.selectAllItemsInTheCurrentPage()
 
-        expect(list.selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Implicit selector failed to select")
+        expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Implicit selector failed to select")
     }
 
     @Test
@@ -75,31 +74,29 @@ class LinearListTest {
             }
         }
 
-        val list = lazyListOf(paginator, selector, actions)
+        val list = lazyListOf(paginator)
 
         list.paginator.loadFirstPage()
-        list.selector.select(row = 1)
+        selector.select(row = 1)
 
-        expect(list.actions.get()).toBeOfSize(2)
+        expect(actions.get().size).toBe(2)
     }
 
     @Test
     fun should_be_able_to_load_more_data() {
         val paginator = linearPaginatorOf(Person.List, capacity = 6)
-        val selector = selectorOf(paginator)
-        val actions = actionsOf(selector) {}
-        val list = lazyListOf(paginator, selector, actions)
+        val list = lazyListOf(paginator)
 
         list.paginator.loadFirstPage()
-        expect(list.rows).toBeOfSize(6)
+        expect(list.rows.size).toBe(6)
 
         list.paginator.loadNextPage()
-        expect(list.rows).toBeOfSize(12)
+        expect(list.rows.size).toBe(12)
 
 //        list.paginator.refreshAllPages()
-//        expect(list.rows).toBeOfSize(12)
+//        expect(list.rows.size).toBe(12)
 
         list.paginator.loadNextPage()
-        expect(list.rows).toBeOfSize(18)
+        expect(list.rows.size).toBe(18)
     }
 }
