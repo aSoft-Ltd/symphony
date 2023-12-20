@@ -4,7 +4,14 @@ package symphony
 
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
-import kollections.toIList
+import kollections.plus
+import kollections.mutableMapOf
+import kollections.associateBy
+import kollections.filterKeys
+import kollections.toList
+import kollections.List
+import kollections.size
+import kollections.values
 
 class FixedActionsBuilder @PublishedApi internal constructor(
     private val builder: Actions0Builder<Unit>.() -> Unit,
@@ -14,11 +21,15 @@ class FixedActionsBuilder @PublishedApi internal constructor(
     @PublishedApi
     internal val extraActions = mutableMapOf<String, Action0<Unit>>()
 
-    private inline fun Collection<Action0<Unit>>.applyFilters() = associateBy {
+    internal inline fun List<Action0<Unit>>.applyFilters() = associateBy {
         it.key
     }.filterKeys {
         !filters.contains(it.lowercase())
-    }.values.toIList()
+    }.values.toList()
 
-    fun buildActions() = (Actions0Builder<Unit>().apply(builder).actions + extraActions.values).applyFilters()
+    fun buildActions() : List<Action0<Unit>> {
+        val actions = Actions0Builder<Unit>().apply(builder).actions.toList()
+        val extras = extraActions.values
+        return (actions + extras).applyFilters()
+    }
 }

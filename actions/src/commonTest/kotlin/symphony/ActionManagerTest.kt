@@ -1,5 +1,6 @@
 package symphony
 
+import kollections.size
 import kommander.expect
 import kotlin.test.Test
 
@@ -10,7 +11,7 @@ class ActionManagerTest {
         val pag = linearPaginatorOf(Person.List)
         val sel = selectorOf(pag)
         val acts = actionsOf(sel) {}
-        expect(acts.current.value).toBeEmpty()
+        expect(acts.current.value.size).toBe(0)
     }
 
     @Test
@@ -27,9 +28,9 @@ class ActionManagerTest {
             }
         }
         pag.loadFirstPage()
-        expect(actions.current.value).toBeOfSize(1)
+        expect(actions.current.value.size).toBe(1)
         sel.select(row = 1, page = 1)
-        expect(actions.current.value).toBeOfSize(2)
+        expect(actions.current.value.size).toBe(2)
     }
 
     @Test
@@ -46,12 +47,12 @@ class ActionManagerTest {
             }
         }
         pag.loadFirstPage()
-        expect(actions.current.value).toBeOfSize(1)
+        expect(actions.current.value.size).toBe(1)
         sel.select(row = 1, page = 1)
-        expect(actions.current.value).toBeOfSize(2)
+        expect(actions.current.value.size).toBe(2)
         sel.unSelectAllItemsInAllPages()
         sel.select(row = 1, page = 1)
-        expect(actions.current.value).toBeOfSize(2)
+        expect(actions.current.value.size).toBe(2)
     }
 
     @Test
@@ -69,7 +70,7 @@ class ActionManagerTest {
         }
         pag.loadFirstPage()
         sel.select(row = 1, page = 1)
-        expect(actions.current.value).toBeOfSize(2)
+        expect(actions.current.value.size).toBe(2)
     }
 
     @Test
@@ -85,15 +86,15 @@ class ActionManagerTest {
             }
         }
         pag.loadFirstPage()
-        expect(actions.current.value).toBeOfSize(1)
+        expect(actions.current.value.size).toBe(1)
         sel.addSelection(1)
         sel.addSelection(2)
-        expect(actions.current.value).toBeOfSize(2)
+        expect(actions.current.value.size).toBe(2)
         sel.addSelection(3)
         sel.addSelection(4)
-        expect(actions.current.value).toBeOfSize(2)
+        expect(actions.current.value.size).toBe(2)
         actions.remove("Add")
         sel.addSelection(5)
-        expect(actions.current.value).toBeOfSize(1)
+        expect(actions.current.value.size).toBe(1)
     }
 }

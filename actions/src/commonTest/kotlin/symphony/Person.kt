@@ -1,8 +1,15 @@
 package symphony
 
+import kollections.add
+import kollections.buildList
+
 data class Person(val name: String = "Andy", val age: Int = 12) {
     companion object {
-        val List = List(25) { Person("Anderson $it", age = 15 + it) }
+        val List = buildList {
+            repeat(25) {
+                add(Person("Anderson $it", age = 15 + it))
+            }
+        }
 
 //        fun columns() = columnsOf<Person> {
 //            selectable()

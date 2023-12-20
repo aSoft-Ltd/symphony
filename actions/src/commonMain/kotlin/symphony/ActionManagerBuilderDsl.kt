@@ -18,14 +18,14 @@ inline fun <G, T> actionsOf(
     builder: GroupedSelectorBasedActionsBuilder<G, T>.() -> Unit
 ): SelectorBasedActionsManager<T> = GroupedSelectorBasedActionsManagerImpl(selector, GroupedSelectorBasedActionsBuilder<G, T>().apply(builder))
 
-inline fun <T> actionsOf(
-    selector: SelectionManager<T, *>,
-    builder: AbstractSelectorBasedActionsBuilder<T, *>.() -> Unit
-): SelectorBasedActionsManager<T> = when(selector) {
-    is LinearSelectionManager -> LinearSelectorBasedActionsManagerImpl(selector, LinearSelectorBasedActionsBuilder<T>().apply(builder))
-    is GroupedSelectionManager<*,T> -> GroupedSelectorBasedActionsManagerImpl(selector, GroupedSelectorBasedActionsBuilder<Any?, T>().apply(builder))
-    else -> throw IllegalArgumentException("${selector::selected} implementation of SelectionManager is not supported")
-}
+//inline fun <T> actionsOf(
+//    selector: SelectionManager<T, *>,
+//    builder: AbstractSelectorBasedActionsBuilder<T, *>.() -> Unit
+//): SelectorBasedActionsManager<T> = when(selector) {
+//    is LinearSelectionManager -> LinearSelectorBasedActionsManagerImpl(selector, LinearSelectorBasedActionsBuilder<T>().apply(builder))
+//    is GroupedSelectionManager<*,T> -> GroupedSelectorBasedActionsManagerImpl(selector, GroupedSelectorBasedActionsBuilder<Any?, T>().apply(builder))
+//    else -> throw IllegalArgumentException("${selector::selected} implementation of SelectionManager is not supported")
+//}
 
 inline fun emptyActions(): SelectorBasedActionsManager<Nothing> = LinearSelectorBasedActionsManagerImpl(
     selector = BluntLinearSelectionManager.instance,

@@ -4,7 +4,20 @@ package symphony
 
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
-import kollections.toIList
+import kollections.MutableSet
+import kollections.MutableList
+import kollections.add
+import kollections.addAll
+import kollections.buildList
+import kollections.entries
+import kollections.flatMap
+import kollections.component1
+import kollections.component2
+import kollections.forEach
+import kollections.map
+import kollections.mutableListOf
+import kollections.mutableSetOf
+import kollections.toList
 import symphony.selected.LinearSelected
 import symphony.selected.LinearSelectedGlobal
 import symphony.selected.LinearSelectedItem
@@ -30,13 +43,13 @@ class LinearSelectorBasedActionsBuilder<T> @PublishedApi internal constructor(
         globalActionsContainer.forEach { builder -> builder(state) }
     }.actions.applyFilters()
 
-    override fun buildActions(selected: LinearSelected<T>) = buildList {
+    override fun buildActions(selected: LinearSelected<T>) = buildList<Action0<Unit>> {
         addAll(buildPrimaryActions())
         when (selected) {
             is LinearSelectedNone -> {}
             is LinearSelectedItem -> addAll(buildSingleSelectActions(selected.row.item))
-            is LinearSelectedItems -> addAll(buildMultiSelectActions(selected.page.toIList().flatMap { (_, v) -> v }.map { it.item }.toIList()))
+            is LinearSelectedItems -> addAll(buildMultiSelectActions(selected.page.entries.flatMap { (_, v) -> v }.map { it.item }.toList()))
             is LinearSelectedGlobal -> addAll(buildGlobalSelectActions(selected))
         }
-    }.toIList()
+    }
 }

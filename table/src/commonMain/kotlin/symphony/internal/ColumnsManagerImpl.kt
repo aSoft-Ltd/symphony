@@ -1,7 +1,16 @@
 package symphony.internal
 
 import cinematic.mutableLiveSetOf
-import kollections.toISet
+import kollections.add
+import kollections.find
+import kollections.mapIndexed
+import kollections.minus
+import kollections.plus
+import kollections.remove
+import kollections.size
+import kollections.toMutableList
+import kollections.toSet
+import kollections.values
 import symphony.ColumnMover
 import symphony.ColumnsBuilder
 import symphony.ColumnsManager
@@ -52,7 +61,7 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
 
     override fun remove(name: String): ColumnsManager<D> {
         val column = find(name) ?: return this
-        current.value = (all() - column).toISet()
+        current.value = (all() - column).toSet()
         return this
     }
 
@@ -68,7 +77,7 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
         }
         current.value = columns.mapIndexed { index, column ->
             column.copy(index = index)
-        }.toISet()
+        }.toSet()
         return this
     }
 
@@ -88,7 +97,7 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
 
     override fun add(name: String, accessor: (Row<D>) -> String): ColumnsManager<D> {
         find(name)?.let { current.remove(it) }
-        current.add(DataColumn(name, name, current.size, Visibilities.Visible, name, accessor))
+        current.add(DataColumn(name, name, current.value.size, Visibilities.Visible, name, accessor))
         return this
     }
 

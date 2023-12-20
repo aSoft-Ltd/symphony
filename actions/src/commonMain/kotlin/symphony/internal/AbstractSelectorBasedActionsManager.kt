@@ -1,6 +1,7 @@
 package symphony.internal
 
 import kollections.List
+import kollections.toList
 import symphony.AbstractSelectorBasedActionsBuilder
 import symphony.SelectionManager
 import symphony.SelectorBasedActionsManager
@@ -37,5 +38,5 @@ internal abstract class AbstractSelectorBasedActionsManager<T, S : Selected<T>>(
         return this
     }
 
-    override fun of(item: T) = builder.buildSingleSelectActions(item)
+    override fun of(item: T) = builder.buildSingleSelectActions(item).toList()
 }

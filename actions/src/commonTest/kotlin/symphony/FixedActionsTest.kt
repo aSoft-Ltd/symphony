@@ -1,5 +1,6 @@
 package symphony
 
+import kollections.size
 import kommander.expect
 import kotlin.test.Test
 
@@ -13,7 +14,7 @@ class FixedActionsTest {
             onCancel { println("Creating") }
             onAddAll { println("Adding all") }
         }
-        expect(a.get()).toBeOfSize(4)
+        expect(a.get().size).toBe(4)
     }
 
     @Test
