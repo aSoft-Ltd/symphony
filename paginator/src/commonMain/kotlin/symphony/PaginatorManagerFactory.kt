@@ -3,6 +3,15 @@
 package symphony
 
 import koncurrent.Later
+import kollections.Collection
+import kollections.size
+import kollections.emptyList
+import kollections.isEmpty
+import kollections.toList
+import kollections.List
+import kollections.chunked
+import kollections.get
+import kollections.last
 import symphony.internal.GroupedPaginationManagerImpl
 import symphony.internal.LinearPaginationManagerImpl
 

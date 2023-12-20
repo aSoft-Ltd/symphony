@@ -4,7 +4,10 @@ import koncurrent.Later
 import kase.Bag
 import symphony.Row
 import kase.Pending
+import kollections.addAll
 import kollections.emptyList
+import kollections.buildList
+import kollections.mapIndexed
 import symphony.LinearPage
 import symphony.LinearPageLoader
 import symphony.LinearPageFindResult
@@ -25,11 +28,11 @@ internal class LinearPaginationManagerImpl<T>(
     override val memory by lazy { LinearPageMemoryManager<T>() }
 
     override val continuous
-        get() = buildList {
+        get() = buildList<Row<T>> {
             forEachPage { page ->
                 addAll(page.items.mapIndexed { index, row -> Row(pageCapacity = page.capacity, page.number, index * page.number, row.item) })
             }
-        }.toIList()
+        }
 
     override fun initialize(pl: PageLoaderFunction<T>): Later<LinearPage<T>> {
         loader.value = LinearPageLoaderImpl(pl)

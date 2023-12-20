@@ -2,6 +2,9 @@ package symphony
 
 import kommander.expect
 import kommander.toBe
+import kollections.listOf
+import kollections.map
+import kollections.size
 import kase.Pending
 import kase.Success
 import kotlin.test.Test
@@ -9,7 +12,8 @@ import kotlin.test.Test
 class PaginatorTest {
     @Test
     fun single_page_paginator_should_always_return_the_same_list() {
-        val p: PaginationManager<Person> = linearPaginatorOf(List(5) { Person("Andy $it", age = 12 + it) })
+        val people = listOf(1,2,3,4,5).map { Person("Andy $it", age = 12 + it) }
+        val p = linearPaginatorOf(people)
         expect(p.currentPageOrNull).toBe(null)
         p.refreshAllPages()
         expect(p.currentPageOrNull?.capacity).toBe(5)
@@ -17,8 +21,8 @@ class PaginatorTest {
 
     @Test
     fun paginator_should_be_able_to_paginate_through_different_pages() {
-        val p: PaginationManager<Person> = linearPaginatorOf(Person.List)
-        val watcher = p.current.watch {
+        val p = linearPaginatorOf(Person.List)
+        val watcher = p.current.watchEagerly {
             println("Page at: ${it.data?.number}")
         }
         expect(p.currentPageOrNull).toBe(null)

@@ -1,6 +1,9 @@
 package symphony.internal.memory
 
 import symphony.LinearPage
+import kollections.firstOrNull
+import kollections.find
+import kollections.get
 import symphony.LinearPageFindResult
 import symphony.Row
 
