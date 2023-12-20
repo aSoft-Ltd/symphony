@@ -1,7 +1,8 @@
 package symphony
 
-import kollections.toIList
 import neat.ValidationFactory
+import kollections.Collection
+import kollections.toList
 import symphony.internal.SingleChoiceFieldImpl
 import symphony.internal.TransformingSingleChoiceFieldImpl
 import kotlin.reflect.KMutableProperty0
@@ -19,7 +20,7 @@ fun <T> SingleChoiceField(
     visibility: Visibility = Visibilities.Visible,
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
-): SingleChoiceField<T> = SingleChoiceFieldImpl(FieldBacker.Name(name), label, value, items.toIList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
+): SingleChoiceField<T> = SingleChoiceFieldImpl(FieldBacker.Name(name), label, value, items.toList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
 
 fun <T> Fields<*>.selectSingle(
     name: KMutableProperty0<T?>,
@@ -34,7 +35,7 @@ fun <T> Fields<*>.selectSingle(
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>? = null
 ): SingleChoiceField<T> = getOrCreate(name) {
-    SingleChoiceFieldImpl(FieldBacker.Prop(name), label, value, items.toIList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
+    SingleChoiceFieldImpl(FieldBacker.Prop(name), label, value, items.toList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
 }
 
 fun <I, O> Fields<*>.selectSingle(
@@ -48,5 +49,5 @@ fun <I, O> Fields<*>.selectSingle(
     onChange: Changer<O>? = null,
     factory: ValidationFactory<O>? = null
 ): TransformingSingleChoiceField<I, O> = getOrCreate(name) {
-    TransformingSingleChoiceFieldImpl(name, label, transformer, items.toIList(), mapper, visibility, hint, onChange, factory)
+    TransformingSingleChoiceFieldImpl(name, label, transformer, items.toList(), mapper, visibility, hint, onChange, factory)
 }

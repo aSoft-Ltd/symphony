@@ -7,13 +7,14 @@ import kotlin.math.roundToLong
 import kotlin.reflect.KMutableProperty0
 
 internal class LongFieldImpl(
-    name: KMutableProperty0<Long?>,
+    backer: FieldBacker<Long>,
+    value: Long?,
     label: String,
     visibility: Visibility,
     hint: String,
     onChange: Changer<Long>? = null,
     factory: ValidationFactory<Long>?
-) : NumberFieldImpl<Long>(name, label, visibility, hint, onChange, factory) {
+) : NumberFieldImpl<Long>(backer, value, label, visibility, hint, onChange, factory) {
 
     override fun set(value: Long?) = setProhibiting(value)
 

@@ -122,8 +122,6 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
         state.history.clear()
     }
 
-    override val visibility get() = state.value.visibility
-
     override fun setVisibility(v: Visibility) {
         state.value = state.value.copy(visibility = v)
     }

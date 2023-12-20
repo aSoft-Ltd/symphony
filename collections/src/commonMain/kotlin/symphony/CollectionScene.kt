@@ -9,7 +9,6 @@ import keep.save
 import keep.Cacheable
 import koncurrent.Later
 import koncurrent.later.finally
-import kotlinx.serialization.KSerializer
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import kotlinx.JsExport
@@ -20,16 +19,13 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     val cache = config.cache
 
-    @Deprecated(message = "Might not be needed")
-    open val serializer: KSerializer<T>? = null
-
     open val paginator by lazy { paginatorOf<T>() }
 
     val selector by lazy { selectorOf(paginator) }
 
     protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(builder)
 
-    open val actions by lazy { actionsOf(selector) {} }
+    open val actions : SelectorBasedActionsManager<T> by lazy { emptyActions() }
 
     open val columns by lazy { columnsOf<T>() }
 

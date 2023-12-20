@@ -1,7 +1,7 @@
 package symphony
 
-import kollections.toIList
 import kollections.List
+import kollections.Collection
 import kollections.MutableList
 import neat.ValidationFactory
 import symphony.internal.MultiChoiceFieldImpl
@@ -16,5 +16,5 @@ fun <T : Any> Fields<*>.selectMany(
     onChange: Changer<List<T>>? = null,
     factory: ValidationFactory<List<T>>? = null
 ): MultiChoiceField<T> = getOrCreate(name) {
-    MultiChoiceFieldImpl(name, label, items.toIList(), mapper, visibility, onChange, factory)
+    MultiChoiceFieldImpl(name, label, items, mapper, visibility, onChange, factory)
 }

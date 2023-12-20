@@ -6,13 +6,14 @@ import symphony.Visibility
 import kotlin.reflect.KMutableProperty0
 
 internal class DoubleFieldImpl(
-    name: KMutableProperty0<Double?>,
+    backer: FieldBacker<Double>,
+    value: Double?,
     label: String,
     visibility: Visibility,
     hint: String,
     onChange: Changer<Double>? = null,
     factory: ValidationFactory<Double>?
-) : NumberFieldImpl<Double>(name, label, visibility, hint, onChange, factory) {
+) : NumberFieldImpl<Double>(backer, value, label, visibility, hint, onChange, factory) {
 
     override fun set(double: Double?) = setProhibiting(double)
 

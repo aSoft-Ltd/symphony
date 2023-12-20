@@ -112,8 +112,6 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
         state.history.clear()
     }
 
-    override val visibility get() = state.value.visibility
-
     override fun setVisibility(v: Visibility) {
         state.value = state.value.copy(visibility = v)
     }

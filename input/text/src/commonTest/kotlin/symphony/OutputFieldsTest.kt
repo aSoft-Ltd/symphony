@@ -5,7 +5,7 @@ import kotlin.test.Test
 
 class OutputFieldsTest {
 
-    data class Person(var name: String, var age: String)
+    data class Person(var name: String?, var age: String?)
 
     class TestFormFields : Fields<Person>(Person("John", "")) {
         val name = text(
@@ -24,7 +24,7 @@ class OutputFieldsTest {
         expect(name.output).toBe("John")
         expect(fields.output).toBe(Person("John", ""))
         name.set("Anderson")
-        expect(name.output).toBe("JohnAnderson")
+        expect(name.output).toBe("Anderson")
         name.set("Anderson")
         expect(name.output).toBe("Anderson")
         age.set("22")

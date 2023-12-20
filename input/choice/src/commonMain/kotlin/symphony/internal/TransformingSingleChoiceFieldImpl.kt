@@ -2,7 +2,11 @@ package symphony.internal
 
 import kollections.Collection
 import kollections.List
-import kollections.toIList
+import kollections.listOf
+import kollections.emptyList
+import kollections.find
+import kollections.map
+import kollections.plus
 import neat.Validator
 import neat.Validators
 import symphony.Changer
@@ -33,10 +37,10 @@ internal class TransformingSingleChoiceFieldImpl<I, O>(
         listOf(Option("Select option", ""))
     } else {
         emptyList()
-    } + items.toList().map {
+    } + items.map {
         val o = mapper(it)
         if (it == state.value.output) o.copy(selected = true) else o
-    }).toIList()
+    })
 
     override fun selectOption(option: Option) {
         val item = items.find { mapper(it).value == option.value }

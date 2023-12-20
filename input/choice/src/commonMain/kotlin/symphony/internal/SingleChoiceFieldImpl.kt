@@ -1,8 +1,13 @@
 package symphony.internal
 
 import kollections.List
-import kollections.iEmptyList
-import kollections.toIList
+import kollections.emptyList
+import kollections.filter
+import kollections.find
+import kollections.listOf
+import kollections.map
+import kollections.partition
+import kollections.plus
 import neat.ValidationFactory
 import neat.required
 import symphony.Changer
@@ -38,10 +43,10 @@ internal class SingleChoiceFieldImpl<T>(
         listOf(Option("Select ${state.value.label.capitalizedWithoutAstrix()}", ""))
     } else {
         emptyList()
-    } + items.toList().map {
+    } + items.map {
         val o = mapper(it)
         if (it == state.value.output) o.copy(selected = true) else o
-    }).toIList()
+    })
 
     override fun selectOption(option: Option) {
         val item = items.find { mapper(it).value == option.value }
@@ -65,7 +70,7 @@ internal class SingleChoiceFieldImpl<T>(
     override fun setSearchBy(sb: SearchBy) {
         val s = state.value.searchBy
         if (s == sb) return
-        state.value = state.value.copy(searchBy = s)
+        state.value = state.value.copy(searchBy = sb)
     }
 
     override fun setSearchByFiltering() = setSearchBy(SearchBy.Filtering)
@@ -78,7 +83,7 @@ internal class SingleChoiceFieldImpl<T>(
             SearchBy.Filtering -> items.filter { filter(it, key) }
             SearchBy.Ordering -> {
                 val partitions = items.partition { filter(it, key) }
-                (partitions.first + partitions.second).toIList()
+                (partitions.first + partitions.second)
             }
         }
         state.value = state.value.copy(items = found)
@@ -117,6 +122,6 @@ internal class SingleChoiceFieldImpl<T>(
         required = this.validator.required,
         output = value,
         visibility = visibility,
-        feedbacks = Feedbacks(iEmptyList()),
+        feedbacks = Feedbacks(emptyList()),
     )
 }

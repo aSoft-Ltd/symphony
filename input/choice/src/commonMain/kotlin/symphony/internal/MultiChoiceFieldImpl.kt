@@ -2,9 +2,13 @@ package symphony.internal
 
 import kollections.Collection
 import kollections.List
+import kollections.listOf
+import kollections.plus
 import kollections.MutableList
-import kollections.toIList
-import kollections.toISet
+import kollections.contains
+import kollections.find
+import kollections.map
+import kollections.toSet
 import neat.Validator
 import neat.Validators
 import symphony.Changer
@@ -24,11 +28,11 @@ internal class MultiChoiceFieldImpl<T : Any>(
     factory: (Validators<List<T>>.() -> Validator<List<T>>)?
 ) : ListFieldImpl<T>(property, label, visibility, onChange, factory), MultiChoiceField<T> {
 
-    override val optionLabels get() = options.map { it.label }.toIList()
+    override val optionLabels get() = options.map { it.label }
 
-    override val optionValues get() = options.map { it.value }.toIList()
+    override val optionValues get() = options.map { it.value }
 
-    override val selectedValues get() = output.map { mapper(it).value }.toISet()
+    override val selectedValues get() = output.map { mapper(it).value }.toSet()
 
     override val selectedItems get() = output
 
@@ -40,10 +44,10 @@ internal class MultiChoiceFieldImpl<T : Any>(
             items.map {
                 val o = mapper(it)
                 if (selected.contains(o.value)) o.copy(selected = true) else o
-            }.toIList()
+            }
         }
 
-    override val optionsWithSelectLabel get() = (listOf(Option("Select $name", "")) + options).toIList()
+    override val optionsWithSelectLabel get() = (listOf(Option("Select $name", "")) + options)
 
     private fun Collection<T>.findItemWithLabel(l: String) = find { mapper(it).label == l }
 
