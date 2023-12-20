@@ -2,20 +2,44 @@ package symphony.internal
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kollections.iMapOf
-import kollections.iSetOf
-import kollections.to
-import kollections.toIMap
-import kollections.toISet
+import kollections.Map
+import kollections.Set
+import kollections.add
+import kollections.any
+import kollections.component1
+import kollections.component2
+import kollections.contains
+import kollections.entries
+import kollections.filter
+import kollections.find
+import kollections.first
+import kollections.flatMap
+import kollections.get
+import kollections.getOrPut
+import kollections.isEmpty
+import kollections.isNullOrEmpty
+import kollections.key
+import kollections.keys
+import kollections.map
+import kollections.mapOf
+import kollections.mapValues
+import kollections.mutableSetOf
+import kollections.remove
+import kollections.setOf
+import kollections.size
+import kollections.toMutableMap
+import kollections.toMutableSet
+import kollections.toSet
+import kollections.value
 import symphony.GroupedPage
 import symphony.GroupedPaginationManager
+import symphony.GroupedSelectionManager
+import symphony.Row
 import symphony.selected.GroupedSelected
 import symphony.selected.GroupedSelectedGlobal
 import symphony.selected.GroupedSelectedItem
 import symphony.selected.GroupedSelectedItems
 import symphony.selected.GroupedSelectedNone
-import symphony.GroupedSelectionManager
-import symphony.Row
 
 class GroupedSelectionManagerImpl<G, T>(
     private val paginator: GroupedPaginationManager<G, T>
@@ -27,12 +51,12 @@ class GroupedSelectionManagerImpl<G, T>(
         val pageNo = page ?: return
         val p = paginator.find(pageNo) ?: return
         selected.value = GroupedSelectedItems(
-            page = iMapOf(p to p.groups.flatMap { it.items }.toISet())
+            page = mapOf(p to p.groups.flatMap { it.items }.toSet())
         )
     }
 
     override fun selectAllItemsInAllPages() {
-        selected.value = GroupedSelectedGlobal(iSetOf())
+        selected.value = GroupedSelectedGlobal(setOf())
     }
 
     override fun unSelectAllItemsInAllPages() {
@@ -40,7 +64,7 @@ class GroupedSelectionManagerImpl<G, T>(
     }
 
     private fun GroupedSelectedItems<G, T>.unSelectAllRowsInPage(page: Int?): GroupedSelected<G, T> {
-        val map = this.page.mapValues { it.value.toMutableSet() }.toMutableMap()
+        val map = this.page.mapValues { it.value }.toMutableMap()
         val p = map.keys.find { it.number == page } ?: return this
         map.remove(p)
         return readjustSelectedItems(map)
@@ -96,7 +120,7 @@ class GroupedSelectionManagerImpl<G, T>(
             GroupedSelectedItem(entry.key, entry.value.first())
         }
 
-        else -> GroupedSelectedItems(map.mapValues { it.value.toISet() }.toIMap())
+        else -> GroupedSelectedItems(map.mapValues { it.value.toSet() })
     }
 
     override fun unSelectRowFromPage(row: Int, page: Int?) {
@@ -105,20 +129,20 @@ class GroupedSelectionManagerImpl<G, T>(
             is GroupedSelectedNone -> s
             is GroupedSelectedItem -> if (s.page.number == page && s.row.number == row) GroupedSelectedNone else s
             is GroupedSelectedItems -> s.unselectRowFromPage(row, pageNo)
-            is GroupedSelectedGlobal -> GroupedSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toISet())
+            is GroupedSelectedGlobal -> GroupedSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toSet())
         }
     }
 
     private fun GroupedSelectedItem<G, T>.addRowSelection(row: Int, page: Int): GroupedSelected<G, T> {
         val item = paginator.find(row, page) ?: return this
-        return GroupedSelectedItems(iMapOf(item.page to iSetOf(this.row, item.row)))
+        return GroupedSelectedItems(mapOf(item.page to setOf(this.row, item.row)))
     }
 
     private fun GroupedSelectedItems<G, T>.addRowSelection(row: Int, page: Int): GroupedSelected<G, T> {
         val item = paginator.find(row, page) ?: return this
         val map = this.page.mapValues { it.value.toMutableSet() }.toMutableMap()
         map.getOrPut(item.page) { mutableSetOf() }.add(item.row)
-        return GroupedSelectedItems(map.mapValues { it.value.toISet() }.toIMap())
+        return GroupedSelectedItems(map.mapValues { it.value.toSet() })
     }
 
     override fun addRowSelection(row: Int, page: Int?) {
@@ -127,7 +151,7 @@ class GroupedSelectionManagerImpl<G, T>(
             is GroupedSelectedNone -> paginator.find(row, pageNo)?.toSelectedItem() ?: return
             is GroupedSelectedItem -> s.addRowSelection(row, pageNo)
             is GroupedSelectedItems -> s.addRowSelection(row, pageNo)
-            is GroupedSelectedGlobal -> GroupedSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toISet())
+            is GroupedSelectedGlobal -> GroupedSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toSet())
         }
     }
 
@@ -140,9 +164,7 @@ class GroupedSelectionManagerImpl<G, T>(
     override fun isRowItemSelected(row: Int, page: Int?) = when (val s = selected.value) {
         is GroupedSelectedNone -> false
         is GroupedSelectedItem -> s.row.number == row && s.page.number == page
-        is GroupedSelectedItems -> s.page.toTypedArray().any { (p, rows) -> p.number == page && rows.map { it.number }.contains(row) }
+        is GroupedSelectedItems -> s.page.entries.any { (p, rows) -> p.number == page && rows.map { it.number }.contains(row) }
         is GroupedSelectedGlobal -> !s.exceptions.any { it.page.number == page && it.row.number == row }
     }
-
-//    override fun <R> map(transform: (T) -> R): LinearSelectionManager<R> = LinearSelectionManagerImpl(paginator.map(transform))
 }

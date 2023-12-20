@@ -2,11 +2,36 @@ package symphony.internal
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kollections.iMapOf
-import kollections.iSetOf
-import kollections.to
-import kollections.toIMap
-import kollections.toISet
+import kollections.find
+import kollections.keys
+import kollections.Collection
+import kollections.Set
+import kollections.Map
+import kollections.MutableMap
+import kollections.mutableSetOf
+import kollections.add
+import kollections.any
+import kollections.entries
+import kollections.filter
+import kollections.first
+import kollections.get
+import kollections.getOrPut
+import kollections.component1
+import kollections.component2
+import kollections.contains
+import kollections.isEmpty
+import kollections.isNullOrEmpty
+import kollections.key
+import kollections.map
+import kollections.mapOf
+import kollections.mapValues
+import kollections.remove
+import kollections.setOf
+import kollections.size
+import kollections.toMutableMap
+import kollections.toMutableSet
+import kollections.toSet
+import kollections.value
 import symphony.LinearPage
 import symphony.LinearPaginationManager
 import symphony.selected.LinearSelected
@@ -27,12 +52,12 @@ class LinearSelectionManagerImpl<T>(
         val pageNo = page ?: return
         val p = paginator.find(pageNo) ?: return
         selected.value = LinearSelectedItems(
-            page = iMapOf(p to p.items.toISet())
+            page = mapOf(p to p.items.toSet())
         )
     }
 
     override fun selectAllItemsInAllPages() {
-        selected.value = LinearSelectedGlobal(iSetOf())
+        selected.value = LinearSelectedGlobal(setOf())
     }
 
     override fun unSelectAllItemsInAllPages() {
@@ -96,7 +121,7 @@ class LinearSelectionManagerImpl<T>(
             LinearSelectedItem(entry.key, entry.value.first())
         }
 
-        else -> LinearSelectedItems(map.mapValues { it.value.toISet() }.toIMap())
+        else -> LinearSelectedItems(map.mapValues { it.value.toSet() })
     }
 
     override fun unSelectRowFromPage(row: Int, page: Int?) {
@@ -105,20 +130,20 @@ class LinearSelectionManagerImpl<T>(
             is LinearSelectedNone -> s
             is LinearSelectedItem -> if (s.page.number == page && s.row.number == row) LinearSelectedNone else s
             is LinearSelectedItems -> s.unselectRowFromPage(row, pageNo)
-            is LinearSelectedGlobal -> LinearSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toISet())
+            is LinearSelectedGlobal -> LinearSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toSet())
         }
     }
 
     private fun LinearSelectedItem<T>.addRowSelection(row: Int, page: Int): LinearSelected<T> {
         val item = paginator.find(row, page) ?: return this
-        return LinearSelectedItems(iMapOf(item.page to iSetOf(this.row, item.row)))
+        return LinearSelectedItems(mapOf(item.page to setOf(this.row, item.row)))
     }
 
     private fun LinearSelectedItems<T>.addRowSelection(row: Int, page: Int): LinearSelected<T> {
         val item = paginator.find(row, page) ?: return this
         val map = this.page.mapValues { it.value.toMutableSet() }.toMutableMap()
         map.getOrPut(item.page) { mutableSetOf() }.add(item.row)
-        return LinearSelectedItems(map.mapValues { it.value.toISet() }.toIMap())
+        return LinearSelectedItems(map.mapValues { it.value.toSet() })
     }
 
     override fun addRowSelection(row: Int, page: Int?) {
@@ -127,7 +152,7 @@ class LinearSelectionManagerImpl<T>(
             is LinearSelectedNone -> paginator.find(row, pageNo)?.toSelectedItem() ?: return
             is LinearSelectedItem -> s.addRowSelection(row, pageNo)
             is LinearSelectedItems -> s.addRowSelection(row, pageNo)
-            is LinearSelectedGlobal -> LinearSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toISet())
+            is LinearSelectedGlobal -> LinearSelectedGlobal(s.exceptions.filter { it.page.number == page && it.row.number == row }.toSet())
         }
     }
 
@@ -140,7 +165,7 @@ class LinearSelectionManagerImpl<T>(
     override fun isRowItemSelected(row: Int, page: Int?) = when (val s = selected.value) {
         is LinearSelectedNone -> false
         is LinearSelectedItem -> s.row.number == row && s.page.number == page
-        is LinearSelectedItems -> s.page.toTypedArray().any { (p, rows) -> p.number == page && rows.map { it.number }.contains(row) }
+        is LinearSelectedItems -> s.page.entries.any { (p, rows) -> p.number == page && rows.map { it.number }.contains(row) }
         is LinearSelectedGlobal -> !s.exceptions.any { it.page.number == page && it.row.number == row }
     }
 }
