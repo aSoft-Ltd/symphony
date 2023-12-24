@@ -7,6 +7,11 @@ import kase.Pending
 import kase.Success
 import koncurrent.FailedLater
 import koncurrent.Later
+import koncurrent.later.then
+import koncurrent.later.andThen
+import koncurrent.later.andZip
+import koncurrent.later.zip
+import koncurrent.later.catch
 import cinematic.toHaveGoneThrough2
 import cinematic.expect
 import lexi.Logable
