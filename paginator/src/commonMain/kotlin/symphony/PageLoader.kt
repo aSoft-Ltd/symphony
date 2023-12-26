@@ -7,6 +7,6 @@ import koncurrent.later.andZip
 import koncurrent.later.zip
 import koncurrent.later.catch
 
-sealed interface PageLoader<out P : AbstractPage> {
+sealed interface PageLoader<out P : Page> {
     fun load(page: Int, capacity: Int): Later<P>
 }
