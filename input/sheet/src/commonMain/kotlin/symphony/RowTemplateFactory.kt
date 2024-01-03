@@ -14,7 +14,7 @@ class RowFieldBuilder {
         children.add(buildGroupedRowField(label, bold, builder))
     }
 
-    fun captured(label: String, bold: Boolean = true) {
+    fun captured(label: String, bold: Boolean = false) {
         children.add(buildCapturedRowField(label, bold))
     }
 
