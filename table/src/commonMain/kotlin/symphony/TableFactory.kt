@@ -43,12 +43,12 @@ fun <T> tableOf(
     columns: ColumnsBuilder<T>.() -> Unit
 ): Table<T> = GroupedTableImpl(paginator, selector, actions, columnsOf(columns))
 
-@JvmSynthetic
-fun <T> tableOf(
-    items: Collection<T>,
-    capacity: Int = items.size,
-    columns: ColumnsBuilder<T>.() -> Unit
-): Table<T> = tableOf(linearPaginatorOf(items, capacity), columns = columns)
+//@JvmSynthetic
+//fun <T> tableOf(
+//    items: Collection<T>,
+//    capacity: Int = items.size,
+//    columns: ColumnsBuilder<T>.() -> Unit
+//): Table<T> = tableOf(linearPaginatorOf(items, capacity), columns = columns)
 
 inline fun <T> tableOf(
     paginator: PaginationManager<T, *, *>,

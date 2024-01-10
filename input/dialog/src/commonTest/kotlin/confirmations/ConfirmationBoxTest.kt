@@ -19,6 +19,7 @@ import symphony.ConfirmationBox
 import kotlin.test.Ignore
 import kotlin.test.Test
 
+@Ignore // In favour of Confirm
 class ConfirmationBoxTest {
 
     @Test

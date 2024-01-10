@@ -113,6 +113,11 @@ class SpreadSheetTest {
         expect(sheet.cell("A", "1").value).toBe(100.0)
     }
 
+    private infix fun Int.divide(other: Int): Int {
+        if (other == 0) throw ArithmeticException("Division by zero")
+        return this / other
+    }
+
     @Test
     fun should_not_fail_computing_erroneous_fields() {
         val sheet = SpreadSheet(
@@ -121,7 +126,7 @@ class SpreadSheetTest {
                 captured("2")
                 computed("3") { cell ->
                     var zero = 0
-                    val x = 1 / zero
+                    val x = 1 divide zero
                     cell("1") + cell("2") + x
                 }
             },

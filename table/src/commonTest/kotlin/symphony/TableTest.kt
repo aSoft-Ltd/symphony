@@ -1,14 +1,16 @@
 package symphony
 
-import kollections.size
 import kollections.listOf
 import kommander.expect
+import koncurrent.later.await
 import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
 
 class TableTest {
     @Test
-    fun can_be_assigned_a_paginator() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun can_be_assigned_a_paginator() = runTest {
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         println(table.renderToString())
@@ -24,8 +26,9 @@ class TableTest {
     }
 
     @Test
-    fun should_be_able_to_select_table_items() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_select_table_items() = runTest {
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         paginator.loadFirstPage()
@@ -40,8 +43,9 @@ class TableTest {
     }
 
     @Test
-    fun should_be_able_to_select_the_whole_current_page() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_select_the_whole_current_page() = runTest {
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
 
@@ -79,13 +83,15 @@ class TableTest {
 //    }
 
     @Test
-    fun should_be_able_to_show_off() {
-        val paginator = paginatorOf(listOf(
-            Person("John",21),
-            Person("Jane",22),
-            Person("Jake",18),
-            Person("Jill",23),
-        ))
+    fun should_be_able_to_show_off() = runTest {
+        val people = listOf(
+            Person("John", 21),
+            Person("Jane", 22),
+            Person("Jake", 18),
+            Person("Jill", 23),
+        )
+        val paginator = linearPaginatorOf<Person>(4)
+        paginator.initialize { no, capacity -> people.paged(no, capacity) }.await()
 
         val table = tableOf(paginator) {
             selectable()

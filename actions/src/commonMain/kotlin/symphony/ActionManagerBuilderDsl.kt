@@ -7,12 +7,11 @@ import symphony.internal.BluntLinearSelectionManager
 import symphony.internal.FixedActionsManagerImpl
 import symphony.internal.GroupedSelectorBasedActionsManagerImpl
 import symphony.internal.LinearSelectorBasedActionsManagerImpl
-import kotlin.experimental.ExperimentalTypeInference
 
 inline fun <T> actionsOf(
-    selector: LinearSelectionManager<T>,
+    linear: LinearSelectionManager<T>,
     builder: LinearSelectorBasedActionsBuilder<T>.() -> Unit
-): SelectorBasedActionsManager<T> = LinearSelectorBasedActionsManagerImpl(selector, LinearSelectorBasedActionsBuilder<T>().apply(builder))
+): SelectorBasedActionsManager<T> = LinearSelectorBasedActionsManagerImpl(linear, LinearSelectorBasedActionsBuilder<T>().apply(builder))
 
 inline fun <G, T> actionsOf(
     selector: GroupedSelectionManager<G, T>,

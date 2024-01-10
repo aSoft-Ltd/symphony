@@ -13,7 +13,7 @@ kotlin {
     jvm { library() }
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.WASM) wasmJs { library() }
-    if (Targeting.WASM) wasmWasi { library() }
+//    if (Targeting.WASM) wasmWasi { library() }
     if (Targeting.OSX) osxTargets()
 //  if (Targeting.NDK) ndkTargets()
     if (Targeting.LINUX) linuxTargets()
@@ -28,7 +28,8 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                implementation(libs.kommander.core)
+                implementation(libs.kommander.coroutines)
+                implementation(libs.koncurrent.later.coroutines)
             }
         }
     }

@@ -1,29 +1,25 @@
 package symphony
 
-import kollections.entries
 import kollections.get
-import kollections.joinToString
-import kollections.key
 import kollections.value
-import kollections.map
 import kommander.expect
 import kommander.toBe
+import koncurrent.later.await
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-import symphony.selected.Selected
-import symphony.selected.SelectedGlobal
 import symphony.selected.SelectedItem
-import symphony.selected.SelectedItems
 import symphony.selected.SelectedNone
 import kotlin.test.Ignore
 
 class SelectorTest {
 
     @Test
-    fun should_select_a_row_by_number() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_select_a_row_by_number() = runTest {
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
 
         selector.select(row = 1)
         expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true)
@@ -35,11 +31,13 @@ class SelectorTest {
     }
 
     @Test
-    fun should_select_multiple_rows_by_number() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_select_multiple_rows_by_number() = runTest {
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
 
         selector.addSelection(1)
         selector.addSelection(2)
@@ -49,16 +47,17 @@ class SelectorTest {
 
     @Test
     @Ignore
-    fun should_select_multiple_rows_by_number_from_different_pages() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_select_multiple_rows_by_number_from_different_pages() = runTest {
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
 
         selector.addSelection(1)
         selector.addSelection(2)
 
-        paginator.loadNextPage()
+        paginator.loadNextPage().await()
         selector.addSelection(1)
         selector.addSelection(2)
         expect(selector.isRowSelectedOnPage(row = 2, page = 1)).toBe(true, "Row 2 was not selected")
@@ -68,11 +67,12 @@ class SelectorTest {
     }
 
     @Test
-    fun should_be_able_to_clear_selection_of_an_item() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_clear_selection_of_an_item() = runTest{
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(1)
 
         selector.select(1)
@@ -84,11 +84,12 @@ class SelectorTest {
 
     @Test
     @Ignore
-    fun should_be_able_to_clear_selection_of_the_current_page_only() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_clear_selection_of_the_current_page_only() = runTest{
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(1)
 
         selector.addSelection(1)
@@ -97,7 +98,7 @@ class SelectorTest {
         expect(selector.isRowSelectedOnCurrentPage(row = 2)).toBe(true, "Row 2 / Page 1: was not selected")
         expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Row 1 / Page 1: was not selected")
 
-        paginator.loadNextPage()
+        paginator.loadNextPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(2)
         selector.addSelection(1)
         selector.addSelection(2)
@@ -116,17 +117,18 @@ class SelectorTest {
 
     @Test
     @Ignore
-    fun should_be_able_to_clear_selection_from_all_pages() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_clear_selection_from_all_pages() = runTest{
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(1)
 
         selector.addSelection(1)
         selector.addSelection(2)
 
-        paginator.loadNextPage()
+        paginator.loadNextPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(2)
         selector.addSelection(1)
         selector.addSelection(2)
@@ -145,17 +147,18 @@ class SelectorTest {
 
     @Test
     @Ignore
-    fun should_be_able_to_select_all_items_in_the_current_page() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_select_all_items_in_the_current_page() = runTest{
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(1)
 
         selector.addSelection(1)
         selector.addSelection(2)
 
-        paginator.loadNextPage()
+        paginator.loadNextPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(2)
 
         expect(selector.isRowSelectedOnCurrentPage(row = 2)).toBe(false, "Row 2 / Page 2: was already selected")
@@ -171,17 +174,18 @@ class SelectorTest {
     }
 
     @Test
-    fun should_be_able_to_select_all_items_from_all_pages() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_select_all_items_from_all_pages() = runTest{
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(1)
 
         selector.addSelection(1)
         selector.addSelection(2)
 
-        paginator.loadNextPage()
+        paginator.loadNextPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(2)
 
         expect(selector.isRowSelectedOnCurrentPage(row = 2)).toBe(false, "Row 2 / Page 2: was already selected")
@@ -197,11 +201,12 @@ class SelectorTest {
     }
 
     @Test
-    fun should_be_able_to_toggle_selection_of_current_page() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_toggle_selection_of_current_page() = runTest{
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(1)
 
         selector.toggleSelectionOfRowInCurrentPage(row = 1)
@@ -212,11 +217,12 @@ class SelectorTest {
     }
 
     @Test
-    fun should_be_able_to_get_the_selected_item() {
-        val paginator = linearPaginatorOf(Person.List)
+    fun should_be_able_to_get_the_selected_item() = runTest{
+        val paginator = linearPaginatorOf<Person>(10)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(1)
 
         selector.toggleSelectionOfRowInCurrentPage(row = 1)
@@ -226,14 +232,15 @@ class SelectorTest {
     }
 
     @Test
-    fun should_be_able_to_select_by_object_instance() {
-        val paginator = linearPaginatorOf(Person.List, capacity = 5)
+    fun should_be_able_to_select_by_object_instance() = runTest{
+        val paginator = linearPaginatorOf<Person>(5)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(1)
 
-        paginator.loadNextPage()
+        paginator.loadNextPage().await()
         expect(paginator.currentPageOrNull?.number).toBe(2)
 
         selector.select(Person.List[3])
@@ -243,11 +250,12 @@ class SelectorTest {
     }
 
     @Test
-    fun should_have_zero_actions_after_all_rows_in_page_have_been_unselected() {
-        val paginator = linearPaginatorOf(Person.List, capacity = 5)
+    fun should_have_zero_actions_after_all_rows_in_page_have_been_unselected() = runTest{
+        val paginator = linearPaginatorOf<Person>(5)
+        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
-        paginator.loadFirstPage()
+        paginator.loadFirstPage().await()
         repeat(4) {
             selector.addSelection(row = it + 1)
         }
