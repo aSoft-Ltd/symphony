@@ -9,9 +9,9 @@ sealed interface RowTemplate {
     val label: String
     val bold: Boolean
 
-    val asGroupedRowField get() = this as? GroupedRowTemplate
-    val asCapturedRowField get() = this as? CapturedRowTemplate
-    val asComputedRowField get() = this as? ComputedRowTemplate
+    val asGrouped get() = this as? GroupedRowTemplate
+    val asCaptured get() = this as? CapturedRowTemplate
+    val asComputed get() = this as? ComputedRowTemplate
 }
 
 data class GroupedRowTemplate(
