@@ -2,11 +2,9 @@
 
 package symphony
 
-import kotlin.jvm.JvmSynthetic
-import kollections.Collection
-import kollections.size
 import symphony.internal.GroupedTableImpl
 import symphony.internal.LinearTableImpl
+import kotlin.jvm.JvmSynthetic
 
 @JvmSynthetic
 inline fun <T> tableOf(
