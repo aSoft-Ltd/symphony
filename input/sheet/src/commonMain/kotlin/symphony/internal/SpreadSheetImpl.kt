@@ -62,7 +62,7 @@ internal class SpreadSheetImpl(
     private fun RowTemplate.flatten(): List<RowTemplate> {
         val list = mutableListOf<RowTemplate>()
         list.add(this)
-        asGroupedRowField?.children?.forEach {
+        asGrouped?.children?.forEach {
             list.addAll(it.flatten())
         }
         return list

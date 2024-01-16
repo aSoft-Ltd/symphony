@@ -34,7 +34,7 @@ private class IndentedRowField(
 private fun RowTemplate.flatten(indent: Int = 0): List<IndentedRowField> {
     val list = mutableListOf<IndentedRowField>()
     list.add(IndentedRowField(indent, this))
-    asGroupedRowField?.children?.forEach {
+    asGrouped?.children?.forEach {
         list.addAll(it.flatten(indent + 1))
     }
     return list
