@@ -27,7 +27,7 @@ interface Page {
 
     val hasMore: Boolean
 
-    val isFistPage: Boolean
+    val isFirstPage: Boolean
 
     val isLastPage: Boolean
 }
