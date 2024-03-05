@@ -4,33 +4,24 @@
 package symphony
 
 import cinematic.BaseScene
-import keep.load
-import keep.save
-import keep.Cacheable
-import koncurrent.Later
-import koncurrent.later.then
-import koncurrent.later.andThen
-import koncurrent.later.andZip
-import koncurrent.later.zip
-import koncurrent.later.catch
-import koncurrent.later.finally
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
+import keep.Cacheable
+import keep.load
+import keep.save
+import koncurrent.Later
+import koncurrent.later.finally
 import kotlinx.JsExport
 
-@Deprecated(
-    message = "In favour of LazyCollectionScene",
-    replaceWith = ReplaceWith("LazyCollectionScene", "symphony.LazyCollectionScene")
-)
-abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
+abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
     val view: MutableLive<View> = mutableLiveOf(DEFAULT_VIEW)
 
-    val cache = config.cache
+    private val cache = config.cache
 
-    open val paginator by lazy { paginatorOf<T>() }
+    abstract val paginator: PaginationManager<T, *, *>
 
-    open val selector by lazy { selectorOf(paginator) }
+    abstract val selector: SelectionManager<T, *>
 
     protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(builder)
 
@@ -38,7 +29,7 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     open val columns by lazy { columnsOf<T>() }
 
-    val list by lazy { lazyListOf(paginator) }
+    abstract val list: LazyList<T>
 
     val table by lazy { tableOf(paginator, selector, actions, columns) }
 
@@ -65,7 +56,6 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
     }
 
     fun unselect(item: T? = null) {
-        cache.remove(CacheKeys.SELECTED_ITEM)
         selector.unSelect(item ?: return)
     }
 
