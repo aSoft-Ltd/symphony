@@ -44,12 +44,10 @@ internal class LinearPaginationManagerImpl<T>(
         return loadFirstPage()
     }
 
-    override fun forEachPage(block: (LinearPage<T>) -> Unit) {
-        memory.entries[capacity]?.pages?.values?.sortedBy { it.number }?.forEach(block)
-    }
+    override fun forEachPage(block: (LinearPage<T>) -> Unit) = memory.entries.values.forEach(block)
 
     override fun loadPage(no: Int): Later<LinearPage<T>> {
-        if (capacity <= 0) return Later(LinearPage(emptyList(), 0, no))
+        if (capacity.value <= 0) return Later(LinearPage(emptyList(), 0, no))
         return load(page = no)
     }
 

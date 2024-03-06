@@ -16,7 +16,7 @@ class SelectorTest {
     @Test
     fun should_select_a_row_by_number() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -33,7 +33,7 @@ class SelectorTest {
     @Test
     fun should_select_multiple_rows_by_number() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
 
         val selector = selectorOf(paginator)
 
@@ -49,7 +49,7 @@ class SelectorTest {
     @Ignore
     fun should_select_multiple_rows_by_number_from_different_pages() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -69,7 +69,7 @@ class SelectorTest {
     @Test
     fun should_be_able_to_clear_selection_of_an_item() = runTest{
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -86,7 +86,7 @@ class SelectorTest {
     @Ignore
     fun should_be_able_to_clear_selection_of_the_current_page_only() = runTest{
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -119,7 +119,7 @@ class SelectorTest {
     @Ignore
     fun should_be_able_to_clear_selection_from_all_pages() = runTest{
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -149,7 +149,7 @@ class SelectorTest {
     @Ignore
     fun should_be_able_to_select_all_items_in_the_current_page() = runTest{
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -176,7 +176,7 @@ class SelectorTest {
     @Test
     fun should_be_able_to_select_all_items_from_all_pages() = runTest{
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -203,7 +203,7 @@ class SelectorTest {
     @Test
     fun should_be_able_to_toggle_selection_of_current_page() = runTest{
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -219,7 +219,7 @@ class SelectorTest {
     @Test
     fun should_be_able_to_get_the_selected_item() = runTest{
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -234,7 +234,7 @@ class SelectorTest {
     @Test
     fun should_be_able_to_select_by_object_instance() = runTest{
         val paginator = linearPaginatorOf<Person>(5)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()
@@ -252,7 +252,7 @@ class SelectorTest {
     @Test
     fun should_have_zero_actions_after_all_rows_in_page_have_been_unselected() = runTest{
         val paginator = linearPaginatorOf<Person>(5)
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val selector = selectorOf(paginator)
 
         paginator.loadFirstPage().await()

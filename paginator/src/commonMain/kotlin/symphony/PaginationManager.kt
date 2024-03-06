@@ -16,14 +16,23 @@ import kotlin.js.JsName
 
 interface PaginationManager<out T, out P : AbstractPage, out R : PageFindResult<T>> {
     val current: Live<LazyState<P>>
+    val search: Live<String?>
     val currentPageOrNull: P?
     val currentPageSize : Int
-    val capacity: Int
+    val capacity: Live<Int>
     val hasMore: Boolean
 
     fun wipeMemory()
     fun clearPages()
     fun setPageCapacity(cap: Int)
+    // --------------------- searchers ---------------------
+    fun setSearchKey(key: String?)
+
+    fun appendSearchKey(key: String?)
+
+    fun backSpaceSearchKey()
+
+    fun clearSearchKey()
 
     // --------------------- loaders ---------------
     fun refreshAllPages(): Later<Any?>

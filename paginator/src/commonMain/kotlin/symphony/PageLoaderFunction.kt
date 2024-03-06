@@ -8,4 +8,4 @@ import koncurrent.later.zip
 import koncurrent.later.catch
 import kollections.Collection
 
-typealias PageLoaderFunction<T> = (no: Int, capacity: Int) -> Later<Collection<T>>
+typealias PageLoaderFunction<T> = (PageLoaderParams) -> Later<Collection<T>>

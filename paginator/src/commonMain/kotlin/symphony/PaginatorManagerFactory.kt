@@ -27,8 +27,10 @@ fun <T> Collection<T>.paged(no: Int, capacity: Int): Later<List<T>> {
     return Later(page)
 }
 
+fun <T> Collection<T>.paged(params: PageLoaderParams) = paged(params.page, params.limit)
+
 inline fun <T> linearPaginatorOf(
-    capacity: Int = DEFAULT_PAGINATION_CAPACITY
+    capacity: Int = DEFAULT_PAGINATION_CAPACITY,
 ): LinearPaginationManager<T> = LinearPaginationManagerImpl(capacity)
 
 // Removing this because loading is asynchronous and it is making testing harder
@@ -36,15 +38,15 @@ inline fun <T> linearPaginatorOf(
 //    items: Collection<T>,
 //    capacity: Int = items.size
 //): LinearPaginationManager<T> = LinearPaginationManagerImpl<T>(capacity).also {
-//    it.initialize { no, capacity -> items.paged(no, capacity) }
+//    it.initialize { items.paged(no, capacity) }
 //}
 
 inline fun <G, T> groupedPaginatorOf(
-    capacity: Int = DEFAULT_PAGINATION_CAPACITY
+    capacity: Int = DEFAULT_PAGINATION_CAPACITY,
 ): GroupedPaginationManager<G, T> = GroupedPaginationManagerImpl(capacity)
 
 inline fun <T> paginatorOf(
-    capacity: Int = DEFAULT_PAGINATION_CAPACITY
+    capacity: Int = DEFAULT_PAGINATION_CAPACITY,
 ): PaginationManager<T, *, *> = linearPaginatorOf(capacity)
 
 //// Removing this because loading is asynchronous and it is making testing harder

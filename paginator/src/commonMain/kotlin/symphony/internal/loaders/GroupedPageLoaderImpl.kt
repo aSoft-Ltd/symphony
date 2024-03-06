@@ -11,13 +11,15 @@ import kollections.map
 import symphony.Chunk
 import symphony.GroupedPage
 import symphony.GroupedPageLoader
+import symphony.Page
+import symphony.PageLoaderParams
 import symphony.Row
 
-class GroupedPageLoaderImpl<out G, out T>(
-    private val loader: (no: Int, capacity: Int) -> Later<Collection<Chunk<G, T>>>
+internal class GroupedPageLoaderImpl<out G, out T>(
+    private val loader: (PageLoaderParams) -> Later<Collection<Chunk<G, T>>>
 ) : GroupedPageLoader<G,T> {
-    override fun load(page: Int, capacity: Int): Later<GroupedPage<G, T>> = loader(page, capacity).then { chunks ->
+    override fun load(params: PageLoaderParams): Later<GroupedPage<G, T>> = loader(params).then { chunks ->
         val groups = chunks.map { chunk -> chunk.mapIndexed { item, index -> Row(index, item) } }
-        GroupedPage(groups, capacity, page)
+        GroupedPage(groups, params.limit, params.page)
     }
 }

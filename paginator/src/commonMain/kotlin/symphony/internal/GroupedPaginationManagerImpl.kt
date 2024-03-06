@@ -39,13 +39,10 @@ internal class GroupedPaginationManagerImpl<G, T>(
         return loadFirstPage()
     }
 
-    override fun forEachPage(block: (GroupedPage<G, T>) -> Unit) {
-        memory.entries[capacity]?.pages?.values?.sortedBy { it.number }?.forEach(block)
-    }
+    override fun forEachPage(block: (GroupedPage<G, T>) -> Unit) = memory.entries.values.forEach(block)
 
     override fun loadPage(no: Int): Later<GroupedPage<G, T>> {
-        if (capacity <= 0) return Later(GroupedPage(emptyList(), 0, no))
-
+        if (capacity.value <= 0) return Later(GroupedPage(emptyList(), 0, no))
         return load(page = no)
     }
 

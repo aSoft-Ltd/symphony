@@ -16,12 +16,13 @@ import koncurrent.later.then
 import symphony.AbstractPage
 import symphony.PageFindResult
 import symphony.PageLoader
+import symphony.PageLoaderParams
 import symphony.PaginationManager
 import symphony.internal.memory.PageMemoryManager
 
 @PublishedApi
 internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageFindResult<T>>(
-    override var capacity: Int
+    capacity: Int,
 ) : PaginationManager<T, P, R> {
 
     abstract val loader: Bag<PageLoader<P>>
@@ -30,16 +31,38 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
 
     override val current: MutableLive<LazyState<P>> = mutableLiveOf(Pending)
 
+    override val search = mutableLiveOf<String?>(null)
+
+    override val capacity = mutableLiveOf(capacity)
+
     override val currentPageOrNull get() = current.value.data
 
     override val currentPageSize get() = currentPageOrNull?.size ?: 0
 
     override val hasMore: Boolean get() = currentPageOrNull?.hasMore == true
 
+    override fun setSearchKey(key: String?) {
+        search.value = key
+    }
+
+    override fun appendSearchKey(key: String?) {
+        if (key == null) return
+        val old = search.value ?: ""
+        search.value = old + key
+    }
+
+    override fun backSpaceSearchKey() {
+        val old = search.value ?: return
+        if (old.isEmpty()) return
+        search.value = old.dropLast(1)
+    }
+
+    override fun clearSearchKey() = setSearchKey(null)
+
     override fun wipeMemory() = memory.clear()
 
     override fun setPageCapacity(cap: Int) {
-        capacity = cap
+        capacity.value = cap
     }
 
     override fun clearPages() {
@@ -47,17 +70,19 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
         current.value = Pending
     }
 
+    internal fun params(page: Int) = PageLoaderParams(page, capacity.value, search.value)
     protected fun load(page: Int): Later<P> {
         if (current.value is Loading) return FailedLater(LOADING_ERROR)
 
-        val memorizedPage = memory.load(page, capacity)
+        val params = params(page)
+        val memorizedPage = memory.load(params)
         current.value = Loading("Loading", memorizedPage)
         return try {
-            loader.getOrThrow().load(page, capacity)
+            loader.getOrThrow().load(params)
         } catch (err: Throwable) {
             FailedLater(err)
         }.then {
-            memory.save(it)
+            memory.save(params, it)
         }.finally {
             current.value = it.toLazyState(memorizedPage)
         }
@@ -102,11 +127,11 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
 
     override fun loadLastPage() = loadPage(-1)
 
-    override fun find(item: T) = memory.load(item, capacity)
+    override fun find(item: T) = memory.load(item)
 
-    override fun find(row: Int, page: Int) = memory.load(row, page, capacity)
+    override fun find(row: Int, page: Int) = memory.load(row, params(page))
 
-    override fun find(page: Int) = memory.load(page, capacity)
+    override fun find(page: Int) = memory.load(params(page))
 
     companion object {
         val LOADING_ERROR = Throwable("Can't load page while paginator is still loading")

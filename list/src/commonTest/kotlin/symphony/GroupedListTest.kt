@@ -9,7 +9,7 @@ class GroupedListTest {
     @Test
     fun should_be_able_to_group_by_age() = runTest {
         val paginator = linearPaginatorOf<Person>() 
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val list = lazyListOf(paginator) {
             if (it.age < 15) it to "Below 15" else it to "Above 15"
         }
@@ -20,7 +20,7 @@ class GroupedListTest {
     @Test
     fun should_be_able_to_group_by_gender()  = runTest {
         val paginator = linearPaginatorOf<Person>()
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         val list = lazyListOf(paginator) {
             if (it.age < 15) it to it.gender else it to it.gender
         }
@@ -48,7 +48,7 @@ class GroupedListTest {
     @Test
     fun should_be_able_to_dynamically_change_the_grouping_after_list_instantiating() = runTest{
         val paginator = linearPaginatorOf<Person>()
-        paginator.initialize { no, capacity -> Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(no, capacity) }.await()
         var groupedBy: PeopleGroupedBy = PeopleGroupedBy.Age
         val list = lazyListOf(paginator) {
             when (groupedBy) {

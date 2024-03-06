@@ -11,12 +11,14 @@ import koncurrent.later.zip
 import koncurrent.later.catch
 import symphony.LinearPage
 import symphony.LinearPageLoader
+import symphony.PageLoader
+import symphony.PageLoaderParams
 import symphony.Row
 
 internal class LinearPageLoaderImpl<out T>(
-    private val loader: (no: Int, capacity: Int) -> Later<Collection<T>>
+    private val loader: (PageLoaderParams) -> Later<Collection<T>>,
 ) : LinearPageLoader<T> {
-    override fun load(page: Int, capacity: Int): Later<LinearPage<T>> = loader(page, capacity).then {
-        LinearPage(items = it.toList().mapIndexed { index, t -> Row(index, t) }, capacity, page)
+    override fun load(params: PageLoaderParams): Later<LinearPage<T>> = loader(params).then {
+        LinearPage(items = it.toList().mapIndexed { index, t -> Row(index, t) }, params.limit, params.page)
     }
 }

@@ -17,7 +17,7 @@ class ActionManagerTest {
     @Test
     fun should_not_crash_if_there_is_a_selected_item_and_there_are_no_current_actions() = runTest {
         val pag = linearPaginatorOf<Person>(10)
-        pag.initialize { no, capacity ->  Person.List.paged(no,capacity)}.await()
+        pag.initialize {  Person.List.paged(no,capacity)}.await()
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -37,7 +37,7 @@ class ActionManagerTest {
     @Test
     fun should_add_actions_after_table_creations() = runTest {
         val pag = linearPaginatorOf<Person>(10)
-        pag.initialize { no, capacity ->  Person.List.paged(no,capacity)}.await()
+        pag.initialize {  Person.List.paged(no,capacity)}.await()
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -60,7 +60,7 @@ class ActionManagerTest {
     @Test
     fun should_delete_actions_after_table_creations() = runTest {
         val pag = linearPaginatorOf<Person>(10)
-        pag.initialize { no, capacity ->  Person.List.paged(no,capacity)}.await()
+        pag.initialize {  Person.List.paged(no,capacity)}.await()
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -79,7 +79,7 @@ class ActionManagerTest {
     @Test
     fun should_only_display_current_multi_actions() = runTest {
         val pag = linearPaginatorOf<Person>(10)
-        pag.initialize { no, capacity ->  Person.List.paged(no,capacity)}.await()
+        pag.initialize {  Person.List.paged(no,capacity)}.await()
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
