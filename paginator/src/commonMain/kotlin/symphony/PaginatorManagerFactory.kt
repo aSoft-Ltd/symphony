@@ -38,7 +38,7 @@ inline fun <T> linearPaginatorOf(
 //    items: Collection<T>,
 //    capacity: Int = items.size
 //): LinearPaginationManager<T> = LinearPaginationManagerImpl<T>(capacity).also {
-//    it.initialize { items.paged(no, capacity) }
+//    it.initialize { items.paged(params) }
 //}
 
 inline fun <G, T> groupedPaginatorOf(

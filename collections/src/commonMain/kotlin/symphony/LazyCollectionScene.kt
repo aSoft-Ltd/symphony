@@ -47,9 +47,6 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
         view.value = v
     }
 
-    private var searchText: String? = null
-    val searchBox = TextField(name = ::searchText)
-
     fun search(): Later<Page> {
         paginator.clearPages()
         return paginator.loadFirstPage()

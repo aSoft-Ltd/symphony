@@ -10,7 +10,7 @@ class TableColumnTransformersTest {
     @Test
     fun should_be_able_to_filter_out_columns_after_the_table_has_been_created() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val action = emptyActions()
         val table = tableOf(paginator, selector, action, Person.columns())
@@ -22,7 +22,7 @@ class TableColumnTransformersTest {
     @Test
     fun should_be_able_to_filter_out_columns_after_the_table_has_been_created_using_the_manage_columns() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val action = emptyActions()
         val table = tableOf(paginator, selector, action, Person.columns())
@@ -37,7 +37,7 @@ class TableColumnTransformersTest {
     @Test
     fun should_not_print_hidden_columns() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { Person.List.paged(no, capacity) }.await()
+        paginator.initialize { Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val action = emptyActions()
         val table = tableOf(paginator, selector, action, Person.columns())
