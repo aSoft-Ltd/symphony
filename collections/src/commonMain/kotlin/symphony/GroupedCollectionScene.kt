@@ -8,9 +8,9 @@ import kotlinx.JsExport
 
 abstract class GroupedCollectionScene<T>(config: Cacheable) : LazyCollectionScene<T>(config) {
 
-    override val paginator by lazy { linearPaginatorOf<T>() }
+    override val paginator by lazy { paginatorOf<T>() }
 
-    abstract override val selector: GroupedSelectionManager<*,T>
+    override val selector by lazy { selectorOf(paginator) }
 
-    abstract override val list: GroupedList<*,T>
+    abstract override val list: GroupedList<*, T>
 }

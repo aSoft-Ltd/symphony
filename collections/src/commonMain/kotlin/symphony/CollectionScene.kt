@@ -28,7 +28,7 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     val cache = config.cache
 
-    open val paginator by lazy { paginatorOf<T>() }
+    open val paginator by lazy { linearPaginatorOf<T>() }
 
     open val selector by lazy { selectorOf(paginator) }
 
