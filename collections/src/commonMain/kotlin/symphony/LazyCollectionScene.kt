@@ -15,7 +15,9 @@ import kotlinx.JsExport
 
 abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
-    val view: MutableLive<View> = mutableLiveOf(DEFAULT_VIEW)
+    val views = viewsOf<View> {
+        cache.save(preferredView, it)
+    }
 
     private val cache = config.cache
 
@@ -36,15 +38,7 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
     private val preferredView = "${this::class.simpleName?.replace("Scene", "")}.$PREFERRED_VIEW"
 
     fun switchToLatestSelectedView() = cache.load<View>(preferredView).finally {
-        view.value = it.data ?: DEFAULT_VIEW
-    }
-
-    fun switchToListView() = switchTo(View.List)
-
-    fun switchToTableView() = switchTo(View.Table)
-
-    private fun switchTo(v: View) = cache.save(preferredView, v).finally {
-        view.value = v
+        views.select(it.data ?: DEFAULT_VIEW)
     }
 
     fun search(): Later<Page> {

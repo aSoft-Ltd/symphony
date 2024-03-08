@@ -25,7 +25,7 @@ import symphony.internal.memory.LinearPageMemoryManager
 
 @PublishedApi
 internal class LinearPaginationManagerImpl<T>(
-    capacity: Int
+    capacity: Int,
 ) : AbstractPaginationManager<T, LinearPage<T>, LinearPageFindResult<T>>(capacity), LinearPaginationManager<T> {
 
     override val loader by lazy { Bag<LinearPageLoader<T>>(LinearPageLoaderInitial) }
@@ -41,6 +41,7 @@ internal class LinearPaginationManagerImpl<T>(
 
     override fun initialize(pl: PageLoaderFunction<T>): Later<LinearPage<T>> {
         loader.value = LinearPageLoaderImpl(pl)
+        search.value = null
         return loadFirstPage()
     }
 

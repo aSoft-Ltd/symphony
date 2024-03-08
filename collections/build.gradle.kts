@@ -29,6 +29,12 @@ kotlin {
                 api(libs.keep.api)
             }
         }
+
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kommander.core)
+            }
+        }
     }
 }
 

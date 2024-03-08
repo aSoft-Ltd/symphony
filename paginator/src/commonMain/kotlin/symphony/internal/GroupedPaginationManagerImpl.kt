@@ -36,6 +36,7 @@ internal class GroupedPaginationManagerImpl<G, T>(
 
     override fun initialize(ld: PageLoaderFunction<Chunk<G, T>>): Later<GroupedPage<G, T>> {
         loader.value = GroupedPageLoaderImpl(ld)
+        search.value = null
         return loadFirstPage()
     }
 
