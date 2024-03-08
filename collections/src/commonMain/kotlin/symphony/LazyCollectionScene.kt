@@ -15,7 +15,7 @@ import kotlinx.JsExport
 
 abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
-    val views = viewsOf<View> {
+    val views = viewsOf(*View.values()) {
         cache.save(preferredView, it)
     }
 
