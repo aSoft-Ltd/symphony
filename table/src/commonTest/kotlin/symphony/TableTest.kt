@@ -10,7 +10,7 @@ class TableTest {
     @Test
     fun can_be_assigned_a_paginator() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { Person.List.paged(params) }.await()
+        paginator.initialize { params -> Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         println(table.renderToString())
@@ -28,7 +28,7 @@ class TableTest {
     @Test
     fun should_be_able_to_select_table_items() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { Person.List.paged(params) }.await()
+        paginator.initialize { params -> Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         paginator.loadFirstPage()
@@ -36,16 +36,25 @@ class TableTest {
 
         selector.select(row = 1)
         selector.select(row = 1)
-        expect(selector.isCurrentPageSelectedPartially()).toBe(true, "Table was supposed to be partially selected")
+        expect(selector.isCurrentPageSelectedPartially()).toBe(
+            true,
+            "Table was supposed to be partially selected"
+        )
         println(table.renderToString())
-        expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Explicit selector failed to select")
-        expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Implicit selector failed to select")
+        expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(
+            true,
+            "Explicit selector failed to select"
+        )
+        expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(
+            true,
+            "Implicit selector failed to select"
+        )
     }
 
     @Test
     fun should_be_able_to_select_the_whole_current_page() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { Person.List.paged(params) }.await()
+        paginator.initialize { params -> Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
 
@@ -54,7 +63,10 @@ class TableTest {
 
         selector.selectAllItemsInTheCurrentPage()
         println(table.renderToString())
-        expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(true, "Implicit selector failed to select")
+        expect(selector.isRowSelectedOnCurrentPage(row = 1)).toBe(
+            true,
+            "Implicit selector failed to select"
+        )
     }
 
 //    @Test
@@ -91,7 +103,7 @@ class TableTest {
             Person("Jill", 23),
         )
         val paginator = linearPaginatorOf<Person>(4)
-        paginator.initialize { people.paged(params) }.await()
+        paginator.initialize { params -> people.paged(params) }.await()
 
         val table = tableOf(paginator) {
             selectable()

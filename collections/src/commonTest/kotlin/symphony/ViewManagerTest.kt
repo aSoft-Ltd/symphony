@@ -10,6 +10,7 @@ class ViewManagerTest {
     @Test
     fun should_construct_a_view_manager_from_an_enum() {
         val views = viewsOf<TestView>()
+        views.select(TestView.View1)
         expect(views.current.value).toBe(TestView.View1)
     }
 
