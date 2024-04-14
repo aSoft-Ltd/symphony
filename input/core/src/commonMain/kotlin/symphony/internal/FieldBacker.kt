@@ -15,4 +15,10 @@ sealed interface FieldBacker<out O> {
     class Prop<O>(val value: KMutableProperty0<O?>) : FieldBacker<O> {
         override val name by lazy { value.name }
     }
+
+    companion object {
+        fun <O> from(value: KMutableProperty0<O>) = Prop(value as KMutableProperty0<O?>)
+
+        fun from(value: String) = Name(value)
+    }
 }

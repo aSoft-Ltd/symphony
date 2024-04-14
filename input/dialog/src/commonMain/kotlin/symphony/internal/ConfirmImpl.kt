@@ -42,7 +42,7 @@ internal class ConfirmImpl<P>(private val factory: ConfirmBuilder.(P) -> Action0
         if (state.value.isWorking) return
         try {
             if (recursionDetector > 0) {
-                throw UnsupportedOperationException("Do not confirm.cancel() a in its onCancel block, the confirm modal already calls itself")
+                throw UnsupportedOperationException("Do not call confirm.cancel() in its onCancel block, the confirm modal already calls itself")
             }
             recursionDetector++
             acts.cancelBag.value?.invoke()

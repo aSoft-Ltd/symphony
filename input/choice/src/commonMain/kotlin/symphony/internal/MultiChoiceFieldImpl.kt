@@ -15,18 +15,18 @@ import symphony.Changer
 import symphony.MultiChoiceField
 import symphony.Option
 import symphony.Visibility
-import kotlin.reflect.KMutableProperty0
 
 @PublishedApi
 internal class MultiChoiceFieldImpl<T : Any>(
-    property: KMutableProperty0<MutableList<T>>,
+    backer: FieldBacker<MutableList<T>>,
     label: String,
+    value: List<T>,
     override val items: Collection<T>,
     override val mapper: (T) -> Option,
     visibility: Visibility,
     onChange: Changer<List<T>>?,
     factory: (Validators<List<T>>.() -> Validator<List<T>>)?
-) : ListFieldImpl<T>(property, label, visibility, onChange, factory), MultiChoiceField<T> {
+) : ListFieldImpl<T>(backer, value, label, visibility, onChange, factory), MultiChoiceField<T> {
 
     override val optionLabels get() = options.map { it.label }
 
@@ -123,5 +123,5 @@ internal class MultiChoiceFieldImpl<T : Any>(
         }
     }
 
-    val name = property.name
+    val name = backer.name
 }

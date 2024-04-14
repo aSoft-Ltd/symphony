@@ -16,8 +16,8 @@ import koncurrent.later.catch
 import symphony.internal.VisibleConfirmStateImpl
 
 class ConfirmBuilder : Actions0Builder<Unit>() {
-    var heading: String = "No Heading"
-    var details: String = "No Details"
+    var heading: String = "Confirm"
+    var details: String = "Are you sure?"
     var message: String = "Executing, please wait . . ."
 
     internal var confirm: Action0Invoker<Later<Any?>>? = null

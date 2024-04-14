@@ -12,6 +12,7 @@ import kollections.isNotEmpty
 import kollections.remove
 import kollections.removeAll
 import kollections.toList
+import kollections.toMutableList
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
@@ -22,10 +23,10 @@ import symphony.ListField
 import symphony.Visibility
 import symphony.toErrors
 import symphony.toWarnings
-import kotlin.reflect.KProperty0
 
 open class ListFieldImpl<E>(
-    private val property: KProperty0<MutableList<E>>,
+    private val backer: FieldBacker<MutableList<E>>,
+    value: List<E>,
     label: String,
     visibility: Visibility,
     private val onChange: Changer<List<E>>?,
@@ -34,25 +35,27 @@ open class ListFieldImpl<E>(
 
     protected val validator = custom<List<E>>(label).configure(factory)
 
+    private val backed get() = backer.asProp?.get() ?: state.value.output
+
     override fun add(item: E) {
-        property.get().add(item)
+        backed.add(item)
         validateAndNotify()
     }
 
     override fun addAll(items: List<E>) {
-        property.get().addAll(items)
+        backed.addAll(items)
         validateAndNotify()
     }
 
     override fun addAll(items: Array<E>) = addAll(items.toList())
 
     override fun remove(item: E) {
-        property.get().remove(item)
+        backed.remove(item)
         validateAndNotify()
     }
 
     override fun removeAll(items: List<E>?) {
-        property.get().removeAll(items ?: output)
+        backed.removeAll(items ?: output)
         validateAndNotify()
     }
 
@@ -63,7 +66,7 @@ open class ListFieldImpl<E>(
     override fun update(item: E, updater: () -> E) {
         val idx = output.indexOf(item)
         if (idx < 0) return
-        property.get().apply {
+        backed.apply {
             remove(item)
             add(idx, updater())
         }
@@ -72,17 +75,17 @@ open class ListFieldImpl<E>(
 
     private val initial = LIstFieldImplState(
         required = this.validator.required,
-        output = property.get(),
+        output = value.toMutableList(),
         visibility = visibility,
         feedbacks = Feedbacks(emptyList()),
     )
 
     override val state = mutableLiveOf(initial)
 
-    override fun validate() = validator.validate(output)
+    override fun validate() = validator.validate(backed)
 
     override fun validateToErrors(): Validity<List<E>> {
-        val res = validator.validate(output)
+        val res = validator.validate(backed)
         val errors = res.toErrors()
         if (errors.isNotEmpty()) {
             state.value = state.value.copy(feedbacks = Feedbacks(errors))
@@ -95,17 +98,17 @@ open class ListFieldImpl<E>(
     }
 
     override fun clear() {
-        property.get().clear()
+        backed.clear()
         validateAndNotify()
     }
 
     private fun validateAndNotify() {
-        val res = validator.validate(property.get())
+        val res = validator.validate(backed)
         state.value = state.value.copy(
-            output = property.get(),
+            output = backed,
             feedbacks = Feedbacks(res.toWarnings())
         )
-        onChange?.invoke(property.get())
+        onChange?.invoke(backed)
     }
 
     override fun finish() {
@@ -114,20 +117,20 @@ open class ListFieldImpl<E>(
     }
 
     override fun reset() {
-        property.get().apply {
+        backed.apply {
             clear()
             addAll(initial.output)
         }
-        val res = validator.validate(property.get())
+        val res = validator.validate(backed)
         state.value = state.value.copy(
-            output = property.get(),
+            output = backed,
             feedbacks = Feedbacks(res.toWarnings())
         )
-        onChange?.invoke(property.get())
+        onChange?.invoke(backed)
         state.value = initial
     }
 
-    override val output get() = property.get()
+    override val output get() = backed
     override val required get() = state.value.required
     override val visibility get() = state.value.visibility
     override val feedbacks get() = state.value.feedbacks
