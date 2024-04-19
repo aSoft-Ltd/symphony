@@ -10,6 +10,7 @@ import symphony.columns.Column
 
 interface ColumnsManager<D> {
     val current: Live<Set<Column<D>>>
+    fun reset(): ColumnsManager<D>
     fun all(): Set<Column<D>>
     fun add(name: String, accessor: (Row<D>) -> String): ColumnsManager<D>
 
