@@ -27,6 +27,11 @@ internal class ColumnsManagerImpl<D>(initializer: ColumnsBuilder<D>.() -> Unit) 
         mutableLiveSetOf<Column<D>>(cmb.columns.values.sortedBy { it.index })
     }
 
+    override fun reset(): ColumnsManager<D> {
+        TODO("Not yet implemented")
+    }
+
+
     override fun all() = current.value
 
     override fun find(name: String) = all().find { it.name.contentEquals(name, ignoreCase = true) }
