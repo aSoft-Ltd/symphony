@@ -15,17 +15,20 @@ import kotlinx.JsExport
 
 abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
-    val views = viewsOf(*View.values()) {
-        cache.save(preferredView, it)
+    private val cache by lazy {
+        val namespace = "${this::class.simpleName?.replace("Scene", "")}".lowercase()
+        config.cache.namespaced(namespace)
     }
 
-    private val cache = config.cache
+    val views = viewsOf(*View.values()) {
+        cache.save(PREFERRED_VIEW, it)
+    }
 
     abstract val paginator: PaginationManager<T, *, *>
 
     abstract val selector: SelectionManager<T, *>
 
-    protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(builder)
+    protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(cache,builder)
 
     open val actions: SelectorBasedActionsManager<T> by lazy { emptyActions() }
 
@@ -35,9 +38,7 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
     val table by lazy { tableOf(paginator, selector, actions, columns) }
 
-    private val preferredView = "${this::class.simpleName?.replace("Scene", "")}.$PREFERRED_VIEW"
-
-    fun switchToLatestSelectedView() = cache.load<View>(preferredView).finally {
+    fun switchToLatestSelectedView() = cache.load<View>(PREFERRED_VIEW).finally {
         views.select(it.data ?: DEFAULT_VIEW)
     }
 

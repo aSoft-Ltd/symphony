@@ -16,7 +16,7 @@ interface ActionsManager<out T> {
 
     fun add(name: String, handler: () -> Unit): ActionsManager<T>
 
-    fun find(name: String): Action<Any>
+    fun find(name: String): Action<Any>?
 
     fun move(name: String) : Mover
 

@@ -32,7 +32,7 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     open val selector by lazy { selectorOf(paginator) }
 
-    protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(builder)
+    protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(cache, builder)
 
     open val actions: SelectorBasedActionsManager<T> by lazy { emptyActions() }
 

@@ -1,17 +1,12 @@
 package symphony.internal
 
-import kevlar.Action
 import kollections.List
 import kollections.add
-import kollections.mapIndexed
-import kollections.remove
-import kollections.size
-import kollections.sortedBy
+import kollections.find
 import kollections.toList
-import kollections.toMutableList
-import kollections.toSet
 import koncurrent.Later
 import koncurrent.TODOLater
+import koncurrent.toLater
 import symphony.AbstractSelectorBasedActionsBuilder
 import symphony.Mover
 import symphony.SelectionManager
@@ -32,17 +27,16 @@ internal abstract class AbstractSelectorBasedActionsManager<T, S : Selected<T>>(
 
     override fun add(name: String, handler: () -> Unit): SelectorBasedActionsManager<T> {
         builder.primary { on(name, handler = handler) }
+        selector.selected.dispatch()
         return this
     }
 
-    override fun find(name: String): Action<Any> {
-        TODO("Not yet implemented")
-    }
+    override fun find(name: String) = get().find { it.name.contains(name,ignoreCase = true) }
 
     inner class ActionsMoverImpl(private val column: String) : Mover {
 
         override fun at(index: Int): Later<Any> {
-//            val old = find(column) ?: return
+            val old = find(column) ?: return toLater()
             return TODOLater()
         }
 
@@ -67,11 +61,13 @@ internal abstract class AbstractSelectorBasedActionsManager<T, S : Selected<T>>(
 
     override fun addSingle(name: String, handler: (T) -> Unit): SelectorBasedActionsManager<T> {
         builder.single { on(name) { handler(it) } }
+        selector.selected.dispatch()
         return this
     }
 
     override fun addMulti(name: String, handler: (List<T>) -> Unit): SelectorBasedActionsManager<T> {
         builder.multi { on(name) { handler(it) } }
+        selector.selected.dispatch()
         return this
     }
 
