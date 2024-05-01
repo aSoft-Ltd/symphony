@@ -2,7 +2,6 @@ package symphony.internal
 
 import cinematic.mutableLiveSetOf
 import keep.Cache
-import keep.loadOrNull
 import kollections.Set
 import kollections.SetSerializer
 import kollections.add
@@ -19,6 +18,7 @@ import kollections.toMutableList
 import kollections.toSet
 import kollections.values
 import koncurrent.Later
+import koncurrent.later.catch
 import koncurrent.later.then
 import koncurrent.toLater
 import kotlinx.serialization.Serializable
@@ -156,7 +156,7 @@ internal class ColumnsManagerImpl<D>(
     }
 
     private fun cachedColumns(): Later<Set<ColumnCache>?> {
-        return cache?.loadOrNull(CACHE_KEY, SetSerializer(ColumnCache.serializer())) ?: emptySet<ColumnCache>().toLater()
+        return cache?.load(CACHE_KEY, serializer)?.catch { emptySet() } ?: emptySet<ColumnCache>().toLater()
     }
 
     private fun replace(name: String, column: Column<D>): Later<ColumnsManager<D>> {
