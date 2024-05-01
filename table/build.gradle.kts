@@ -24,6 +24,7 @@ kotlin {
                 api(projects.symphonyActions)
                 api(projects.symphonyVisibility)
                 api(libs.cinematic.live.kollections)
+                api(libs.keep.api)
             }
         }
 
@@ -31,6 +32,7 @@ kotlin {
             dependencies {
                 implementation(libs.kommander.coroutines)
                 implementation(libs.koncurrent.later.coroutines)
+                implementation(libs.keep.mock)
             }
         }
     }

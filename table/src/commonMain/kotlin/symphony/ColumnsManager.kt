@@ -5,25 +5,37 @@ package symphony
 
 import kollections.Set
 import cinematic.Live
+import koncurrent.Later
 import kotlinx.JsExport
 import symphony.columns.Column
 
 interface ColumnsManager<D> {
     val current: Live<Set<Column<D>>>
 
+    fun reset(): ColumnsManager<D>
+
+    fun initialize(): Later<ColumnsManager<D>>
+
     fun all(): Set<Column<D>>
-    fun add(name: String, accessor: (Row<D>) -> String): ColumnsManager<D>
+
+    /**
+     * Adds a column
+     *
+     * NOTE: Adding a column with the same name will not do anything
+     */
+    fun add(name: String, accessor: (Row<D>) -> Any?): Later<ColumnsManager<D>>
 
     fun find(name: String): Column<D>?
-    fun hide(name: String): ColumnsManager<D>
-    fun show(name: String): ColumnsManager<D>
 
-    fun toggleVisibility(name: String) : ColumnsManager<D>
+    fun hide(name: String): Later<ColumnsManager<D>>
 
-    fun remove(name: String) : ColumnsManager<D>
+    fun show(name: String): Later<ColumnsManager<D>>
 
-    fun rename(prev: String, curr: String): ColumnsManager<D>
-    fun index(name: String, idx: Int): ColumnsManager<D>
+    fun toggleVisibility(name: String): Later<ColumnsManager<D>>
 
-    fun move(name: String) : ColumnMover<D>
+    fun remove(name: String): Later<ColumnsManager<D>>
+
+    fun rename(prev: String, curr: String): Later<ColumnsManager<D>>
+
+    fun move(name: String): Mover
 }

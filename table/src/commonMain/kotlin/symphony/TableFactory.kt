@@ -32,14 +32,14 @@ fun <T> tableOf(
     selector: LinearSelectionManager<T> = selectorOf(paginator),
     actions: SelectorBasedActionsManager<T> = emptyActions(),
     columns: ColumnsBuilder<T>.() -> Unit
-): Table<T> = LinearTableImpl(paginator, selector, actions, columnsOf(columns))
+): Table<T> = LinearTableImpl(paginator, selector, actions, columnsOf(null,columns))
 
 fun <T> tableOf(
     paginator: GroupedPaginationManager<*, T>,
     selector: GroupedSelectionManager<*, T> = selectorOf(paginator),
     actions: SelectorBasedActionsManager<T> = emptyActions(),
     columns: ColumnsBuilder<T>.() -> Unit
-): Table<T> = GroupedTableImpl(paginator, selector, actions, columnsOf(columns))
+): Table<T> = GroupedTableImpl(paginator, selector, actions, columnsOf(null,columns))
 
 //@JvmSynthetic
 //fun <T> tableOf(
