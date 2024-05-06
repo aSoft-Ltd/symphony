@@ -22,21 +22,26 @@ import koncurrent.later.catch
 import koncurrent.later.then
 import koncurrent.toLater
 import kotlinx.serialization.Serializable
+import symphony.ColumnAppender
 import symphony.ColumnsBuilder
 import symphony.ColumnsManager
 import symphony.HiddenVisibility
 import symphony.Mover
 import symphony.Row
 import symphony.Visibilities
+import symphony.Visibility
 import symphony.VisibleVisibility
+import symphony.columns.ActionColumn
 import symphony.columns.Column
 import symphony.columns.DataColumn
+import symphony.columns.SelectColumn
 
 @PublishedApi
 internal class ColumnsManagerImpl<D>(
     private val cache: Cache?,
     initializer: ColumnsBuilder<D>.() -> Unit
 ) : ColumnsManager<D> {
+
     override val current by lazy {
         val cmb = ColumnsBuilder<D>().apply(initializer)
         mutableLiveSetOf<Column<D>>(cmb.columns.values.sortedBy { it.index })
@@ -65,6 +70,8 @@ internal class ColumnsManagerImpl<D>(
     }.then {
         this
     }
+
+    override val append by lazy { ColumnsAppenderImpl() }
 
     override fun reset(): ColumnsManager<D> {
         return this
@@ -105,6 +112,32 @@ internal class ColumnsManagerImpl<D>(
     }
 
     override fun move(name: String) = ColumnsMoverImpl(name)
+
+    inner class ColumnsAppenderImpl : ColumnAppender<D> {
+        override fun selectable(name: String) = append(name) { index, visibility ->
+            SelectColumn(name, name, index, visibility)
+        }
+
+        override fun data(name: String, accessor: (Row<D>) -> Any?) = append(name) { index, visibility ->
+            DataColumn(name, name, index, visibility, name, accessor)
+        }
+
+        override fun actions(name: String) = append(name) { index, visibility ->
+            ActionColumn(name, name, index, visibility)
+        }
+
+        private fun append(name: String, block: (index: Int, visibility: Visibility) -> Column<D>): Later<ColumnAppender<D>> {
+            val existing = find(name)
+            if (existing != null) return toLater()
+            return cachedColumns().then { columns ->
+                val cached = columns?.find { it.name == name }
+                val visibility = if (cached?.hidden != true) VisibleVisibility else HiddenVisibility
+                current.add(block(cached?.index ?: current.value.size, visibility))
+            }.then {
+                this
+            }
+        }
+    }
 
     inner class ColumnsMoverImpl(private val column: String) : Mover {
 

@@ -23,7 +23,10 @@ interface ColumnsManager<D> {
      *
      * NOTE: Adding a column with the same name will not do anything
      */
+    @Deprecated("in favor of append.data", replaceWith = ReplaceWith("append.data(name, accessor)"))
     fun add(name: String, accessor: (Row<D>) -> Any?): Later<ColumnsManager<D>>
+
+    val append: ColumnAppender<D>
 
     fun find(name: String): Column<D>?
 
