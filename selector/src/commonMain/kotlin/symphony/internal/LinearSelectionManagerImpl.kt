@@ -94,12 +94,12 @@ class LinearSelectionManagerImpl<T>(
 
     private fun LinearSelectedItems<T>.isPageSelectedWithNoExceptions(page: Int?): Boolean {
         val entry = this.page.find { it.key.number == page } ?: return false
-        return entry.key.capacity == entry.value.size
+        return entry.key.size == entry.value.size
     }
 
     override fun isPageSelectedWithNoExceptions(page: Int?): Boolean = when (val s = selected.value) {
         is LinearSelectedNone -> false
-        is LinearSelectedItem -> false
+        is LinearSelectedItem -> s.page.size == 1
         is LinearSelectedItems -> s.isPageSelectedWithNoExceptions(page)
         is LinearSelectedGlobal -> !s.exceptions.any { it.page.number == page }
     }

@@ -95,12 +95,12 @@ class GroupedSelectionManagerImpl<G, T>(
 
     private fun GroupedSelectedItems<G, T>.isPageSelectedWithNoExceptions(page: Int?): Boolean {
         val entry = this.page.find { it.key.number == page } ?: return false
-        return entry.key.capacity == entry.value.size
+        return entry.key.size == entry.value.size
     }
 
     override fun isPageSelectedWithNoExceptions(page: Int?): Boolean = when (val s = selected.value) {
         is GroupedSelectedNone -> false
-        is GroupedSelectedItem -> false
+        is GroupedSelectedItem -> s.page.size == 1
         is GroupedSelectedItems -> s.isPageSelectedWithNoExceptions(page)
         is GroupedSelectedGlobal -> !s.exceptions.any { it.page.number == page }
     }

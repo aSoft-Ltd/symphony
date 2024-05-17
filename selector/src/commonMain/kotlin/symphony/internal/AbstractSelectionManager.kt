@@ -79,8 +79,7 @@ abstract class AbstractSelectionManager<T, S : Selected<T>>(
 
     override fun toggleSelectionOfRowInPage(row: Int, page: Int) = toggleRowSelection(row, page)
 
-    private fun toggleRowSelection(row: Int, page: Int?) =
-        if (isRowItemSelected(row, page)) unSelectRowFromPage(row, page) else select(row)
+    private fun toggleRowSelection(row: Int, page: Int?) = if (isRowItemSelected(row, page)) unSelectRowFromPage(row, page) else select(row)
 
     override fun toggleSelectionOfCurrentPage() = toggleSelectionOfANullablePage(currentLoadedPage?.number)
 
