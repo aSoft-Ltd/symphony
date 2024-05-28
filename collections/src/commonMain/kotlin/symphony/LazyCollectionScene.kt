@@ -61,4 +61,6 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
         val DEFAULT_VIEW = View.List
     }
+
+    fun isGroupedList() = this is GroupedCollectionScene //temp fix though cyclic
 }
