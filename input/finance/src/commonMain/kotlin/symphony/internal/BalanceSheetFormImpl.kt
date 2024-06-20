@@ -1,41 +1,35 @@
 package symphony.internal
 
-import kollections.listOf
+import krono.LocalDateField
 import symphony.BalanceSheetForm
 
 @PublishedApi
 internal class BalanceSheetFormImpl : BalanceSheetForm {
-    override val assets = BalanceSheetTopBagImpl(
-        label = "Assets",
-        current = StaticSectionRowFormImpl(
-            label = "Current Assets",
-            total = 0.0,
-            children = listOf()
-        ),
-        fixed = StaticSectionRowFormImpl(
-            label = "Non Current Assets",
-            total = 0.0,
-            children = listOf()
-        )
-    )
 
-    override val equity = StaticSectionRowFormImpl(
-        label = "Equity",
-        total = 0.0,
-        children = listOf()
-    )
+    override val date = LocalDateField(name = "End Date")
 
-    override val liabilities = BalanceSheetTopBagImpl(
-        label = "Liabilities",
-        current = StaticSectionRowFormImpl(
-            label = "Current Liabilities",
-            total = 0.0,
-            children = listOf()
-        ),
-        fixed = StaticSectionRowFormImpl(
-            label = "Long Term Liabilities",
-            total = 0.0,
-            children = listOf()
-        )
-    )
+    override val assets = DynamicReportRowImpl(
+        title = "Assets",
+        removable = false
+    ).apply {
+        expand()
+        add("Current Assets", false)
+        add("Fixed Assets", false)
+    }
+
+    override val equity = DynamicReportRowImpl(
+        title = "Equity",
+        removable = false
+    ).apply {
+        expand()
+    }
+
+    override val liabilities = DynamicReportRowImpl(
+        title = "Liabilities",
+        removable = false
+    ).apply {
+        expand()
+        add("Current Liabilities", false)
+        add("Long Term Liabilities", false)
+    }
 }

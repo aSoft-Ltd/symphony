@@ -1,10 +1,10 @@
 import kommander.expect
-import symphony.DynamicReportRowImpl
+import symphony.internal.DynamicReportRowImpl
 import kotlin.test.Test
 
 class DynamicReportRowTest {
 
-    private val row = DynamicReportRowImpl("Row")
+    private val row = DynamicReportRowImpl(title = "Row", removable = true)
 
     @Test
     fun should_be_able_to_create_an_empty_sheet() {

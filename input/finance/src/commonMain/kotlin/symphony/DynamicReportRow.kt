@@ -11,6 +11,7 @@ interface DynamicReportRow {
     val container: BaseField<Boolean>
     val total: NumberField<Double>
     val rows: Live<List<DynamicReportRow>>
+    val removable: Boolean
     fun collapse()
     fun expand()
     fun add(name: String = "Other"): DynamicReportRow?

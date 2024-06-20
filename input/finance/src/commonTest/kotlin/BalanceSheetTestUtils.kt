@@ -1,14 +1,14 @@
 import kollections.isEmpty
 import kollections.iterator
 import symphony.BalanceSheetForm
-import symphony.BalanceSheetTopBag
+import symphony.DynamicReportRow
 import symphony.SectionRow
 import symphony.StaticSectionRowForm
 
 fun BalanceSheetForm.renderToString(tab: String = " ") = buildString {
-    appendLine(assets.renderToString(tab))
-    appendLine(equity.renderToString(tab))
-    appendLine(liabilities.renderToString(tab))
+    appendLine(assets.renderToString(tab, 0))
+    appendLine(equity.renderToString(tab, 0))
+    appendLine(liabilities.renderToString(tab, 0))
 }
 
 fun SectionRow.renderToString(tab: String, depth: Int): String = when (this) {
@@ -30,11 +30,15 @@ fun StaticSectionRowForm.renderToString(tab: String, depth: Int = 0) = buildStri
     }
 }
 
-fun BalanceSheetTopBag.renderToString(tab: String = " ") = buildString {
-    append(tab.repeat(0))
-    append(label)
-    appendLine()
-    for (child in listOf(current, fixed)) {
-        appendLine(child.renderToString(tab, 1))
+private fun DynamicReportRow.renderToString(tab: String = " ", depth: Int = 0): String = buildString {
+    append(tab.repeat(depth))
+    append(label.output ?: "")
+    if (container.output != false) {
+        append(tab.repeat(depth + 10))
+        appendLine(total.output ?: 0.0)
+        for (row in rows.value) append(row.renderToString(tab, depth + 1))
+    } else {
+        append(tab.repeat(depth + 1))
+        appendLine(total.output ?: 0.0)
     }
 }

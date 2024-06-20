@@ -1,14 +1,20 @@
-package symphony
+package symphony.internal
 
 import cinematic.Watcher
 import cinematic.mutableLiveListOf
 import kollections.find
 import kollections.sumOf
+import symphony.BaseField
+import symphony.BooleanField
+import symphony.DoubleField
+import symphony.DynamicReportRow
+import symphony.TextField
 
 internal class DynamicReportRowImpl(
-    private val title: String
+    title: String,
+    override val removable: Boolean
 ) : DynamicReportRow {
-    override val label: BaseField<String> = TextField(name = "$title-label", label = title)
+    override val label: BaseField<String> = TextField(name = "$title-label", label = title, value = title)
     override val container: BooleanField = BooleanField(name = "$title-container", value = false)
     override val total = DoubleField(name = "$title-total", label = "Total", value = 0.0)
     override val rows = mutableLiveListOf<DynamicReportRow>()
@@ -30,13 +36,14 @@ internal class DynamicReportRowImpl(
     override fun expand() {
         if (container.output == true) return
         container.set(true)
-        add("Other")
         watcher = rows.watchEagerly { updateTotal() }
     }
 
-    override fun add(name: String): DynamicReportRow? {
+    override fun add(name: String) = add(name, true)
+
+    internal fun add(name: String, removable: Boolean): DynamicReportRow? {
         if (!isContainer) return null
-        val row = DynamicReportRowImpl(name)
+        val row = DynamicReportRowImpl(name, removable)
         row.total.state.watchEagerly { updateTotal() }
         rows.add(row)
         return row
@@ -49,7 +56,7 @@ internal class DynamicReportRowImpl(
     }
 
     override fun remove(child: DynamicReportRow?): DynamicReportRow? {
-        if (!isContainer) return null
+        if (!isContainer || !removable) return null
         val candidate = rows.value.find { it == child } ?: return null
         candidate.total.state.stopAll()
         rows.remove(candidate)
