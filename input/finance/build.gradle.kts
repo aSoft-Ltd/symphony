@@ -25,7 +25,7 @@ kotlin {
                 api(projects.symphonyInputCore)
                 api(libs.symphony.input.text)?.because("We need to capture form labels")
                 api(libs.symphony.input.number)?.because("We need to capture amounts")
-                api(libs.krono.fields)?.because("We need to capture dates")
+//                api(libs.krono.fields)?.because("We need to capture dates")
                 api(libs.symphony.input.choice)?.because("We need to choose if our rows are expandable or collapsed")
                 api(libs.cinematic.live.kollections)
                 api(libs.neat.validation)

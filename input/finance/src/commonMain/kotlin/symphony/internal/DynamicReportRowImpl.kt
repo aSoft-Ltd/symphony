@@ -12,7 +12,8 @@ import symphony.TextField
 
 internal class DynamicReportRowImpl(
     title: String,
-    override val removable: Boolean
+    override val removable: Boolean,
+    override val appendable: Boolean
 ) : DynamicReportRow {
     override val label: BaseField<String> = TextField(name = "$title-label", label = title, value = title)
     override val container: BooleanField = BooleanField(name = "$title-container", value = false)
@@ -39,11 +40,11 @@ internal class DynamicReportRowImpl(
         watcher = rows.watchEagerly { updateTotal() }
     }
 
-    override fun add(name: String) = add(name, true)
+    override fun add(name: String) = add(name, true, true)
 
-    internal fun add(name: String, removable: Boolean): DynamicReportRow? {
+    internal fun add(name: String, removable: Boolean, appendable: Boolean): DynamicReportRow? {
         if (!isContainer) return null
-        val row = DynamicReportRowImpl(name, removable)
+        val row = DynamicReportRowImpl(name, removable, appendable)
         row.total.state.watchEagerly { updateTotal() }
         rows.add(row)
         return row

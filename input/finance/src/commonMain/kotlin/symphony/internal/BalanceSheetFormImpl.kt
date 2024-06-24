@@ -1,35 +1,38 @@
 package symphony.internal
 
-import krono.LocalDateField
+//import krono.LocalDateField
 import symphony.BalanceSheetForm
 
 @PublishedApi
 internal class BalanceSheetFormImpl : BalanceSheetForm {
 
-    override val date = LocalDateField(name = "End Date")
+//    override val date = LocalDateField(name = "End Date")
 
     override val assets = DynamicReportRowImpl(
         title = "Assets",
-        removable = false
+        removable = false,
+        appendable = false
     ).apply {
         expand()
-        add("Current Assets", false)
-        add("Fixed Assets", false)
+        add("Current Assets", removable = false, appendable = true)
+        add("Fixed Assets", removable = false, appendable = true)
     }
 
     override val equity = DynamicReportRowImpl(
         title = "Equity",
-        removable = false
+        removable = false,
+        appendable = true
     ).apply {
         expand()
     }
 
     override val liabilities = DynamicReportRowImpl(
         title = "Liabilities",
-        removable = false
+        removable = false,
+        appendable = false
     ).apply {
         expand()
-        add("Current Liabilities", false)
-        add("Long Term Liabilities", false)
+        add("Current Liabilities", removable = false, appendable = true)
+        add("Long Term Liabilities", removable = false, appendable = true)
     }
 }
