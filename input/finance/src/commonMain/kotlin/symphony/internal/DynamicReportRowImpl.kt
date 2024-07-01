@@ -3,6 +3,7 @@ package symphony.internal
 import cinematic.Watcher
 import cinematic.mutableLiveListOf
 import kollections.find
+import kollections.isEmpty
 import kollections.sumOf
 import symphony.BaseField
 import symphony.BooleanField
@@ -61,6 +62,8 @@ internal class DynamicReportRowImpl(
         val candidate = rows.value.find { it == child } ?: return null
         candidate.total.state.stopAll()
         rows.remove(candidate)
+        if (rows.value.isEmpty()) container.set(false)
+        updateTotal()
         return candidate
     }
 }
