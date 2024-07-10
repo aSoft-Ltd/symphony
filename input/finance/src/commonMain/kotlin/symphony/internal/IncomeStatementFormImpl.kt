@@ -24,7 +24,7 @@ internal class IncomeStatementFormImpl : IncomeStatementForm {
     override val grossProfit = mutableLiveOf(0.0)
 
     override val expenses = DynamicReportRowImpl(
-        title = "Expenses",
+        title = "Total Operating Expenses",
         removable = false,
         appendable = true
     ).apply {

@@ -23,7 +23,7 @@ internal class CashFlowStatementFormImpl: CashFlowStatementForm {
     override val financing = DynamicReportRowImpl(
         title = "Cash from Financing Activities",
         removable = false,
-        appendable = false
+        appendable = true
     ).apply {
         expand()
     }
