@@ -6,7 +6,6 @@ package symphony.selected
 import kollections.Map
 import kollections.Set
 import kotlinx.JsExport
-import symphony.LinearPage
 import symphony.Page
 import symphony.Row
 
