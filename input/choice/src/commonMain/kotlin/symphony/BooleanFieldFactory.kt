@@ -16,3 +16,13 @@ fun Fields<*>.boolean(
 ): BooleanField = getOrCreate(name) {
     BooleanFieldImpl(FieldBacker.Prop(name), value, label, visibility, hint, onChange, factory)
 }
+
+fun BooleanField(
+    name: String = "Boolean Field",
+    value: Boolean? = null,
+    label: String = name,
+    hint: String = label,
+    visibility: Visibility = Visibilities.Visible,
+    onChange: Changer<Boolean>? = null,
+    factory: ValidationFactory<Boolean>? = null
+) : BooleanField = BooleanFieldImpl(FieldBacker.Name(name), value, label, visibility, hint, onChange, factory)
