@@ -4,7 +4,7 @@ import kotlin.test.Test
 
 class DynamicReportRowTest {
 
-    private val row = DynamicReportRowImpl(title = "Row", removable = true)
+    private val row = DynamicReportRowImpl(title = "Row", appendable = true, removable = true)
 
     @Test
     fun should_be_able_to_create_an_empty_sheet() {

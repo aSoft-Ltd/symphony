@@ -23,10 +23,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.symphonyInputCore)
-                api(libs.symphony.input.text)?.because("We need to capture form labels")
-                api(libs.symphony.input.number)?.because("We need to capture amounts")
+                api(projects.symphonyInputText)?.because("We need to capture form labels")
+                api(projects.symphonyInputNumber)?.because("We need to capture amounts")
 //                api(libs.krono.fields)?.because("We need to capture dates")
-                api(libs.symphony.input.choice)?.because("We need to choose if our rows are expandable or collapsed")
+                api(projects.symphonyInputChoice)?.because("We need to choose if our rows are expandable or collapsed")
                 api(libs.cinematic.live.kollections)
                 api(libs.neat.validation)
             }
