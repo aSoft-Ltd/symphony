@@ -14,8 +14,7 @@ kotlin {
     if (Targeting.JVM) jvm { library() }
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.WASM) wasmJs { library() }
-    if (Targeting.WASM) wasmWasi { library() }
-    if (Targeting.OSX) iosTargets()
+    if (Targeting.OSX) (iosTargets() + macOsTargets())
     if (Targeting.LINUX) linuxTargets()
 
     sourceSets {

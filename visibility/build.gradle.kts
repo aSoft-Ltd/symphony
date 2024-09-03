@@ -14,7 +14,7 @@ kotlin {
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.WASM) wasmJs { library() }
     if (Targeting.WASM) wasmWasi { library() }
-    if (Targeting.OSX) osxTargets()
+    if (Targeting.OSX) (iosTargets() + macOsTargets())
     if (Targeting.NDK) ndkTargets()
     if (Targeting.LINUX) linuxTargets()
     if (Targeting.MINGW) mingwTargets()
