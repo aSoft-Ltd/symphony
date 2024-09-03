@@ -11,13 +11,12 @@ plugins {
 description = "A kotlin multiplatform library"
 
 kotlin {
-    jvm { library() }
-    js(IR) { library() }
+    if (Targeting.JVM) jvm { library() }
+    if (Targeting.JS) js(IR) { library() }
     if (Targeting.WASM) wasmJs { library() }
-    if (Targeting.OSX) osxTargets() else listOf()
-//    if (Targeting.NDK) ndkTargets() else listOf()
-    if (Targeting.LINUX) linuxTargets() else listOf()
-//    if (Targeting.MINGW) mingwTargets() else listOf()
+    if (Targeting.WASM) wasmWasi { library() }
+    if (Targeting.OSX) iosTargets()
+    if (Targeting.LINUX) linuxTargets()
 
     sourceSets {
         val commonMain by getting {
