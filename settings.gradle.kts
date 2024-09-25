@@ -14,8 +14,8 @@ fun includeSubs(base: String, path: String = base, vararg subs: String) {
 }
 
 listOf(
-    "kommander", "kollections", "kevlar", "kase",
-    "keep", "lexi", "neat", "cinematic", "koncurrent", "kotlinx-interoperable"
+    "kommander", "kollections", "kevlar", "kase", "nation", "sim",
+    "keep", "lexi", "neat", "cinematic", "koncurrent", "kotlinx-interoperable",
 ).forEach {
     includeBuild("../$it")
 }
@@ -24,4 +24,4 @@ rootProject.name = "symphony"
 
 // submodules
 includeSubs("symphony", ".", "paginator", "selector", "actions", "table", "list", "collections", "visibility")
-includeSubs("symphony-input", "input", "core", "text", "number", "choice", "dialog", "sheet", "finance")
+includeSubs("symphony-input", "input", "core", "text", "number", "choice", "dialog", "sheet", "finance", "phone")
