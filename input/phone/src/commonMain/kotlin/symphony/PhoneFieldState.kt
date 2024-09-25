@@ -5,7 +5,7 @@ package symphony
 
 import nation.Country
 import kollections.List
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 interface PhoneFieldState : FieldState<PhoneOutput> {
     val name: String

@@ -7,9 +7,7 @@ plugins {
     id("tz.co.asoft.library")
 }
 
-description = "A kotlin multiplatform library for headless input fields"
-
-val tmp = 4
+description = "A kotlin multiplatform library for headless phone fields"
 
 kotlin {
     if (Targeting.JVM) jvm { library() }

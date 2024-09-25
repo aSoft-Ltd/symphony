@@ -5,7 +5,7 @@ package symphony
 
 import nation.Country
 import sim.Phone
-import kotlin.js.JsExport
+import kotlinx.JsExport
 
 data class PhoneOutput(
     val country: Country,
