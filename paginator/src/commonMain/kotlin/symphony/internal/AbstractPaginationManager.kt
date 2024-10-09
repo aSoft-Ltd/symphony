@@ -70,7 +70,7 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
         current.value = Pending
     }
 
-    internal fun params(page: Int) = PageLoaderParams(page, capacity.value, search.value)
+    internal fun params(page: Int) = PageLoaderParams(page, capacity.value, search.value, sorter.data.value)
     protected fun load(page: Int): Later<P> {
         if (current.value is Loading) return FailedLater(LOADING_ERROR)
 

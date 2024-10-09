@@ -13,6 +13,7 @@ import kollections.addAll
 import kollections.emptyList
 import kollections.buildList
 import kollections.mapIndexed
+import symphony.ColumnSorter
 import symphony.LinearPage
 import symphony.LinearPageLoader
 import symphony.LinearPageFindResult
@@ -31,7 +32,9 @@ internal class LinearPaginationManagerImpl<T>(
     override val loader by lazy { Bag<LinearPageLoader<T>>(LinearPageLoaderInitial) }
 
     override val memory by lazy { LinearPageMemoryManager<T>() }
+    override val sorter: ColumnSorter = ColumnSorter {
 
+    }
     override val continuous
         get() = buildList<Row<T>> {
             forEachPage { page ->

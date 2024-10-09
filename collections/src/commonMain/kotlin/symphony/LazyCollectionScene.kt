@@ -26,6 +26,8 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
     abstract val selector: SelectionManager<T, *>
 
+//    abstract val sorter: ColumnSorter
+
     protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(cache,builder)
 
     open val actions: SelectorBasedActionsManager<T> by lazy { emptyActions() }

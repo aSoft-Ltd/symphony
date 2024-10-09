@@ -12,6 +12,7 @@ import koncurrent.later.andZip
 import koncurrent.later.zip
 import koncurrent.later.catch
 import symphony.Chunk
+import symphony.ColumnSorter
 import symphony.GroupedPage
 import symphony.GroupedPageLoader
 import symphony.GroupedPageFindResult
@@ -34,6 +35,9 @@ internal class GroupedPaginationManagerImpl<G, T>(
 
     override val continuous get() = buildList<Chunk<G, Row<T>>> { forEachPage { page -> addAll(page.groups) } }
 
+    override val sorter: ColumnSorter = ColumnSorter {
+
+    }
     override fun initialize(ld: PageLoaderFunction<Chunk<G, T>>): Later<GroupedPage<G, T>> {
         loader.value = GroupedPageLoaderImpl(ld)
         search.value = null

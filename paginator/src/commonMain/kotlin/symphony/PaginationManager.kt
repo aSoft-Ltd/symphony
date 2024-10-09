@@ -16,6 +16,7 @@ interface PaginationManager<out T, out P : Page, out R : PageFindResult<T>> {
     val currentPageSize : Int
     val capacity: Live<Int>
     val hasMore: Boolean
+    val sorter: ColumnSorter
 
     fun wipeMemory()
     fun clearPages()
