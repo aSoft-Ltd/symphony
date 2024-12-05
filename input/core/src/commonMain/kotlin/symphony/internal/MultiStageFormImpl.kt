@@ -80,7 +80,7 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
             }
             state.value = state.value.copy(phase = phase)
             if (res is Success) {
-                logger.info("Success")
+                logger.info("Failed")
                 try {
                     prerequisites.onSuccess?.invoke(res.data)
                 } catch (err: Throwable) {

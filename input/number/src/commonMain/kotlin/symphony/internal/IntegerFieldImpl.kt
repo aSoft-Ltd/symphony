@@ -27,7 +27,7 @@ internal class IntegerFieldImpl(
     override fun decrement(step: Int?) {
         val o = output ?: 0
         val s = step ?: 1
-        set(o + s)
+        set(o - s)
     }
 
     override fun set(double: Double?) = set(double?.roundToInt())

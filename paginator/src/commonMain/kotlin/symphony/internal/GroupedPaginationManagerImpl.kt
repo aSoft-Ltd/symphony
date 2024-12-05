@@ -16,6 +16,7 @@ import symphony.ColumnSorter
 import symphony.GroupedPage
 import symphony.GroupedPageLoader
 import symphony.GroupedPageFindResult
+import symphony.GroupedPageLoaderFunction
 import symphony.GroupedPaginationManager
 import symphony.PageLoaderFunction
 import symphony.Row
@@ -38,7 +39,7 @@ internal class GroupedPaginationManagerImpl<G, T>(
     override val sorter: ColumnSorter = ColumnSorter {
 
     }
-    override fun initialize(ld: PageLoaderFunction<Chunk<G, T>>): Later<GroupedPage<G, T>> {
+    override fun initialize(ld: GroupedPageLoaderFunction<G, T>): Later<GroupedPage<G, T>> {
         loader.value = GroupedPageLoaderImpl(ld)
         search.value = null
         return loadFirstPage()

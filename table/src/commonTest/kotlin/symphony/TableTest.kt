@@ -10,7 +10,7 @@ class TableTest {
     @Test
     fun can_be_assigned_a_paginator() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { params -> Person.List.paged(params) }.await()
+        paginator.initialize { params,source -> Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         println(table.renderToString())
@@ -28,7 +28,7 @@ class TableTest {
     @Test
     fun should_be_able_to_select_table_items() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { params -> Person.List.paged(params) }.await()
+        paginator.initialize { params,source -> Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         paginator.loadFirstPage()
@@ -54,7 +54,7 @@ class TableTest {
     @Test
     fun should_be_able_to_select_the_whole_current_page() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { params -> Person.List.paged(params) }.await()
+        paginator.initialize { params,source -> Person.List.paged(params) }.await()
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
 
@@ -103,7 +103,7 @@ class TableTest {
             Person("Jill", 23),
         )
         val paginator = linearPaginatorOf<Person>(4)
-        paginator.initialize { params -> people.paged(params) }.await()
+        paginator.initialize { params,source -> people.paged(params) }.await()
 
         val table = tableOf(paginator) {
             selectable()

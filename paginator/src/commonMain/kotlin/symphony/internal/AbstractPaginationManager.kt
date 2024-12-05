@@ -7,16 +7,19 @@ import kase.Failure
 import kase.LazyState
 import kase.Loading
 import kase.Pending
+import kase.Result
 import kase.Success
 import kase.toLazyState
 import koncurrent.FailedLater
 import koncurrent.Later
+import koncurrent.later.andThen
 import koncurrent.later.finally
 import koncurrent.later.then
 import symphony.AbstractPage
 import symphony.PageFindResult
 import symphony.PageLoader
 import symphony.PageLoaderParams
+import symphony.PageLoaderSource
 import symphony.PaginationManager
 import symphony.internal.memory.PageMemoryManager
 
@@ -76,16 +79,41 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
 
         val params = params(page)
         val memorizedPage = memory.load(params)
-        current.value = Loading("Loading", memorizedPage)
-        return try {
-            loader.getOrThrow().load(params)
-        } catch (err: Throwable) {
-            FailedLater(err)
-        }.then {
-            memory.save(params, it)
-        }.finally {
-            current.value = it.toLazyState(memorizedPage)
+        current.value = Loading("Loading")
+        println("Loading from LOCAL source....")
+        return loader.getOrThrow().load(params, PageLoaderSource.LOCAL).then {  localRes->
+            println("Loaded from local source....setting state, size=${localRes.size}")
+            current.value = Success(localRes)
+            memory.save(params, localRes)
+            localRes
+        }.then {  localRes->
+            println("Loading from REMOTE source....")
+            loader.getOrThrow().load(params, PageLoaderSource.REMOTE).then { remoteRes->
+                println("Loaded from REMOTE source....setting state, size=${remoteRes.size}")
+                current.value = Success(remoteRes)
+                memory.save(params, remoteRes)
+            }
+            localRes
         }
+//        return try {
+//            println("Loading from local source....")
+//            loader.getOrThrow().load(params, PageLoaderSource.LOCAL)
+//        } catch (err: Throwable) {
+//            FailedLater(err)
+//        }.then {
+//            memory.save(params, it)
+//        }.finally {
+//            println("Loaded from local source.. setting state")
+//            current.value = it.toLazyState(memorizedPage)
+//            println("Loading from remote source...")
+//            loader.getOrThrow().load(params, PageLoaderSource.REMOTE).then {
+//                println("Loaded from remote source: ${it}")
+//                println("Setting state (R)")
+//                current.value = Success(it)
+//            }
+//        }.then {
+//            it
+//        }
     }
 
     override fun loadNextPage() = when (val state = current.value) {

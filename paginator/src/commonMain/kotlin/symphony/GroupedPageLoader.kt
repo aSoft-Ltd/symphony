@@ -8,5 +8,5 @@ import koncurrent.later.zip
 import koncurrent.later.catch
 
 interface GroupedPageLoader<out G, out T> : PageLoader<GroupedPage<G, T>> {
-    override fun load(params: PageLoaderParams): Later<GroupedPage<G, T>>
+    override fun load(params: PageLoaderParams, source: PageLoaderSource): Later<GroupedPage<G, T>>
 }

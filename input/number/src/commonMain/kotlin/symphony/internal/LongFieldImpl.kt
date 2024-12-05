@@ -27,7 +27,7 @@ internal class LongFieldImpl(
     override fun decrement(step: Long?) {
         val o = output ?: 0L
         val s = step ?: 1L
-        set(o + s)
+        set(o - s)
     }
 
     override fun set(double: Double?) = set(double?.roundToLong())

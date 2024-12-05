@@ -70,7 +70,7 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
                 }
 
                 is Failure -> {
-                    logger.info("Success")
+                    logger.info("Failed")
                     try {
                         prerequisites.onFailure?.invoke(res.cause)
                     } catch (err: Throwable) {

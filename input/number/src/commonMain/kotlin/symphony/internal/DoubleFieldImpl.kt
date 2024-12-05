@@ -26,7 +26,7 @@ internal class DoubleFieldImpl(
     override fun decrement(step: Double?) {
         val o = output ?: 0.0
         val s = step ?: 1.0
-        set(o + s)
+        set(o - s)
     }
 
     override fun set(text: String?) = set(text?.toDoubleOrNull() ?: 0.0)
