@@ -12,6 +12,7 @@ import kollections.last
 import kollections.size
 import koncurrent.Later
 import symphony.internal.GroupedPaginationManagerImpl
+import symphony.internal.LinearOfflineFirstPaginationManagerImpl
 import symphony.internal.LinearPaginationManagerImpl
 
 const val DEFAULT_PAGINATION_CAPACITY = 10
@@ -32,6 +33,10 @@ fun <T> Collection<T>.paged(params: PageLoaderParams) = paged(params.page, param
 inline fun <T> linearPaginatorOf(
     capacity: Int = DEFAULT_PAGINATION_CAPACITY,
 ): LinearPaginationManager<T> = LinearPaginationManagerImpl(capacity)
+
+inline fun <T> linearOfflineFirstPaginatorOf(
+    capacity: Int = DEFAULT_PAGINATION_CAPACITY,
+): LinearPaginationManager<T> = LinearOfflineFirstPaginationManagerImpl(capacity)
 
 // Removing this because loading is asynchronous and it is making testing harder
 //inline fun <T> linearPaginatorOf(

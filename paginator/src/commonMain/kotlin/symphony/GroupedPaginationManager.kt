@@ -16,7 +16,7 @@ interface GroupedPaginationManager<out G, out T> : PaginationManager<T, GroupedP
     val continuous: List<Chunk<G, Row<T>>>
 
 //    fun initialize(ld: PageLoaderFunction<Chunk<@UnsafeVariance G, @UnsafeVariance T>>): Later<GroupedPage<G, T>>
-    fun initialize(ld: GroupedPageLoaderFunction<@UnsafeVariance G, @UnsafeVariance T>): Later<GroupedPage<G, T>>
+    fun initialize(ld: GroupedPageLoaderFunction<@UnsafeVariance G, @UnsafeVariance T>): Later<Any?>
     // --------------------- loopers ----------------------
     fun forEachPage(block: (GroupedPage<G, T>) -> Unit)
 }

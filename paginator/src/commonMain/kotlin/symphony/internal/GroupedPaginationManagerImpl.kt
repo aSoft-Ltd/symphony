@@ -39,7 +39,7 @@ internal class GroupedPaginationManagerImpl<G, T>(
     override val sorter: ColumnSorter = ColumnSorter {
 
     }
-    override fun initialize(ld: GroupedPageLoaderFunction<G, T>): Later<GroupedPage<G, T>> {
+    override fun initialize(ld: GroupedPageLoaderFunction<G, T>): Later<Any?> {
         loader.value = GroupedPageLoaderImpl(ld)
         search.value = null
         return loadFirstPage()

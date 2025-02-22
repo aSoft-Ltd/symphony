@@ -42,7 +42,7 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
         views.select(it.data ?: DEFAULT_VIEW)
     }
 
-    fun search(): Later<Page> {
+    fun search(): Later<Any?> {
         paginator.clearPages()
         return paginator.loadFirstPage()
     }

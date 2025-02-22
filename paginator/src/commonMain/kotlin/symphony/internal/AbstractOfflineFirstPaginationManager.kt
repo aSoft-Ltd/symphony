@@ -14,6 +14,7 @@ import kollections.firstOrNull
 import koncurrent.FailedLater
 import koncurrent.Later
 import koncurrent.later.andThen
+import koncurrent.later.catch
 import koncurrent.later.finally
 import koncurrent.later.then
 import symphony.AbstractPage
@@ -26,7 +27,7 @@ import symphony.PaginationManager
 import symphony.internal.memory.PageMemoryManager
 
 @PublishedApi
-internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageFindResult<T>>(
+internal abstract class AbstractOfflineFirstPaginationManager<T, P : AbstractPage, R : PageFindResult<T>>(
     capacity: Int,
 ) : PaginationManager<T, P, R> {
 
@@ -76,37 +77,38 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
     }
 
     internal fun params(page: Int) = PageLoaderParams(page, capacity.value, search.value, sorter.data.value)
-    protected fun load(page: Int): Later<P> {
-        if (current.value is Loading) return FailedLater(LOADING_ERROR)
-
+    private var lastRequestedPage:Int = 1
+    protected fun load(page: Int): Later<Unit> {
+//        if (current.value is Loading) return FailedLater(LOADING_ERROR)
+        lastRequestedPage = page
         val params = params(page)
         val memorizedPage = memory.load(params)
         current.value = Loading("Loading")
-
-        return loader.getOrThrow().load(params, PageLoaderSource.REMOTE).then {  localRes->
-            current.value = Success(localRes)
+//        println("Loading from LOCAL source....page=${page}")
+        val ret =  loader.getOrThrow().load(params, PageLoaderSource.LOCAL).then {  localRes->
+//            println("Loaded from local source,page=${page}....setting state, size=${localRes.size}")
+            if (lastRequestedPage == page) {
+                current.value = Success(localRes)
+            }
             memory.save(params, localRes)
-            localRes
+
+//            localRes
+        }.then {  localRes->
+//            println("Loading from REMOTE source,page=${page}....")
+            loader.getOrThrow().load(params, PageLoaderSource.REMOTE).then { remoteRes->
+//                println("Loaded from REMOTE source....setting state,page=${page}, size=${remoteRes.size}")
+                if (lastRequestedPage == page) {
+                    current.value = Success(remoteRes)
+                }
+                memory.save(params, remoteRes)
+            }.catch {
+                println("remote error: ${it.message}")
+                localRes
+            }
+            Unit
+//            localRes
         }
-//        return try {
-//            println("Loading from local source....")
-//            loader.getOrThrow().load(params, PageLoaderSource.LOCAL)
-//        } catch (err: Throwable) {
-//            FailedLater(err)
-//        }.then {
-//            memory.save(params, it)
-//        }.finally {
-//            println("Loaded from local source.. setting state")
-//            current.value = it.toLazyState(memorizedPage)
-//            println("Loading from remote source...")
-//            loader.getOrThrow().load(params, PageLoaderSource.REMOTE).then {
-//                println("Loaded from remote source: ${it}")
-//                println("Setting state (R)")
-//                current.value = Success(it)
-//            }
-//        }.then {
-//            it
-//        }
+        return ret
     }
 
     override fun loadNextPage() = when (val state = current.value) {

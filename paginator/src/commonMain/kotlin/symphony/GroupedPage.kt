@@ -15,7 +15,7 @@ import kotlinx.JsExport
 data class GroupedPage<out G, out T>(
     val groups: List<Chunk<G, Row<T>>>,
     override val capacity: Int,
-    override val number: Int
+    override val number: Int,
 ) : AbstractPage() {
 
     override val size by lazy { groups.flatMap { it.items }.size }

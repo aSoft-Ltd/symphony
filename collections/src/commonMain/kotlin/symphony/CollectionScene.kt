@@ -59,7 +59,7 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
     private var searchText: String? = null
     val searchBox = TextField(name = ::searchText)
 
-    fun search(): Later<Page> {
+    fun search(): Later<Any?> {
         paginator.clearPages()
         return paginator.loadFirstPage()
     }

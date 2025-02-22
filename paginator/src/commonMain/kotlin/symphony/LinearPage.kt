@@ -11,7 +11,7 @@ import kotlinx.JsExport
 data class LinearPage<out T>(
     val items: List<Row<T>>,
     override val capacity: Int,
-    override val number: Int
+    override val number: Int,
 ) : AbstractPage() {
 
     override val size by lazy { items.size }

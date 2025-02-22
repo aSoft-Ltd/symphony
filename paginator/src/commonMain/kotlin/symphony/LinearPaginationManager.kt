@@ -15,7 +15,7 @@ import kotlinx.JsExport
 interface LinearPaginationManager<out T> : PaginationManager<T, LinearPage<T>, LinearPageFindResult<T>> {
     val continuous: List<Row<T>>
 
-    fun initialize(pl: PageLoaderFunction<@UnsafeVariance T>): Later<LinearPage<T>>
+    fun initialize(pl: PageLoaderFunction<@UnsafeVariance T>): Later<Any?>
 
     // --------------------- loopers ----------------------
     fun forEachPage(block: (LinearPage<T>) -> Unit)

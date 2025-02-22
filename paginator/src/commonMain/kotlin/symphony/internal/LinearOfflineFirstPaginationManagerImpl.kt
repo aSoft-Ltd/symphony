@@ -13,6 +13,7 @@ import kollections.addAll
 import kollections.emptyList
 import kollections.buildList
 import kollections.mapIndexed
+import koncurrent.SuccessfulLater
 import symphony.ColumnSorter
 import symphony.LinearPage
 import symphony.LinearPageLoader
@@ -25,9 +26,9 @@ import symphony.internal.loaders.LinearPageLoaderImpl
 import symphony.internal.memory.LinearPageMemoryManager
 
 @PublishedApi
-internal class LinearPaginationManagerImpl<T>(
+internal class LinearOfflineFirstPaginationManagerImpl<T>(
     capacity: Int,
-) : AbstractPaginationManager<T, LinearPage<T>, LinearPageFindResult<T>>(capacity), LinearPaginationManager<T> {
+) : AbstractOfflineFirstPaginationManager<T, LinearPage<T>, LinearPageFindResult<T>>(capacity), LinearPaginationManager<T> {
 
     override val loader by lazy { Bag<LinearPageLoader<T>>(LinearPageLoaderInitial) }
 
@@ -50,8 +51,9 @@ internal class LinearPaginationManagerImpl<T>(
 
     override fun forEachPage(block: (LinearPage<T>) -> Unit) = memory.entries.values.forEach(block)
 
-    override fun loadPage(no: Int): Later<LinearPage<T>> {
-        if (capacity.value <= 0) return Later(LinearPage(emptyList(), 0, no))
+    override fun loadPage(no: Int): Later<Unit> {
+//        if (capacity.value <= 0) return Later(LinearPage(emptyList(), 0, no))
+        if (capacity.value <= 0) SuccessfulLater(Unit)
         return load(page = no)
     }
 

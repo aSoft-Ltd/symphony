@@ -35,9 +35,9 @@ interface PaginationManager<out T, out P : Page, out R : PageFindResult<T>> {
     fun refreshCurrentPage(): Later<Any?>
     fun loadNextPage(): Later<Any?>
     fun loadPreviousPage(): Later<Any?>
-    fun loadPage(no: Int): Later<P>
-    fun loadFirstPage(): Later<P>
-    fun loadLastPage(): Later<P>
+    fun loadPage(no: Int): Later<Any?>
+    fun loadFirstPage(): Later<Any?>
+    fun loadLastPage(): Later<Any?>
 
     // ---------------------- finders -----------------------
     @JsName("findRow")
