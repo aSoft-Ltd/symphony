@@ -25,6 +25,8 @@ import symphony.PageLoaderParams
 import symphony.PageLoaderSource
 import symphony.PaginationManager
 import symphony.internal.memory.PageMemoryManager
+import kotlin.random.Random
+import kotlin.time.TimeSource
 
 @PublishedApi
 internal abstract class AbstractOfflineFirstPaginationManager<T, P : AbstractPage, R : PageFindResult<T>>(
@@ -78,8 +80,28 @@ internal abstract class AbstractOfflineFirstPaginationManager<T, P : AbstractPag
 
     internal fun params(page: Int) = PageLoaderParams(page, capacity.value, search.value, sorter.data.value)
     private var lastRequestedPage:Int = 1
+    private var latestRequestTime = generateUUID()
+
+    fun generateUUID(): String {
+        val chars = ('a'..'f') + ('0'..'9')
+        val random = Random
+        val uuid = StringBuilder(32)
+        for (i in 0 until 32) {
+            when (i) {
+                8, 12, 16, 20 -> uuid.append('-')
+                else -> uuid.append(chars[random.nextInt(chars.size)])
+            }
+        }
+        return uuid.toString()
+    }
+
     protected fun load(page: Int): Later<Unit> {
 //        if (current.value is Loading) return FailedLater(LOADING_ERROR)
+        val currentMillis = TimeSource.Monotonic.markNow().elapsedNow().inWholeMilliseconds
+        val requestTime = generateUUID()
+        latestRequestTime = requestTime
+        println(currentMillis)
+
         lastRequestedPage = page
         val params = params(page)
         val memorizedPage = memory.load(params)
@@ -87,20 +109,22 @@ internal abstract class AbstractOfflineFirstPaginationManager<T, P : AbstractPag
 //        println("Loading from LOCAL source....page=${page}")
         val ret =  loader.getOrThrow().load(params, PageLoaderSource.LOCAL).then {  localRes->
 //            println("Loaded from local source,page=${page}....setting state, size=${localRes.size}")
-            if (lastRequestedPage == page) {
+            if (requestTime == latestRequestTime) {
                 current.value = Success(localRes)
+                memory.save(params, localRes)
             }
-            memory.save(params, localRes)
+
 
 //            localRes
         }.then {  localRes->
 //            println("Loading from REMOTE source,page=${page}....")
             loader.getOrThrow().load(params, PageLoaderSource.REMOTE).then { remoteRes->
 //                println("Loaded from REMOTE source....setting state,page=${page}, size=${remoteRes.size}")
-                if (lastRequestedPage == page) {
+                if (requestTime == latestRequestTime) {
                     current.value = Success(remoteRes)
+                    memory.save(params, remoteRes)
                 }
-                memory.save(params, remoteRes)
+
             }.catch {
                 println("remote error: ${it.message}")
                 localRes
