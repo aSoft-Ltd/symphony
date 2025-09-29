@@ -11,8 +11,8 @@ import kase.Success
 import kase.bagOf
 import kollections.find
 import koncurrent.FailedLater
-import koncurrent.later.catch
-import koncurrent.later.then
+import koncurrent.awaited.catch
+import koncurrent.awaited.then
 import symphony.ConfirmActionsBuilder
 import symphony.ConfirmationBox
 

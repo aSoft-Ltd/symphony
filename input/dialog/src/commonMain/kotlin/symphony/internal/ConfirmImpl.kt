@@ -7,11 +7,11 @@ import kase.Failure
 import kevlar.Action0
 import koncurrent.FailedLater
 import koncurrent.Later
-import koncurrent.later.then
-import koncurrent.later.andThen
-import koncurrent.later.andZip
-import koncurrent.later.zip
-import koncurrent.later.catch
+import koncurrent.awaited.then
+import koncurrent.awaited.andThen
+import koncurrent.awaited.andZip
+import koncurrent.awaited.zip
+import koncurrent.awaited.catch
 import symphony.Confirm
 import symphony.ConfirmBuilder
 import symphony.ConfirmState

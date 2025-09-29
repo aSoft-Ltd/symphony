@@ -11,8 +11,8 @@ import kase.Success
 import kase.toLazyState
 import koncurrent.FailedLater
 import koncurrent.Later
-import koncurrent.later.finally
-import koncurrent.later.then
+import koncurrent.awaited.finally
+import koncurrent.awaited.then
 import symphony.AbstractPage
 import symphony.PageFindResult
 import symphony.PageLoader

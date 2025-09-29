@@ -4,11 +4,11 @@ import kevlar.Action1Invoker
 import kevlar.action1
 import kevlar.builders.Actions0Builder
 import koncurrent.Later
-import koncurrent.later.then
-import koncurrent.later.andThen
-import koncurrent.later.andZip
-import koncurrent.later.zip
-import koncurrent.later.catch
+import koncurrent.awaited.then
+import koncurrent.awaited.andThen
+import koncurrent.awaited.andZip
+import koncurrent.awaited.zip
+import koncurrent.awaited.catch
 import neat.ValidationFactory
 
 class SubmitActionsBuilder<P, R> : Actions0Builder<Unit>() {

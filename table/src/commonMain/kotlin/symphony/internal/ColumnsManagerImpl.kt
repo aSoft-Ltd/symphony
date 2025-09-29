@@ -18,8 +18,8 @@ import kollections.toMutableList
 import kollections.toSet
 import kollections.values
 import koncurrent.Later
-import koncurrent.later.catch
-import koncurrent.later.then
+import koncurrent.awaited.catch
+import koncurrent.awaited.then
 import koncurrent.toLater
 import kotlinx.serialization.Serializable
 import symphony.ColumnAppender

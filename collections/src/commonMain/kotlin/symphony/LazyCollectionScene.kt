@@ -8,7 +8,7 @@ import keep.Cacheable
 import keep.load
 import keep.save
 import koncurrent.Later
-import koncurrent.later.finally
+import koncurrent.awaited.finally
 import kotlinx.JsExport
 
 abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
