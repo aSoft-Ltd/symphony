@@ -1,4 +1,0 @@
-package symphony
-
-interface FormBoxState {
-}
