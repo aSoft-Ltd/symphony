@@ -9,20 +9,6 @@ import symphony.selected.GroupedSelectedGlobal
 import symphony.selected.GroupedSelectedItem
 import symphony.selected.GroupedSelectedItems
 import symphony.selected.GroupedSelectedNone
-import kollections.MutableList
-import kollections.MutableSet
-import kollections.add
-import kollections.component1
-import kollections.component2
-import kollections.addAll
-import kollections.buildList
-import kollections.entries
-import kollections.flatMap
-import kollections.forEach
-import kollections.map
-import kollections.mutableListOf
-import kollections.mutableSetOf
-import kollections.toList
 
 class GroupedSelectorBasedActionsBuilder<G, T> @PublishedApi internal constructor(
     primary: MutableList<Action0<Unit>> = mutableListOf(),

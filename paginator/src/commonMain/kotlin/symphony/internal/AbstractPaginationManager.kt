@@ -73,18 +73,8 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
         val memorizedPage = memory.load(params)
         current.value = Loading("Loading", memorizedPage)
         val results = loader.getOrThrow().load(params)
-        return memory.save(params, results).also {
-            TODO("Figure out something here that will preserve migraiion behaviour")
-        }
-//        return try {
-//            loader.getOrThrow().load(params)
-//        } catch (err: Throwable) {
-//            FailedLater(err)
-//        }.then {
-//            memory.save(params, it)
-//        }.finally {
-//            current.value = it.toLazyState(memorizedPage)
-//        }
+        current.value = Success(results)
+        return memory.save(params, results)
     }
 
     override suspend fun loadNextPage() = when (val state = current.value) {

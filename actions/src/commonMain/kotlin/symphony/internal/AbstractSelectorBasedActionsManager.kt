@@ -1,12 +1,5 @@
 package symphony.internal
 
-import kollections.List
-import kollections.add
-import kollections.find
-import kollections.toList
-import koncurrent.Later
-import koncurrent.TODOLater
-import koncurrent.toLater
 import symphony.AbstractSelectorBasedActionsBuilder
 import symphony.Mover
 import symphony.SelectionManager
@@ -35,21 +28,21 @@ internal abstract class AbstractSelectorBasedActionsManager<T, S : Selected<T>>(
 
     inner class ActionsMoverImpl(private val column: String) : Mover {
 
-        override fun at(index: Int): Later<Any> {
-            val old = find(column) ?: return toLater()
-            return TODOLater()
+        override suspend fun at(index: Int) {
+            val old = find(column) ?: return
+            return TODO()
         }
 
-        override fun before(name: String): Later<Any> {
-            return TODOLater()
+        override suspend fun before(name: String) {
+            return TODO()
 //            val anchor = find(name) ?: return
 //            val subject = find(column) ?: return
 //            if (subject.index <= anchor.index) return
 //            return at(anchor.index)
         }
 
-        override fun after(name: String): Later<Any> {
-            return TODOLater()
+        override suspend fun after(name: String) {
+            return TODO()
 //            val anchor = find(name) ?: return
 //            val subject = find(column) ?: return
 //            if (subject.index >= anchor.index + 1) return

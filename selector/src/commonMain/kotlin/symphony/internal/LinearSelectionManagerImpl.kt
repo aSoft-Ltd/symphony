@@ -2,36 +2,6 @@ package symphony.internal
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kollections.find
-import kollections.keys
-import kollections.Collection
-import kollections.Set
-import kollections.Map
-import kollections.MutableMap
-import kollections.mutableSetOf
-import kollections.add
-import kollections.any
-import kollections.entries
-import kollections.filter
-import kollections.first
-import kollections.get
-import kollections.getOrPut
-import kollections.component1
-import kollections.component2
-import kollections.contains
-import kollections.isEmpty
-import kollections.isNullOrEmpty
-import kollections.key
-import kollections.map
-import kollections.mapOf
-import kollections.mapValues
-import kollections.remove
-import kollections.setOf
-import kollections.size
-import kollections.toMutableMap
-import kollections.toMutableSet
-import kollections.toSet
-import kollections.value
 import symphony.LinearPage
 import symphony.LinearPaginationManager
 import symphony.selected.LinearSelected
@@ -81,7 +51,7 @@ class LinearSelectionManagerImpl<T>(
     }
 
     private fun LinearSelectedItems<T>.isPageSelectedButPartially(page: Int?): Boolean {
-        val entry = this.page.find { it.key.number == page } ?: return false
+        val entry = this.page.entries.find { it.key.number == page } ?: return false
         return entry.key.capacity != entry.value.size
     }
 
@@ -93,7 +63,7 @@ class LinearSelectionManagerImpl<T>(
     }
 
     private fun LinearSelectedItems<T>.isPageSelectedWithNoExceptions(page: Int?): Boolean {
-        val entry = this.page.find { it.key.number == page } ?: return false
+        val entry = this.page.entries.find { it.key.number == page } ?: return false
         return entry.key.size == entry.value.size
     }
 

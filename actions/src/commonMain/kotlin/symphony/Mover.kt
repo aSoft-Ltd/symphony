@@ -3,13 +3,12 @@
 
 package symphony
 
-import koncurrent.Later
 import kotlinx.JsExport
 
 interface Mover {
-    fun at(index: Int): Later<Any>
+    suspend fun at(index: Int)
 
-    fun before(name: String): Later<Any>
+    suspend fun before(name: String)
 
-    fun after(name: String): Later<Any>
+    suspend fun after(name: String)
 }

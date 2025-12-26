@@ -4,15 +4,6 @@ package symphony
 
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
-import kollections.plus
-import kollections.mutableMapOf
-import kollections.associateBy
-import kollections.filterKeys
-import kollections.toList
-import kollections.List
-import kollections.size
-import kollections.values
-
 class FixedActionsBuilder @PublishedApi internal constructor(
     private val builder: Actions0Builder<Unit>.() -> Unit,
     @PublishedApi

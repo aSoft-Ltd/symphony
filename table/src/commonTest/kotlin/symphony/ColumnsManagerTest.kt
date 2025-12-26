@@ -2,15 +2,7 @@ package symphony
 
 import keep.CacheMock
 import keep.CacheMockConfig
-import kollections.Set
-import kollections.filter
-import kollections.get
-import kollections.indexOf
-import kollections.setOf
-import kollections.size
-import kollections.toList
 import kommander.expect
-import koncurrent.later.await
 import kotlinx.coroutines.test.runTest
 import symphony.columns.Column
 import kotlin.test.Test
@@ -28,9 +20,9 @@ class ColumnsManagerTest {
             column("age") { it.item.age }
         }
 
-        configured.initialize().await()
+        configured.initialize()
 
-        configured.hide("name").await()
+        configured.hide("name")
 
         val accessed = columnsOf<Person>(cache) {
             selectable()
@@ -38,7 +30,7 @@ class ColumnsManagerTest {
             column("age") { it.item.age }
         }
 
-        accessed.initialize().await()
+        accessed.initialize()
 
         val column = accessed.find("name")
         expect(column?.visibility).toBe(HiddenVisibility)
@@ -55,9 +47,9 @@ class ColumnsManagerTest {
             column("age") { it.item.age }
         }
 
-        configured.initialize().await()
+        configured.initialize()
 
-        configured.move("name").after("age").await()
+        configured.move("name").after("age")
 
         val accessed = columnsOf<Person>(cache) {
             selectable()
@@ -65,7 +57,7 @@ class ColumnsManagerTest {
             column("age") { it.item.age }
         }
 
-        accessed.initialize().await()
+        accessed.initialize()
         val column = accessed.find("name")
         expect(column?.index).toBe(2)
     }
@@ -81,10 +73,10 @@ class ColumnsManagerTest {
             column("age") { it.item.age }
         }
 
-        configured.initialize().await()
-        configured.add("growth") { if (it.item.age < 18) "child" else "adult" }.await()
+        configured.initialize()
+        configured.add("growth") { if (it.item.age < 18) "child" else "adult" }
 
-        configured.hide("growth").await()
+        configured.hide("growth")
 
         val accessed = columnsOf<Person>(cache) {
             selectable()
@@ -92,8 +84,8 @@ class ColumnsManagerTest {
             column("age") { it.item.age }
         }
 
-        accessed.add("growth") { if (it.item.age < 18) "child" else "adult" }.await()
-        accessed.initialize().await()
+        accessed.add("growth") { if (it.item.age < 18) "child" else "adult" }
+        accessed.initialize()
 
         val column = accessed.find("growth")
         expect(column?.visibility).toBe(HiddenVisibility)
@@ -110,9 +102,9 @@ class ColumnsManagerTest {
             column("age") { it.item.age }
         }
 
-        configured.add("growth") { if (it.item.age < 18) "child" else "adult" }.await()
-        configured.move("growth").before("name").await()
-        configured.initialize().await()
+        configured.add("growth") { if (it.item.age < 18) "child" else "adult" }
+        configured.move("growth").before("name")
+        configured.initialize()
 
         val accessed = columnsOf<Person>(cache) {
             selectable()
@@ -120,8 +112,8 @@ class ColumnsManagerTest {
             column("age") { it.item.age }
         }
 
-        accessed.add("growth") { if (it.item.age < 18) "child" else "adult" }.await()
-        accessed.initialize().await()
+        accessed.add("growth") { if (it.item.age < 18) "child" else "adult" }
+        accessed.initialize()
 
         val column = accessed.find("growth")
         expect(column?.index).toBe(1)
@@ -139,13 +131,13 @@ class ColumnsManagerTest {
             current = it
         }
         expect(current.size).toBe(3)
-        columns.add("no") { it.number }.await()
+        columns.add("no") { it.number }
         expect(current.size).toBe(4)
         watcher.stop()
     }
 
     @Test
-    fun should_be_able_to_hide_some_columns() {
+    fun should_be_able_to_hide_some_columns() = runTest {
         val columns = columnsOf<Person> {
             selectable()
             column("name") { it.item.name }
@@ -159,7 +151,7 @@ class ColumnsManagerTest {
     }
 
     @Test
-    fun hiding_columns_should_not_affect_their_indexing_and_ordering() {
+    fun hiding_columns_should_not_affect_their_indexing_and_ordering() = runTest {
         val columns = columnsOf<Person> {
             selectable()
             column("name") { it.item.name }
@@ -184,13 +176,13 @@ class ColumnsManagerTest {
             column("age") { it.item.age.toString() }
         }
         expect(columns.all().size).toBe(3)
-        columns.add("Status") { "Status 1" }.await()
-        columns.add("Status") { "Status 2" }.await()
+        columns.add("Status") { "Status 1" }
+        columns.add("Status") { "Status 2" }
         expect(columns.all().size).toBe(4)
     }
 
     @Test
-    fun indexing_should_propagate_properly() {
+    fun indexing_should_propagate_properly() = runTest {
         val columns = columnsOf<Person> {
             selectable()
             column("name") { it.item.name }
@@ -201,7 +193,7 @@ class ColumnsManagerTest {
     }
 
     @Test
-    fun should_move_a_column_before_another() {
+    fun should_move_a_column_before_another() = runTest {
         val columns = columnsOf<Person> {
             selectable()
             column("name") { it.item.name }
@@ -217,7 +209,7 @@ class ColumnsManagerTest {
     }
 
     @Test
-    fun should_move_a_column_after_another() {
+    fun should_move_a_column_after_another() = runTest {
         val columns = columnsOf<Person> {
             selectable()
             column("name") { it.item.name }
@@ -233,7 +225,7 @@ class ColumnsManagerTest {
     }
 
     @Test
-    fun should_not_move_the_column_back_and_forth_when_move_before_is_called_repeatedly() {
+    fun should_not_move_the_column_back_and_forth_when_move_before_is_called_repeatedly() = runTest {
         val columns = columnsOf<Person> {
             column("name") { it.item.name }
             column("age") { it.item.age.toString() }
@@ -251,7 +243,7 @@ class ColumnsManagerTest {
     }
 
     @Test
-    fun should_not_move_the_column_back_and_forth_when_move_after_is_called_repeatedly() {
+    fun should_not_move_the_column_back_and_forth_when_move_after_is_called_repeatedly() = runTest {
         val columns = columnsOf<Person> {
             column("name") { it.item.name }
             column("age") { it.item.age.toString() }

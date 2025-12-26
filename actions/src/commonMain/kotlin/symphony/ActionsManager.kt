@@ -4,7 +4,6 @@
 package symphony
 
 import kevlar.Action0
-import kollections.List
 import cinematic.Live
 import kevlar.Action
 import kotlinx.JsExport

@@ -4,19 +4,6 @@ package symphony
 
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
-import kollections.List
-import kollections.mutableListOf
-import kollections.mutableSetOf
-import kollections.Collection
-import kollections.MutableList
-import kollections.MutableSet
-import kollections.add
-import kollections.associateBy
-import kollections.contains
-import kollections.filterKeys
-import kollections.forEach
-import kollections.toList
-import kollections.values
 import symphony.selected.Selected
 
 abstract class AbstractSelectorBasedActionsBuilder<T, S : Selected<T>> @PublishedApi internal constructor(

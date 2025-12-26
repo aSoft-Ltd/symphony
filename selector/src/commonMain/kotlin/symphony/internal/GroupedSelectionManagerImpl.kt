@@ -2,37 +2,6 @@ package symphony.internal
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kollections.Map
-import kollections.Set
-import kollections.add
-import kollections.any
-import kollections.component1
-import kollections.component2
-import kollections.contains
-import kollections.entries
-import kollections.filter
-import kollections.find
-import kollections.first
-import kollections.flatMap
-import kollections.get
-import kollections.getOrPut
-import kollections.isEmpty
-import kollections.isNullOrEmpty
-import kollections.key
-import kollections.keys
-import kollections.map
-import kollections.mapOf
-import kollections.mapValues
-import kollections.mutableSetOf
-import kollections.remove
-import kollections.setOf
-import kollections.size
-import kollections.toKList
-import kollections.toList
-import kollections.toMutableMap
-import kollections.toMutableSet
-import kollections.toSet
-import kollections.value
 import symphony.GroupedPage
 import symphony.GroupedPaginationManager
 import symphony.GroupedSelectionManager
@@ -82,7 +51,7 @@ class GroupedSelectionManagerImpl<G, T>(
     }
 
     private fun GroupedSelectedItems<G, T>.isPageSelectedButPartially(page: Int?): Boolean {
-        val entry = this.page.find { it.key.number == page } ?: return false
+        val entry = this.page.entries.find { it.key.number == page } ?: return false
         return entry.key.capacity != entry.value.size
     }
 
@@ -94,7 +63,7 @@ class GroupedSelectionManagerImpl<G, T>(
     }
 
     private fun GroupedSelectedItems<G, T>.isPageSelectedWithNoExceptions(page: Int?): Boolean {
-        val entry = this.page.find { it.key.number == page } ?: return false
+        val entry = this.page.entries.find { it.key.number == page } ?: return false
         return entry.key.size == entry.value.size
     }
 

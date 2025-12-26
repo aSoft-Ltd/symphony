@@ -1,7 +1,5 @@
 package symphony.internal
 
-import kollections.List
-import kollections.emptyList
 import symphony.ColumnsManager
 import symphony.LinearPaginationManager
 import symphony.LinearSelectionManager
