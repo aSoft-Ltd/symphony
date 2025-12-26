@@ -1,18 +1,8 @@
 package symphony.internal
 
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import kase.Bag
 import symphony.Row
 import kase.Pending
-import kollections.addAll
-import kollections.emptyList
-import kollections.buildList
-import kollections.mapIndexed
 import symphony.LinearPage
 import symphony.LinearPageLoader
 import symphony.LinearPageFindResult
@@ -39,7 +29,7 @@ internal class LinearPaginationManagerImpl<T>(
             }
         }
 
-    override fun initialize(pl: PageLoaderFunction<T>): Later<LinearPage<T>> {
+    override suspend fun initialize(pl: PageLoaderFunction<T>): LinearPage<T> {
         loader.value = LinearPageLoaderImpl(pl)
         search.value = null
         return loadFirstPage()
@@ -47,8 +37,8 @@ internal class LinearPaginationManagerImpl<T>(
 
     override fun forEachPage(block: (LinearPage<T>) -> Unit) = memory.entries.values.forEach(block)
 
-    override fun loadPage(no: Int): Later<LinearPage<T>> {
-        if (capacity.value <= 0) return Later(LinearPage(emptyList(), 0, no))
+    override suspend fun loadPage(no: Int): LinearPage<T> {
+        if (capacity.value <= 0) return LinearPage(emptyList(), 0, no)
         return load(page = no)
     }
 

@@ -5,5 +5,5 @@ import symphony.PageLoaderParams
 import symphony.internal.unInitializedError
 
 internal object GroupedPageLoaderInitial : GroupedPageLoader<Nothing, Nothing> {
-    override fun load(params: PageLoaderParams) = unInitializedError()
+    override suspend fun load(params: PageLoaderParams) = throw unInitializedError()
 }

@@ -3,7 +3,6 @@
 
 package symphony
 
-import kollections.List
 import kotlinx.JsExport
 
 data class FormState<out O, out R>(

@@ -2,21 +2,12 @@
 
 package symphony
 
-import kollections.Collection
-import kollections.List
-import kollections.chunked
-import kollections.emptyList
-import kollections.get
-import kollections.isEmpty
-import kollections.last
-import kollections.size
-import koncurrent.Later
 import symphony.internal.GroupedPaginationManagerImpl
 import symphony.internal.LinearPaginationManagerImpl
 
 const val DEFAULT_PAGINATION_CAPACITY = 10
 
-fun <T> Collection<T>.paged(no: Int, capacity: Int): Later<List<T>> {
+fun <T> Collection<T>.paged(no: Int, capacity: Int): List<T> {
     val chunked = chunked(capacity)
     val page = when {
         isEmpty() -> emptyList()
@@ -24,7 +15,7 @@ fun <T> Collection<T>.paged(no: Int, capacity: Int): Later<List<T>> {
         no <= chunked.size -> chunked[no - 1]
         else -> emptyList()
     }
-    return Later(page)
+    return page
 }
 
 fun <T> Collection<T>.paged(params: PageLoaderParams) = paged(params.page, params.limit)

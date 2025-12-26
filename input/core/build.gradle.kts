@@ -17,12 +17,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.symphonyVisibility)
+            api(libs.kotlinx.exports)
             api(libs.cinematic.live.core)
-            api(libs.kollections.interoperable)
-            api(libs.koncurrent.later.core)
             api(libs.neat.validation)
             api(libs.kevlar.core)
             api(libs.lexi.console)
+            api(kotlinx.serialization.core)
         }
     }
 }

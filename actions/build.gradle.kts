@@ -23,7 +23,6 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.kommander.coroutines)
-            implementation(libs.koncurrent.later.coroutines)
         }
 
         if (Targeting.JVM) jvmTest.dependencies {

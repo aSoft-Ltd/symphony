@@ -3,12 +3,6 @@ package symphony
 import kevlar.Action1Invoker
 import kevlar.action1
 import kevlar.builders.Actions0Builder
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import neat.ValidationFactory
 
 class SubmitActionsBuilder<P, R> : Actions0Builder<Unit>() {
@@ -21,7 +15,7 @@ class SubmitActionsBuilder<P, R> : Actions0Builder<Unit>() {
         this.factory = factory
     }
 
-    fun onSubmit(name: String = "Submit", handler: (P) -> Later<R>): Finalizer {
+    fun onSubmit(name: String = "Submit", handler: suspend (P) -> R): Finalizer {
         val action = action1(name, handler = handler)
         _submitAction = action
         return Finalizer

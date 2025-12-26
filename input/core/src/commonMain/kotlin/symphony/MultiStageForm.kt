@@ -4,13 +4,6 @@
 package symphony
 
 import cinematic.Live
-import kollections.List
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import symphony.properties.Clearable
 import symphony.properties.Hideable
 import symphony.properties.Resetable
@@ -24,7 +17,7 @@ interface MultiStageForm<out R, out O : Any, S : FormStage> : Resetable, Clearab
 
     fun exit()
 
-    fun prev(): Later<*>
+    suspend fun prev()
 
-    fun next(): Later<*>
+    suspend fun next()
 }

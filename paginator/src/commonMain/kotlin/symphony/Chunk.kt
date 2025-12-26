@@ -3,9 +3,6 @@
 
 package symphony
 
-import kollections.List
-import kollections.map
-import kollections.mapIndexed
 import kotlinx.JsExport
 
 data class Chunk<out G, out D>(

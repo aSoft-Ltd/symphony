@@ -17,15 +17,14 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.cinematic.live.core)
-                api(libs.koncurrent.later.core)
                 api(libs.kase.optional)
+                api(libs.kase.core)
             }
         }
 
         val commonTest by getting {
             dependencies {
                 implementation(libs.kommander.coroutines)
-                implementation(libs.koncurrent.later.coroutines)
             }
         }
 

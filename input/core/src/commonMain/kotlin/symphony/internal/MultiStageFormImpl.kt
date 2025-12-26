@@ -6,17 +6,6 @@ package symphony.internal
 import cinematic.mutableLiveOf
 import kase.Failure
 import kase.Success
-import kollections.List
-import kollections.forEach
-import kollections.listOf
-import koncurrent.FailedLater
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
-import koncurrent.awaited.finally
 import kotlinx.JsExport
 import neat.Invalid
 import neat.Validator
@@ -45,20 +34,20 @@ internal class MultiStageFormImpl<R : Any, O : Any, S : FormStage>(
     builder: SubmitBuilder<O, R>,
 ) : AbstractHideable(), MultiStageForm<R, O, S>, Resetable, Clearable {
 
-    override fun prev(): Later<*> {
-        if (state.value.stage.isFirst) return Later(Unit)
+    override suspend fun prev() {
+        if (state.value.stage.isFirst) return
         state.value.stage.current.onPrev?.invoke()
         val prev = state.value.prev()
         state.value = prev
-        return Later(prev)
+        return
     }
 
-    override fun next(): Later<Any> {
+    override suspend fun next() {
         state.value.stage.current.onNext?.invoke()
         val stage = state.value.stage
         if (stage.isLast) return submit()
         val validity = stage.current.fields.validateToErrors()
-        if (validity is Invalid) return FailedLater(validity.exception())
+        if (validity is Invalid) return TODO("Find a way to surface erros") // validity.exception()
         val next = state.value.next()
         state.value = next
         return Later(next)

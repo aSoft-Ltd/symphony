@@ -5,7 +5,6 @@ package symphony
 
 import cinematic.Live
 import kase.LazyState
-import koncurrent.Later
 import kotlinx.JsExport
 import kotlin.js.JsName
 
@@ -13,13 +12,14 @@ interface PaginationManager<out T, out P : Page, out R : PageFindResult<T>> {
     val current: Live<LazyState<P>>
     val search: Live<String?>
     val currentPageOrNull: P?
-    val currentPageSize : Int
+    val currentPageSize: Int
     val capacity: Live<Int>
     val hasMore: Boolean
 
     fun wipeMemory()
     fun clearPages()
     fun setPageCapacity(cap: Int)
+
     // --------------------- searchers ---------------------
     fun setSearchKey(key: String?)
 
@@ -30,13 +30,13 @@ interface PaginationManager<out T, out P : Page, out R : PageFindResult<T>> {
     fun clearSearchKey()
 
     // --------------------- loaders ---------------
-    fun refreshAllPages(): Later<Any?>
-    fun refreshCurrentPage(): Later<Any?>
-    fun loadNextPage(): Later<Any?>
-    fun loadPreviousPage(): Later<Any?>
-    fun loadPage(no: Int): Later<P>
-    fun loadFirstPage(): Later<P>
-    fun loadLastPage(): Later<P>
+    suspend fun refreshAllPages(): Any?
+    suspend fun refreshCurrentPage(): Any?
+    suspend fun loadNextPage(): Any?
+    suspend fun loadPreviousPage(): Any?
+    suspend fun loadPage(no: Int): P
+    suspend fun loadFirstPage(): P
+    suspend fun loadLastPage(): P
 
     // ---------------------- finders -----------------------
     @JsName("findRow")

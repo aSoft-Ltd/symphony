@@ -3,9 +3,6 @@
 
 package symphony
 
-import kollections.List
-import kollections.filterIsInstance
-import kollections.map
 import kotlinx.JsExport
 
 class Feedbacks(val items: List<Feedback>) {

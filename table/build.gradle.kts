@@ -26,7 +26,6 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kommander.coroutines)
-                implementation(libs.koncurrent.later.coroutines)
                 implementation(libs.keep.mock)
             }
         }

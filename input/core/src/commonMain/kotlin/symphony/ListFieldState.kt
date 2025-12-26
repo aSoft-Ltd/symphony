@@ -3,8 +3,6 @@
 
 package symphony
 
-import kollections.List
-import kollections.MutableList
 import kotlinx.JsExport
 
 interface ListFieldState<E> : FieldState<List<E>> {

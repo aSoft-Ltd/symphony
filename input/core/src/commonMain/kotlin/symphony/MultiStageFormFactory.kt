@@ -1,7 +1,5 @@
 package symphony
 
-import kollections.toList
-import kollections.Collection
 import symphony.internal.MultiStageFormImpl
 
 fun <R : Any, O : Any, S : FormStage> Collection<S>.toForm(

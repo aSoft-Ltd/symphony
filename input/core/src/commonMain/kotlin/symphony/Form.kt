@@ -4,12 +4,6 @@
 package symphony
 
 import cinematic.Live
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import symphony.properties.Clearable
 import symphony.properties.Hideable
 import symphony.properties.Resetable
@@ -25,5 +19,5 @@ interface Form<out R, out O : Any, out F : Fields<O>> : FormInfo, Resetable, Cle
 
     fun exit()
 
-    fun submit(): Later<R>
+    suspend fun submit(): R
 }

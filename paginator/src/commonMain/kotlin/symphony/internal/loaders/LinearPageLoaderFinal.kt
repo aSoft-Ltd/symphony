@@ -5,5 +5,5 @@ import symphony.PageLoaderParams
 import symphony.internal.deInitializedError
 
 internal object LinearPageLoaderFinal : LinearPageLoader<Nothing> {
-    override fun load(params: PageLoaderParams) = deInitializedError()
+    override suspend fun load(params: PageLoaderParams) = throw deInitializedError()
 }

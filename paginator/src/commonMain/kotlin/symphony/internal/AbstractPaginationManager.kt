@@ -8,11 +8,6 @@ import kase.LazyState
 import kase.Loading
 import kase.Pending
 import kase.Success
-import kase.toLazyState
-import koncurrent.FailedLater
-import koncurrent.Later
-import koncurrent.awaited.finally
-import koncurrent.awaited.then
 import symphony.AbstractPage
 import symphony.PageFindResult
 import symphony.PageLoader
@@ -71,37 +66,41 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
     }
 
     internal fun params(page: Int) = PageLoaderParams(page, capacity.value, search.value)
-    protected fun load(page: Int): Later<P> {
-        if (current.value is Loading) return FailedLater(LOADING_ERROR)
+    protected suspend fun load(page: Int): P {
+        if (current.value is Loading) throw LOADING_ERROR
 
         val params = params(page)
         val memorizedPage = memory.load(params)
         current.value = Loading("Loading", memorizedPage)
-        return try {
-            loader.getOrThrow().load(params)
-        } catch (err: Throwable) {
-            FailedLater(err)
-        }.then {
-            memory.save(params, it)
-        }.finally {
-            current.value = it.toLazyState(memorizedPage)
+        val results = loader.getOrThrow().load(params)
+        return memory.save(params, results).also {
+            TODO("Figure out something here that will preserve migraiion behaviour")
         }
+//        return try {
+//            loader.getOrThrow().load(params)
+//        } catch (err: Throwable) {
+//            FailedLater(err)
+//        }.then {
+//            memory.save(params, it)
+//        }.finally {
+//            current.value = it.toLazyState(memorizedPage)
+//        }
     }
 
-    override fun loadNextPage() = when (val state = current.value) {
+    override suspend fun loadNextPage() = when (val state = current.value) {
         is Pending -> loadPage(1)
-        is Loading -> Later(Unit)
+        is Loading -> TODO("Figure out something here that will preserve migration behaviour")
         is Failure -> loadPage(1)
         is Success -> when {
-            state.data.isEmpty -> Later(state.data)
-            state.data.isLastPage -> Later(state.data)
+            state.data.isEmpty -> state.data
+            state.data.isLastPage -> state.data
             else -> loadPage(state.data.number + 1)
         }
     }
 
-    override fun loadPreviousPage() = when (val state = current.value) {
+    override suspend fun loadPreviousPage() = when (val state = current.value) {
         is Pending -> loadPage(1)
-        is Loading -> Later(Unit)
+        is Loading -> TODO("Figure out how to handle proper behavior here")
         is Failure -> loadPage(1)
         is Success -> when {
             state.data.number > 1 -> loadPage(state.data.number - 1)
@@ -109,23 +108,21 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
         }
     }
 
-    override fun refreshAllPages(): Later<Any?> {
+    override suspend fun refreshAllPages(): Any? {
         clearPages()
         return loadFirstPage()
     }
 
-    override fun refreshCurrentPage() = when (val state = current.value) {
+    override suspend fun refreshCurrentPage() = when (val state = current.value) {
         is Pending -> loadPage(1)
-        is Loading -> Later(Unit)
+        is Loading -> TODO("Figure out something here that will preserve migration behaviour")
         is Failure -> loadPage(1)
         is Success -> loadPage(state.data.number)
     }
 
-    private fun loadNothing() = Later(Unit)
+    override suspend fun loadFirstPage() = loadPage(1)
 
-    override fun loadFirstPage() = loadPage(1)
-
-    override fun loadLastPage() = loadPage(-1)
+    override suspend fun loadLastPage() = loadPage(-1)
 
     override fun find(item: T) = memory.load(item)
 
