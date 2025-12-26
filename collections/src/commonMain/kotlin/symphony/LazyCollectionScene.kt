@@ -5,10 +5,8 @@ package symphony
 
 import cinematic.BaseScene
 import keep.Cacheable
-import keep.load
+import keep.loadOrNull
 import keep.save
-import koncurrent.Later
-import koncurrent.awaited.finally
 import kotlinx.JsExport
 
 abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
@@ -26,7 +24,7 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
     abstract val selector: SelectionManager<T, *>
 
-    protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(cache,builder)
+    protected fun columnsOf(builder: ColumnsBuilder<T>.() -> Unit) = columnsOf<T>(cache, builder)
 
     open val actions: SelectorBasedActionsManager<T> by lazy { emptyActions() }
 
@@ -36,11 +34,12 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
 
     val table by lazy { tableOf(paginator, selector, actions, columns) }
 
-    fun switchToLatestSelectedView() = cache.load<View>(PREFERRED_VIEW).finally {
-        views.select(it.data ?: DEFAULT_VIEW)
+    suspend fun switchToLatestSelectedView() {
+        val v = cache.loadOrNull<View>(PREFERRED_VIEW) ?: DEFAULT_VIEW
+        views.select(v)
     }
 
-    fun search(): Later<Page> {
+    suspend fun search(): Page {
         paginator.clearPages()
         return paginator.loadFirstPage()
     }
@@ -49,9 +48,9 @@ abstract class LazyCollectionScene<T>(config: Cacheable) : BaseScene() {
         selector.unSelect(item ?: return)
     }
 
-    fun select(item: T): Later<T> {
+    fun select(item: T): T {
         selector.select(item)
-        return Later(item)
+        return item
     }
 
     private companion object {

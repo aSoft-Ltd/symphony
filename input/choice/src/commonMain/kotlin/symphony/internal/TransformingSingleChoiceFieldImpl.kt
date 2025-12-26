@@ -1,12 +1,5 @@
 package symphony.internal
 
-import kollections.Collection
-import kollections.List
-import kollections.listOf
-import kollections.emptyList
-import kollections.find
-import kollections.map
-import kollections.plus
 import neat.Validator
 import neat.Validators
 import symphony.Changer

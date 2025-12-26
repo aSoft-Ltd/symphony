@@ -3,12 +3,6 @@
 
 package symphony
 
-import kollections.List
-import kollections.first
-import kollections.get
-import kollections.indexOf
-import kollections.last
-import kollections.size
 import kotlinx.JsExport
 import kotlin.js.JsName
 

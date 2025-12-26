@@ -6,8 +6,8 @@ import kevlar.builders.Actions0Builder
 import neat.ValidationFactory
 
 class SubmitActionsBuilder<P, R> : Actions0Builder<Unit>() {
-    private var _submitAction: Action1Invoker<P, Later<R>>? = null
-    val submitAction: Action1Invoker<P, Later<R>> get() = _submitAction ?: error("Submit action has not been initialize just yet")
+    private var _submitAction: Action1Invoker<P, R>? = null
+    val submitAction: Action1Invoker<P, R> get() = _submitAction ?: error("Submit action has not been initialize just yet")
 
     var factory: ValidationFactory<P>? = null
 

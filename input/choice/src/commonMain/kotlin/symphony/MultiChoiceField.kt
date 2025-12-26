@@ -3,8 +3,6 @@
 
 package symphony
 
-import kollections.List
-import kollections.Set
 import kotlinx.JsExport
 
 interface MultiChoiceField<O> : ListField<O>, ChoiceField<O> {

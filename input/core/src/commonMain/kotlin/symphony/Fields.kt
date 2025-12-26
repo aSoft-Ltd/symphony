@@ -5,7 +5,6 @@ package symphony
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kollections.emptyList
 import neat.Validity
 import neat.aggregate
 import symphony.properties.Clearable

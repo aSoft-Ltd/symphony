@@ -1,8 +1,5 @@
 package symphony
 
-import kollections.first
-import kollections.listOf
-import kollections.size
 import kommander.expect
 import kotlin.test.Test
 

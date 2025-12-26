@@ -1,13 +1,5 @@
 package symphony.internal
 
-import kollections.List
-import kollections.emptyList
-import kollections.filter
-import kollections.find
-import kollections.listOf
-import kollections.map
-import kollections.partition
-import kollections.plus
 import neat.ValidationFactory
 import neat.required
 import symphony.Changer
@@ -17,7 +9,6 @@ import symphony.Option
 import symphony.SearchBy
 import symphony.SingleChoiceField
 import symphony.Visibility
-import kotlin.reflect.KMutableProperty0
 import symphony.internal.SingleChoiceFieldStateImpl as State
 
 @PublishedApi

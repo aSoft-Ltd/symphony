@@ -4,4 +4,4 @@ package symphony
 
 import keep.Cache
 
-inline fun Cache.removeSelectedItem() = remove(CacheKeys.SELECTED_ITEM)
+inline suspend fun Cache.removeSelectedItem() = remove(CacheKeys.SELECTED_ITEM)

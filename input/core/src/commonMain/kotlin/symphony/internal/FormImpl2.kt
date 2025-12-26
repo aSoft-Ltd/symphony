@@ -4,16 +4,6 @@ import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import kase.Failure
 import kase.Success
-import kollections.listOf
-import kollections.toList
-import koncurrent.FailedLater
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
-import koncurrent.awaited.finally
 import neat.Invalid
 import neat.Validator
 import neat.custom
@@ -40,42 +30,43 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
     override val heading = options.heading
     override val details = options.details
     override val fields = options.fields
-    override fun submit(): Later<R> {
+    override suspend fun submit(): R {
         logger.info("Validating")
         state.value = state.value.copy(phase = ValidatingPhase(fields.output))
         val validity = fields.validateToErrors()
         if (validity is Invalid) {
             state.value = state.value.copy(phase = FailurePhase(fields.output, validity.reasons.toList()))
-            return FailedLater(validity.exception())
+            TODO("Find a way to surface erros")
+//            return FailedLater(validity.exception())
         }
 
-        logger.info("Submitting")
-        val output = fields.output
-        state.value = state.value.copy(phase = SubmittingPhase(output))
-        return submitAction.invoke(output).finally { res ->
-            val phase = when (res) {
-                is Success -> {
-                    logger.info("Success")
-                    try {
-                        this.acts.onSuccess?.invoke(res.data)
-                    } catch (err: Throwable) {
-                        logger.error("Post Submit failed", err)
-                    }
-                    SuccessPhase(output, res.data)
-                }
-
-                is Failure -> {
-                    logger.error("Failed", res.cause)
-                    try {
-                        this.acts.onFailure?.invoke(res.cause)
-                    } catch (err: Throwable) {
-                        logger.error("Post Submit failed", err)
-                    }
-                    FailurePhase(output, listOf(res.message))
-                }
-            }
-            state.value = state.value.copy(phase = phase)
-        }
+        TODO("Do proper phase handling")
+//        logger.info("Submitting")
+//        val output = fields.output
+//        state.value = state.value.copy(phase = SubmittingPhase(output))
+//        val res = submitAction.invoke(output)
+//        val phase = when (res) {
+//            is Success -> {
+//                logger.info("Success")
+//                try {
+//                    this.acts.onSuccess?.invoke(res.data)
+//                } catch (err: Throwable) {
+//                    logger.error("Post Submit failed", err)
+//                }
+//                SuccessPhase(output, res.data)
+//            }
+//
+//            is Failure -> {
+//                logger.error("Failed", res.cause)
+//                try {
+//                    this.acts.onFailure?.invoke(res.cause)
+//                } catch (err: Throwable) {
+//                    logger.error("Post Submit failed", err)
+//                }
+//                FailurePhase(output, listOf(res.message))
+//            }
+//        }
+//        state.value = state.value.copy(phase = phase)
     }
 
     private val label by lazy {

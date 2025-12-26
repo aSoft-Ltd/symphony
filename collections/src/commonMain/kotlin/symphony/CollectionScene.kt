@@ -4,18 +4,11 @@
 package symphony
 
 import cinematic.BaseScene
-import keep.load
-import keep.save
-import keep.Cacheable
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
-import koncurrent.awaited.finally
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
+import keep.Cacheable
+import keep.loadOrNull
+import keep.save
 import kotlinx.JsExport
 
 @Deprecated(
@@ -44,34 +37,36 @@ abstract class CollectionScene<T>(private val config: Cacheable) : BaseScene() {
 
     private val preferredView = "${this::class.simpleName?.replace("Scene", "")}.$PREFERRED_VIEW"
 
-    fun switchToLatestSelectedView() = cache.load<View>(preferredView).finally {
-        view.value = it.data ?: DEFAULT_VIEW
+    suspend fun switchToLatestSelectedView() {
+        val v = cache.loadOrNull<View>(preferredView) ?: DEFAULT_VIEW
+        view.value = v
     }
 
-    fun switchToListView() = switchTo(View.List)
+    suspend fun switchToListView() = switchTo(View.List)
 
-    fun switchToTableView() = switchTo(View.Table)
+    suspend fun switchToTableView() = switchTo(View.Table)
 
-    private fun switchTo(v: View) = cache.save(preferredView, v).finally {
+    private suspend fun switchTo(v: View) {
+        cache.save(preferredView, v)
         view.value = v
     }
 
     private var searchText: String? = null
     val searchBox = TextField(name = ::searchText)
 
-    fun search(): Later<Page> {
+    suspend fun search(): Page {
         paginator.clearPages()
         return paginator.loadFirstPage()
     }
 
-    fun unselect(item: T? = null) {
+    suspend fun unselect(item: T? = null) {
         cache.remove(CacheKeys.SELECTED_ITEM)
         selector.unSelect(item ?: return)
     }
 
-    fun select(item: T): Later<T> {
+    fun select(item: T): T {
         selector.select(item)
-        return Later(item)
+        return item
     }
 
     private companion object {

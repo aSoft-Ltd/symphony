@@ -5,13 +5,6 @@ import kase.Executing
 import kase.ExecutorState
 import kase.Failure
 import kevlar.Action0
-import koncurrent.FailedLater
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import symphony.Confirm
 import symphony.ConfirmBuilder
 import symphony.ConfirmState
@@ -57,20 +50,21 @@ internal class ConfirmImpl<P>(private val factory: ConfirmBuilder.(P) -> Action0
         state.value = acts.toState(params)
     }
 
-    override fun confirm(): Later<Unit> {
-        val s = state.value.data ?: return FailedLater("Confirming an invisible confirm is not allowed")
-        if (state.value.isWorking) return FailedLater("Can't confirm while confirmation is busy")
-        return try {
-            state.value = s.copy(phase = Executing(message = s.message))
-            acts.confirm?.invoke() ?: acts.noConfirmAction()
-        } catch (err: Throwable) {
-            FailedLater(err)
-        }.then {
-            state.value = HiddenConfirmState
-        }.catch {
-            state.value = s.copy(phase = Failure(it))
-            throw it
-        }
+    override fun confirm() {
+        val s = state.value.data ?: return TODO() // FailedLater("Confirming an invisible confirm is not allowed")
+        if (state.value.isWorking) return TODO() // FailedLater("Can't confirm while confirmation is busy")
+        TODO("Finish this confirmation properly")
+//        return try {
+//            state.value = s.copy(phase = Executing(message = s.message))
+//            acts.confirm?.invoke() ?: acts.noConfirmAction()
+//        } catch (err: Throwable) {
+//            FailedLater(err)
+//        }.then {
+//            state.value = HiddenConfirmState
+//        }.catch {
+//            state.value = s.copy(phase = Failure(it))
+//            throw it
+//        }
     }
 
     private fun <S> VisibleConfirmState<S>.copy(phase: ExecutorState<Unit>) = VisibleConfirmStateImpl(heading, details, message, subject, phase)

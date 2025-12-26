@@ -4,12 +4,6 @@
 package symphony
 
 import cinematic.Live
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import kotlinx.JsExport
 
 interface Confirm<in P> {
@@ -19,5 +13,5 @@ interface Confirm<in P> {
     fun hide()
 
     fun show(params: P)
-    fun confirm(): Later<Any?>
+    fun confirm()
 }

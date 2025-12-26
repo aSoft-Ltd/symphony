@@ -1,7 +1,5 @@
 package symphony
 
-import kollections.List
-import kollections.emptyList
 import symphony.internal.SpreadSheetImpl
 
 fun SpreadSheet(

@@ -3,8 +3,6 @@
 
 package presenters.charts
 
-import kollections.List
-import kollections.map
 import kotlinx.JsExport
 import kotlinx.serialization.Serializable
 

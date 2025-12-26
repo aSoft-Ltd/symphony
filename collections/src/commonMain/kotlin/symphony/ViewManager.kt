@@ -2,7 +2,6 @@
 package symphony
 
 import cinematic.Live
-import kollections.List
 import kotlinx.JsExport
 
 interface ViewManager<out T> {
@@ -12,7 +11,7 @@ interface ViewManager<out T> {
 
     fun add(view: @UnsafeVariance T): ViewManager<T>
 
-    fun select(view: @UnsafeVariance T)
+    suspend fun select(view: @UnsafeVariance T)
 
     fun remove(view: @UnsafeVariance T): ViewManager<T>
 }

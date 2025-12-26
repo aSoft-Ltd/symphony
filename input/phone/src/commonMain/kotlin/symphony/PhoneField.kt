@@ -2,7 +2,6 @@
 
 package symphony
 
-import kollections.List
 import kotlinx.JsName
 import kotlinx.JsExport
 import nation.Country

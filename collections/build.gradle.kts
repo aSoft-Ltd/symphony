@@ -28,6 +28,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kommander.core)
+                implementation(kotlinx.coroutines.test)
             }
         }
 

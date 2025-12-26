@@ -1,20 +1,12 @@
 package confirmations
 
-import kommander.expect
+import cinematic.expect
+import cinematic.toHaveGoneThrough2
 import kase.Executing
 import kase.Failure
 import kase.Pending
 import kase.Success
-import koncurrent.FailedLater
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
-import cinematic.toHaveGoneThrough2
-import cinematic.expect
-import lexi.Logable
+import kommander.expect
 import symphony.ConfirmationBox
 import kotlin.test.Ignore
 import kotlin.test.Test
@@ -28,9 +20,7 @@ class ConfirmationBoxTest {
             heading = "Delete George",
             details = "Are you sure you want to delete George?"
         ) {
-            onConfirm {
-                Later(5)
-            }
+            onConfirm { 5 }
         }
         expect(box.state).toBeIn(Pending)
     }
@@ -45,7 +35,7 @@ class ConfirmationBoxTest {
         ) {
             onConfirm {
                 confirmed = true
-                Later(confirmed)
+                true
             }
         }
         expect(confirmed).toBe(false)
@@ -69,7 +59,7 @@ class ConfirmationBoxTest {
             }
             onConfirm {
                 confirmed = true
-                FailedLater(RuntimeException("Rejecting for fun"))
+                throw RuntimeException("Rejecting for fun")
             }
         }
         expect(cancelled).toBe(false)
@@ -94,7 +84,7 @@ class ConfirmationBoxTest {
                 cancelled = true
             }
             onConfirm {
-                FailedLater(RuntimeException("Rejecting for fun"))
+                throw RuntimeException("Rejecting for fun")
             }
         }
         expect(cancelled).toBe(false)
@@ -140,8 +130,9 @@ class ConfirmationBoxTest {
         }
 
         var caught = false
-        box.confirm().catch {
-            caught = true
+        try {
+            box.confirm()
+        } catch (it: Throwable) {
             println("Error: ${it.message}")
         }
         println("after catching")

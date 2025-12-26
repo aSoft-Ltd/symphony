@@ -1,17 +1,12 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
-import kollections.MutableSet
-import kollections.add
-import kollections.first
-import kollections.remove
-import kollections.toList
 import symphony.ViewManager
 
 @PublishedApi
 internal class ViewManagerImpl<T>(
     private val views: MutableSet<T>,
-    private val callback: ((T) -> Unit)? = null,
+    private val callback: (suspend (T) -> Unit)? = null,
 ) : ViewManager<T> {
 
     override val current = mutableLiveOf(views.first())
@@ -30,7 +25,7 @@ internal class ViewManagerImpl<T>(
         return this
     }
 
-    override fun select(view: T) {
+    override suspend fun select(view: T) {
         current.value = view
         callback?.invoke(view)
     }

@@ -3,7 +3,6 @@
 
 package symphony
 
-import kollections.List
 import kotlinx.JsExport
 
 interface TransformingSingleChoiceField<I, O> : TransformingField<I, O>, ChoiceField<I> {

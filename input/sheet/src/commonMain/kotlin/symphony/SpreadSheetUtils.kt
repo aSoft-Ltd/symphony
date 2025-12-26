@@ -1,18 +1,5 @@
 package symphony
 
-import kollections.List
-import kollections.Map
-import kollections.add
-import kollections.addAll
-import kollections.entries
-import kollections.filter
-import kollections.flatMap
-import kollections.forEach
-import kollections.key
-import kollections.mutableListOf
-import kollections.value
-import kollections.values
-
 fun SpreadSheet.rendererToString(tab: Int = 4) = buildString {
     val t = " ".repeat(tab)
     append("Name$t")

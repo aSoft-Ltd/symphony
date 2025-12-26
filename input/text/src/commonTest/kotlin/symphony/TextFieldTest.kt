@@ -1,7 +1,5 @@
 package symphony
 
-import kollections.first
-import kollections.size
 import kommander.expect
 import kommander.toBeGreaterThan
 import neat.collections.max

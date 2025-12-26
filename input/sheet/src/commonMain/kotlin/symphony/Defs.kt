@@ -1,7 +1,5 @@
 package symphony
 
-import kollections.Map
-
 typealias SheetColumn = String
 typealias SheetRow = String
 

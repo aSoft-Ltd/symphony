@@ -6,5 +6,5 @@ import kotlinx.JsExport
 
 class FormAction(
     val label: Label,
-    val handler: () -> Unit
+    val handler: suspend () -> Unit
 )

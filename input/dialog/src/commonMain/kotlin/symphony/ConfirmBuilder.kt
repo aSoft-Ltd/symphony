@@ -6,13 +6,6 @@ import kevlar.Action0
 import kevlar.Action0Invoker
 import kevlar.action0
 import kevlar.builders.Actions0Builder
-import kollections.find
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import symphony.internal.VisibleConfirmStateImpl
 
 class ConfirmBuilder : Actions0Builder<Unit>() {
@@ -20,8 +13,8 @@ class ConfirmBuilder : Actions0Builder<Unit>() {
     var details: String = "Are you sure?"
     var message: String = "Executing, please wait . . ."
 
-    internal var confirm: Action0Invoker<Later<Any?>>? = null
-    fun onConfirm(name: String = "Confirm", handler: () -> Later<Any?>): Action0<Any?> {
+    internal var confirm: Action0Invoker<Any?>? = null
+    fun onConfirm(name: String = "Confirm", handler: () -> Unit): Action0<Any?> {
         val action = action0(name, handler = handler)
         confirm = action
         return action

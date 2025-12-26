@@ -3,7 +3,6 @@
 
 package symphony
 
-import kollections.Collection
 import kotlinx.JsExport
 
 sealed interface ChoiceField<O> {

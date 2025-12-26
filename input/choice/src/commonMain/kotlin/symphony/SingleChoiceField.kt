@@ -3,7 +3,6 @@
 
 package symphony
 
-import kollections.List
 import symphony.properties.Settable
 import kotlinx.JsExport
 

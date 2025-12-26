@@ -1,9 +1,6 @@
 package symphony
 
-import kollections.find
-import kollections.size
 import kommander.expect
-import koncurrent.later.await
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
@@ -14,7 +11,7 @@ class SelectorBasedActionManagerTest {
         val pag = linearPaginatorOf<Person>(10)
         pag.initialize { params ->
             Person.List.paged(params)
-        }.await()
+        }
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -28,7 +25,7 @@ class SelectorBasedActionManagerTest {
 
         actions.add("Test") { println("Test clicked") }
 
-        pag.loadFirstPage().await()
+        pag.loadFirstPage()
         expect(actions.current.value.size).toBe(2)
         sel.select(row = 1, page = 1)
         expect(actions.current.value.size).toBe(3)
@@ -39,7 +36,7 @@ class SelectorBasedActionManagerTest {
         val pag = linearPaginatorOf<Person>(10)
         pag.initialize { params ->
             Person.List.paged(params)
-        }.await()
+        }
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -53,7 +50,7 @@ class SelectorBasedActionManagerTest {
 
         actions.addSingle("Test") { println("$it has been clicked for testing") }
 
-        pag.loadFirstPage().await()
+        pag.loadFirstPage()
         expect(actions.current.value.size).toBe(1)
         sel.select(row = 1, page = 1)
         expect(actions.current.value.size).toBe(3)
@@ -64,7 +61,7 @@ class SelectorBasedActionManagerTest {
         val pag = linearPaginatorOf<Person>(10)
         pag.initialize { params ->
             Person.List.paged(params)
-        }.await()
+        }
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -78,7 +75,7 @@ class SelectorBasedActionManagerTest {
 
         actions.addMulti("Test") { println("${it.size} have been clicked for testing") }
 
-        pag.loadFirstPage().await()
+        pag.loadFirstPage()
         expect(actions.current.value.size).toBe(1)
         sel.selectAllItemsInTheCurrentPage()
         expect(actions.current.value.size).toBe(2)
@@ -96,7 +93,7 @@ class SelectorBasedActionManagerTest {
         val pag = linearPaginatorOf<Person>(10)
         pag.initialize { params ->
             Person.List.paged(params)
-        }.await()
+        }
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -107,7 +104,7 @@ class SelectorBasedActionManagerTest {
                 onEdit { println("Edit ${it.name}") }
             }
         }
-        pag.loadFirstPage().await()
+        pag.loadFirstPage()
         expect(actions.current.value.size).toBe(1)
         sel.select(row = 1, page = 1)
         expect(actions.current.value.size).toBe(2)
@@ -116,7 +113,7 @@ class SelectorBasedActionManagerTest {
     @Test
     fun should_add_actions_after_table_creations() = runTest {
         val pag = linearPaginatorOf<Person>(10)
-        pag.initialize { params -> Person.List.paged(params) }.await()
+        pag.initialize { params -> Person.List.paged(params) }
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -127,7 +124,7 @@ class SelectorBasedActionManagerTest {
                 onEdit { println("Edit ${it.name}") }
             }
         }
-        pag.loadFirstPage().await()
+        pag.loadFirstPage()
         expect(actions.current.value.size).toBe(1)
         sel.select(row = 1, page = 1)
         expect(actions.current.value.size).toBe(2)
@@ -139,7 +136,7 @@ class SelectorBasedActionManagerTest {
     @Test
     fun should_delete_actions_after_table_creations() = runTest {
         val pag = linearPaginatorOf<Person>(10)
-        pag.initialize { params -> Person.List.paged(params) }.await()
+        pag.initialize { params -> Person.List.paged(params) }
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -150,7 +147,7 @@ class SelectorBasedActionManagerTest {
                 onEdit { println("Edit ${it.name}") }
             }
         }
-        pag.loadFirstPage().await()
+        pag.loadFirstPage()
         sel.select(row = 1, page = 1)
         expect(actions.current.value.size).toBe(2)
     }
@@ -158,7 +155,7 @@ class SelectorBasedActionManagerTest {
     @Test
     fun should_only_display_current_multi_actions() = runTest {
         val pag = linearPaginatorOf<Person>(10)
-        pag.initialize { params -> Person.List.paged(params) }.await()
+        pag.initialize { params -> Person.List.paged(params) }
         val sel = selectorOf(pag)
         val actions = actionsOf(linear = sel) {
             primary {
@@ -168,7 +165,7 @@ class SelectorBasedActionManagerTest {
                 onDeleteAll(it) { println("Delete ${it.size}") }
             }
         }
-        pag.loadFirstPage().await()
+        pag.loadFirstPage()
         expect(actions.current.value.size).toBe(1)
         sel.addSelection(1)
         sel.addSelection(2)

@@ -9,10 +9,6 @@ import kase.Failure
 import kase.Pending
 import kase.Success
 import kase.bagOf
-import kollections.find
-import koncurrent.FailedLater
-import koncurrent.awaited.catch
-import koncurrent.awaited.then
 import symphony.ConfirmActionsBuilder
 import symphony.ConfirmationBox
 
@@ -45,15 +41,18 @@ internal class ConfirmationBoxImpl(
         }
     }
 
-    override fun confirm() = try {
-        state.value = Executing(message = executionMessage)
-        confirmAction()
-    } catch (err: Throwable) {
-        FailedLater(err)
-    }.then {
-        state.value = Success(Unit)
-    }.catch {
-        state.value = Failure(it)
-        throw it
+    override fun confirm() {
+        TODO()
+//        try {
+//            state.value = Executing(message = executionMessage)
+//            confirmAction()
+//        } catch (err: Throwable) {
+//            FailedLater(err)
+//        }.then {
+//            state.value = Success(Unit)
+//        }.catch {
+//            state.value = Failure(it)
+//            throw it
+//        }
     }
 }

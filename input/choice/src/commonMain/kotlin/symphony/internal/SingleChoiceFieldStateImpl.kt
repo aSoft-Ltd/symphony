@@ -6,7 +6,6 @@ import symphony.Option
 import symphony.SearchBy
 import symphony.SingleChoiceFieldState
 import symphony.Visibility
-import kollections.List
 
 data class SingleChoiceFieldStateImpl<out O>(
     override val name: String,

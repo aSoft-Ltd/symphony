@@ -1,8 +1,5 @@
 package symphony
 
-import kollections.List
-import kollections.Collection
-import kollections.MutableList
 import neat.ValidationFactory
 import symphony.internal.FieldBacker
 import symphony.internal.MultiChoiceFieldImpl

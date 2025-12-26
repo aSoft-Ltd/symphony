@@ -18,6 +18,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.symphonyVisibility)
             api(libs.kotlinx.exports)
+            api(libs.kase.core)
             api(libs.cinematic.live.core)
             api(libs.neat.validation)
             api(libs.kevlar.core)

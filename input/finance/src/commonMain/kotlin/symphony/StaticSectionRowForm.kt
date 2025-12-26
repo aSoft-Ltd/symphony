@@ -2,7 +2,6 @@
 package symphony
 
 import cinematic.Live
-import kollections.List
 import kotlinx.JsExport
 
 interface StaticSectionRowForm : SectionRow {

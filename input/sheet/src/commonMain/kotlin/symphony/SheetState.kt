@@ -2,7 +2,6 @@
 
 package symphony
 
-import kollections.List
 import kotlinx.JsExport
 
 data class SheetState(
