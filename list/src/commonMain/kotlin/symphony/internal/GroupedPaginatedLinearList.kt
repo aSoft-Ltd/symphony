@@ -1,7 +1,5 @@
 package symphony.internal
 
-import kollections.List
-import kollections.flatMap
 import symphony.GroupedPaginationManager
 import symphony.LinearList
 import symphony.Row

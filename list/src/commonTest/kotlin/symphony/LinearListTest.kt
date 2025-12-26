@@ -1,8 +1,6 @@
 package symphony
 
-import kollections.size
 import kommander.expect
-import koncurrent.later.await
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
@@ -11,26 +9,26 @@ class LinearListTest {
     @Test
     fun can_be_assigned_a_paginator() = runTest {
         val paginator = linearPaginatorOf<Person>()
-        paginator.initialize { params-> Person.List.paged(params) }.await()
+        paginator.initialize { params-> Person.List.paged(params) }
 
         val list = lazyListOf(paginator)
 
-        list.paginator.refreshAllPages().await()
+        list.paginator.refreshAllPages()
 
-        list.paginator.loadNextPage().await()
+        list.paginator.loadNextPage()
 
-        list.paginator.loadNextPage().await()
+        list.paginator.loadNextPage()
     }
 
     @Test
     fun should_be_able_to_select_table_items() = runTest {
         val paginator = linearPaginatorOf<Person>()
-        paginator.initialize { params-> Person.List.paged(params) }.await()
+        paginator.initialize { params-> Person.List.paged(params) }
         val selector = selectorOf(paginator)
 
         val list = lazyListOf(paginator)
 
-        list.paginator.loadFirstPage().await()
+        list.paginator.loadFirstPage()
 
         selector.select(row = 1)
         selector.select(row = 1)
@@ -41,12 +39,12 @@ class LinearListTest {
     @Test
     fun should_be_able_to_select_the_whole_current_page() = runTest {
         val paginator = linearPaginatorOf<Person>()
-        paginator.initialize { params-> Person.List.paged(params) }.await()
+        paginator.initialize { params-> Person.List.paged(params) }
         val selector = selectorOf(paginator)
 
         val list = lazyListOf(paginator)
 
-        list.paginator.loadFirstPage().await()
+        list.paginator.loadFirstPage()
 
         selector.selectAllItemsInTheCurrentPage()
 
@@ -56,7 +54,7 @@ class LinearListTest {
     @Test
     fun should_be_able_to_retrieve_primary_actions() = runTest {
         val paginator = linearPaginatorOf<Person>()
-        paginator.initialize { params-> Person.List.paged(params) }.await()
+        paginator.initialize { params-> Person.List.paged(params) }
         val selector = selectorOf(paginator)
         val actions = actionsOf(linear = selector) {
             primary {
@@ -82,7 +80,7 @@ class LinearListTest {
 
         val list = lazyListOf(paginator)
 
-        list.paginator.loadFirstPage().await()
+        list.paginator.loadFirstPage()
         selector.select(row = 1)
 
         expect(actions.get().size).toBe(2)
@@ -91,19 +89,19 @@ class LinearListTest {
     @Test
     fun should_be_able_to_load_more_data() = runTest {
         val paginator = linearPaginatorOf<Person>(6)
-        paginator.initialize { params-> Person.List.paged(params) }.await()
+        paginator.initialize { params-> Person.List.paged(params) }
         val list = lazyListOf(paginator)
 
-        list.paginator.loadFirstPage().await()
+        list.paginator.loadFirstPage()
         expect(list.rows.size).toBe(6)
 
-        list.paginator.loadNextPage().await()
+        list.paginator.loadNextPage()
         expect(list.rows.size).toBe(12)
 
 //        list.paginator.refreshAllPages()
 //        expect(list.rows.size).toBe(12)
 
-        list.paginator.loadNextPage().await()
+        list.paginator.loadNextPage()
         expect(list.rows.size).toBe(18)
     }
 }

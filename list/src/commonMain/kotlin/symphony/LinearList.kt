@@ -3,7 +3,6 @@
 
 package symphony
 
-import kollections.List
 import kotlinx.JsExport
 
 interface LinearList<out T> : LazyList<T> {

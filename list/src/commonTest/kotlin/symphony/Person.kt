@@ -1,8 +1,5 @@
 package symphony
 
-import kollections.add
-import kollections.buildList
-
 data class Person(val name: String = "Andy", val age: Int = 12, val gender: Gender, val hobby: Hobby) {
     enum class Gender { Male, Female }
 

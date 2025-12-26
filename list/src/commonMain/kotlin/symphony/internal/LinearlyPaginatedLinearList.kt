@@ -1,6 +1,5 @@
 package symphony.internal
 
-import kollections.List
 import symphony.LinearList
 import symphony.LinearPaginationManager
 import symphony.Row

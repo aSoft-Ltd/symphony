@@ -1,6 +1,5 @@
 package symphony.internal
 
-import kollections.List
 import symphony.Chunk
 import symphony.GroupedList
 import symphony.GroupedPaginationManager
