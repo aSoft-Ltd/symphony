@@ -7,6 +7,7 @@ import neat.Validity
 import neat.custom
 import neat.required
 import symphony.Changer
+import symphony.ErrorFeedback
 import symphony.Feedbacks
 import symphony.Label
 import symphony.Option
@@ -46,6 +47,11 @@ internal class PhoneFieldImpl(
         onChange?.invoke(s.output)
     }
 
+    override fun errors(errors: List<String>) {
+        if (errors.isEmpty()) return
+        val feedbacks = state.value.feedbacks.items + errors.map { ErrorFeedback(it) }
+        state.value = state.value.copy(feedbacks = Feedbacks(feedbacks))
+    }
     override fun validateToErrors(): Validity<PhoneOutput> {
         val res = validator.validate(output)
         state.value = state.value.copy(feedbacks = Feedbacks(res.toErrors()))
