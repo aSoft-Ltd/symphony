@@ -4,10 +4,10 @@
 package symphony
 
 import cinematic.Live
+import kotlinx.JsExport
 import symphony.properties.Clearable
 import symphony.properties.Hideable
 import symphony.properties.Resetable
-import kotlinx.JsExport
 
 interface Form<out R, out O : Any, out F : Fields<O>> : FormInfo, Resetable, Clearable, Hideable {
 
@@ -19,5 +19,5 @@ interface Form<out R, out O : Any, out F : Fields<O>> : FormInfo, Resetable, Cle
 
     fun exit()
 
-    suspend fun submit(): R
+    suspend fun submit()
 }

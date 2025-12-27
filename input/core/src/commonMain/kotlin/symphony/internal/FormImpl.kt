@@ -35,7 +35,7 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
     builder: SubmitBuilder<O, R>,
 ) : AbstractHideable(), Form<R, O, F>, Resetable, Clearable {
 
-    override suspend fun submit(): R {
+    override suspend fun submit() {
         TODO("Do proper form phase here")
 //        logger.info("Validating")
 //        state.value = state.value.copy(phase = ValidatingPhase(fields.output))

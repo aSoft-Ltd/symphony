@@ -8,6 +8,7 @@ import lexi.LoggerFactory
 import symphony.internal.FormImpl2
 import symphony.internal.FormOptions
 
+@Deprecated("Use toForm(heading, details, logger, exitOnSuccess, visibility, builder)")
 fun <R, P : Any, F : Fields<P>> Form(
     heading: String,
     details: String,
@@ -27,7 +28,7 @@ fun <R, P : Any, F : Fields<P>> Form(
 fun <R, P : Any, F : Fields<P>> F.toForm(
     heading: String,
     details: String,
-    logger: LoggerFactory,
+    logger: LoggerFactory = LoggerFactory(),
     exitOnSuccess: Boolean = true,
     visibility: Visibility = Visibilities.Visible,
     builder: SubmitBuilder<P, R>
@@ -43,6 +44,7 @@ fun <R, P : Any, F : Fields<P>> F.toForm(
     )
 )
 
+@Deprecated("Use toForm(heading, details, logger, exitOnSuccess, visibility, builder)")
 fun <R, P : Any, F : Fields<P>> Form(
     heading: String,
     details: String,

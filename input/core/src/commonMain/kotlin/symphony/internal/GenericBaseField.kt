@@ -11,6 +11,7 @@ import neat.custom
 import neat.required
 import symphony.BaseField
 import symphony.Changer
+import symphony.ErrorFeedback
 import symphony.Feedbacks
 import symphony.Label
 import symphony.Visibility
@@ -70,6 +71,12 @@ open class GenericBaseField<O>(
 
     override fun setVisibility(v: Visibility) {
         state.value = state.value.copy(visibility = v)
+    }
+
+    override fun errors(errors: List<String>) {
+        if (errors.isEmpty()) return
+        val feedbacks = state.value.feedbacks.items + errors.map { ErrorFeedback(it) }
+        state.value = state.value.copy(feedbacks = Feedbacks(feedbacks))
     }
 
     override fun clear() = set(null)

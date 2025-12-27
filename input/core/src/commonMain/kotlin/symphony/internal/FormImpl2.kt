@@ -2,11 +2,8 @@ package symphony.internal
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kase.Failure
-import kase.Success
+import kotlinx.coroutines.CancellationException
 import neat.Invalid
-import neat.Validator
-import neat.custom
 import symphony.CapturingPhase
 import symphony.FailurePhase
 import symphony.Fields
@@ -30,43 +27,46 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
     override val heading = options.heading
     override val details = options.details
     override val fields = options.fields
-    override suspend fun submit(): R {
+
+    private fun Fields<O>.errors() = all.entries.filter { (_, it) ->
+        it.state.value.feedbacks.errors.isNotEmpty()
+    }.map { (prop, it) ->
+        val s = it.state.value
+        FailurePhase.FieldError(name = prop, s.feedbacks.errors)
+    }
+
+    override suspend fun submit() {
         logger.info("Validating")
         state.value = state.value.copy(phase = ValidatingPhase(fields.output))
         val validity = fields.validateToErrors()
         if (validity is Invalid) {
-            state.value = state.value.copy(phase = FailurePhase(fields.output, validity.reasons.toList()))
-            TODO("Find a way to surface erros")
-//            return FailedLater(validity.exception())
+            state.value = state.value.copy(phase = FailurePhase(fields.output, emptyList(), fields.errors()))
+            return
         }
 
-        TODO("Do proper phase handling")
-//        logger.info("Submitting")
-//        val output = fields.output
-//        state.value = state.value.copy(phase = SubmittingPhase(output))
-//        val res = submitAction.invoke(output)
-//        val phase = when (res) {
-//            is Success -> {
-//                logger.info("Success")
-//                try {
-//                    this.acts.onSuccess?.invoke(res.data)
-//                } catch (err: Throwable) {
-//                    logger.error("Post Submit failed", err)
-//                }
-//                SuccessPhase(output, res.data)
-//            }
-//
-//            is Failure -> {
-//                logger.error("Failed", res.cause)
-//                try {
-//                    this.acts.onFailure?.invoke(res.cause)
-//                } catch (err: Throwable) {
-//                    logger.error("Post Submit failed", err)
-//                }
-//                FailurePhase(output, listOf(res.message))
-//            }
-//        }
-//        state.value = state.value.copy(phase = phase)
+        logger.info("Submitting")
+        val output = fields.output
+        state.value = state.value.copy(phase = SubmittingPhase(output))
+        val phase = try {
+            val res = submitAction.invoke(output)
+            logger.info("Success")
+            try {
+                this.acts.onSuccess?.invoke(res)
+            } catch (err: Throwable) {
+                logger.error("Post Submit failed", err)
+            }
+            SuccessPhase(output, res)
+        } catch (err: CancellationException) {
+            throw err
+        } catch (err: Throwable) {
+            try {
+                acts.onFailure?.invoke(err)
+            } catch (err: Throwable) {
+                logger.error("Post Submit failed", err)
+            }
+            FailurePhase(output, listOf(err.message ?: "Unknown error"), fields.errors())
+        }
+        state.value = state.value.copy(phase = phase)
     }
 
     private val label by lazy {

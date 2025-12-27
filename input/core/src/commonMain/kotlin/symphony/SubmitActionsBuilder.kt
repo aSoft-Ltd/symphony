@@ -7,9 +7,9 @@ import neat.ValidationFactory
 
 class SubmitActionsBuilder<P, R> : Actions0Builder<Unit>() {
     private var _submitAction: Action1Invoker<P, R>? = null
-    val submitAction: Action1Invoker<P, R> get() = _submitAction ?: error("Submit action has not been initialize just yet")
+    internal val submitAction: Action1Invoker<P, R> get() = _submitAction ?: error("Submit action has not been initialize just yet")
 
-    var factory: ValidationFactory<P>? = null
+    internal var factory: ValidationFactory<P>? = null
 
     fun validate(factory: ValidationFactory<P>) {
         this.factory = factory

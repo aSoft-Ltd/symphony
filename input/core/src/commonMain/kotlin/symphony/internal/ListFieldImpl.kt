@@ -6,7 +6,9 @@ import neat.Validity
 import neat.custom
 import neat.required
 import symphony.Changer
+import symphony.ErrorFeedback
 import symphony.Feedbacks
+import symphony.Label
 import symphony.ListField
 import symphony.Visibility
 import symphony.toErrors
@@ -47,6 +49,12 @@ open class ListFieldImpl<E>(
         validateAndNotify()
     }
 
+    override fun errors(errors: List<String>) {
+        if (errors.isEmpty()) return
+        val feedbacks = state.value.feedbacks.items + errors.map { ErrorFeedback(it) }
+        state.value = state.value.copy(feedbacks = Feedbacks(feedbacks))
+    }
+
     override fun removeAll(items: Array<E>?) {
         removeAll(items?.toList())
     }
@@ -62,7 +70,8 @@ open class ListFieldImpl<E>(
     }
 
     private val initial = LIstFieldImplState(
-        required = this.validator.required,
+        label = Label(label, validator.required),
+        required = validator.required,
         output = value.toMutableList(),
         visibility = visibility,
         feedbacks = Feedbacks(emptyList()),
@@ -119,6 +128,7 @@ open class ListFieldImpl<E>(
     }
 
     override val output get() = backed
+    override val label get() = state.value.label
     override val required get() = state.value.required
     override val visibility get() = state.value.visibility
     override val feedbacks get() = state.value.feedbacks

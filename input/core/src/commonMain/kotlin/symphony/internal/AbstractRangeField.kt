@@ -4,18 +4,20 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
+import kotlinx.JsExport
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
 import neat.required
 import symphony.Changer
+import symphony.ErrorFeedback
 import symphony.Feedbacks
+import symphony.Label
 import symphony.Range
 import symphony.RangeField
 import symphony.Visibility
 import symphony.toErrors
 import symphony.toWarnings
-import kotlinx.JsExport
 import kotlin.reflect.KMutableProperty0
 
 open class AbstractRangeField<O : Any>(
@@ -59,12 +61,19 @@ open class AbstractRangeField<O : Any>(
         return res
     }
 
+    override fun errors(errors: List<String>) {
+        if (errors.isEmpty()) return
+        val feedbacks = state.value.feedbacks.items + errors.map { ErrorFeedback(it) }
+        state.value = state.value.copy(feedbacks = Feedbacks(feedbacks))
+    }
+
     override fun setVisibility(v: Visibility) {
         state.value = state.value.copy(visibility = v)
     }
 
     private val initial = AbstractRangeFieldState(
         name = property.name,
+        label = Label(label),
         required = this.validator.required,
         start = property.get()?.start,
         end = property.get()?.end,
@@ -75,6 +84,7 @@ open class AbstractRangeField<O : Any>(
     override val state = mutableLiveOf(initial)
 
     override val output get() = state.value.output
+    override val label get() = state.value.label
     override val required get() = state.value.required
     override val visibility get() = state.value.visibility
     override val feedbacks get() = state.value.feedbacks

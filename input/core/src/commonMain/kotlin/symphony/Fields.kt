@@ -5,14 +5,14 @@ package symphony
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
+import kotlinx.JsExport
+import kotlinx.JsExportIgnore
 import neat.Validity
 import neat.aggregate
 import symphony.properties.Clearable
 import symphony.properties.Finishable
 import symphony.properties.Resetable
 import symphony.properties.Validable
-import kotlinx.JsExport
-import kotlinx.JsExportIgnore
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
@@ -22,7 +22,7 @@ abstract class Fields<out O : Any>(initial: FieldsState<O>) : Validable, Clearab
     @JsExportIgnore
     constructor(output: O) : this(FieldsState(output, Feedbacks(emptyList())))
 
-    private val all = mutableMapOf<KProperty<*>, Field<*, *>>()
+    internal val all = mutableMapOf<KProperty<*>, Field<*, *>>()
 
     val output get() = state.value.output
 
@@ -74,5 +74,24 @@ abstract class Fields<out O : Any>(initial: FieldsState<O>) : Validable, Clearab
     @JvmName("inform")
     fun notify() {
         state.value = state.value.copy(output = output)
+    }
+
+    inner class ErrorBuilder {
+        internal val errors = mutableMapOf<KProperty<*>, List<String>>()
+        infix fun KProperty<*>.to(error: String) {
+            errors[this] = listOf(error)
+            all[this]?.errors(listOf(error))
+        }
+    }
+
+    /**
+     * This method is used to build and set errors dynamically.
+     *
+     * It is most useful to point out errors that came directly from the server,
+     * but could be narrowed down to a specific field.
+     */
+    fun errors(error: String = "Failed", builder: ErrorBuilder.() -> Unit) {
+        val builder = ErrorBuilder().apply(builder)
+        if (builder.errors.isNotEmpty()) throw IllegalArgumentException(error)
     }
 }

@@ -5,12 +5,14 @@ import neat.ValidationFactory
 import neat.Validity
 import neat.custom
 import neat.required
+import symphony.Changer
+import symphony.ErrorFeedback
 import symphony.Feedbacks
+import symphony.Label
 import symphony.TransState
 import symphony.TransformingField
 import symphony.Visibility
 import symphony.internal.AbstractHideable
-import symphony.Changer
 import symphony.toErrors
 import symphony.toWarnings
 import kotlin.reflect.KMutableProperty0
@@ -39,11 +41,12 @@ open class BaseTransformingFieldImpl<I, O>(
         onChange?.invoke(property.get())
     }
 
-    private val initial = State<I,O>(
+    private val initial = State<I, O>(
         input = null,
         required = this.validator.required,
         output = property.get(),
         visibility = visibility,
+        label = Label(label, this.validator.required),
         feedbacks = Feedbacks(emptyList()),
     )
 
@@ -64,6 +67,12 @@ open class BaseTransformingFieldImpl<I, O>(
         state.value = state.value.copy(visibility = v)
     }
 
+    override fun errors(errors: List<String>) {
+        if (errors.isEmpty()) return
+        val feedbacks = state.value.feedbacks.items + errors.map { ErrorFeedback(it) }
+        state.value = state.value.copy(feedbacks = Feedbacks(feedbacks))
+    }
+
     override fun clear() = set(null)
 
     override fun finish() {
@@ -78,10 +87,12 @@ open class BaseTransformingFieldImpl<I, O>(
     override val input get() = state.value.input
     override val output get() = state.value.output
     override val required get() = state.value.required
+    override val label get() = state.value.label
     override val visibility get() = state.value.visibility
     override val feedbacks get() = state.value.feedbacks
 
     data class State<out I, out O>(
+        override val label: Label,
         override val output: O?,
         override val required: Boolean,
         override val visibility: Visibility,

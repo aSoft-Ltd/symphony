@@ -4,12 +4,14 @@ package symphony.internal
 
 import kotlinx.JsExport
 import symphony.Feedbacks
+import symphony.Label
 import symphony.Range
 import symphony.RangeFieldState
 import symphony.Visibility
 
 data class AbstractRangeFieldState<out O : Any>(
     val name: String,
+    override val label: Label,
     override val start: O?,
     override val end: O?,
     override val visibility: Visibility,

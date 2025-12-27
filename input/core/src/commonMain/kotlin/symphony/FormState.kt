@@ -4,6 +4,7 @@
 package symphony
 
 import kotlinx.JsExport
+import kotlin.reflect.KProperty
 
 data class FormState<out O, out R>(
     val visibility: Visibility,
@@ -20,7 +21,7 @@ sealed interface FormPhase<out O, out R> {
     val asFailure get() = this as? FailurePhase
 }
 
-object CapturingPhase : FormPhase<Nothing, Nothing>
+data object CapturingPhase : FormPhase<Nothing, Nothing>
 
 data class ValidatingPhase<out O>(
     val output: O
@@ -37,5 +38,14 @@ data class SuccessPhase<out O, out R>(
 
 data class FailurePhase<out O>(
     val output: O,
-    val reasons: List<String>
-) : FormPhase<O, Nothing>
+    val reasons: List<String>,
+    val fields: List<FieldError>
+) : FormPhase<O, Nothing> {
+
+    data class FieldError(
+        val name: KProperty<*>,
+        val error: List<String>
+    ) {
+        override fun toString() = "FieldError(name=${name.name}, error=$error)"
+    }
+}

@@ -7,6 +7,6 @@ import kotlinx.JsExport
 
 interface BaseFieldState<out O> : FieldState<O> {
     val name: String
-    val label: Label
+//    val label: Label
     val hint: String
 }

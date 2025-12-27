@@ -6,6 +6,7 @@ package symphony
 import kotlinx.JsExport
 
 interface FieldState<out O> {
+    val label: Label
     val output: O?
     val required: Boolean
     val visibility: Visibility

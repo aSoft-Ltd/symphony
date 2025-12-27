@@ -10,7 +10,7 @@ kotlin {
     if (Targeting.JVM) jvm { library() }
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.WASM) wasmJs { library() }
-    if (Targeting.WASM) wasmWasi { library() }
+//    if (Targeting.WASM) wasmWasi { library() }
     if (Targeting.OSX) (iosTargets() + macOsTargets())
     if (Targeting.LINUX) linuxTargets()
 
@@ -24,6 +24,16 @@ kotlin {
             api(libs.kevlar.core)
             api(libs.lexi.console)
             api(kotlinx.serialization.core)
+        }
+
+        commonMain.dependencies {
+            implementation(kotlin("test"))
+            implementation(kotlinx.coroutines.test)
+            implementation(libs.kommander.coroutines)
+        }
+
+        if (Targeting.JVM) jvmTest.dependencies {
+            implementation(kotlin("test-junit5"))
         }
     }
 }
