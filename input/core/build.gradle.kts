@@ -10,7 +10,7 @@ kotlin {
     if (Targeting.JVM) jvm { library() }
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.WASM) wasmJs { library() }
-//    if (Targeting.WASM) wasmWasi { library() }
+    if (Targeting.WASM) wasmWasi { library() }
     if (Targeting.OSX) (iosTargets() + macOsTargets())
     if (Targeting.LINUX) linuxTargets()
 
@@ -29,7 +29,7 @@ kotlin {
         commonMain.dependencies {
             implementation(kotlin("test"))
             implementation(kotlinx.coroutines.test)
-            implementation(libs.kommander.coroutines)
+            implementation(libs.kommander.core)
         }
 
         if (Targeting.JVM) jvmTest.dependencies {
