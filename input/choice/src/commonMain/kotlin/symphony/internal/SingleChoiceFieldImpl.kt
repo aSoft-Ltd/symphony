@@ -17,7 +17,7 @@ internal class SingleChoiceFieldImpl<T>(
     backer: FieldBacker<T>,
     label: String,
     value: T?,
-    override val items: List<T & Any>,
+    items: Collection<T & Any>,
     override val mapper: (T & Any) -> Option,
     private val filter: (item: T & Any, key: String) -> Boolean,
     private val searchBy: SearchBy,
@@ -26,6 +26,8 @@ internal class SingleChoiceFieldImpl<T>(
     onChange: Changer<T>? = null,
     factory: ValidationFactory<T>?
 ) : AbstractSingleChoiceField<T>(backer, label, onChange, factory), SingleChoiceField<T> {
+
+    override val items: Collection<T & Any> get() = state.value.items
 
     override val selectedItem: T? get() = state.value.output
 
@@ -45,6 +47,7 @@ internal class SingleChoiceFieldImpl<T>(
         val feedbacks = state.value.feedbacks.items + errors.map { ErrorFeedback(it) }
         state.value = state.value.copy(feedbacks = Feedbacks(feedbacks))
     }
+
     override fun selectOption(option: Option) {
         val item = items.find { mapper(it).value == option.value }
         if (item != null) set(item)
@@ -121,4 +124,8 @@ internal class SingleChoiceFieldImpl<T>(
         visibility = visibility,
         feedbacks = Feedbacks(emptyList()),
     )
+
+    override fun replaceItems(items: Collection<T & Any>) {
+        state.value = state.value.copy(items = items)
+    }
 }

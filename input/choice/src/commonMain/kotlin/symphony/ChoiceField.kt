@@ -1,11 +1,12 @@
 @file:JsExport
-@file:Suppress("NON_EXPORTABLE_TYPE", "WRONG_EXPORTED_DECLARATION")
 
 package symphony
 
 import kotlinx.JsExport
 
-sealed interface ChoiceField<O> {
+sealed interface ChoiceField<out O> {
     val items: Collection<O & Any>
     val mapper: (O & Any) -> Option
+
+    fun replaceItems(items: Collection<O & Any>)
 }

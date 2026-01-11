@@ -48,4 +48,22 @@ data class FailurePhase<out O>(
     ) {
         override fun toString() = "FieldError(name=${name.name}, error=$error)"
     }
+
+    class FormException(
+        val output: Any?,
+        val reasons: List<String>,
+        val errors: List<FieldError>
+    ) : Exception(buildString {
+        appendLine("Form submission failed:")
+        if (reasons.isNotEmpty()) {
+            appendLine("Reasons:")
+            reasons.forEach { appendLine("- $it") }
+        }
+        if (errors.isNotEmpty()) {
+            appendLine("Field Errors:")
+            errors.forEach { appendLine("- ${it.name.name}: ${it.error.joinToString("; ")}") }
+        }
+    })
+
+    fun toException() = FormException(output, reasons, fields)
 }

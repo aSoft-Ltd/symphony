@@ -69,7 +69,7 @@ open class ListFieldImpl<E>(
         validateAndNotify()
     }
 
-    private val initial = LIstFieldImplState(
+    private val initial = ListFieldImplState(
         label = Label(label, validator.required),
         required = validator.required,
         output = value.toMutableList(),

@@ -4,9 +4,12 @@
 package symphony
 
 import kotlinx.JsExport
+import symphony.properties.Settable
 
-interface MultiChoiceField<O> : ListField<O>, ChoiceField<O> {
+interface MultiChoiceField<O> : Field<List<O>, MultiChoiceFieldState<O>>, BaseFieldState<List<O>>, Settable<List<O>>, ChoiceField<O>, Searchable {
+
     val optionLabels: List<String>
+
     val optionValues: List<String>
 
     val selectedValues: Set<String>

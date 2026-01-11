@@ -8,7 +8,7 @@ import symphony.Label
 import symphony.ListFieldState
 import symphony.Visibility
 
-data class LIstFieldImplState<O>(
+data class ListFieldImplState<O>(
     override val label: Label,
     override val visibility: Visibility,
     override val required: Boolean,

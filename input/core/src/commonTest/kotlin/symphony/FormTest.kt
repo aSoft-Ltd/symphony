@@ -92,4 +92,37 @@ class FormTest {
         val phase = form.state.value.phase as SuccessPhase
         expect(phase.result).toBe("Welcome Aboard")
     }
+
+    @Test
+    fun should_add_success_handlers_after_form_construction() = runTest {
+        val fields = TestFields()
+        val form = fields.toForm(
+            heading = "My Form",
+            details = "This is a form",
+        ) {
+            onSubmit {
+                delay(5.seconds)
+                fields.errors {
+                    val age = it.age ?: throw IllegalArgumentException("Age is required")
+                    if (age < 18) it::age to "Student is too young"
+                }
+                "Welcome Aboard"
+            }
+        }
+
+        form.fields.apply {
+            name.set("John")
+            age.set(25)
+        }
+        var success = false
+        form.onSuccess {
+            println("Success")
+            success = true
+        }
+
+        form.submit()
+        val result = form.result()
+        expect(success).toBe(true)
+        expect(result).toBe("Welcome Aboard")
+    }
 }

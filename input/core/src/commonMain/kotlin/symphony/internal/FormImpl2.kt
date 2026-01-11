@@ -40,7 +40,9 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
         state.value = state.value.copy(phase = ValidatingPhase(fields.output))
         val validity = fields.validateToErrors()
         if (validity is Invalid) {
-            state.value = state.value.copy(phase = FailurePhase(fields.output, emptyList(), fields.errors()))
+            val phase = FailurePhase(fields.output, emptyList(), fields.errors())
+            state.value = state.value.copy(phase = phase)
+            handers.failure.forEach { it.invoke(phase) }
             return
         }
 
@@ -52,6 +54,7 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
             logger.info("Success")
             try {
                 this.acts.onSuccess?.invoke(res)
+                handers.success.forEach { it.invoke(res) }
             } catch (err: Throwable) {
                 logger.error("Post Submit failed", err)
             }
@@ -59,12 +62,14 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
         } catch (err: CancellationException) {
             throw err
         } catch (err: Throwable) {
+            val f = FailurePhase(output, listOf(err.message ?: "Unknown error"), fields.errors())
             try {
                 acts.onFailure?.invoke(err)
+                handers.failure.forEach { it.invoke(f) }
             } catch (err: Throwable) {
                 logger.error("Post Submit failed", err)
             }
-            FailurePhase(output, listOf(err.message ?: "Unknown error"), fields.errors())
+            f
         }
         state.value = state.value.copy(phase = phase)
     }
@@ -101,6 +106,7 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
 
     override fun exit() {
         cancelAction.asInvoker?.invoke()
+        unsubscribe()
         fields.finish()
         state.stopAll()
         state.history.clear()
@@ -118,5 +124,37 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
     override fun reset() {
         fields.reset()
         state.value = state.value.copy(phase = CapturingPhase)
+    }
+
+    override fun result(): R = when (val p = state.value.phase) {
+        is CapturingPhase -> throw IllegalStateException("Form is not submitted yet")
+        is ValidatingPhase -> throw IllegalStateException("Form is still validating")
+        is SubmittingPhase -> throw IllegalStateException("Form is still submitting")
+        is FailurePhase -> throw p.toException()
+        is SuccessPhase -> p.result
+    }
+
+    private val handers by lazy { Handlers<R, O>(mutableListOf(), mutableListOf()) }
+
+    class Handlers<R, O>(
+        val success: MutableList<(R) -> Unit>,
+        val failure: MutableList<(FailurePhase<O>) -> Unit>
+    ) {
+        fun clear() {
+            success.clear()
+            failure.clear()
+        }
+    }
+
+    override fun onFailure(handler: (FailurePhase<O>) -> Unit) {
+        handers.failure.add(handler)
+    }
+
+    override fun onSuccess(handler: (R) -> Unit) {
+        handers.success.add(handler)
+    }
+
+    override fun unsubscribe() {
+        handers.clear()
     }
 }

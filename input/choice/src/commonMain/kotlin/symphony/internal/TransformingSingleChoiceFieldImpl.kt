@@ -59,4 +59,8 @@ internal class TransformingSingleChoiceFieldImpl<I, O>(
     }
 
     val selectedInput get() = state.value.input
+
+    override fun replaceItems(items: Collection<I & Any>) {
+        TODO("Not yet implemented")
+    }
 }

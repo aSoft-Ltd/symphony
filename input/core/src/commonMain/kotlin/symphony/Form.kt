@@ -17,7 +17,18 @@ interface Form<out R, out O : Any, out F : Fields<O>> : FormInfo, Resetable, Cle
 
     val actions: FormActions
 
+    fun onSuccess(handler: (R) -> Unit)
+
+    fun onFailure(handler: (FailurePhase<O>) -> Unit)
+
     fun exit()
 
     suspend fun submit()
+
+    fun result(): R
+
+    /**
+     * Unsubscribes all handlers added by [onSuccess] and [onFailure]
+     */
+    fun unsubscribe()
 }

@@ -2,9 +2,6 @@ package symphony.internal
 
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import kase.Failure
-import kase.Success
-import neat.Invalid
 import neat.Validator
 import neat.custom
 import symphony.CapturingPhase
@@ -25,6 +22,7 @@ import symphony.Visibility
 import symphony.properties.Clearable
 import symphony.properties.Resetable
 
+@Deprecated("Use symphony.FormImpl2 instead")
 @PublishedApi
 internal class FormImpl<R, O : Any, F : Fields<O>>(
     override val heading: String,
@@ -129,5 +127,25 @@ internal class FormImpl<R, O : Any, F : Fields<O>>(
     override fun reset() {
         fields.reset()
         state.value = state.value.copy(phase = CapturingPhase)
+    }
+
+    override fun result(): R = when (val p = state.value.phase) {
+        is CapturingPhase -> throw IllegalStateException("Form is not submitted yet")
+        is ValidatingPhase -> throw IllegalStateException("Form is still validating")
+        is SubmittingPhase -> throw IllegalStateException("Form is still submitting")
+        is FailurePhase -> throw p.toException()
+        is SuccessPhase -> p.result
+    }
+
+    override fun onFailure(handler: (FailurePhase<O>) -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccess(handler: (R) -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    override fun unsubscribe() {
+        TODO("Not yet implemented")
     }
 }
