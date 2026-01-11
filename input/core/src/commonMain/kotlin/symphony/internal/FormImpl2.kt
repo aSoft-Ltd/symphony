@@ -63,6 +63,7 @@ internal class FormImpl2<R, O : Any, F : Fields<O>>(
             throw err
         } catch (err: Throwable) {
             val f = FailurePhase(output, listOf(err.message ?: "Unknown error"), fields.errors())
+            logger.info("Failure: ${f.reasons.joinToString(prefix = "\n", separator = "\n")}")
             try {
                 acts.onFailure?.invoke(err)
                 handers.failure.forEach { it.invoke(f) }
