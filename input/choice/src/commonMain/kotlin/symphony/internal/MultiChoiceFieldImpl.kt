@@ -9,9 +9,11 @@ import symphony.ErrorFeedback
 import symphony.Feedbacks
 import symphony.Label
 import symphony.MultiChoiceField
+import symphony.MultiSelectedChoice
 import symphony.Option
 import symphony.SearchBy
 import symphony.Visibility
+import symphony.toWarnings
 import symphony.internal.MultiChoiceFieldStateImpl as State
 
 @PublishedApi
@@ -19,15 +21,15 @@ internal class MultiChoiceFieldImpl<T : Any>(
     private val backer: FieldBacker<MutableList<T>>,
     label: String,
     hint: String,
-    value: List<T>,
+    value: List<T>?,
     items: Collection<T>,
     override val mapper: (T) -> Option,
     private val filter: (item: T, key: String) -> Boolean,
     searchBy: SearchBy,
     visibility: Visibility,
-    onChange: Changer<List<T>>?,
+    private val onChange: Changer<List<T>>?,
     factory: (Validators<List<T>>.() -> Validator<List<T>>)?
-) : AbstractMultiChoiceField<T>(backer, label, onChange, factory), MultiChoiceField<T> {
+) : AbstractMultiChoiceField<T>(label, factory), MultiChoiceField<T> {
 
     override val items get() = state.value.items
 
@@ -35,15 +37,11 @@ internal class MultiChoiceFieldImpl<T : Any>(
 
     override val optionValues get() = options.map { it.value }
 
-    override val selectedValues get() = output?.map { mapper(it).value }?.toSet() ?: emptySet()
-
-    override val selectedItems get() = output ?: emptyList()
-
-    override val selectedOptions get() = output?.map(mapper) ?: emptyList()
+    override val selected get() = state.value.selected
 
     override val options: List<Option>
         get() = run {
-            val selected = selectedValues
+            val selected = selected.values
             items.map {
                 val o = mapper(it)
                 if (selected.contains(o.value)) o.copy(selected = true) else o
@@ -59,7 +57,7 @@ internal class MultiChoiceFieldImpl<T : Any>(
     private fun Collection<T>.findItemWithValue(v: String): T? = find { mapper(it).value == v }
 
     override fun addSelectedItem(item: T) {
-        state.value = state.value.copy(output = (state.value.output ?: emptyList()) + item)
+        set(output + item)
     }
 
     override fun addSelectedOption(o: Option) {
@@ -77,41 +75,50 @@ internal class MultiChoiceFieldImpl<T : Any>(
         addSelectedItem(item)
     }
 
-    override fun isSelected(item: T): Boolean = output?.contains(item) == true
+    override fun isSelected(item: T): Boolean = output.contains(item)
 
-    override fun isSelectedLabel(l: String) = output?.findItemWithLabel(l) != null
+    override fun isSelectedLabel(l: String) = output.findItemWithLabel(l) != null
 
-    override fun isSelectedOption(o: Option) = output?.findItemWithOption(o) != null
+    override fun isSelectedOption(o: Option) = output.findItemWithOption(o) != null
 
-    override fun isSelectedValue(v: String) = output?.findItemWithValue(v) != null
+    override fun isSelectedValue(v: String) = output.findItemWithValue(v) != null
 
     override fun unselectOption(o: Option) {
-        val item = output?.findItemWithOption(o) ?: return
+        val item = output.findItemWithOption(o) ?: return
         unselectItem(item)
     }
 
     override fun unselectItem(i: T) {
-        val output = state.value.output ?: return
+        val output = state.value.output
         if (!output.contains(i)) return
-        state.value = state.value.copy(output = output - i)
+        set(output - i)
     }
 
     override fun unselectValue(v: String) {
-        val item = output?.findItemWithValue(v) ?: return
+        val item = output.findItemWithValue(v) ?: return
         unselectItem(item)
     }
 
     override fun unselectLabel(l: String) {
-        val item = output?.findItemWithLabel(l) ?: return
+        val item = output.findItemWithLabel(l) ?: return
         unselectItem(item)
     }
 
-    override fun unselectAll() {
-        state.value = state.value.copy(output = emptyList())
+    override fun unselectAll() = set(emptyList())
+
+    override fun set(value: List<T>?) {
+        val res = validator.validate(value)
+        val output = res.value.toMutableList()
+        backer.asProp?.set(output)
+        state.value = state.value.copy(
+            selected = output.toSelectedChoice(),
+            feedbacks = Feedbacks(res.toWarnings())
+        )
+        onChange?.invoke(output)
     }
 
     override fun toggleSelectedValue(v: String) {
-        if (selectedValues.contains(v)) {
+        if (selected.values.contains(v)) {
             unselectValue(v)
         } else {
             addSelectedValue(v)
@@ -121,14 +128,13 @@ internal class MultiChoiceFieldImpl<T : Any>(
     override val initial = State<T>(
         name = backer.name,
         label = Label(label, this.validator.required),
+        options = items,
         items = items,
         searchBy = searchBy,
         key = "",
-        selectedItems = backer.asProp?.get() ?: emptyList(),
-        selectedOptions = backer.asProp?.get()?.map { mapper(it) } ?: emptyList(),
+        selected = (value ?: backer.asProp?.get())?.toSelectedChoice() ?: MultiSelectedChoice(emptyList(), emptyList(), emptySet()),
         hint = hint,
         required = this.validator.required,
-        output = value,
         visibility = visibility,
         feedbacks = Feedbacks(emptyList()),
     )
@@ -152,7 +158,7 @@ internal class MultiChoiceFieldImpl<T : Any>(
     }
 
     override fun replaceItems(items: Collection<T>) {
-        state.value = state.value.copy(items = items)
+        state.value = state.value.copy(items = items, options = items)
     }
 
     override val name = backer.name
@@ -181,7 +187,14 @@ internal class MultiChoiceFieldImpl<T : Any>(
 
     override fun appendSearchKey(key: String?) = setSearchKey(state.value.key + (key ?: ""))
 
-    override fun clearSearchKey() = setSearchKey("")
+    override fun clearSearchKey(): String {
+        val key = ""
+        state.value = state.value.copy(
+            key = key,
+            items = state.value.options
+        )
+        return key
+    }
 
     override fun backspaceSearchKey(): String {
         val key = state.value.key
@@ -199,5 +212,14 @@ internal class MultiChoiceFieldImpl<T : Any>(
         if (errors.isEmpty()) return
         val feedbacks = state.value.feedbacks.items + errors.map { ErrorFeedback(it) }
         state.value = state.value.copy(feedbacks = Feedbacks(feedbacks))
+    }
+
+    private fun List<T>.toSelectedChoice(): MultiSelectedChoice<T> {
+        val options = map { mapper(it) }
+        return MultiSelectedChoice(
+            items = this,
+            options = options,
+            values = options.map { it.value }.toSet()
+        )
     }
 }

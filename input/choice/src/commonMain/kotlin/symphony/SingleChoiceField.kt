@@ -8,9 +8,7 @@ import kotlinx.JsExport
 
 interface SingleChoiceField<O> : Field<O, SingleChoiceFieldState<O>>, BaseFieldState<O>, Settable<O>, ChoiceField<O>, Searchable {
 
-    val selectedItem: O?
-
-    val selectedOption: Option?
+    val selected: SingleSelectedChoice<O>?
 
     fun options(withSelect: Boolean = false): List<Option>
 

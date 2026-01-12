@@ -6,6 +6,5 @@ package symphony
 import kotlinx.JsExport
 
 interface MultiChoiceFieldState<out O> : ChoiceFieldState<O>, BaseFieldState<List<O>> {
-    val selectedItems: List<O>
-    val selectedOptions: List<Option>
+    val selected: MultiSelectedChoice<O>
 }

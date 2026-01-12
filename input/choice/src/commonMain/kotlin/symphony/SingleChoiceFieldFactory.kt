@@ -5,6 +5,7 @@ import symphony.internal.SingleChoiceFieldImpl
 import symphony.internal.TransformingSingleChoiceFieldImpl
 import kotlin.reflect.KMutableProperty0
 import symphony.internal.FieldBacker
+import kotlin.jvm.JvmName
 
 fun <T> SingleChoiceField(
     name: String = "",
@@ -21,6 +22,23 @@ fun <T> SingleChoiceField(
 ): SingleChoiceField<T> = SingleChoiceFieldImpl(FieldBacker.Name(name), label, value, items.toList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
 
 fun <T> Fields<*>.selectSingle(
+    name: KMutableProperty0<T?>,
+    items: Collection<T & Any>,
+    mapper: (T & Any) -> Option,
+    filter: (item: T & Any, key: String) -> Boolean = { item, key -> item.toString().contains(key, ignoreCase = true) },
+    searchBy: SearchBy = SearchBy.Filtering,
+    label: String = name.name,
+    value: T? = name.get(),
+    hint: String = label,
+    visibility: Visibility = Visibilities.Visible,
+    onChange: Changer<T>? = null,
+    factory: ValidationFactory<T>? = null
+): SingleChoiceField<T> = getOrCreate(name) {
+    SingleChoiceFieldImpl(FieldBacker.Prop(name), label, value, items.toList(), mapper, filter, searchBy, visibility, hint, onChange, factory)
+}
+
+@JvmName("selectSingleNullable")
+fun <T> Fields<*>.select(
     name: KMutableProperty0<T?>,
     items: Collection<T & Any>,
     mapper: (T & Any) -> Option,

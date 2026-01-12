@@ -3,43 +3,26 @@
 
 package symphony.internal
 
-import cinematic.Live
 import cinematic.MutableLive
-import cinematic.mutableLiveOf
 import kotlinx.JsExport
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
 import symphony.BaseFieldState
-import symphony.Changer
 import symphony.Feedbacks
 import symphony.Field
 import symphony.MultiChoiceFieldState
 import symphony.Visibility
 import symphony.properties.Settable
 import symphony.toErrors
-import symphony.toWarnings
 import symphony.internal.MultiChoiceFieldStateImpl as State
 
-abstract class AbstractMultiChoiceField<O>(
-    private val backer: FieldBacker<MutableList<O>>,
+internal abstract class AbstractMultiChoiceField<O>(
     label: String,
-    private val onChange: Changer<List<O>>?,
     factory: ValidationFactory<List<O>>?
 ) : AbstractHideable(), Field<List<O>, MultiChoiceFieldState<O>>, BaseFieldState<List<O>>, Settable<List<O>> {
 
     protected val validator = custom<List<O>>(label).configure(factory)
-
-    override fun set(value: List<O>?) {
-        val res = validator.validate(value)
-        val output = res.value
-        backer.asProp?.set(output.toMutableList())
-        state.value = state.value.copy(
-            output = output,
-            feedbacks = Feedbacks(res.toWarnings())
-        )
-        onChange?.invoke(output)
-    }
 
     protected abstract val initial: State<O>
 

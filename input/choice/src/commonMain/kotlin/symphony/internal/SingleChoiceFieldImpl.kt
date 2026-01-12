@@ -9,12 +9,14 @@ import symphony.Label
 import symphony.Option
 import symphony.SearchBy
 import symphony.SingleChoiceField
+import symphony.SingleSelectedChoice
 import symphony.Visibility
+import symphony.toWarnings
 import symphony.internal.SingleChoiceFieldStateImpl as State
 
 @PublishedApi
 internal class SingleChoiceFieldImpl<T>(
-    backer: FieldBacker<T>,
+    private val backer: FieldBacker<T>,
     label: String,
     value: T?,
     items: Collection<T & Any>,
@@ -23,15 +25,24 @@ internal class SingleChoiceFieldImpl<T>(
     private val searchBy: SearchBy,
     visibility: Visibility,
     hint: String,
-    onChange: Changer<T>? = null,
+    private val onChange: Changer<T>? = null,
     factory: ValidationFactory<T>?
-) : AbstractSingleChoiceField<T>(backer, label, onChange, factory), SingleChoiceField<T> {
+) : AbstractSingleChoiceField<T>(label, factory), SingleChoiceField<T> {
 
     override val items: Collection<T & Any> get() = state.value.items
 
-    override val selectedItem: T? get() = state.value.output
+    override val selected get() = state.value.selected
 
-    override val selectedOption: Option? get() = selectedItem?.let(mapper)?.copy(selected = true)
+    override fun set(value: T?) {
+        val res = validator.validate(value)
+        val output = res.value
+        backer.asProp?.set(output)
+        state.value = state.value.copy(
+            selected = output?.toSelectedChoice(),
+            feedbacks = Feedbacks(res.toWarnings())
+        )
+        onChange?.invoke(output)
+    }
 
     override fun options(withSelect: Boolean): List<Option> = (if (withSelect) {
         listOf(Option("Select ${state.value.label.capitalizedWithoutAstrix()}", ""))
@@ -91,7 +102,14 @@ internal class SingleChoiceFieldImpl<T>(
 
     override fun appendSearchKey(key: String?) = setSearchKey(state.value.key + (key ?: ""))
 
-    override fun clearSearchKey() = setSearchKey("")
+    override fun clearSearchKey(): String {
+        val key = ""
+        state.value = state.value.copy(
+            key = key,
+            items = state.value.options
+        )
+        return key
+    }
 
     override fun backspaceSearchKey(): String {
         val key = state.value.key
@@ -106,26 +124,30 @@ internal class SingleChoiceFieldImpl<T>(
     }
 
     override fun unselect() {
-        state.value = state.value.copy(output = null)
+        state.value = state.value.copy(selected = null)
         clearSearchKey()
     }
 
     override val initial = State(
         name = backer.name,
         label = Label(label, this.validator.required),
+        options = items,
         items = items,
         searchBy = searchBy,
         key = "",
-        selectedItem = backer.asProp?.get(),
-        selectedOption = backer.asProp?.get()?.let { mapper(it) },
+        selected = (value ?: backer.asProp?.get())?.toSelectedChoice(),
         hint = hint,
         required = this.validator.required,
-        output = value,
         visibility = visibility,
         feedbacks = Feedbacks(emptyList()),
     )
 
     override fun replaceItems(items: Collection<T & Any>) {
-        state.value = state.value.copy(items = items)
+        state.value = state.value.copy(items = items, options = items)
+    }
+
+    private fun T.toSelectedChoice(): SingleSelectedChoice<T>? {
+        val item = this ?: return null
+        return SingleSelectedChoice(item, mapper(item))
     }
 }

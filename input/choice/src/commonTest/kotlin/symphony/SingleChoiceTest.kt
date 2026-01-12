@@ -54,4 +54,25 @@ class SingleChoiceTest {
         expect(select.state.value.items.size).toBe(5)
         expect(select.state.value.items.first()).toBe("Peter")
     }
+
+    @Test
+    fun should_have_the_same_number_of_items_after_being_cleared() {
+        val options = listOf("Jane", "John", "June", "Jean", "Peter")
+        val field = SingleChoiceField(
+            name = "test-field",
+            items = options,
+            mapper = { Option(it) },
+            filter = { item, key -> item.contains(key) }
+        )
+
+        field.setSearchKey("P")
+        field.setSearchByFiltering()
+        field.search()
+        expect(field.state.value.items.size).toBe(1)
+        expect(field.state.value.items.first()).toBe("Peter")
+
+        field.clearSearchKey()
+        expect(field.state.value.items.size).toBe(5)
+        expect(field.state.value.items.first()).toBe("Jane")
+    }
 }

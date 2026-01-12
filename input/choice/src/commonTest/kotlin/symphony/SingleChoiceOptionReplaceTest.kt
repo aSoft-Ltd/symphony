@@ -40,4 +40,21 @@ class SingleChoiceOptionReplaceTest {
         expect(select.items).toContain("Orange", "Apple")
         watcher.stop()
     }
+
+    @Test
+    fun should_update_state_when_items_are_replaced() {
+        val field = SingleChoiceField(
+            name = "",
+            items = drinks[0].brands,
+            mapper = { Option(it) },
+        )
+
+        expect(field.items).toContain("Coke", "Pepsi")
+        expect(field.state.value.items).toContain("Coke", "Pepsi")
+
+        field.replaceItems(drinks[1].brands)
+
+        expect(field.items).toContain("Orange", "Apple")
+        expect(field.state.value.items).toContain("Orange", "Apple")
+    }
 }

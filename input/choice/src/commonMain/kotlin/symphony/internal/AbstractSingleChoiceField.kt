@@ -4,42 +4,27 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
+import kotlinx.JsExport
 import neat.ValidationFactory
 import neat.Validity
 import neat.custom
 import symphony.BaseFieldState
-import symphony.Changer
 import symphony.Feedbacks
 import symphony.Field
 import symphony.SingleChoiceFieldState
 import symphony.Visibility
 import symphony.properties.Settable
 import symphony.toErrors
-import symphony.toWarnings
-import kotlinx.JsExport
 import symphony.internal.SingleChoiceFieldStateImpl as State
 
-abstract class AbstractSingleChoiceField<O>(
-    private val backer: FieldBacker<O>,
+internal abstract class AbstractSingleChoiceField<O>(
     label: String,
-    private val onChange: Changer<O>?,
     factory: ValidationFactory<O>?
 ) : AbstractHideable(), Field<O, SingleChoiceFieldState<O>>, BaseFieldState<O>, Settable<O> {
 
     protected val validator = custom<O>(label).configure(factory)
 
-    override fun set(value: O?) {
-        val res = validator.validate(value)
-        val output = res.value
-        backer.asProp?.set(output)
-        state.value = state.value.copy(
-            output = output,
-            feedbacks = Feedbacks(res.toWarnings())
-        )
-        onChange?.invoke(output)
-    }
-
-    protected abstract val initial : State<O>
+    protected abstract val initial: State<O>
 
 
     final override val state by lazy { mutableLiveOf(initial) }

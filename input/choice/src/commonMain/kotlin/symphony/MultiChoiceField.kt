@@ -12,11 +12,7 @@ interface MultiChoiceField<O> : Field<List<O>, MultiChoiceFieldState<O>>, BaseFi
 
     val optionValues: List<String>
 
-    val selectedValues: Set<String>
-
-    val selectedItems: List<O>
-
-    val selectedOptions: List<Option>
+    val selected: MultiSelectedChoice<O>
 
     val options: List<Option>
 

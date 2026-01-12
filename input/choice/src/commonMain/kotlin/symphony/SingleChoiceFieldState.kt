@@ -6,7 +6,5 @@ package symphony
 import kotlinx.JsExport
 
 interface SingleChoiceFieldState<out O> : ChoiceFieldState<O>, BaseFieldState<O> {
-    val selectedItem: O?
-
-    val selectedOption: Option?
+    val selected: SingleSelectedChoice<O>?
 }
