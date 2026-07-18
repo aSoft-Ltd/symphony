@@ -8,7 +8,7 @@ description = "A kotlin multiplatform library for headless input fields"
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.add("-Xenable-suspend-function-exporting")
+        freeCompilerArgs.add("-Xjs {d-function-exporting")
     }
 
     if (Targeting.JVM) jvm { library() }

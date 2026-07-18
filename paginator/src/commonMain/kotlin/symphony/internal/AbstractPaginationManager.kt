@@ -1,6 +1,5 @@
 package symphony.internal
 
-import cinematic.Live
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import kase.Bag
@@ -9,6 +8,9 @@ import kase.LazyState
 import kase.Loading
 import kase.Pending
 import kase.Success
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import symphony.AbstractPage
 import symphony.PageFindResult
 import symphony.PageLoader
@@ -69,16 +71,22 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
     }
 
     internal fun params(page: Int) = PageLoaderParams(page, capacity.value, search.value)
+
+    private var job: Job? = null
     open suspend fun load(page: Int): P {
-        if (current.value is Loading) throw LOADING_ERROR
+        job?.cancel()
+        return coroutineScope {
+            val params = params(page)
+            job = launch {
+                val memorizedPage = memory.load(params)
+                current.value = Loading("Loading", memorizedPage)
 
-        val params = params(page)
-        val memorizedPage = memory.load(params)
-        current.value = Loading("Loading", memorizedPage)
-
-        val results = loader.getOrThrow().load(params)
-        current.value = Success(results)
-        return memory.save(params, results)
+                val results = loader.getOrThrow().load(params)
+                current.value = Success(results)
+            }
+            job?.join()
+            memory.save(params, current.value.data as P)
+        }
     }
 
     override suspend fun loadNextPage() = when (val state = current.value) {

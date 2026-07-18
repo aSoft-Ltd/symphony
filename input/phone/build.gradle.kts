@@ -7,9 +7,7 @@ plugins {
 description = "A kotlin multiplatform library for headless phone fields"
 
 kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xenable-suspend-function-exporting")
-    }
+    
     if (Targeting.JVM) jvm { library() }
     if (Targeting.JS) js { library() }
     if (Targeting.WASM) wasmJs { library() }
