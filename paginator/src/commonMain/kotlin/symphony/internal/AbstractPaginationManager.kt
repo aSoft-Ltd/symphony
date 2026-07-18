@@ -1,5 +1,6 @@
 package symphony.internal
 
+import cinematic.Live
 import cinematic.MutableLive
 import cinematic.mutableLiveOf
 import kase.Bag
@@ -25,6 +26,8 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
     abstract val memory: PageMemoryManager<T, P, R>
 
     override val current: MutableLive<LazyState<P>> = mutableLiveOf(Pending)
+
+    override val params = mutableLiveOf(PageLoaderParams(1, capacity, null))
 
     override val search = mutableLiveOf<String?>(null)
 
@@ -66,12 +69,13 @@ internal abstract class AbstractPaginationManager<T, P : AbstractPage, R : PageF
     }
 
     internal fun params(page: Int) = PageLoaderParams(page, capacity.value, search.value)
-    protected suspend fun load(page: Int): P {
+    open suspend fun load(page: Int): P {
         if (current.value is Loading) throw LOADING_ERROR
 
         val params = params(page)
         val memorizedPage = memory.load(params)
         current.value = Loading("Loading", memorizedPage)
+
         val results = loader.getOrThrow().load(params)
         current.value = Success(results)
         return memory.save(params, results)

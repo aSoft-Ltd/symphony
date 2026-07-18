@@ -10,6 +10,10 @@ interface GroupedPaginationManager<out G, out T> : PaginationManager<T, GroupedP
 
     suspend fun initialize(ld: PageLoaderFunction<Chunk<@UnsafeVariance G, @UnsafeVariance T>>): GroupedPage<G, T>
 
+    fun onLoad(loader: suspend GroupedPaginationManager<G, T>.(params: PageLoaderParams) -> Unit)
+
+    fun update(chunk: Chunk<@UnsafeVariance G, @UnsafeVariance T>, loading: Boolean = false)
+
     // --------------------- loopers ----------------------
     fun forEachPage(block: (GroupedPage<G, T>) -> Unit)
 }

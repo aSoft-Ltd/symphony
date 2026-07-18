@@ -4,10 +4,11 @@ import kase.Bag
 import kase.Pending
 import symphony.Chunk
 import symphony.GroupedPage
-import symphony.GroupedPageLoader
 import symphony.GroupedPageFindResult
+import symphony.GroupedPageLoader
 import symphony.GroupedPaginationManager
 import symphony.PageLoaderFunction
+import symphony.PageLoaderParams
 import symphony.Row
 import symphony.internal.loaders.GroupedPageLoaderFinal
 import symphony.internal.loaders.GroupedPageLoaderImpl
@@ -21,6 +22,8 @@ internal class GroupedPaginationManagerImpl<G, T>(
 
     override val loader by lazy { Bag<GroupedPageLoader<G, T>>(GroupedPageLoaderInitial) }
 
+    private val handler by lazy { Bag<suspend GroupedPaginationManager<G, T>.(params: PageLoaderParams) -> Unit>({}) }
+
     override val memory by lazy { GroupedPageMemoryManager<G, T>() }
 
     override val continuous get() = buildList<Chunk<G, Row<T>>> { forEachPage { page -> addAll(page.groups) } }
@@ -29,6 +32,14 @@ internal class GroupedPaginationManagerImpl<G, T>(
         loader.value = GroupedPageLoaderImpl(ld)
         search.value = null
         return loadFirstPage()
+    }
+
+    override fun onLoad(loader: suspend GroupedPaginationManager<G, T>.(params: PageLoaderParams) -> Unit) {
+        handler.value = loader
+    }
+
+    override fun update(chunk: Chunk<G, T>, loading: Boolean) {
+        TODO("Not yet implemented")
     }
 
     override fun forEachPage(block: (GroupedPage<G, T>) -> Unit) = memory.entries.values.forEach(block)

@@ -11,7 +11,7 @@ kotlin {
         freeCompilerArgs.add("-Xenable-suspend-function-exporting")
     }
     if (Targeting.JVM) jvm { library() }
-    if (Targeting.JS) js(IR) { library() }
+    if (Targeting.JS) js { library() }
     if (Targeting.WASM) wasmJs { library() }
     if (Targeting.OSX) (iosTargets() + macOsTargets())
     if (Targeting.LINUX) linuxTargets()
@@ -19,6 +19,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(kotlinx.coroutines.core)
                 api(libs.cinematic.live.core)
                 api(libs.kase.optional)
                 api(libs.kase.core)
