@@ -5,6 +5,7 @@ package symphony
 
 import cinematic.Live
 import kotlinx.JsExport
+import kotlinx.JsName
 import symphony.columns.Column
 import symphony.columns.Filter
 import symphony.columns.Order
@@ -47,6 +48,8 @@ interface ColumnsManager<D> {
     fun redefine(block: ColumnsBuilder<D>.() -> Unit)
 
     fun sort(name: String, order: Order)
+
+    @JsName("getSortOrder")
     fun sort(name: String): Order
     fun filter(name: String, filter: Filter)
 }
