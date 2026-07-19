@@ -5,7 +5,7 @@ package symphony
 import kevlar.Action0
 import kevlar.builders.Actions0Builder
 class FixedActionsBuilder @PublishedApi internal constructor(
-    private val builder: Actions0Builder<Unit>.() -> Unit,
+    private var builder: Actions0Builder<Unit>.() -> Unit,
     @PublishedApi
     internal val filters: MutableSet<String> = mutableSetOf()
 ) {
@@ -22,5 +22,9 @@ class FixedActionsBuilder @PublishedApi internal constructor(
         val actions = Actions0Builder<Unit>().apply(builder).actions.toList()
         val extras = extraActions.values
         return (actions + extras).applyFilters()
+    }
+
+    internal fun reset(body: Actions0Builder<Unit>.() -> Unit) {
+        builder = body
     }
 }

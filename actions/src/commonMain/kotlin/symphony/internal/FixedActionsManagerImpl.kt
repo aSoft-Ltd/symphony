@@ -2,6 +2,7 @@ package symphony.internal
 
 import cinematic.mutableLiveOf
 import kevlar.action0
+import kevlar.builders.Actions0Builder
 import symphony.FixedActionsBuilder
 import symphony.FixedActionsManager
 import symphony.Mover
@@ -52,6 +53,11 @@ internal class FixedActionsManagerImpl(
 //            if (subject.index >= anchor.index + 1) return
 //            return at(anchor.index + 1)
         }
+    }
+
+    override fun redefine(body: Actions0Builder<Unit>.() -> Unit) {
+        builder.reset(body)
+        refresh()
     }
 
     override fun move(name: String): Mover = ActionsMoverImpl(name)

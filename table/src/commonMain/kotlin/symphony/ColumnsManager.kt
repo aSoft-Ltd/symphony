@@ -6,9 +6,13 @@ package symphony
 import cinematic.Live
 import kotlinx.JsExport
 import symphony.columns.Column
+import symphony.columns.Filter
+import symphony.columns.Order
 
 interface ColumnsManager<D> {
     val current: Live<Set<Column<D>>>
+
+    val tweaks: Live<Tweaks>
 
     fun reset(): ColumnsManager<D>
 
@@ -39,4 +43,10 @@ interface ColumnsManager<D> {
     suspend fun rename(prev: String, curr: String): ColumnsManager<D>
 
     fun move(name: String): Mover
+
+    fun redefine(block: ColumnsBuilder<D>.() -> Unit)
+
+    fun sort(name: String, order: Order)
+    fun sort(name: String): Order
+    fun filter(name: String, filter: Filter)
 }

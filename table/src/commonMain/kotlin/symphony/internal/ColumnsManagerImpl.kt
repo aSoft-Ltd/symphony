@@ -1,5 +1,6 @@
 package symphony.internal
 
+import cinematic.mutableLiveOf
 import cinematic.mutableLiveSetOf
 import keep.Cache
 import keep.loadOrNull
@@ -11,12 +12,15 @@ import symphony.ColumnsManager
 import symphony.HiddenVisibility
 import symphony.Mover
 import symphony.Row
+import symphony.Tweaks
 import symphony.Visibilities
 import symphony.Visibility
 import symphony.VisibleVisibility
 import symphony.columns.ActionColumn
 import symphony.columns.Column
 import symphony.columns.DataColumn
+import symphony.columns.Filter
+import symphony.columns.Order
 import symphony.columns.SelectColumn
 
 @PublishedApi
@@ -29,6 +33,8 @@ internal class ColumnsManagerImpl<D>(
         val cmb = ColumnsBuilder<D>().apply(initializer)
         mutableLiveSetOf<Column<D>>(cmb.columns.values.sortedBy { it.index })
     }
+
+    override val tweaks by lazy { mutableLiveOf(Tweaks(null, mapOf())) }
 
     @Serializable
     data class ColumnCache(
@@ -179,4 +185,24 @@ internal class ColumnsManagerImpl<D>(
     }
 
     private fun Column<D>.toCached() = ColumnCache(name, visibility.isHidden, index)
+
+    override fun redefine(block: ColumnsBuilder<D>.() -> Unit) {
+        val cmb = ColumnsBuilder<D>().apply(block)
+        current.value = cmb.columns.values.sortedBy { it.index }.toSet()
+    }
+
+    override fun sort(name: String): Order = if (tweaks.value.sort?.first == name) tweaks.value.sort?.second ?: Order.None else Order.None
+
+    override fun sort(name: String, order: Order) {
+        tweaks.value = tweaks.value.copy(sort = if (order == Order.None) null else name to order)
+    }
+
+    override fun filter(name: String, filter: Filter) {
+        val filters = buildMap {
+            putAll(tweaks.value.filters)
+            if (filter is Filter.None) remove(name) else put(name, filter)
+        }
+        tweaks.value = tweaks.value.copy(filters = filters)
+
+    }
 }

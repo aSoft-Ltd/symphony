@@ -177,4 +177,43 @@ class SelectorBasedActionManagerTest {
         sel.addSelection(5)
         expect(actions.current.value.size).toBe(1)
     }
+
+    @Test
+    fun should_be_able_to_redefine_actions() = runTest {
+        val pag = linearPaginatorOf<Person>(10)
+        pag.initialize { params -> Person.List.paged(params) }
+        val sel = selectorOf(pag)
+        val actions = actionsOf(linear = sel) {
+            primary {
+                onAdd { println("Add Person") }
+            }
+            multi {
+                onDeleteAll(it) { println("Delete ${it.size}") }
+            }
+        }
+
+        actions.redefine {
+            primary {
+                onAdd { println("Add Test") }
+            }
+            single {
+                on("Edit ${it.name}") { println("Edit ${it.name}") }
+            }
+            multi {
+                on("Count") { println("Counting ${it.size}") }
+                on("Fire") { println("Firing ${it.size}") }
+            }
+        }
+        pag.loadFirstPage()
+        expect(actions.current.value.size).toBe(1)
+        sel.addSelection(1)
+        sel.addSelection(2)
+        expect(actions.current.value.size).toBe(3)
+        sel.addSelection(3)
+        sel.addSelection(4)
+        expect(actions.current.value.size).toBe(3)
+        actions.remove("Add")
+        sel.addSelection(5)
+        expect(actions.current.value.size).toBe(2)
+    }
 }

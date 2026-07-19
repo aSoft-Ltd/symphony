@@ -1,6 +1,7 @@
 package symphony.internal
 
 import symphony.AbstractSelectorBasedActionsBuilder
+import symphony.LinearSelectorBasedActionsBuilder
 import symphony.Mover
 import symphony.SelectionManager
 import symphony.SelectorBasedActionsManager
@@ -9,7 +10,7 @@ import symphony.selected.Selected
 @PublishedApi
 internal abstract class AbstractSelectorBasedActionsManager<T, S : Selected<T>>(
     private val selector: SelectionManager<T, S>,
-    private val builder: AbstractSelectorBasedActionsBuilder<T, S>
+    private var builder: AbstractSelectorBasedActionsBuilder<T, S>
 ) : SelectorBasedActionsManager<T> {
 
     override val current = selector.selected.map {
@@ -22,6 +23,11 @@ internal abstract class AbstractSelectorBasedActionsManager<T, S : Selected<T>>(
         builder.primary { on(name, handler = handler) }
         selector.selected.dispatch()
         return this
+    }
+
+    override fun redefine(body: LinearSelectorBasedActionsBuilder<T>.() -> Unit) {
+        builder = LinearSelectorBasedActionsBuilder<T>().apply(body) as AbstractSelectorBasedActionsBuilder<T, S>
+        current.dispatch()
     }
 
     override fun find(name: String) = get().find { it.name.contains(name,ignoreCase = true) }

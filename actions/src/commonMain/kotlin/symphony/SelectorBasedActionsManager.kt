@@ -13,4 +13,6 @@ interface SelectorBasedActionsManager<out T> : ActionsManager<T> {
     fun addMulti(name: String, handler: (List<T>) -> Unit): SelectorBasedActionsManager<T>
 
     fun of(item: @UnsafeVariance T): List<Action0<Unit>>
+
+    fun redefine(body: LinearSelectorBasedActionsBuilder<@UnsafeVariance T>.() -> Unit)
 }

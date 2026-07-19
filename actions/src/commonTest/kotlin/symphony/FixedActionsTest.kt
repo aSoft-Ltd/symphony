@@ -40,4 +40,27 @@ class FixedActionsTest {
         a.get()
         expect(count).toBe(2)
     }
+
+    @Test
+    fun should_be_able_to_change_the_available_actions() {
+        var count = 0
+        val a = actionsOf {
+            count++
+            onAdd { println("Added stuf") }
+            onEdit { println("Edditing") }
+            onCancel { println("Creating") }
+            onAddAll { println("Adding all") }
+        }
+
+        a.redefine {
+            on("Test1") {
+
+            }
+
+            on("Test2") {
+            }
+        }
+
+        expect(a.current.value).toHave(length = 2)
+    }
 }

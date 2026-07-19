@@ -5,6 +5,9 @@ import keep.CacheMockConfig
 import kommander.expect
 import kotlinx.coroutines.test.runTest
 import symphony.columns.Column
+import symphony.columns.Filter
+import symphony.columns.Order
+import kotlin.math.sqrt
 import kotlin.test.Test
 
 class ColumnsManagerTest {
@@ -259,4 +262,52 @@ class ColumnsManagerTest {
         name = columns.find("name")
         expect(columns.all().toList().indexOf(name)).toBe(2)
     }
+
+    @Test
+    fun should_be_able_to_redefine_columns() = runTest {
+        val columns = columnsOf<Person> {
+            column("name") { it.item.name }
+            column("age") { it.item.age.toString() }
+        }
+
+        expect(columns.all()).toHave(length = 2)
+
+        columns.redefine {
+            column("name") { it.item.name }
+            column("growth") { it.item.age }
+            column("height") { sqrt(it.item.age.toFloat()) }
+        }
+
+        expect(columns.all()).toHave(length = 3)
+    }
+
+    @Test
+    fun should_be_set_and_retrieve_column_tweaks() = runTest {
+        val columns = columnsOf<Person> {
+            column("name") { it.item.name }
+            column("age") { it.item.age.toString() }
+        }
+
+        columns.sort("name", Order.Descending)
+        var params = columns.tweaks.value.params()
+        expect(params["sort_by"]).toBe("name")
+        expect(params["sort_order"]).toBe("descending")
+
+        columns.sort("name", Order.None)
+
+        columns.filter("age", filter = Filter.Range("20", "70"))
+
+        columns.filter("age", filter = Filter.None)
+
+        columns.filter("age", filter = Filter.Range("10", "10"))
+        params = columns.tweaks.value.params()
+        expect(params["age"]).toBe("10")
+
+        columns.filter("age", filter = Filter.Range("10", "20"))
+        columns.sort("name", Order.Descending)
+        params = columns.tweaks.value.params()
+        println(params.toQueryParams())
+    }
+
+    private fun Map<String, Any>.toQueryParams() = entries.joinToString("&") { "${it.key}=${it.value}" }
 }
