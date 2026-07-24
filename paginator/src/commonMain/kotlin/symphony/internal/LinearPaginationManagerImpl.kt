@@ -72,7 +72,7 @@ internal class LinearPaginationManagerImpl<T>(
             val memorizedPage = memory.load(p)
             current.value = Loading("Loading", memorizedPage)
 
-            if (loader.value !is LinearPageLoaderInitial) return@coroutineScope super.load(page)
+            if (loader.value !is LinearPageLoaderInitial || loader.value !is LinearPageLoaderFinal) return@coroutineScope super.load(page)
             job = launch {
                 val func = handler.value ?: throw IllegalStateException("setup your paginator first using paginator.setup { ... }")
                 func(p)
