@@ -2,6 +2,7 @@
 
 package symphony
 
+import symphony.internal.GeneralPaginatorImpl
 import symphony.internal.GroupedPaginationManagerImpl
 import symphony.internal.LinearPaginationManagerImpl
 
@@ -20,6 +21,7 @@ fun <T> Collection<T>.paged(no: Int, capacity: Int): List<T> {
 
 fun <T> Collection<T>.paged(params: PageLoaderParams) = paged(params.page, params.limit)
 
+@Deprecated("Use paginator instead")
 inline fun <T> linearPaginatorOf(
     capacity: Int = DEFAULT_PAGINATION_CAPACITY,
 ): LinearPaginationManager<T> = LinearPaginationManagerImpl(capacity)
@@ -32,10 +34,12 @@ inline fun <T> linearPaginatorOf(
 //    it.initialize { items.paged(params) }
 //}
 
+@Deprecated("Use paginator instead")
 inline fun <G, T> groupedPaginatorOf(
     capacity: Int = DEFAULT_PAGINATION_CAPACITY,
 ): GroupedPaginationManager<G, T> = GroupedPaginationManagerImpl(capacity)
 
+@Deprecated("Use paginator instead")
 inline fun <T> paginatorOf(
     capacity: Int = DEFAULT_PAGINATION_CAPACITY,
 ): PaginationManager<T, *, *> = linearPaginatorOf(capacity)
@@ -45,3 +49,5 @@ inline fun <T> paginatorOf(
 //    items: Collection<T>,
 //    capacity: Int = items.size
 //): LinearPaginationManager<T> = linearPaginatorOf(items, capacity)
+
+inline fun <T> paginator(capacity: Int = DEFAULT_PAGINATION_CAPACITY): Paginator<T> = GeneralPaginatorImpl(capacity)

@@ -7,7 +7,7 @@ import kotlinx.JsExport
 import symphony.LinearPage
 import symphony.Row
 
-sealed interface LinearSelected<out T> : Selected<T>{
+sealed interface LinearSelected<out T> : Selected<T> {
     override val none get() = this as? LinearSelectedNone
     override val item get() = this as? LinearSelectedItem
     override val items get() = this as? LinearSelectedItems

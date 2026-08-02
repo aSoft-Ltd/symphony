@@ -3,6 +3,7 @@
 package symphony
 
 import symphony.internal.BluntLinearSelectionManager
+import symphony.internal.GeneralSelectionManagerImpl
 import symphony.internal.GroupedSelectionManagerImpl
 import symphony.internal.LinearSelectionManagerImpl
 
@@ -23,3 +24,7 @@ inline fun <T> selectorOf(
     is GroupedPaginationManager<*, T> -> selectorOf(paginator)
     else -> throw IllegalArgumentException("Unsupported paginator type: ${paginator::class.simpleName}")
 }
+
+inline fun <T> selectorOf(
+    paginator: Paginator<T>
+): LinearSelectionManager<T> = GeneralSelectionManagerImpl(paginator)

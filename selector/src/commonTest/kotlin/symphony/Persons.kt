@@ -45,16 +45,16 @@ class Persons(
                 val content = if (items.size > params.capacity) items.dropLast(1) else items
                 val currentPage = if (cursor == null) 1 else (sorted.indexOfFirst { it.uid == cursor } + 1) / params.capacity + 1
                 CursorPaged(
+                    page = currentPage,
                     items = Items(
                         content = content,
                         capacity = params.capacity,
                         total = Total.size,
                     ),
-                    page = currentPage,
                     cursor = CursorPaged.Cursor(
                         next = if (items.size > params.capacity) content.last().uid else null,
                         prev = if (cursor != null) content.firstOrNull()?.uid else null
-                    )
+                    ),
                 )
             }
 
@@ -64,16 +64,16 @@ class Persons(
                 val content = if (items.size > params.capacity) items.drop(1) else items
                 val currentPage = if (cursor == null) (Total.size + params.capacity - 1) / params.capacity else sorted.indexOfFirst { it.uid == cursor } / params.capacity
                 CursorPaged(
-                    page = currentPage,
                     items = Items(
                         content = content,
                         capacity = params.capacity,
                         total = Total.size,
                     ),
+                    page = currentPage,
                     cursor = CursorPaged.Cursor(
                         next = content.lastOrNull()?.uid,
                         prev = if (items.size > params.capacity) content.firstOrNull()?.uid else null
-                    )
+                    ),
                 )
             }
         }

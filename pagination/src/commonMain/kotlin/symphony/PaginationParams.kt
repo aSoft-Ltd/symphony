@@ -7,7 +7,7 @@ sealed interface PaginationParams {
     val capacity: Int
     fun toQueryMap(): Map<String, String>
 
-    fun <T> with(data: PagedData<T>): PaginationParams
+    fun with(capacity: Int = this.capacity): PaginationParams
 
     companion object {
         fun from(query: String?): PaginationParams? {

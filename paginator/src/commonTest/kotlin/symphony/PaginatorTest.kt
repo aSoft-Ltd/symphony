@@ -102,7 +102,7 @@ class PaginatorTest {
         }
         p.setup {
             val paged = persons.all(CursorPaginationParams(Cursor.First, 4))
-            update(paged.content)
+            update(paged.items.content)
         }
         p.loadNextPage()
         p.finalize()

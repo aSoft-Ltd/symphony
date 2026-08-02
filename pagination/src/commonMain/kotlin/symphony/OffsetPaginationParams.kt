@@ -24,8 +24,5 @@ data class OffsetPaginationParams(
         put(PaginationConstants.Capacity, capacity.toString())
     }
 
-    override fun <T> with(data: PagedData<T>) = OffsetPaginationParams(
-        offset = (data.params as? OffsetPaginationParams)?.offset ?: offset,
-        capacity = data.capacity
-    )
+    override fun with(capacity: Int) = OffsetPaginationParams(offset, capacity)
 }

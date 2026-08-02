@@ -40,8 +40,5 @@ data class CursorPaginationParams(
         put(PaginationConstants.Reference, reference)
     }
 
-    override fun <T> with(data: PagedData<T>) = CursorPaginationParams(
-        cursor = (data.params as? CursorPaginationParams)?.cursor ?: cursor,
-        capacity = data.capacity
-    )
+    override fun with(capacity: Int) = CursorPaginationParams(cursor, capacity)
 }
