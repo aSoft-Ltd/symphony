@@ -17,11 +17,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyPagination)
                 api(kotlinx.coroutines.core)
-                api(libs.cinematic.live.core)
-                api(libs.kase.optional)
-                api(libs.kase.core)
+                api(kotlinx.serialization.core)
             }
         }
 

@@ -22,6 +22,8 @@ interface PaginationManager<out T, out P : Page, out R : PageFindResult<T>> {
     fun clearPages()
     fun setPageCapacity(cap: Int)
 
+//    fun setPageCount(count: Int)
+
     // --------------------- searchers ---------------------
     fun setSearchKey(key: String?)
 
@@ -50,5 +52,8 @@ interface PaginationManager<out T, out P : Page, out R : PageFindResult<T>> {
     @JsName("findPage")
     fun find(page: Int): P?
 
+    @Deprecated("In favour of finalize")
     fun deInitialize(clearPages: Boolean? = false)
+
+    fun finalize(clearPages: Boolean? = false)
 }

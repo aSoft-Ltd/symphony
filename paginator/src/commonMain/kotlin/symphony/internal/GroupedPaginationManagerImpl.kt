@@ -49,7 +49,10 @@ internal class GroupedPaginationManagerImpl<G, T>(
         return load(page = no)
     }
 
-    override fun deInitialize(clearPages: Boolean?) {
+    @Deprecated("In favour of finalize")
+    override fun deInitialize(clearPages: Boolean?) = finalize(clearPages)
+
+    override fun finalize(clearPages: Boolean?) {
         if (clearPages != false) clearPages()
         current.value = Pending
         loader.value = GroupedPageLoaderFinal

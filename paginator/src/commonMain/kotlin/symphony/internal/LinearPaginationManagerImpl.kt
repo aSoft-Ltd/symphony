@@ -72,7 +72,7 @@ internal class LinearPaginationManagerImpl<T>(
             val memorizedPage = memory.load(p)
             current.value = Loading("Loading", memorizedPage)
 
-            if (loader.value !is LinearPageLoaderInitial || loader.value !is LinearPageLoaderFinal) return@coroutineScope super.load(page)
+            if (loader.value !is LinearPageLoaderInitial && loader.value !is LinearPageLoaderFinal) return@coroutineScope super.load(page)
             job = launch {
                 val func = handler.value ?: throw IllegalStateException("setup your paginator first using paginator.setup { ... }")
                 func(p)
@@ -82,9 +82,13 @@ internal class LinearPaginationManagerImpl<T>(
         }
     }
 
-    override fun deInitialize(clearPages: Boolean?) {
+    @Deprecated("In favour of finalize")
+    override fun deInitialize(clearPages: Boolean?) = finalize(clearPages)
+
+    override fun finalize(clearPages: Boolean?) {
         if (clearPages != false) clearPages()
         current.value = Pending
         loader.value = LinearPageLoaderFinal
+        handler.value = { }
     }
 }
