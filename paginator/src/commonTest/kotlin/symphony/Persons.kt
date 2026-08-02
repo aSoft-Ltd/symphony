@@ -35,9 +35,9 @@ class Persons(
 
     fun all(params: CursorPaginationParams): PagedCursorData<Person> {
         val sorted = Total.sortedBy { it.uid }
-        val cursor = params.cursor.value
-        return when (params.cursor) {
-            is ForwardCursor -> {
+        val cursor = params.cursor.reference
+        return when (params.cursor.direction) {
+            Cursor.Direction.Forward -> {
                 val filtered = if (cursor != null) sorted.filter { it.uid > cursor } else sorted
                 val items = filtered.take(params.capacity + 1)
                 val content = if (items.size > params.capacity) items.dropLast(1) else items
@@ -55,7 +55,7 @@ class Persons(
                 )
             }
 
-            is BackwardCursor -> {
+            Cursor.Direction.Backward -> {
                 val filtered = if (cursor != null) sorted.filter { it.uid < cursor } else sorted
                 val items = if (filtered.size > params.capacity) filtered.takeLast(params.capacity + 1) else filtered
                 val content = if (items.size > params.capacity) items.drop(1) else items

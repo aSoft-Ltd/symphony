@@ -1,9 +1,8 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
-import symphony.BackwardCursor
+import symphony.Cursor
 import symphony.CursorPaginationParams
-import symphony.ForwardCursor
 import symphony.OffsetPaginationParams
 import symphony.PagedCursorData
 import symphony.PagedData
@@ -37,7 +36,7 @@ internal class GeneralPaginatorImpl<T>(
 
     override suspend fun loadNextPage(): PagedData<T> {
         val params = when (val s = state.value) {
-            is PagedCursorData<*> -> CursorPaginationParams(ForwardCursor(s.cursor.next), state.value.capacity)
+            is PagedCursorData<*> -> CursorPaginationParams(Cursor(reference = s.cursor.next, direction = Cursor.Direction.Forward), state.value.capacity)
             is PagedOffsetData<*> -> OffsetPaginationParams(s.number.current, state.value.capacity)
         }
         loader(params)
@@ -46,7 +45,7 @@ internal class GeneralPaginatorImpl<T>(
 
     override suspend fun loadPreviousPage(): PagedData<T> {
         val params = when (val s = state.value) {
-            is PagedCursorData<*> -> CursorPaginationParams(BackwardCursor(s.cursor.prev), state.value.capacity)
+            is PagedCursorData<*> -> CursorPaginationParams(Cursor(reference = s.cursor.prev, direction = Cursor.Direction.Backward), state.value.capacity)
             is PagedOffsetData<*> -> OffsetPaginationParams(max(1, s.number.current - 2), state.value.capacity)
         }
         loader(params)
@@ -54,13 +53,6 @@ internal class GeneralPaginatorImpl<T>(
     }
 
     override suspend fun loadFirstPage(): PagedData<T> = load(page = 1)
-//    override fun find(row: Int, page: Int): LinearPageFindResult<T>? {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun find(item: T): LinearPageFindResult<T>? {
-//        TODO("Not yet implemented")
-//    }
 
     override fun find(page: Int): PagedData<T>? {
         TODO("Not yet implemented")
@@ -72,8 +64,8 @@ internal class GeneralPaginatorImpl<T>(
 
     override suspend fun load(page: Int): PagedData<T> {
         val params = when (page) {
-            1 -> CursorPaginationParams(ForwardCursor.First, state.value.capacity)
-            -1 -> CursorPaginationParams(BackwardCursor.Last, state.value.capacity)
+            1 -> CursorPaginationParams(Cursor.First, state.value.capacity)
+            -1 -> CursorPaginationParams(Cursor.Last, state.value.capacity)
             else -> OffsetPaginationParams(page - 1, state.value.capacity)
         }
         loader(params)

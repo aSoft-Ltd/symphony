@@ -26,6 +26,6 @@ sealed interface PaginationParams {
             else -> null
         }
 
-        fun first(capacity: Int = 10): PaginationParams = CursorPaginationParams(ForwardCursor.First, capacity)
+        fun first(capacity: Int = 10): PaginationParams = CursorPaginationParams(Cursor.First, capacity)
     }
 }

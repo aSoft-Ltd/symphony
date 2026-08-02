@@ -1,8 +1,7 @@
 import kommander.expect
 import kommander.toBe
-import symphony.BackwardCursor
+import symphony.Cursor
 import symphony.CursorPaginationParams
-import symphony.ForwardCursor
 import symphony.OffsetPaginationParams
 import symphony.PaginationConstants
 import symphony.PaginationParams
@@ -12,7 +11,7 @@ class QueryParamsTest {
     @Test
     fun should_convert_a_forward_cursor_based_params_to_query() {
         val params = CursorPaginationParams(
-            cursor = ForwardCursor("1234"),
+            cursor = Cursor("1234", direction = Cursor.Direction.Forward),
             capacity = 10
         )
         val map = params.toQueryMap()
@@ -26,15 +25,15 @@ class QueryParamsTest {
     fun should_be_able_to_be_construct_a_forward_param_from_query_params() {
         val query = "https://asoft.co.tz/employees?kind=cursor&reference=1234&direction=forward&capacity=10"
         val params = expect(PaginationParams.from(query)).toBe<CursorPaginationParams>()
-        expect(params.cursor).toBe<ForwardCursor>()
-        expect(params.cursor?.value).toBe("1234")
+        expect(params.cursor.direction).toBe(Cursor.Direction.Forward)
+        expect(params.cursor.reference).toBe("1234")
         expect(params.capacity).toBe(10)
     }
 
     @Test
     fun should_convert_a_backward_cursor_based_params_to_query() {
         val params = CursorPaginationParams(
-            cursor = BackwardCursor("1234"),
+            cursor = Cursor("1234", direction = Cursor.Direction.Backward),
             capacity = 10
         )
         val map = params.toQueryMap()
@@ -48,8 +47,8 @@ class QueryParamsTest {
     fun should_be_able_to_be_construct_a_backward_param_from_query_params() {
         val query = "https://asoft.co.tz/employees?kind=cursor&reference=1234&direction=backward&capacity=10"
         val params = expect(PaginationParams.from(query)).toBe<CursorPaginationParams>()
-        expect(params.cursor).toBe<BackwardCursor>()
-        expect(params.cursor?.value).toBe("1234")
+        expect(params.cursor.direction).toBe(Cursor.Direction.Backward)
+        expect(params.cursor.reference).toBe("1234")
         expect(params.capacity).toBe(10)
     }
 
@@ -73,5 +72,4 @@ class QueryParamsTest {
         expect(map[PaginationConstants.Capacity]).toBe("12")
         expect(map[PaginationConstants.Reference]).toBe("2")
     }
-
 }

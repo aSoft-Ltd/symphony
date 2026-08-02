@@ -89,7 +89,7 @@ class PaginatorTest {
 
     @Test
     fun should_be_able_to_set_page_count() = runTest {
-        val persons = Persons(9,2.seconds)
+        val persons = Persons(9, 2.seconds)
         val p = linearPaginatorOf<Person>(10)
         p.current.watchLazily { page ->
             when (page) {
@@ -101,7 +101,7 @@ class PaginatorTest {
             println("= ".repeat(20))
         }
         p.setup {
-            val paged = persons.all(CursorPaginationParams(ForwardCursor.First, 4))
+            val paged = persons.all(CursorPaginationParams(Cursor.First, 4))
             update(paged.content)
         }
         p.loadNextPage()
