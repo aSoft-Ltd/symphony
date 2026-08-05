@@ -4,6 +4,7 @@ package symphony
 
 import symphony.internal.GroupedTableImpl
 import symphony.internal.LinearTableImpl
+import symphony.internal.Table2Impl
 import kotlin.jvm.JvmSynthetic
 
 @JvmSynthetic
@@ -32,14 +33,14 @@ fun <T> tableOf(
     selector: LinearSelectionManager<T> = selectorOf(paginator),
     actions: SelectorBasedActionsManager<T> = emptyActions(),
     columns: ColumnsBuilder<T>.() -> Unit
-): Table<T> = LinearTableImpl(paginator, selector, actions, columnsOf(null,columns))
+): Table<T> = LinearTableImpl(paginator, selector, actions, columnsOf(null, columns))
 
 fun <T> tableOf(
     paginator: GroupedPaginationManager<*, T>,
     selector: GroupedSelectionManager<*, T> = selectorOf(paginator),
     actions: SelectorBasedActionsManager<T> = emptyActions(),
     columns: ColumnsBuilder<T>.() -> Unit
-): Table<T> = GroupedTableImpl(paginator, selector, actions, columnsOf(null,columns))
+): Table<T> = GroupedTableImpl(paginator, selector, actions, columnsOf(null, columns))
 
 //@JvmSynthetic
 //fun <T> tableOf(
@@ -58,3 +59,10 @@ inline fun <T> tableOf(
     paginator is GroupedPaginationManager<*, T> && selector is GroupedSelectionManager<*, T> -> tableOf(paginator, selector, actions, columns)
     else -> throw IllegalArgumentException("Unsupported combination of ${paginator::class.simpleName} and ${selector::class.simpleName}")
 }
+
+inline fun <T> tableOf(
+    paginator: Paginator<T>,
+    selector: Selector<T> = selectorOf(paginator),
+    actions: SelectorBasedActionsManager<T> = emptyActions(),
+    columns: ColumnsManager<T> = columnsOf()
+): symphony.table.Table<T> = Table2Impl(paginator, selector, actions, columns)

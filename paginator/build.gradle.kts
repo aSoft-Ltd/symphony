@@ -27,6 +27,7 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
+                implementation(projects.symphonyTest)
                 implementation(libs.kommander.coroutines)
             }
         }

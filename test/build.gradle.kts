@@ -7,6 +7,7 @@ plugins {
 description = "A kotlin multiplatform library for representing headless collection based ui such as lists, tables and grids"
 
 kotlin {
+    
     if (Targeting.JVM) jvm { library() }
     if (Targeting.JS) js { library() }
     if (Targeting.WASM) wasmJs { library() }
@@ -16,13 +17,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.symphonyPaginator)
+                api(projects.symphonyPagination)
+                api(kotlinx.coroutines.core)
+                api(kotlinx.serialization.core)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.symphonyTest)
                 implementation(libs.kommander.coroutines)
             }
         }

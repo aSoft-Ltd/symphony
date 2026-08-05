@@ -1,19 +1,20 @@
 package symphony
 
 import kommander.expect
-import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
+import kotlin.test.Test
 
-class TableTest {
+class Table2Test {
     @Test
     fun can_be_assigned_a_paginator() = runTest {
-        val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { params -> Person.List.paged(params) }
+        val persons = Persons(total = 15)
+        val paginator = paginator<Person>(10)
+        paginator.initialize { params -> update(persons.all(params)) }
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         println(table.renderToString())
 
-        paginator.refreshAllPages()
+        paginator.refresh()
         println(table.renderToString())
 
         paginator.loadNextPage()
@@ -25,14 +26,14 @@ class TableTest {
 
     @Test
     fun should_be_able_to_select_table_items() = runTest {
-        val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { params -> Person.List.paged(params) }
+        val persons = Persons(total = 15)
+        val paginator = paginator<Person>(10)
+        paginator.initialize { params -> update(persons.all(params)) }
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
         paginator.loadFirstPage()
         println(table.renderToString())
 
-        selector.select(row = 1)
         selector.select(row = 1)
         expect(selector.isCurrentPageSelectedPartially()).toBe(
             true,
@@ -51,8 +52,9 @@ class TableTest {
 
     @Test
     fun should_be_able_to_select_the_whole_current_page() = runTest {
-        val paginator = linearPaginatorOf<Person>(10)
-        paginator.initialize { params -> Person.List.paged(params) }
+        val persons = Persons(total = 15)
+        val paginator = paginator<Person>(10)
+        paginator.initialize { params -> update(persons.all(params)) }
         val selector = selectorOf(paginator)
         val table = tableOf(paginator, selector, emptyActions(), Person.columns())
 

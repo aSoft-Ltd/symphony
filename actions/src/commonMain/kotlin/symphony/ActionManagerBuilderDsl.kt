@@ -5,8 +5,14 @@ package symphony
 import kevlar.builders.Actions0Builder
 import symphony.internal.BluntLinearSelectionManager
 import symphony.internal.FixedActionsManagerImpl
+import symphony.internal.GeneralSelectorBasedActionsManagerImpl
 import symphony.internal.GroupedSelectorBasedActionsManagerImpl
 import symphony.internal.LinearSelectorBasedActionsManagerImpl
+
+inline fun <T> actionsOf(
+    selector: Selector<T>,
+    builder: GeneralSelectorBasedActionsBuilder<T>.() -> Unit
+): GeneralSelectorBasedActionsManager<T> = GeneralSelectorBasedActionsManagerImpl(selector, GeneralSelectorBasedActionsBuilder<T>().apply(builder))
 
 inline fun <T> actionsOf(
     linear: LinearSelectionManager<T>,

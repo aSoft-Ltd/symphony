@@ -23,5 +23,5 @@ listOf(
 rootProject.name = "symphony"
 
 // submodules
-includeSubs("symphony", ".", "pagination", "paginator", "selector", "actions", "table", "list", "collections", "visibility")
+includeSubs("symphony", ".", "pagination", "paginator", "selector", "actions", "table", "list", "collections", "visibility", "test")
 includeSubs("symphony-input", "input", "core", "text", "number", "choice", "dialog", "sheet", "finance", "phone")

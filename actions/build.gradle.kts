@@ -23,6 +23,7 @@ kotlin {
         }
 
         commonTest.dependencies {
+            implementation(projects.symphonyTest)
             implementation(libs.kommander.coroutines)
         }
 
