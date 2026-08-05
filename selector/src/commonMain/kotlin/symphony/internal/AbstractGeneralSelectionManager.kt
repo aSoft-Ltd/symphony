@@ -1,12 +1,9 @@
 package symphony.internal
 
 import symphony.Paginator
-import symphony.SelectionManager
-import symphony.selected.Selected
+import symphony.Selector
 
-abstract class AbstractGeneralSelectionManager<T>(
-    private val paginator: Paginator<T>
-) : SelectionManager<T, Selected<T>> {
+abstract class AbstractGeneralSelectionManager<T>(private val paginator: Paginator<T>) : Selector<T> {
 
     override fun selectAllItemsInTheCurrentPage() = selectAllRowsInPage(paginator.state.value.page)
 
@@ -22,7 +19,7 @@ abstract class AbstractGeneralSelectionManager<T>(
 
     override fun select(obj: T) {
         val found = paginator.find(obj) ?: return
-        selectRow(row = found.row, page = found.paged.page)
+        selectRow(row = found.row.number, page = found.paged.page)
     }
 
     override fun addSelection(row: Int) = addRowSelection(row, paginator.state.value.page)
@@ -31,7 +28,7 @@ abstract class AbstractGeneralSelectionManager<T>(
 
     override fun addSelection(obj: T) {
         val found = paginator.find(obj) ?: return
-        addRowSelection(found.row, found.paged.page)
+        addRowSelection(found.row.number, found.paged.page)
     }
 
     abstract fun addRowSelection(row: Int, page: Int?)
@@ -50,7 +47,7 @@ abstract class AbstractGeneralSelectionManager<T>(
 
     override fun unSelect(item: T) {
         val found = paginator.find(item) ?: return
-        unSelectRowInPage(found.row, paginator.state.value.page)
+        unSelectRowInPage(found.row.number, paginator.state.value.page)
     }
 
     override fun isRowSelectedOnCurrentPage(row: Int) = isRowItemSelected(row, paginator.state.value.page)

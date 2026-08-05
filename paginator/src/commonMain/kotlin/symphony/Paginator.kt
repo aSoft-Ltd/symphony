@@ -25,8 +25,8 @@ interface Paginator<out T> {
     suspend fun loadLastPage(): Paged<T> = load(page = -1)
 
     // ---------------------- finders -----------------------
-//    @JsName("findRow")
-//    fun find(row: Int, page: Int): R?
+    @JsName("findRow")
+    fun find(row: Int, page: Int): FoundItem<T>?
 
     @JsName("findItem")
     fun find(item: @UnsafeVariance T): FoundItem<T>?

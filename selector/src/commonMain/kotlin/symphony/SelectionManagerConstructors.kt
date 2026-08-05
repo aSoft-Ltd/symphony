@@ -27,4 +27,4 @@ inline fun <T> selectorOf(
 
 inline fun <T> selectorOf(
     paginator: Paginator<T>
-): LinearSelectionManager<T> = GeneralSelectionManagerImpl(paginator)
+): Selector<T> = GeneralSelectionManagerImpl(paginator)

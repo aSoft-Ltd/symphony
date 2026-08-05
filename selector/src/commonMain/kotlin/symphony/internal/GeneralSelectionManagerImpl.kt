@@ -1,132 +1,131 @@
 package symphony.internal
 
-import cinematic.MutableLive
 import cinematic.mutableLiveOf
-import symphony.LinearPage
+import symphony.Paged
 import symphony.Paginator
 import symphony.Row
-import symphony.selected.LinearSelected
-import symphony.selected.LinearSelectedGlobal
-import symphony.selected.LinearSelectedItem
-import symphony.selected.LinearSelectedItems
-import symphony.selected.LinearSelectedNone
+import symphony.Selected
+import symphony.SelectedGlobal
+import symphony.SelectedItem
+import symphony.SelectedItems
+import symphony.SelectedNone
 
 class GeneralSelectionManagerImpl<T>(
     private val paginator: Paginator<T>
 ) : AbstractGeneralSelectionManager<T>(paginator) {
 
-    override val selected: MutableLive<LinearSelected<T>> = mutableLiveOf(LinearSelectedNone)
+    override val selected by lazy { mutableLiveOf<Selected<T>>(SelectedNone) }
 
     override fun selectAllRowsInPage(page: Int?) {
         val pageNo = page ?: return
         val p = paginator.find(pageNo) ?: return
-        selected.value = LinearSelectedItems(
-            page = mapOf(p to p.items.toSet())
-        )
+        selected.value = SelectedItems(mapOf(p to p.items.content.toRows()))
     }
 
+    private fun <R> List<R>.toRows() = mapIndexed { idx, t -> Row(idx, t) }.toSet()
+
     override fun selectAllItemsInAllPages() {
-        selected.value = LinearSelectedGlobal(setOf())
+        selected.value = SelectedGlobal(setOf())
     }
 
     override fun unSelectAllItemsInAllPages() {
-        selected.value = LinearSelectedNone
+        selected.value = SelectedNone
     }
 
-    private fun LinearSelectedItems<T>.unSelectAllRowsInPage(page: Int?): LinearSelected<T> {
+    private fun SelectedItems<T>.unSelectAllRowsInPage(page: Int?): Selected<T> {
         val map = this.page.mapValues { it.value.toMutableSet() }.toMutableMap()
-        val p = map.keys.find { it.number == page } ?: return this
+        val p = map.keys.find { it.page == page } ?: return this
         map.remove(p)
         return readjustSelectedItems(map)
     }
 
     override fun unSelectAllRowsInPage(page: Int?) {
         selected.value = when (val s = selected.value) {
-            is LinearSelectedNone -> s
-            is LinearSelectedItem -> if (s.page.number == page) LinearSelectedNone else s
-            is LinearSelectedItems -> s.unSelectAllRowsInPage(page)
-            is LinearSelectedGlobal -> LinearSelectedNone
+            is SelectedNone -> s
+            is SelectedItem -> if (s.page.page == page) SelectedNone else s
+            is SelectedItems -> s.unSelectAllRowsInPage(page)
+            is SelectedGlobal -> SelectedNone
         }
     }
 
-    private fun LinearSelectedItems<T>.isPageSelectedButPartially(page: Int?): Boolean {
-        val entry = this.page.entries.find { it.key.number == page } ?: return false
-        return entry.key.capacity != entry.value.size
+    private fun SelectedItems<T>.isPageSelectedButPartially(page: Int?): Boolean {
+        val entry = this.page.entries.find { it.key.page == page } ?: return false
+        return entry.key.items.capacity != entry.value.size
     }
 
     override fun isPageSelectedButPartially(page: Int?): Boolean = when (val s = selected.value) {
-        is LinearSelectedNone -> false
-        is LinearSelectedItem -> s.page.number == page
-        is LinearSelectedItems -> s.isPageSelectedButPartially(page)
-        is LinearSelectedGlobal -> s.exceptions.any { it.page.number == page }
+        is SelectedNone -> false
+        is SelectedItem -> s.page.page == page
+        is SelectedItems -> s.isPageSelectedButPartially(page)
+        is SelectedGlobal -> s.exceptions.any { it.page.page == page }
     }
 
-    private fun LinearSelectedItems<T>.isPageSelectedWithNoExceptions(page: Int?): Boolean {
-        val entry = this.page.entries.find { it.key.number == page } ?: return false
-        return entry.key.size == entry.value.size
+    private fun SelectedItems<T>.isPageSelectedWithNoExceptions(page: Int?): Boolean {
+        val entry = this.page.entries.find { it.key.page == page } ?: return false
+        return entry.key.items.capacity == entry.value.size
     }
 
     override fun isPageSelectedWithNoExceptions(page: Int?): Boolean = when (val s = selected.value) {
-        is LinearSelectedNone -> false
-        is LinearSelectedItem -> s.page.size == 1
-        is LinearSelectedItems -> s.isPageSelectedWithNoExceptions(page)
-        is LinearSelectedGlobal -> !s.exceptions.any { it.page.number == page }
+        is SelectedNone -> false
+        is SelectedItem -> s.page.items.content.size == 1
+        is SelectedItems -> s.isPageSelectedWithNoExceptions(page)
+        is SelectedGlobal -> !s.exceptions.any { it.page.page == page }
     }
 
-    private fun LinearSelectedItems<T>.unselectRowFromPage(row: Int, page: Int): LinearSelected<T> {
+    private fun SelectedItems<T>.unselectRowFromPage(row: Int, page: Int): Selected<T> {
         val map = this.page.mapValues { it.value.toMutableSet() }.toMutableMap()
-        val p = map.keys.find { it.number == page } ?: return this
+        val p = map.keys.find { it.page == page } ?: return this
         val r = map[p]?.find { it.number == row } ?: return this
         map[p]?.remove(r)
         if (map[p].isNullOrEmpty()) map.remove(p)
         return readjustSelectedItems(map)
     }
 
-    private fun readjustSelectedItems(map: Map<LinearPage<T>, Set<Row<T>>>): LinearSelected<T> = when {
-        map.isEmpty() -> LinearSelectedNone
+    private fun readjustSelectedItems(map: Map<Paged<T>, Set<Row<T>>>): Selected<T> = when {
+        map.isEmpty() -> SelectedNone
 
         map.size == 1 && map.entries.first().value.size == 1 -> {
             val entry = map.entries.first()
-            LinearSelectedItem(entry.key, entry.value.first())
+            SelectedItem(entry.key, entry.value.first())
         }
 
-        else -> LinearSelectedItems(map.mapValues { it.value.toSet() })
+        else -> SelectedItems(map.mapValues { it.value.toSet() })
     }
 
     override fun unSelectRowFromPage(row: Int, page: Int?) {
         val pageNo = page ?: return
         selected.value = when (val s = selected.value) {
-            is LinearSelectedNone -> s
-            is LinearSelectedItem -> if (s.page.number == page && s.row.number == row) LinearSelectedNone else s
-            is LinearSelectedItems -> s.unselectRowFromPage(row, pageNo)
-            is LinearSelectedGlobal -> {
-                val exceptions = s.exceptions.filter { it.page.number == page && it.row.number == row }
-                LinearSelectedGlobal(exceptions.toSet())
+            is SelectedNone -> s
+            is SelectedItem -> if (s.page.page == page && s.row.number == row) SelectedNone else s
+            is SelectedItems -> s.unselectRowFromPage(row, pageNo)
+            is SelectedGlobal -> {
+                val exceptions = s.exceptions.filter { it.page.page == page && it.row.number == row }
+                SelectedGlobal(exceptions.toSet())
             }
         }
     }
 
-    private fun LinearSelectedItem<T>.addRowSelection(row: Int, page: Int): LinearSelected<T> {
-        val item = paginator.find(row, page) ?: return this
-        return LinearSelectedItems(mapOf(item.page to setOf(this.row, item.row)))
+    private fun SelectedItem<T>.addRowSelection(row: Int, page: Int): Selected<T> {
+        val found = paginator.find(row, page) ?: return this
+        return SelectedItems(mapOf(found.paged to setOf(this.row,found.row)))
     }
 
-    private fun LinearSelectedItems<T>.addRowSelection(row: Int, page: Int): LinearSelected<T> {
-        val item = paginator.find(row, page) ?: return this
+    private fun SelectedItems<T>.addRowSelection(row: Int, page: Int): Selected<T> {
+        val found = paginator.find(row, page) ?: return this
         val map = this.page.mapValues { it.value.toMutableSet() }.toMutableMap()
-        map.getOrPut(item.page) { mutableSetOf() }.add(item.row)
-        return LinearSelectedItems(map.mapValues { it.value.toSet() })
+        map.getOrPut(found.paged) { mutableSetOf() }.add(found.row)
+        return SelectedItems(map.mapValues { it.value.toSet() })
     }
 
     override fun addRowSelection(row: Int, page: Int?) {
         val pageNo = page ?: return
         selected.value = when (val s = selected.value) {
-            is LinearSelectedNone -> paginator.find(row, pageNo)?.toSelectedItem() ?: return
-            is LinearSelectedItem -> s.addRowSelection(row, pageNo)
-            is LinearSelectedItems -> s.addRowSelection(row, pageNo)
-            is LinearSelectedGlobal -> {
-                val exceptions = s.exceptions.filter { it.page.number == page && it.row.number == row }
-                LinearSelectedGlobal(exceptions.toSet())
+            is SelectedNone -> paginator.find(row, pageNo)?.toSelectedItem() ?: return
+            is SelectedItem -> s.addRowSelection(row, pageNo)
+            is SelectedItems -> s.addRowSelection(row, pageNo)
+            is SelectedGlobal -> {
+                val exceptions = s.exceptions.filter { it.page.page == page && it.row.number == row }
+                SelectedGlobal(exceptions.toSet())
             }
         }
     }
@@ -138,9 +137,9 @@ class GeneralSelectionManagerImpl<T>(
     }
 
     override fun isRowItemSelected(row: Int, page: Int?) = when (val s = selected.value) {
-        is LinearSelectedNone -> false
-        is LinearSelectedItem -> s.row.number == row && s.page.number == page
-        is LinearSelectedItems -> s.page.entries.any { (p, rows) -> p.number == page && rows.map { it.number }.contains(row) }
-        is LinearSelectedGlobal -> !s.exceptions.any { it.page.number == page && it.row.number == row }
+        is SelectedNone -> false
+        is SelectedItem -> s.row.number == row && s.page.page == page
+        is SelectedItems -> s.page.entries.any { (p, rows) -> p.page == page && rows.map { it.number }.contains(row) }
+        is SelectedGlobal -> !s.exceptions.any { it.page.page == page && it.row.number == row }
     }
 }
