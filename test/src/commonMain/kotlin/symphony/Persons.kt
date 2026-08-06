@@ -8,7 +8,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class Persons(
     private val total: Int = 10,
-    private val duration: Duration = 500.milliseconds
+    private val duration: Duration = 5.milliseconds
 ) {
     private val Total by lazy { Person.generate(total) }
 

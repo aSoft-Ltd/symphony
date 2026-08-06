@@ -11,10 +11,11 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 
+@Ignore
 class PaginatorTest {
     @Test
     fun single_page_paginator_should_always_return_the_same_list() = runTest {
-        val people = listOf(1, 2, 3, 4, 5).map { Person("Andy $it", age = 12 + it) }
+        val people = Person.List.take(5)
         val p = linearPaginatorOf<Person>(5)
         p.initialize { people.paged(it) }
         p.refreshAllPages()

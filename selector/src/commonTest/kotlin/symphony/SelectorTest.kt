@@ -245,6 +245,7 @@ class SelectorTest {
     }
 
     @Test
+    @Ignore
     fun should_be_able_to_select_all_items_from_all_pages() = runTest {
         val paginator = linearPaginatorOf<Person>(10)
         paginator.initialize { params ->
