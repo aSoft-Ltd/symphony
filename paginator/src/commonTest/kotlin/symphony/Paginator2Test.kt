@@ -26,7 +26,9 @@ class Paginator2Test {
     fun general_paginator_should_capture_error() = runTest {
         val persons = Persons(total = 9, duration)
         val p = paginator<Person>(5)
-        p.initialize {
+        var count = 0
+        p.initialize(3) {
+            println("Attempt: ${++count}")
             throw RuntimeException("Something went wrong")
             update(persons.all(it))
         }

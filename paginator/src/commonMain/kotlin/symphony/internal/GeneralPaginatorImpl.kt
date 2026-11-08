@@ -71,7 +71,7 @@ internal class GeneralPaginatorImpl<T>(
         }
     }
 
-    override suspend fun loadFirstPage(retries: Int): Paged<T> = load(retries = 0, page = 1)
+    override suspend fun loadFirstPage(retries: Int): Paged<T> = load(retries = retries, page = 1)
 
     override fun find(row: Int, page: Int): FoundItem<T>? {
         val p = pages[page] ?: return null
