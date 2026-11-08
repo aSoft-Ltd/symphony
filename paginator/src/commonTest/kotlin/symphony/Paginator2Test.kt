@@ -23,6 +23,20 @@ class Paginator2Test {
     }
 
     @Test
+    fun general_paginator_should_capture_error() = runTest {
+        val persons = Persons(total = 9, duration)
+        val p = paginator<Person>(5)
+        p.initialize {
+            throw RuntimeException("Something went wrong")
+            update(persons.all(it))
+        }
+        val state = expect(p.state.value).toBe<ErrorPaged>()
+        expect(state.error).toBe("Something went wrong")
+        expect(p.state.value.page).toBe(1)
+        p.finalize()
+    }
+
+    @Test
     fun general_paginator_should_be_able_to_load_next_page_with_cursor_based_paginator() = runTest {
         val persons = Persons(total = 14, duration)
         val p = paginator<Person>(5)

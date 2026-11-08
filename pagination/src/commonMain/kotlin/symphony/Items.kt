@@ -9,6 +9,6 @@ data class Items<out T>(
     val total: Int
 ) {
     companion object {
-        fun <T> empty(capacity: Int) = Items<T>(emptyList(), capacity, 0)
+        fun empty(capacity: Int) = Items<Nothing>(emptyList(), capacity, 0)
     }
 }

@@ -30,7 +30,7 @@ kotlin {
             api(kotlinx.serialization.core)
         }
 
-        commonMain.dependencies {
+        commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(kotlinx.coroutines.test)
             implementation(libs.kommander.core)

@@ -1,9 +1,11 @@
 package symphony.internal
 
 import cinematic.mutableLiveOf
+import kotlinx.coroutines.CancellationException
 import symphony.Cursor
 import symphony.CursorPaged
 import symphony.CursorPaginationParams
+import symphony.ErrorPaged
 import symphony.FoundItem
 import symphony.OffsetPaged
 import symphony.OffsetPaginationParams
@@ -36,7 +38,13 @@ internal class GeneralPaginatorImpl<T>(
 
     private suspend fun load(pp: PaginationParams): Paged<T> {
         params.value = pp
-        loader(pp)
+        try {
+            loader(pp)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Throwable) {
+            state.value = ErrorPaged(e.message ?: "Unknown")
+        }
         val paged = state.value
         pages[paged.page] = paged
         return paged
@@ -48,15 +56,17 @@ internal class GeneralPaginatorImpl<T>(
 
     override suspend fun loadNextPage(): Paged<T> = load {
         when (val s = state.value) {
-            is CursorPaged<*> -> CursorPaginationParams(Cursor(reference = s.cursor.next, direction = Cursor.Direction.Forward), params.value.capacity)
-            is OffsetPaged<*> -> OffsetPaginationParams(s.page, params.value.capacity)
+            is CursorPaged -> CursorPaginationParams(Cursor(reference = s.cursor.next, direction = Cursor.Direction.Forward), params.value.capacity)
+            is OffsetPaged -> OffsetPaginationParams(s.page, params.value.capacity)
+            is ErrorPaged -> OffsetPaginationParams(s.page, params.value.capacity)
         }
     }
 
     override suspend fun loadPreviousPage(): Paged<T> = load {
         when (val s = state.value) {
-            is CursorPaged<*> -> CursorPaginationParams(Cursor(reference = s.cursor.prev, direction = Cursor.Direction.Backward), params.value.capacity)
-            is OffsetPaged<*> -> OffsetPaginationParams(max(0, s.page - 2), params.value.capacity)
+            is CursorPaged -> CursorPaginationParams(Cursor(reference = s.cursor.prev, direction = Cursor.Direction.Backward), params.value.capacity)
+            is OffsetPaged -> OffsetPaginationParams(max(0, s.page - 2), params.value.capacity)
+            is ErrorPaged -> OffsetPaginationParams(max(0, s.page - 2), params.value.capacity)
         }
     }
 
