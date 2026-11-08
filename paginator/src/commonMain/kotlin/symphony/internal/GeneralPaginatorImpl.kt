@@ -31,18 +31,19 @@ internal class GeneralPaginatorImpl<T>(
         params.value = params.value.with(capacity = cap)
     }
 
-    override suspend fun initialize(block: suspend Paginator<T>.(params: PaginationParams) -> Unit): Paged<T> {
+    override suspend fun initialize(retries: Int, block: suspend Paginator<T>.(params: PaginationParams) -> Unit): Paged<T> {
         loader = block
-        return loadFirstPage()
+        return loadFirstPage(retries)
     }
 
-    private suspend fun load(pp: PaginationParams): Paged<T> {
+    private suspend fun load(pp: PaginationParams, retries: Int): Paged<T> {
         params.value = pp
         try {
             loader(pp)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
+            if (retries > 0) return load(pp, retries - 1)
             state.value = ErrorPaged(e.message ?: "Unknown")
         }
         val paged = state.value
@@ -50,11 +51,11 @@ internal class GeneralPaginatorImpl<T>(
         return paged
     }
 
-    private suspend fun load(body: () -> PaginationParams): Paged<T> = load(body())
+    private suspend fun load(retires: Int, body: () -> PaginationParams): Paged<T> = load(body(),retires)
 
-    override suspend fun refresh(): Paged<T> = load(params.value)
+    override suspend fun refresh(retries: Int): Paged<T> = load(params.value,retries)
 
-    override suspend fun loadNextPage(): Paged<T> = load {
+    override suspend fun loadNextPage(retries: Int): Paged<T> = load(retries) {
         when (val s = state.value) {
             is CursorPaged -> CursorPaginationParams(Cursor(reference = s.cursor.next, direction = Cursor.Direction.Forward), params.value.capacity)
             is OffsetPaged -> OffsetPaginationParams(s.page, params.value.capacity)
@@ -62,7 +63,7 @@ internal class GeneralPaginatorImpl<T>(
         }
     }
 
-    override suspend fun loadPreviousPage(): Paged<T> = load {
+    override suspend fun loadPreviousPage(retries: Int): Paged<T> = load(retries) {
         when (val s = state.value) {
             is CursorPaged -> CursorPaginationParams(Cursor(reference = s.cursor.prev, direction = Cursor.Direction.Backward), params.value.capacity)
             is OffsetPaged -> OffsetPaginationParams(max(0, s.page - 2), params.value.capacity)
@@ -70,7 +71,7 @@ internal class GeneralPaginatorImpl<T>(
         }
     }
 
-    override suspend fun loadFirstPage(): Paged<T> = load(page = 1)
+    override suspend fun loadFirstPage(retries: Int): Paged<T> = load(retries = 0, page = 1)
 
     override fun find(row: Int, page: Int): FoundItem<T>? {
         val p = pages[page] ?: return null
@@ -103,7 +104,7 @@ internal class GeneralPaginatorImpl<T>(
         state.value = data
     }
 
-    override suspend fun load(page: Int): Paged<T> = load {
+    override suspend fun load(page: Int,retries: Int): Paged<T> = load(retries) {
         when (page) {
             1 -> CursorPaginationParams(Cursor.First, params.value.capacity)
             -1 -> CursorPaginationParams(Cursor.Last, params.value.capacity)
